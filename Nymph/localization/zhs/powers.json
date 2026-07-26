@@ -1,0 +1,11 @@
+{
+  "NYMPH_POWER_NECROSIS_POWER.title": "凋亡",
+  "NYMPH_POWER_NECROSIS_POWER.description": "每打出一张牌，使其失去等同于[gold]凋亡[/gold]层数的生命。凋亡层数每打出[blue]3[/blue]张牌减少[blue]1[/blue]。",
+  "NYMPH_POWER_NECROSIS_POWER.smartDescription": "每打出一张牌，使其失去[blue]{Amount}[/blue]点生命。凋亡层数每打出[blue]3[/blue]张牌减少[blue]1[/blue]。",
+  "NYMPH_POWER_EXTRA_CHAPTER_POWER.title": "外传",
+  "NYMPH_POWER_EXTRA_CHAPTER_POWER.description": "每次[gold]讲述[/gold]时，额外获得格挡。",
+  "NYMPH_POWER_EXTRA_CHAPTER_POWER.smartDescription": "每次打牌消耗思绪时，额外获得[blue]{Amount}[/blue]点格挡。",
+  "NYMPH_POWER_PSYCHO_HINT_POWER.title": "心理暗示",
+  "NYMPH_POWER_PSYCHO_HINT_POWER.description": "在你的回合开始时，给予所有敌人[gold]凋亡[/gold]。",
+  "NYMPH_POWER_PSYCHO_HINT_POWER.smartDescription": "在你的回合开始时，给予所有敌人[blue]{Amount}[/blue]层[gold]凋亡[/gold]。"
+}

@@ -1,0 +1,9 @@
+[gd_resource type="SpineSkeletonDataResource" load_steps=3 format=3]
+
+[ext_resource type="SpineAtlasResource" uid="uid://b3hkh51ne5ka0" path="res://Nymph/images/characters/skin0/char_4146_nymph.atlas" id="1_atlas"]
+[ext_resource type="SpineSkeletonFileResource" uid="uid://cgua0uo53s2fe" path="res://Nymph/images/characters/skin0/char_4146_nymph_4_2.skel" id="2_skeleton"]
+
+[resource]
+atlas_res = ExtResource("1_atlas")
+skeleton_file_res = ExtResource("2_skeleton")
+default_mix = 0.15

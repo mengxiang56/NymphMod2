@@ -1,0 +1,24 @@
+{
+  "sts2.installDir": "D:\\steam\\steamapps\\common\\Slay the Spire 2",
+  "sts2.gameExeName": "SlayTheSpire2.exe",
+  "sts2.modId": "Nymph",
+  "sts2.dotnetExe": "D:\\spire mod\\.tools\\dotnet9\\dotnet.exe",
+  "csharp.experimental.debug.hotReload": true,
+  "csharp.debug.hotReloadOnSave": true,
+  "godotTools.editorPath.godot4": "D:\\spire mod\\.tools\\godot-4.5.1-mono\\Godot_v4.5.1-stable_mono_win64\\Godot_v4.5.1-stable_mono_win64.exe",
+  "godotTools.lsp.serverHost": "127.0.0.1",
+  "godotTools.lsp.serverPort": 6008,
+  "godotTools.lsp.headless": true,
+  "dotnet.defaultSolution": "Nymph.sln",
+  "dotnet.server.environmentVariables": {
+    "DOTNET_ROOT": "D:\\spire mod\\.tools\\dotnet9",
+    "DOTNET_HOST_PATH": "D:\\spire mod\\.tools\\dotnet9\\dotnet.exe",
+    "DOTNET_CLI_HOME": "D:\\spire mod\\.tools\\dotnet-cli-home"
+  },
+  "terminal.integrated.env.windows": {
+    "DOTNET_ROOT": "D:\\spire mod\\.tools\\dotnet9",
+    "DOTNET_HOST_PATH": "D:\\spire mod\\.tools\\dotnet9\\dotnet.exe",
+    "DOTNET_CLI_HOME": "D:\\spire mod\\.tools\\dotnet-cli-home",
+    "PATH": "D:\\spire mod\\.tools\\dotnet9;${env:PATH}"
+  }
+}

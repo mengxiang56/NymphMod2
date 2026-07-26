@@ -1,0 +1,6 @@
+{
+  "NYMPH_KEYWORD_CONCEIVE.title": "创想",
+  "NYMPH_KEYWORD_CONCEIVE.description": "额外获得相应思绪值。",
+  "NYMPH_KEYWORD_NARRATE.title": "讲述",
+  "NYMPH_KEYWORD_NARRATE.description": "消耗相应思绪值，获得等量[gold]格挡[/gold]。若有后续效果则触发。"
+}

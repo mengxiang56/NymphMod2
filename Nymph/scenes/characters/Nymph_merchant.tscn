@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Texture2D" path="res://Nymph/images/characters/Nymph_character_static.png" id="1_character"]
+
+[node name="NymphCharacterMerchant" type="Node2D"]
+
+[node name="Visuals" type="Sprite2D" parent="."]
+position = Vector2(0, -120)
+scale = Vector2(0.22, 0.22)
+texture = ExtResource("1_character")
+region_enabled = true
+region_rect = Rect2(0, 300, 800, 1177)

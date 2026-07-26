@@ -1,0 +1,6 @@
+{
+  "NYMPH_KEYWORD_CONCEIVE.title": "Conceive",
+  "NYMPH_KEYWORD_CONCEIVE.description": "Gain the corresponding amount of additional Thought.",
+  "NYMPH_KEYWORD_NARRATE.title": "Narrate",
+  "NYMPH_KEYWORD_NARRATE.description": "If you have enough Thought, spend the corresponding amount and gain that much Block. Then trigger any follow-up effect."
+}

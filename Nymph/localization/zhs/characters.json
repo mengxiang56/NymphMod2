@@ -1,0 +1,21 @@
+{
+  "NYMPH_CHARACTER_NYMPH_CHARACTER.aromaPrinciple": "[sine][pink]故事尚未结束，思绪仍在生长。[/pink][/sine]",
+  "NYMPH_CHARACTER_NYMPH_CHARACTER.banter.alive.endTurnPing": "先让思绪沉淀一下。",
+  "NYMPH_CHARACTER_NYMPH_CHARACTER.banter.dead.endTurnPing": "故事……还会继续。",
+  "NYMPH_CHARACTER_NYMPH_CHARACTER.cardsModifierDescription": "妮芙的卡牌会出现在奖励和商店中。",
+  "NYMPH_CHARACTER_NYMPH_CHARACTER.cardsModifierTitle": "妮芙卡牌",
+  "NYMPH_CHARACTER_NYMPH_CHARACTER.defeatMessage": "这次的故事在这里停笔。",
+  "NYMPH_CHARACTER_NYMPH_CHARACTER.description": "全卡兹戴尔最善解人意的小笞心魔。擅长掌控心灵，还有构史！",
+  "NYMPH_CHARACTER_NYMPH_CHARACTER.eventDeathPrevention": "还没到结局。",
+  "NYMPH_CHARACTER_NYMPH_CHARACTER.flavor": "她听见每一份未能说出口的思绪。",
+  "NYMPH_CHARACTER_NYMPH_CHARACTER.goldMonologue": "足够买下一些新的故事了。",
+  "NYMPH_CHARACTER_NYMPH_CHARACTER.possessiveAdjective": "她的",
+  "NYMPH_CHARACTER_NYMPH_CHARACTER.pronounObject": "她",
+  "NYMPH_CHARACTER_NYMPH_CHARACTER.pronounPossessive": "她的",
+  "NYMPH_CHARACTER_NYMPH_CHARACTER.pronounSubject": "她",
+  "NYMPH_CHARACTER_NYMPH_CHARACTER.selectMessage": "来听听新的故事吧。",
+  "NYMPH_CHARACTER_NYMPH_CHARACTER.title": "妮芙",
+  "NYMPH_CHARACTER_NYMPH_CHARACTER.titleObject": "妮芙",
+  "NYMPH_CHARACTER_NYMPH_CHARACTER.unlockText": "使用 [pink]{Prerequisite}[/pink] 完成一局游戏以解锁该角色。",
+  "NYMPH_CHARACTER_NYMPH_CHARACTER.victoryMessage": "故事抵达了新的篇章。"
+}

@@ -1,0 +1,11 @@
+{
+  "NYMPH_POWER_NECROSIS_POWER.title": "Necrosis",
+  "NYMPH_POWER_NECROSIS_POWER.description": "Whenever a card is played, lose HP equal to the amount of [gold]Necrosis[/gold]. Every 3 cards played, reduce it by 1.",
+  "NYMPH_POWER_NECROSIS_POWER.smartDescription": "Whenever a card is played, lose [blue]{Amount}[/blue] HP. Every 3 cards played, reduce it by 1.",
+  "NYMPH_POWER_EXTRA_CHAPTER_POWER.title": "Side Story",
+  "NYMPH_POWER_EXTRA_CHAPTER_POWER.description": "Whenever you [gold]Narrate[/gold], gain additional Block.",
+  "NYMPH_POWER_EXTRA_CHAPTER_POWER.smartDescription": "Whenever you spend Thought to play a card, gain [blue]{Amount}[/blue] additional Block.",
+  "NYMPH_POWER_PSYCHO_HINT_POWER.title": "Psychological Hint",
+  "NYMPH_POWER_PSYCHO_HINT_POWER.description": "At the start of your turn, apply [gold]Necrosis[/gold] to ALL enemies.",
+  "NYMPH_POWER_PSYCHO_HINT_POWER.smartDescription": "At the start of your turn, apply [blue]{Amount}[/blue] [gold]Necrosis[/gold] to ALL enemies."
+}

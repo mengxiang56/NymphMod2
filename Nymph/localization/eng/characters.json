@@ -1,0 +1,21 @@
+{
+  "NYMPH_CHARACTER_NYMPH_CHARACTER.aromaPrinciple": "[sine][pink]The story is not over. Thought continues to grow.[/pink][/sine]",
+  "NYMPH_CHARACTER_NYMPH_CHARACTER.banter.alive.endTurnPing": "Let those thoughts settle.",
+  "NYMPH_CHARACTER_NYMPH_CHARACTER.banter.dead.endTurnPing": "The story... will continue.",
+  "NYMPH_CHARACTER_NYMPH_CHARACTER.cardsModifierDescription": "Nymph cards can now appear in rewards and shops.",
+  "NYMPH_CHARACTER_NYMPH_CHARACTER.cardsModifierTitle": "Nymph Cards",
+  "NYMPH_CHARACTER_NYMPH_CHARACTER.defeatMessage": "This telling ends here.",
+  "NYMPH_CHARACTER_NYMPH_CHARACTER.description": "A thoughtful little heart-scourge who gathers thoughts, tells stories, and reconstructs inspiration into new possibilities.\nThis is the Slay the Spire 2 vertical migration prototype.",
+  "NYMPH_CHARACTER_NYMPH_CHARACTER.eventDeathPrevention": "Not the ending yet.",
+  "NYMPH_CHARACTER_NYMPH_CHARACTER.flavor": "She hears every thought left unspoken.",
+  "NYMPH_CHARACTER_NYMPH_CHARACTER.goldMonologue": "Enough for a few new stories.",
+  "NYMPH_CHARACTER_NYMPH_CHARACTER.possessiveAdjective": "her",
+  "NYMPH_CHARACTER_NYMPH_CHARACTER.pronounObject": "her",
+  "NYMPH_CHARACTER_NYMPH_CHARACTER.pronounPossessive": "hers",
+  "NYMPH_CHARACTER_NYMPH_CHARACTER.pronounSubject": "she",
+  "NYMPH_CHARACTER_NYMPH_CHARACTER.selectMessage": "Come hear a new story.",
+  "NYMPH_CHARACTER_NYMPH_CHARACTER.title": "Nymph",
+  "NYMPH_CHARACTER_NYMPH_CHARACTER.titleObject": "Nymph",
+  "NYMPH_CHARACTER_NYMPH_CHARACTER.unlockText": "Complete a run as [pink]{Prerequisite}[/pink] to unlock this character.",
+  "NYMPH_CHARACTER_NYMPH_CHARACTER.victoryMessage": "The story reaches a new chapter."
+}
