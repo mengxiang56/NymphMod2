@@ -58,6 +58,13 @@ public sealed class NymphRequiemRites : ModCardTemplate
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
 
+        SecondaryResourcePlayLedger resources = cardPlay.SecondaryResources();
+        int narrated = resources.SpentByUse(NarrateUseId);
+        if (narrated <= 0)
+        {
+            narrated = resources.Spent(ThoughtMechanics.ResourceId);
+        }
+
         await PowerCmd.Apply<WeakPower>(
             choiceContext,
             cardPlay.Target,
@@ -65,7 +72,6 @@ public sealed class NymphRequiemRites : ModCardTemplate
             Owner.Creature,
             this);
 
-        int narrated = cardPlay.SecondaryResources().SpentByUse(NarrateUseId);
         if (narrated <= 0)
         {
             return;

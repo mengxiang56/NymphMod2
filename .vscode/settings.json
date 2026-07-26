@@ -8,7 +8,8 @@
   "godotTools.editorPath.godot4": "D:\\spire mod\\.tools\\godot-4.5.1-mono\\Godot_v4.5.1-stable_mono_win64\\Godot_v4.5.1-stable_mono_win64.exe",
   "godotTools.lsp.serverHost": "127.0.0.1",
   "godotTools.lsp.serverPort": 6008,
-  "godotTools.lsp.headless": true,
+  "godotTools.lsp.headless": false,
+  "godotTools.lsp.autoReconnect.enabled": false,
   "dotnet.defaultSolution": "Nymph.sln",
   "dotnet.server.environmentVariables": {
     "DOTNET_ROOT": "D:\\spire mod\\.tools\\dotnet9",

@@ -12,7 +12,10 @@ using STS2RitsuLib.Scaffolding.Content;
 namespace Nymph.Powers;
 
 [RegisterPower]
-public sealed class NecrosisPower : ModPowerTemplate, IPowerExtraIconAmountLabelSpecsProvider
+public sealed class NecrosisPower :
+    ModPowerTemplate,
+    IPowerExtraIconAmountLabelSpecsProvider,
+    IPowerExtraIconAmountLabelsChangeSource
 {
     private sealed class CardPlayData
     {
@@ -22,6 +25,8 @@ public sealed class NecrosisPower : ModPowerTemplate, IPowerExtraIconAmountLabel
     private const int CardsPerLayerLoss = 3;
 
     private int _cardsPlayedTowardLayerLoss;
+
+    public event Action? PowerExtraIconAmountLabelsInvalidated;
 
     public override PowerType Type => PowerType.Debuff;
     public override PowerStackType StackType => PowerStackType.Counter;
@@ -38,7 +43,14 @@ public sealed class NecrosisPower : ModPowerTemplate, IPowerExtraIconAmountLabel
         set
         {
             AssertMutable();
-            _cardsPlayedTowardLayerLoss = Math.Clamp(value, 0, CardsPerLayerLoss);
+            int clampedValue = Math.Clamp(value, 0, CardsPerLayerLoss);
+            if (_cardsPlayedTowardLayerLoss == clampedValue)
+            {
+                return;
+            }
+
+            _cardsPlayedTowardLayerLoss = clampedValue;
+            PowerExtraIconAmountLabelsInvalidated?.Invoke();
         }
     }
 
@@ -79,24 +91,10 @@ public sealed class NecrosisPower : ModPowerTemplate, IPowerExtraIconAmountLabel
         if (cardsPlayed < CardsPerLayerLoss)
         {
             CardsPlayedTowardLayerLoss = cardsPlayed;
-            await PowerCmd.ModifyAmount(
-                choiceContext,
-                this,
-                0,
-                cardPlay.Card.Owner.Creature,
-                cardPlay.Card,
-                true);
             return;
         }
 
         CardsPlayedTowardLayerLoss = 0;
-        await PowerCmd.ModifyAmount(
-            choiceContext,
-            this,
-            0,
-            cardPlay.Card.Owner.Creature,
-            cardPlay.Card,
-            true);
         await PowerCmd.ModifyAmount(
             choiceContext,
             this,

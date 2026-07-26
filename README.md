@@ -24,6 +24,9 @@
 - 角色选择、地图、战斗、抽牌和出牌流程均已实机跑通
 
 ## 构建和运行
+退出后台godot：在powershell运行
+Get-Process Godot_v4.5.1-stable_mono_win64 -ErrorAction SilentlyContinue |
+    Stop-Process -Force
 
 直接双击或在终端执行：
 
