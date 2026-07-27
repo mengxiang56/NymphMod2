@@ -46,7 +46,7 @@ public static class ThoughtMechanics
     {
         CounterSize = new Vector2(150f, 100f),
         IconSize = new Vector2(150f, 100f),
-        FontSize = 24,
+        FontSize = 30,
         FormatAmount = (amount, _) => amount.ToString()
     };
 
@@ -215,7 +215,7 @@ public static class ThoughtMechanics
         counter.Configure(Definition, CounterStyle);
 
         counter.SetAnchorsPreset(Control.LayoutPreset.BottomLeft);
-        counter.Position = new Vector2(100f, -300f);
+        counter.Position = new Vector2(90f, -350f);
         return counter;
     }
 
@@ -223,7 +223,7 @@ public static class ThoughtMechanics
         NThoughtCounter counter,
         Player? player)
     {
-        if (player is null)
+        if (player?.Character is not NymphCharacter)
         {
             counter.BindThoughtPlayer(null);
             return;
