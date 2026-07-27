@@ -6,7 +6,6 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
 using Nymph.Characters;
 using Nymph.Mechanics;
-using STS2RitsuLib.Combat.SecondaryResources;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 
@@ -15,7 +14,8 @@ namespace Nymph.Cards;
 [RegisterCard(typeof(NymphCardPool))]
 public sealed class NymphSoulFurnaceFuel : ModCardTemplate
 {
-    private const string NarrateAllUseId = "NymphSoulFurnaceFuel.NarrateAll";
+    protected override bool ShouldGlowGoldInternal =>
+        ThoughtMechanics.CanNarrateAll(Owner);
 
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
     [
@@ -39,10 +39,6 @@ public sealed class NymphSoulFurnaceFuel : ModCardTemplate
     public NymphSoulFurnaceFuel()
         : base(2, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy, true)
     {
-        this.SecondaryResourceUses().SpendExtra(
-            NarrateAllUseId,
-            ThoughtMechanics.ResourceId,
-            perStackAmount: 1);
     }
 
     protected override async Task OnPlay(
@@ -51,8 +47,9 @@ public sealed class NymphSoulFurnaceFuel : ModCardTemplate
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
 
-        int narrated = cardPlay.SecondaryResources()
-            .ExtraSpentByUse(NarrateAllUseId);
+        int narrated = await ThoughtMechanics.NarrateAll(
+            choiceContext,
+            cardPlay);
         if (narrated > 0)
         {
             await CreatureCmd.GainBlock(

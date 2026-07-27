@@ -41,6 +41,7 @@ public sealed class NymphStoredInstruments : ModCardTemplate
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
 
         await ThoughtMechanics.Create(
+            choiceContext,
             Owner,
             DynamicVars["Create"].IntValue,
             this);

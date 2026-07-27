@@ -1,10 +1,15 @@
 using Godot;
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Models;
 using System.Runtime.CompilerServices;
 using STS2RitsuLib.Cards;
 using STS2RitsuLib.Combat.SecondaryResources;
 using Nymph.Characters;
+using Nymph.Powers;
 
 namespace Nymph.Mechanics;
 
@@ -20,6 +25,7 @@ public static class ThoughtMechanics
     public const string LocalId = "Thought";
     public const int ConfusedThreshold = 12;
     public const int ObstructedThreshold = 24;
+    public const int MaxAmount = 999;
 
     private const string ClearIconPath =
         $"{Entry.ResPath}/images/ui/thought/thought_clear.png";
@@ -30,13 +36,16 @@ public static class ThoughtMechanics
 
     private static bool _initialized;
     private static readonly ConditionalWeakTable<
-        NSecondaryResourceCounter,
+        NThoughtCounter,
         CounterVisualState> CounterVisualStates = new();
+    private static readonly ConditionalWeakTable<
+        CardPlay,
+        NarrationRecord> Narrations = new();
 
     private static readonly SecondaryResourceCounterStyle CounterStyle = new()
     {
-        CounterSize = new Vector2(104f, 64f),
-        IconSize = new Vector2(86f, 60f),
+        CounterSize = new Vector2(150f, 100f),
+        IconSize = new Vector2(150f, 100f),
         FontSize = 24,
         FormatAmount = (amount, _) => amount.ToString()
     };
@@ -63,8 +72,8 @@ public static class ThoughtMechanics
             new SecondaryResourceDefinition(
                 defaultAmount: 0,
                 minAmount: 0,
-                hardMaxAmount: 999,
-                persistencePolicy: SecondaryResourcePersistencePolicy.Combat,
+                hardMaxAmount: MaxAmount,
+                persistencePolicy: SecondaryResourcePersistencePolicy.None,
                 locTable: "static_hover_tips",
                 titleKey: "NYMPH_SECONDARY_RESOURCE_THOUGHT.title",
                 descriptionKey: "NYMPH_SECONDARY_RESOURCE_THOUGHT.description",
@@ -72,18 +81,17 @@ public static class ThoughtMechanics
                 largeIconPath: ClearIconPath));
 
         registry.AlwaysShowInCombatUiForCharacter<NymphCharacter>(LocalId);
-        registry.RegisterCombatUi<NSecondaryResourceCounter>(
+        registry.RegisterCombatUi<NThoughtCounter>(
             "ThoughtCounter",
             _ => CreateCounter(),
             context => UpdateCounter(context.Node, context.Player));
 
-        SecondaryResourcePersistence.Initialize();
         CardOnPlayHook.RegisterGlobalListener(new ThoughtCardPlayListener());
     }
 
     public static int Get(Player player)
     {
-        return SecondaryResourceCmd.Get(player, ResourceId);
+        return player.Creature.GetPower<ThoughtPower>()?.Amount ?? 0;
     }
 
     public static ThoughtState GetState(Player player)
@@ -99,13 +107,101 @@ public static class ThoughtMechanics
             : ThoughtState.Clear;
     }
 
-    public static Task<int> Create(Player player, int amount, object? source = null)
+    public static bool CanNarrate(Player? player, int amount)
     {
-        return SecondaryResourceCmd.Gain(
-            player,
-            ResourceId,
-            amount,
-            source as MegaCrit.Sts2.Core.Models.AbstractModel);
+        return player is not null
+            && amount > 0
+            && Get(player) >= amount;
+    }
+
+    public static bool CanNarrateAll(Player? player)
+    {
+        return player is not null && Get(player) > 0;
+    }
+
+    public static async Task Create(
+        PlayerChoiceContext choiceContext,
+        Player player,
+        int amount,
+        CardModel? source = null)
+    {
+        int availableCapacity = MaxAmount - Get(player);
+        int gain = Math.Min(amount, availableCapacity);
+        if (gain <= 0)
+        {
+            return;
+        }
+
+        await PowerCmd.Apply<ThoughtPower>(
+            choiceContext,
+            player.Creature,
+            gain,
+            player.Creature,
+            source,
+            silent: true);
+    }
+
+    public static async Task<int> Narrate(
+        PlayerChoiceContext choiceContext,
+        CardPlay cardPlay,
+        int amount)
+    {
+        if (amount <= 0 || Get(cardPlay.Card.Owner) < amount)
+        {
+            return 0;
+        }
+
+        return await Spend(
+            choiceContext,
+            cardPlay,
+            amount);
+    }
+
+    public static async Task<int> NarrateAll(
+        PlayerChoiceContext choiceContext,
+        CardPlay cardPlay)
+    {
+        int amount = Get(cardPlay.Card.Owner);
+        if (amount <= 0)
+        {
+            return 0;
+        }
+
+        return await Spend(
+            choiceContext,
+            cardPlay,
+            amount);
+    }
+
+    public static int NarratedAmount(CardPlay cardPlay)
+    {
+        return Narrations.TryGetValue(cardPlay, out NarrationRecord? record)
+            ? record.Amount
+            : 0;
+    }
+
+    private static async Task<int> Spend(
+        PlayerChoiceContext choiceContext,
+        CardPlay cardPlay,
+        int amount)
+    {
+        ThoughtPower? thought =
+            cardPlay.Card.Owner.Creature.GetPower<ThoughtPower>();
+        if (thought is null || thought.Amount < amount)
+        {
+            return 0;
+        }
+
+        await PowerCmd.ModifyAmount(
+            choiceContext,
+            thought,
+            -amount,
+            cardPlay.Card.Owner.Creature,
+            cardPlay.Card,
+            silent: true);
+
+        Narrations.GetOrCreateValue(cardPlay).Amount += amount;
+        return amount;
     }
 
     public static IHoverTip CreateHoverTip()
@@ -113,24 +209,23 @@ public static class ThoughtMechanics
         return ModSecondaryResourceRegistry.CreateHoverTip(ResourceId);
     }
 
-    private static NSecondaryResourceCounter CreateCounter()
+    private static NThoughtCounter CreateCounter()
     {
-        NSecondaryResourceCounter counter = NSecondaryResourceCounter.Create(
-            Definition,
-            CounterStyle);
+        NThoughtCounter counter = new();
+        counter.Configure(Definition, CounterStyle);
 
         counter.SetAnchorsPreset(Control.LayoutPreset.BottomLeft);
-        counter.Position = new Vector2(96f, -190f);
+        counter.Position = new Vector2(100f, -300f);
         return counter;
     }
 
-    private static void UpdateCounter(
-        NSecondaryResourceCounter counter,
+    internal static void UpdateCounter(
+        NThoughtCounter counter,
         Player? player)
     {
         if (player is null)
         {
-            counter.Bind(null);
+            counter.BindThoughtPlayer(null);
             return;
         }
 
@@ -144,7 +239,7 @@ public static class ThoughtMechanics
             visualState.State = state;
         }
 
-        counter.Bind(player);
+        counter.BindThoughtPlayer(player);
     }
 
     private static SecondaryResourceDefinition GetVisualDefinition(
@@ -169,6 +264,11 @@ public static class ThoughtMechanics
         public ThoughtState? State { get; set; }
     }
 
+    private sealed class NarrationRecord
+    {
+        public int Amount { get; set; }
+    }
+
     private sealed class ThoughtCardPlayListener : ICardOnPlayHookListener
     {
         public async Task AfterCardOnPlay(AfterCardOnPlayContext context)
@@ -179,9 +279,9 @@ public static class ThoughtMechanics
                 return;
             }
 
-            await SecondaryResourceCmd.Gain(
+            await Create(
+                context.ChoiceContext,
                 player,
-                ResourceId,
                 1,
                 context.CardPlay.Card);
         }

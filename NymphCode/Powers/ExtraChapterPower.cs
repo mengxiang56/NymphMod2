@@ -4,7 +4,6 @@ using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.ValueProps;
 using Nymph.Mechanics;
-using STS2RitsuLib.Combat.SecondaryResources;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 
@@ -26,7 +25,7 @@ public sealed class ExtraChapterPower : ModPowerTemplate
         CardPlay cardPlay)
     {
         if (cardPlay.Card.Owner != Owner.Player
-            || cardPlay.SecondaryResources().Spent(ThoughtMechanics.ResourceId) <= 0)
+            || ThoughtMechanics.NarratedAmount(cardPlay) <= 0)
         {
             return;
         }

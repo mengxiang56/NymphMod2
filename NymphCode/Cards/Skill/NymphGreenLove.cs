@@ -6,7 +6,6 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
 using Nymph.Characters;
 using Nymph.Mechanics;
-using STS2RitsuLib.Combat.SecondaryResources;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 
@@ -15,9 +14,10 @@ namespace Nymph.Cards;
 [RegisterCard(typeof(NymphCardPool))]
 public sealed class NymphGreenLove : ModCardTemplate
 {
-    private const string NarrateAllUseId = "NymphGreenLove.NarrateAll";
-
     public override bool GainsBlock => true;
+
+    protected override bool ShouldGlowGoldInternal =>
+        ThoughtMechanics.CanNarrateAll(Owner);
 
     public override CardAssetProfile AssetProfile => new(
         PortraitPath: $"{Entry.ResPath}/images/cards/{GetType().Name}.png",
@@ -42,18 +42,15 @@ public sealed class NymphGreenLove : ModCardTemplate
     public NymphGreenLove()
         : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self, true)
     {
-        this.SecondaryResourceUses().SpendExtra(
-            NarrateAllUseId,
-            ThoughtMechanics.ResourceId,
-            perStackAmount: 1);
     }
 
     protected override async Task OnPlay(
         PlayerChoiceContext choiceContext,
         CardPlay cardPlay)
     {
-        int narrated = cardPlay.SecondaryResources()
-            .ExtraSpentByUse(NarrateAllUseId);
+        int narrated = await ThoughtMechanics.NarrateAll(
+            choiceContext,
+            cardPlay);
 
         if (narrated <= 0)
         {

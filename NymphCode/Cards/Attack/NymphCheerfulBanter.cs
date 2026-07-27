@@ -39,6 +39,7 @@ public sealed class NymphCheerfulBanter : ModCardTemplate
         CardPlay cardPlay)
     {
         await ThoughtMechanics.Create(
+            choiceContext,
             Owner,
             DynamicVars["Create"].IntValue,
             this);

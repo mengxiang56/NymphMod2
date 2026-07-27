@@ -1,7 +1,9 @@
 {
+  "NYMPH_POWER_THOUGHT_POWER.title": "思绪",
+  "NYMPH_POWER_THOUGHT_POWER.description": "当前思绪值。",
   "NYMPH_POWER_NECROSIS_POWER.title": "凋亡",
   "NYMPH_POWER_NECROSIS_POWER.description": "每打出一张牌，使其失去等同于[gold]凋亡[/gold]层数的生命。凋亡层数每打出[blue]3[/blue]张牌减少[blue]1[/blue]。",
-  "NYMPH_POWER_NECROSIS_POWER.smartDescription": "每打出一张牌，使其失去[blue]{Amount}[/blue]点生命。凋亡层数每打出[blue]3[/blue]张牌减少[blue]1[/blue]。",
+  "NYMPH_POWER_NECROSIS_POWER.smartDescription": "每打出一张牌，使其失去[blue]{Amount}[/blue]点生命。再打出[blue]{CardsRemaining}[/blue]张牌层数减少[blue]1[/blue]。",
   "NYMPH_POWER_EXTRA_CHAPTER_POWER.title": "外传",
   "NYMPH_POWER_EXTRA_CHAPTER_POWER.description": "每次[gold]讲述[/gold]时，额外获得格挡。",
   "NYMPH_POWER_EXTRA_CHAPTER_POWER.smartDescription": "每次打牌消耗思绪时，额外获得[blue]{Amount}[/blue]点格挡。",

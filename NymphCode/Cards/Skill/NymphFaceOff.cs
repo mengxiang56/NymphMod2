@@ -7,7 +7,6 @@ using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 using Nymph.Characters;
 using Nymph.Mechanics;
-using STS2RitsuLib.Combat.SecondaryResources;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 
@@ -16,9 +15,12 @@ namespace Nymph.Cards;
 [RegisterCard(typeof(NymphCardPool))]
 public sealed class NymphFaceOff : ModCardTemplate
 {
-    private const string NarrateUseId = "NymphFaceOff.Narrate";
-
     public override bool GainsBlock => true;
+
+    protected override bool ShouldGlowGoldInternal =>
+        ThoughtMechanics.CanNarrate(
+            Owner,
+            DynamicVars["Narrate"].IntValue);
 
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
     [
@@ -45,10 +47,6 @@ public sealed class NymphFaceOff : ModCardTemplate
     public NymphFaceOff()
         : base(1, CardType.Skill, CardRarity.Common, TargetType.AnyEnemy, true)
     {
-        this.SecondaryResourceUses().SpendIfAvailable(
-            NarrateUseId,
-            ThoughtMechanics.ResourceId,
-            DynamicVars["Narrate"].IntValue);
     }
 
     protected override async Task OnPlay(
@@ -57,7 +55,10 @@ public sealed class NymphFaceOff : ModCardTemplate
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
 
-        int narrated = cardPlay.SecondaryResources().SpentByUse(NarrateUseId);
+        int narrated = await ThoughtMechanics.Narrate(
+            choiceContext,
+            cardPlay,
+            DynamicVars["Narrate"].IntValue);
         if (narrated <= 0)
         {
             return;

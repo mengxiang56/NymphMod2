@@ -6,7 +6,6 @@ using MegaCrit.Sts2.Core.ValueProps;
 using Nymph.Characters;
 using Nymph.Mechanics;
 using MegaCrit.Sts2.Core.HoverTips;
-using STS2RitsuLib.Combat.SecondaryResources;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 
@@ -16,9 +15,12 @@ namespace Nymph.Cards;
 [RegisterCharacterStarterCard(typeof(NymphCharacter), 1)]
 public sealed class NymphThoughtInterpretation : ModCardTemplate
 {
-    private const string NarrateUseId = "NymphThoughtInterpretation.Narrate";
-
     public override bool GainsBlock => true;
+
+    protected override bool ShouldGlowGoldInternal =>
+        ThoughtMechanics.CanNarrate(
+            Owner,
+            DynamicVars["Narrate"].IntValue);
 
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
     [
@@ -43,18 +45,16 @@ public sealed class NymphThoughtInterpretation : ModCardTemplate
     public NymphThoughtInterpretation()
         : base(1, CardType.Skill, CardRarity.Basic, TargetType.Self, true)
     {
-        this.SecondaryResourceUses().SpendIfAvailable(
-            NarrateUseId,
-            ThoughtMechanics.ResourceId,
-            DynamicVars["Narrate"].IntValue);
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
 
-        int narrated = cardPlay.SecondaryResources()
-            .SpentByUse(NarrateUseId);
+        int narrated = await ThoughtMechanics.Narrate(
+            choiceContext,
+            cardPlay,
+            DynamicVars["Narrate"].IntValue);
         if (narrated > 0)
         {
             await CreatureCmd.GainBlock(

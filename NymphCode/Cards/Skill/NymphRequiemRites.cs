@@ -7,7 +7,6 @@ using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 using Nymph.Characters;
 using Nymph.Mechanics;
-using STS2RitsuLib.Combat.SecondaryResources;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 
@@ -16,9 +15,12 @@ namespace Nymph.Cards;
 [RegisterCard(typeof(NymphCardPool))]
 public sealed class NymphRequiemRites : ModCardTemplate
 {
-    private const string NarrateUseId = "NymphRequiemRites.Narrate";
-
     public override bool GainsBlock => true;
+
+    protected override bool ShouldGlowGoldInternal =>
+        ThoughtMechanics.CanNarrate(
+            Owner,
+            DynamicVars["Narrate"].IntValue);
 
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
     [
@@ -46,10 +48,6 @@ public sealed class NymphRequiemRites : ModCardTemplate
     public NymphRequiemRites()
         : base(1, CardType.Skill, CardRarity.Common, TargetType.AnyEnemy, true)
     {
-        this.SecondaryResourceUses().SpendIfAvailable(
-            NarrateUseId,
-            ThoughtMechanics.ResourceId,
-            DynamicVars["Narrate"].IntValue);
     }
 
     protected override async Task OnPlay(
@@ -58,13 +56,6 @@ public sealed class NymphRequiemRites : ModCardTemplate
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
 
-        SecondaryResourcePlayLedger resources = cardPlay.SecondaryResources();
-        int narrated = resources.SpentByUse(NarrateUseId);
-        if (narrated <= 0)
-        {
-            narrated = resources.Spent(ThoughtMechanics.ResourceId);
-        }
-
         await PowerCmd.Apply<WeakPower>(
             choiceContext,
             cardPlay.Target,
@@ -72,6 +63,10 @@ public sealed class NymphRequiemRites : ModCardTemplate
             Owner.Creature,
             this);
 
+        int narrated = await ThoughtMechanics.Narrate(
+            choiceContext,
+            cardPlay,
+            DynamicVars["Narrate"].IntValue);
         if (narrated <= 0)
         {
             return;
