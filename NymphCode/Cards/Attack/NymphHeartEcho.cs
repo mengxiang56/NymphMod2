@@ -1,0 +1,69 @@
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.ValueProps;
+using Nymph.Characters;
+using Nymph.Powers;
+using STS2RitsuLib.Interop.AutoRegistration;
+using STS2RitsuLib.Scaffolding.Content;
+
+namespace Nymph.Cards;
+
+[RegisterCard(typeof(NymphCardPool))]
+public sealed class NymphHeartEcho : ModCardTemplate
+{
+    public override CardAssetProfile AssetProfile => new(
+        PortraitPath: $"{Entry.ResPath}/images/cards/{GetType().Name}.png",
+        FramePath: $"{Entry.ResPath}/images/cards/frames/bg_attack_sts2.png");
+
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+    [
+        new DamageVar(14, ValueProp.Move)
+    ];
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromCard<NymphResonance>()
+    ];
+
+    public NymphHeartEcho()
+        : base(2, CardType.Attack, CardRarity.Uncommon, TargetType.AllEnemies, true)
+    {
+    }
+
+    protected override async Task OnPlay(
+        PlayerChoiceContext choiceContext,
+        CardPlay cardPlay)
+    {
+        int resonanceCount = CombatState!
+            .GetOpponentsOf(Owner.Creature)
+            .Count(enemy => !enemy.IsDead && enemy.HasPower<NecrosisPower>());
+
+        await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
+            .FromCard(this, cardPlay)
+            .TargetingAllOpponents(CombatState)
+            .Execute(choiceContext);
+
+        if (resonanceCount <= 0)
+        {
+            return;
+        }
+
+        var cards = Enumerable
+            .Range(0, resonanceCount)
+            .Select(_ => CombatState.CreateCard<NymphResonance>(Owner))
+            .ToList();
+        await CardPileCmd.AddGeneratedCardsToCombat(
+            cards,
+            PileType.Hand,
+            Owner);
+    }
+
+    protected override void OnUpgrade()
+    {
+        DynamicVars.Damage.UpgradeValueBy(4);
+    }
+}

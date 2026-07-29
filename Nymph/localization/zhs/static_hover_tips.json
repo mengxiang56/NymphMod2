@@ -1,4 +1,11 @@
 {
     "NYMPH_SECONDARY_RESOURCE_THOUGHT.title": "思绪值",
-    "NYMPH_SECONDARY_RESOURCE_THOUGHT.description": "每打出一张牌获得 1 点。达到临界点后变为思维混乱，达到阻滞点后变为思维阻滞。"
+    "NYMPH_SECONDARY_RESOURCE_THOUGHT.description": "每打出一张牌获得 1 点。达到临界点后变为思维混乱，达到阻滞点后变为思维阻滞。",
+    "NYMPH_DURABILITY.title": "耐久",
+    "NYMPH_DURABILITY.description": "每次打出减少1点。降至0时，将这张牌从牌组中移除。"
+,
+  "NYMPH_CARDPILE_INSPIRATION.title": "灵感牌堆",
+  "NYMPH_CARDPILE_INSPIRATION.description": "独立保存获得的灵感牌。每场战斗开始时，可以从所有灵感牌中选择1张加入手牌，也可以跳过。",
+  "NYMPH_CARDPILE_INSPIRATION.empty": "灵感牌堆中没有牌。",
+  "NYMPH_REWARD_INSPIRATION": "获得1张随机灵感牌。"
 }

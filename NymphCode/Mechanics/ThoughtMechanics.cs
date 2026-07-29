@@ -41,6 +41,9 @@ public static class ThoughtMechanics
     private static readonly ConditionalWeakTable<
         CardPlay,
         NarrationRecord> Narrations = new();
+    private static readonly ConditionalWeakTable<
+        Player,
+        PreviousCardRecord> PreviousCards = new();
 
     private static readonly SecondaryResourceCounterStyle CounterStyle = new()
     {
@@ -97,14 +100,46 @@ public static class ThoughtMechanics
     public static ThoughtState GetState(Player player)
     {
         int amount = Get(player);
-        if (amount >= ObstructedThreshold)
+        if (amount >= GetObstructedThreshold(player))
         {
             return ThoughtState.Obstructed;
         }
 
-        return amount >= ConfusedThreshold
+        return amount >= GetConfusedThreshold(player)
             ? ThoughtState.Confused
             : ThoughtState.Clear;
+    }
+
+    public static int GetConfusedThreshold(Player player)
+    {
+        return ConfusedThreshold
+            + (player.Creature
+                .GetPower<ThoughtThresholdPower>()?.Amount ?? 0);
+    }
+
+    public static int GetObstructedThreshold(Player player)
+    {
+        return GetConfusedThreshold(player) * 2;
+    }
+
+    public static async Task IncreaseConfusedThreshold(
+        PlayerChoiceContext choiceContext,
+        Player player,
+        int amount,
+        CardModel? source = null)
+    {
+        if (amount <= 0)
+        {
+            return;
+        }
+
+        await PowerCmd.Apply<ThoughtThresholdPower>(
+            choiceContext,
+            player.Creature,
+            amount,
+            player.Creature,
+            source,
+            silent: true);
     }
 
     public static bool CanNarrate(Player? player, int amount)
@@ -125,6 +160,11 @@ public static class ThoughtMechanics
         int amount,
         CardModel? source = null)
     {
+        if (player.Creature.HasPower<NoThoughtGainPower>())
+        {
+            return;
+        }
+
         int availableCapacity = MaxAmount - Get(player);
         int gain = Math.Min(amount, availableCapacity);
         if (gain <= 0)
@@ -139,6 +179,26 @@ public static class ThoughtMechanics
             player.Creature,
             source,
             silent: true);
+
+        if (source is not null
+            && source.Keywords.Contains(NymphKeywords.Conceive))
+        {
+            await PowerCmd.Apply<ConceivedThoughtThisTurnPower>(
+                choiceContext,
+                player.Creature,
+                gain,
+                player.Creature,
+                source,
+                silent: true);
+
+            if (player.Creature.GetPower<MentalConstructionPower>()
+                is { } mentalConstruction)
+            {
+                await mentalConstruction.OnConceived(
+                    choiceContext,
+                    source);
+            }
+        }
     }
 
     public static async Task<int> Narrate(
@@ -178,6 +238,17 @@ public static class ThoughtMechanics
         return Narrations.TryGetValue(cardPlay, out NarrationRecord? record)
             ? record.Amount
             : 0;
+    }
+
+    public static bool WasPreviousCardConceive(CardModel currentCard)
+    {
+        return PreviousCards.TryGetValue(
+                currentCard.Owner,
+                out PreviousCardRecord? record)
+            && ReferenceEquals(
+                record.CombatState,
+                currentCard.CombatState)
+            && record.WasConceive;
     }
 
     private static async Task<int> Spend(
@@ -269,6 +340,12 @@ public static class ThoughtMechanics
         public int Amount { get; set; }
     }
 
+    private sealed class PreviousCardRecord
+    {
+        public object? CombatState { get; set; }
+        public bool WasConceive { get; set; }
+    }
+
     private sealed class ThoughtCardPlayListener : ICardOnPlayHookListener
     {
         public async Task AfterCardOnPlay(AfterCardOnPlayContext context)
@@ -284,6 +361,14 @@ public static class ThoughtMechanics
                 player,
                 1,
                 context.CardPlay.Card);
+
+            PreviousCardRecord record =
+                PreviousCards.GetOrCreateValue(player);
+            record.CombatState =
+                context.CardPlay.Card.CombatState;
+            record.WasConceive =
+                context.CardPlay.Card.Keywords.Contains(
+                    NymphKeywords.Conceive);
         }
     }
 }

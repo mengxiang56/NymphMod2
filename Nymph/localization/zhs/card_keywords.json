@@ -2,5 +2,7 @@
   "NYMPH_KEYWORD_CONCEIVE.title": "创想",
   "NYMPH_KEYWORD_CONCEIVE.description": "额外获得相应思绪值。",
   "NYMPH_KEYWORD_NARRATE.title": "讲述",
-  "NYMPH_KEYWORD_NARRATE.description": "消耗相应思绪值，获得等量[gold]格挡[/gold]。若有后续效果则触发。"
+  "NYMPH_KEYWORD_NARRATE.description": "消耗相应思绪值，获得等量[gold]格挡[/gold]。若有后续效果则触发。",
+  "NYMPH_KEYWORD_RECREATE.title": "重构（卡牌）",
+  "NYMPH_KEYWORD_RECREATE.description": "变化为[gold]本角色[/gold]卡池中的随机牌（前后升级不变）,并加入[gold]手牌[/gold]。"
 }

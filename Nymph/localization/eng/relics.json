@@ -1,5 +1,9 @@
 {
   "NYMPH_RELIC_NYMPH_RELIC.title": "Count Spiritseeker",
-  "NYMPH_RELIC_NYMPH_RELIC.description": "At the start of each turn, draw [blue]{Cards}[/blue] additional card.",
-  "NYMPH_RELIC_NYMPH_RELIC.flavor": "Albrecht von Xishou, Count of the Rosehorn Spire, promises to return with lost treasure and hidden wisdom."
+  "NYMPH_RELIC_NYMPH_RELIC.description": "Upon pickup, obtain 1 random Inspiration. Normal combats have a 25% chance to drop another; Elite and Boss combats always do.",
+  "NYMPH_RELIC_NYMPH_RELIC.inspirationSelectionPrompt": "Choose 1 Inspiration to add to your Hand, or skip.",
+  "NYMPH_RELIC_NYMPH_RELIC.flavor": "Albrecht von Xishou, Count of the Rosehorn Spire, promises to return with lost treasure and hidden wisdom.",
+  "NYMPH_RELIC_NYMPH_HEART_SEAL.title": "Heart-to-Heart Seal",
+  "NYMPH_RELIC_NYMPH_HEART_SEAL.description": "When attacking an enemy with [gold]Necrosis[/gold], deal {Damage:diff()} additional HP loss.",
+  "NYMPH_RELIC_NYMPH_HEART_SEAL.flavor": "A pair of heart-shaped seals that can imprint intricate patterns."
 }

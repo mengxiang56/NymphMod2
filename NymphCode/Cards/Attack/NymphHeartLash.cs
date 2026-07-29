@@ -54,6 +54,6 @@ public sealed class NymphHeartLash : ModCardTemplate
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(3);
+        DynamicVars["Necrosis"].UpgradeValueBy(1);
     }
 }

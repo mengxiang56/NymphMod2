@@ -1,4 +1,3 @@
-using Godot;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Powers;
@@ -7,7 +6,6 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Saves.Runs;
 using MegaCrit.Sts2.Core.ValueProps;
-using STS2RitsuLib.Combat.HealthBars;
 using STS2RitsuLib.Combat.Ui.ExtraCornerAmountLabels;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
@@ -17,7 +15,6 @@ namespace Nymph.Powers;
 [RegisterPower]
 public sealed class NecrosisPower :
     ModPowerTemplate,
-    IHealthBarForecastSource,
     IPowerExtraIconAmountLabelSpecsProvider,
     IPowerExtraIconAmountLabelsChangeSource
 {
@@ -26,11 +23,9 @@ public sealed class NecrosisPower :
         public Dictionary<CardModel, int> AmountsAtPlayStart { get; } = [];
     }
 
-    private const int CardsPerLayerLoss = 3;
-    private static readonly Color ForecastColor =
-        new(0.65f, 0.28f, 0.88f, 0.9f);
-
+    private const int DefaultCardsPerLayerLoss = 3;
     private int _cardsPlayedTowardLayerLoss;
+    private int _cardsPerLayerLoss = DefaultCardsPerLayerLoss;
 
     public event Action? PowerExtraIconAmountLabelsInvalidated;
 
@@ -40,7 +35,7 @@ public sealed class NecrosisPower :
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DynamicVar("CardsRemaining", CardsPerLayerLoss)
+        new DynamicVar("CardsRemaining", DefaultCardsPerLayerLoss)
     ];
 
     public override PowerAssetProfile AssetProfile => new(
@@ -70,21 +65,28 @@ public sealed class NecrosisPower :
         }
     }
 
-    public int TotalRemainingHpLoss
+    [SavedProperty]
+    public int CardsPerLayerLoss
     {
-        get
+        get => _cardsPerLayerLoss;
+        set
         {
-            long currentLayerDamage =
-                (long)Amount * CardsRemaining;
-            long lowerLayerDamage =
-                (long)CardsPerLayerLoss
-                * Amount
-                * (Amount - 1)
-                / 2;
+            AssertMutable();
+            _cardsPerLayerLoss = Math.Max(1, value);
+            _cardsPlayedTowardLayerLoss = Math.Min(
+                _cardsPlayedTowardLayerLoss,
+                _cardsPerLayerLoss - 1);
+            DynamicVars["CardsRemaining"].BaseValue =
+                _cardsPerLayerLoss - _cardsPlayedTowardLayerLoss;
+            PowerExtraIconAmountLabelsInvalidated?.Invoke();
+        }
+    }
 
-            return (int)Math.Min(
-                int.MaxValue,
-                currentLayerDamage + lowerLayerDamage);
+    public void IncreaseCardsPerLayerLoss(int amount)
+    {
+        if (amount > 0)
+        {
+            CardsPerLayerLoss += amount;
         }
     }
 
@@ -120,7 +122,9 @@ public sealed class NecrosisPower :
         await CreatureCmd.Damage(
             choiceContext,
             Owner,
-            amountAtPlayStart,
+            Owner.HasPower<FearPower>()
+                ? amountAtPlayStart * 2
+                : amountAtPlayStart,
             DamageProps.nonCardHpLoss,
             cardPlay.Card.Owner.Creature);
 
@@ -132,12 +136,43 @@ public sealed class NecrosisPower :
         }
 
         CardsPlayedTowardLayerLoss = 0;
+        if (Owner.GetPower<NecrosisReductionBarrierPower>()
+            is { } reductionBarrier)
+        {
+            reductionBarrier.Flash();
+            await PowerCmd.ModifyAmount(
+                choiceContext,
+                reductionBarrier,
+                -1,
+                cardPlay.Card.Owner.Creature,
+                cardPlay.Card);
+            return;
+        }
+
         await PowerCmd.ModifyAmount(
             choiceContext,
             this,
             -1,
             cardPlay.Card.Owner.Creature,
             cardPlay.Card);
+
+        int temporaryStrengthLoss = CombatState.Players.Sum(
+            player => CombatState
+                    .GetOpponentsOf(player.Creature)
+                    .Contains(Owner)
+                ? player.Creature
+                    .GetPower<KeyToHeartPower>()?.Amount ?? 0
+                : 0);
+        if (temporaryStrengthLoss > 0 && !Owner.IsDead)
+        {
+            await PowerCmd.Apply<
+                MegaCrit.Sts2.Core.Models.Powers.DarkShacklesPower>(
+                choiceContext,
+                Owner,
+                temporaryStrengthLoss,
+                cardPlay.Card.Owner.Creature,
+                cardPlay.Card);
+        }
     }
 
     public IReadOnlyList<ExtraIconAmountLabelSpec> GetPowerExtraIconAmountLabelSpecs()
@@ -150,12 +185,4 @@ public sealed class NecrosisPower :
         ];
     }
 
-    public IEnumerable<HealthBarForecastSegment>
-        GetHealthBarForecastSegments(HealthBarForecastContext context)
-    {
-        return HealthBarForecasts.Single(
-            TotalRemainingHpLoss,
-            ForecastColor,
-            HealthBarForecastGrowthDirection.FromRight);
-    }
 }

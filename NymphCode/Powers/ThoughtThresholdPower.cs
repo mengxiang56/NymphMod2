@@ -1,0 +1,19 @@
+using MegaCrit.Sts2.Core.Entities.Powers;
+using STS2RitsuLib.Interop.AutoRegistration;
+using STS2RitsuLib.Scaffolding.Content;
+
+namespace Nymph.Powers;
+
+[RegisterPower]
+public sealed class ThoughtThresholdPower : ModPowerTemplate
+{
+    public override PowerType Type => PowerType.Buff;
+    public override PowerStackType StackType => PowerStackType.Counter;
+    public override bool AllowNegative => false;
+    protected override bool IsVisibleInternal => false;
+    public override bool ShouldPlayVfx => false;
+
+    public override PowerAssetProfile AssetProfile => new(
+        IconPath: $"{Entry.ResPath}/images/ui/thought/thought_clear.png",
+        BigIconPath: $"{Entry.ResPath}/images/ui/thought/thought_clear.png");
+}

@@ -4,6 +4,8 @@ using MegaCrit.Sts2.Core.Modding;
 using STS2RitsuLib;
 using STS2RitsuLib.Interop;
 using Nymph.Mechanics;
+using Nymph.Rewards;
+using STS2RitsuLib.Combat.Rewards;
 using Logger = MegaCrit.Sts2.Core.Logging.Logger;
 
 namespace Nymph;
@@ -31,6 +33,10 @@ public partial class Entry
         RitsuLibFramework.EnsureGodotScriptsRegistered(assembly, Logger);
 
         ThoughtMechanics.Initialize();
+        InspirationMechanics.Initialize();
+        ModRewardRegistry.For(ModId).RegisterOwned(
+            InspirationReward.LocalRewardStem,
+            (_, player, _) => new InspirationReward(player));
 
         // 自动注册扫描会读取当前程序集里的 RegisterCard/RegisterRelic 等 attribute。
         // 新增内容类后，只要 attribute 写对，通常不需要在入口里手动逐个注册。

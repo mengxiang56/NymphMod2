@@ -3,6 +3,7 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 using Nymph.Characters;
 using Nymph.Mechanics;
@@ -25,12 +26,17 @@ public sealed class NymphStoredInstruments : ModCardTemplate
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(18, ValueProp.Move),
-        new DynamicVar("Create", 8)
+        new DamageVar(9, ValueProp.Move),
+        new DynamicVar("Create", 4)
+    ];
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromCard<NymphEmptyReverie>()
     ];
 
     public NymphStoredInstruments()
-        : base(2, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy, true)
+        : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy, true)
     {
     }
 
@@ -50,10 +56,16 @@ public sealed class NymphStoredInstruments : ModCardTemplate
             .FromCard(this, cardPlay)
             .Targeting(cardPlay.Target)
             .Execute(choiceContext);
+
+        CardModel reverie =
+            CombatState!.CreateCard<NymphEmptyReverie>(Owner);
+        await CardPileCmd.AddGeneratedCardToCombat(
+            reverie,
+            PileType.Hand,
+            Owner);
     }
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(4);
     }
 }
