@@ -1,10 +1,11 @@
 using Godot;
+using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 using STS2RitsuLib.Utils;
 
 namespace Nymph.Characters;
 
-public sealed class NymphCardPool : TypeListCardPoolModel
+public class NymphCardPool : TypeListCardPoolModel
 {
     // RitsuLib 0.4.x 已弃用旧的运行时 RGB 材质辅助函数。
     // 纵向原型先使用默认卡框材质，后续再通过 Godot 资源提供正式卡框。
@@ -25,4 +26,22 @@ public sealed class NymphCardPool : TypeListCardPoolModel
 
     // 这是角色专属卡池，不是无色卡池。
     public override bool IsColorless => false;
+}
+
+[RegisterSharedCardPool]
+public sealed class NymphInspirationCardPool : NymphCardPool
+{
+    public override string Title => "NymphInspiration";
+}
+
+[RegisterSharedCardPool]
+public sealed class NymphDerivedCardPool : NymphCardPool
+{
+    public override string Title => "NymphDerived";
+}
+
+[RegisterSharedCardPool]
+public sealed class NymphStatusCardPool : NymphCardPool
+{
+    public override string Title => "NymphStatus";
 }

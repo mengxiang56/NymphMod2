@@ -28,7 +28,7 @@ public abstract class NymphInspirationCard : ModCardTemplate
     protected NymphInspirationCard(
         CardRarity rarity,
         TargetType targetType = TargetType.Self)
-        : base(0, CardType.Skill, CardRarity.Token, targetType, false)
+        : base(0, CardType.Skill, rarity, targetType, false)
     {
     }
 
@@ -89,7 +89,7 @@ public abstract class NymphHandCostInspiration : NymphInspirationCard
     }
 }
 
-[RegisterCard(typeof(NymphCardPool))]
+[RegisterCard(typeof(NymphInspirationCardPool))]
 public sealed class NymphInspirationMercenary : NymphHandCostInspiration
 {
     public NymphInspirationMercenary() : base(CardRarity.Common)
@@ -105,7 +105,7 @@ public sealed class NymphInspirationMercenary : NymphHandCostInspiration
     }
 }
 
-[RegisterCard(typeof(NymphCardPool))]
+[RegisterCard(typeof(NymphInspirationCardPool))]
 public sealed class NymphInspirationCivilWar : NymphHandCostInspiration
 {
     public NymphInspirationCivilWar() : base(CardRarity.Uncommon)
@@ -150,7 +150,7 @@ public abstract class NymphSelfPowerInspiration<TPower>
     }
 }
 
-[RegisterCard(typeof(NymphCardPool))]
+[RegisterCard(typeof(NymphInspirationCardPool))]
 public sealed class NymphInspirationWall
     : NymphSelfPowerInspiration<BufferPower>
 {
@@ -160,7 +160,7 @@ public sealed class NymphInspirationWall
     }
 }
 
-[RegisterCard(typeof(NymphCardPool))]
+[RegisterCard(typeof(NymphInspirationCardPool))]
 public sealed class NymphInspirationRelocation
     : NymphSelfPowerInspiration<IntangiblePower>
 {
@@ -170,7 +170,7 @@ public sealed class NymphInspirationRelocation
     }
 }
 
-[RegisterCard(typeof(NymphCardPool))]
+[RegisterCard(typeof(NymphInspirationCardPool))]
 public sealed class NymphInspirationMarch
     : NymphSelfPowerInspiration<StrengthPower>
 {
@@ -180,7 +180,7 @@ public sealed class NymphInspirationMarch
     }
 }
 
-[RegisterCard(typeof(NymphCardPool))]
+[RegisterCard(typeof(NymphInspirationCardPool))]
 public sealed class NymphInspirationOathbreak
     : NymphSelfPowerInspiration<ThornsPower>
 {
@@ -190,7 +190,7 @@ public sealed class NymphInspirationOathbreak
     }
 }
 
-[RegisterCard(typeof(NymphCardPool))]
+[RegisterCard(typeof(NymphInspirationCardPool))]
 public sealed class NymphInspirationRest
     : NymphSelfPowerInspiration<RegenPower>
 {
@@ -200,7 +200,7 @@ public sealed class NymphInspirationRest
     }
 }
 
-[RegisterCard(typeof(NymphCardPool))]
+[RegisterCard(typeof(NymphInspirationCardPool))]
 public sealed class NymphInspirationSleep
     : NymphSelfPowerInspiration<RegenPower>
 {
@@ -245,7 +245,7 @@ public abstract class NymphStrengthTransferInspiration
     }
 }
 
-[RegisterCard(typeof(NymphCardPool))]
+[RegisterCard(typeof(NymphInspirationCardPool))]
 public sealed class NymphInspirationPillage
     : NymphStrengthTransferInspiration
 {
@@ -255,7 +255,7 @@ public sealed class NymphInspirationPillage
     }
 }
 
-[RegisterCard(typeof(NymphCardPool))]
+[RegisterCard(typeof(NymphInspirationCardPool))]
 public sealed class NymphInspirationInvasion
     : NymphStrengthTransferInspiration
 {
@@ -286,7 +286,7 @@ public abstract class NymphGoldInspiration : NymphInspirationCard
     }
 }
 
-[RegisterCard(typeof(NymphCardPool))]
+[RegisterCard(typeof(NymphInspirationCardPool))]
 public sealed class NymphInspirationCatastrophe
     : NymphGoldInspiration
 {
@@ -296,7 +296,7 @@ public sealed class NymphInspirationCatastrophe
     }
 }
 
-[RegisterCard(typeof(NymphCardPool))]
+[RegisterCard(typeof(NymphInspirationCardPool))]
 public sealed class NymphInspirationFurnace : NymphGoldInspiration
 {
     protected override int Gold => 40;
@@ -338,7 +338,7 @@ public abstract class NymphDrawInspiration<TPower>
     }
 }
 
-[RegisterCard(typeof(NymphCardPool))]
+[RegisterCard(typeof(NymphInspirationCardPool))]
 public sealed class NymphInspirationOutblood
     : NymphDrawInspiration<InspirationOutbloodPower>
 {
@@ -348,7 +348,7 @@ public sealed class NymphInspirationOutblood
     }
 }
 
-[RegisterCard(typeof(NymphCardPool))]
+[RegisterCard(typeof(NymphInspirationCardPool))]
 public sealed class NymphInspirationFlames
     : NymphDrawInspiration<InspirationFlamesPower>
 {

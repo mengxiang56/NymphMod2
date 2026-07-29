@@ -10,7 +10,7 @@ using STS2RitsuLib.Scaffolding.Content;
 
 namespace Nymph.Cards;
 
-[RegisterCard(typeof(NymphCardPool))]
+[RegisterCard(typeof(NymphStatusCardPool))]
 public sealed class NymphDreadkaz : ModCardTemplate
 {
     public override int MaxUpgradeLevel => 0;

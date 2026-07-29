@@ -7,5 +7,5 @@
   "NYMPH_CARDPILE_INSPIRATION.title": "灵感牌堆",
   "NYMPH_CARDPILE_INSPIRATION.description": "保存你获得的灵感牌。\n战斗开始时，可以从中选择一张打出。",
   "NYMPH_CARDPILE_INSPIRATION.empty": "灵感牌堆中没有牌。",
-  "NYMPH_REWARD_INSPIRATION": "获得1张随机灵感牌。"
+  "NYMPH_REWARD_INSPIRATION": "将一张灵感牌加入到你的灵感牌组。"
 }

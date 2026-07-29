@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.Modding;
 using STS2RitsuLib;
 using STS2RitsuLib.Interop;
 using Nymph.Mechanics;
+using Nymph.Patches;
 using Nymph.Rewards;
 using Nymph.Cards;
 using STS2RitsuLib.Combat.Rewards;
@@ -35,6 +36,7 @@ public partial class Entry
 
         ThoughtMechanics.Initialize();
         InspirationMechanics.Initialize();
+        InspirationPileScreenPatch.Apply();
         ModRewardRegistry.For(ModId).RegisterOwned(
             InspirationReward.LocalRewardStem,
             (_, player, _) => new InspirationReward(player));

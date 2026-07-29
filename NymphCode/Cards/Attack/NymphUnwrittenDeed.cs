@@ -10,7 +10,7 @@ using STS2RitsuLib.Scaffolding.Content;
 
 namespace Nymph.Cards;
 
-[RegisterCard(typeof(NymphCardPool))]
+[RegisterCard(typeof(NymphDerivedCardPool))]
 public sealed class NymphUnwrittenDeed : ModCardTemplate
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords =>

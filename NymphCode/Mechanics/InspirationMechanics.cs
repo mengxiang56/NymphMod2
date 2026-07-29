@@ -8,6 +8,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models;
 using Nymph.Cards;
+using Nymph.Characters;
 using STS2RitsuLib.CardPiles;
 
 namespace Nymph.Mechanics;
@@ -18,32 +19,6 @@ public static class InspirationMechanics
     public const string PileId = "NYMPH_CARDPILE_INSPIRATION";
     public const string PileIconPath =
         $"{Entry.ResPath}/images/ui/inspiration_pile.png";
-
-    private static readonly Type[] CommonCards =
-    [
-        typeof(NymphInspirationMercenary),
-        typeof(NymphInspirationPillage),
-        typeof(NymphInspirationOutblood),
-        typeof(NymphInspirationRest)
-    ];
-
-    private static readonly Type[] UncommonCards =
-    [
-        typeof(NymphInspirationCivilWar),
-        typeof(NymphInspirationWall),
-        typeof(NymphInspirationInvasion),
-        typeof(NymphInspirationCatastrophe),
-        typeof(NymphInspirationOathbreak),
-        typeof(NymphInspirationFlames),
-        typeof(NymphInspirationSleep)
-    ];
-
-    private static readonly Type[] RareCards =
-    [
-        typeof(NymphInspirationRelocation),
-        typeof(NymphInspirationMarch),
-        typeof(NymphInspirationFurnace)
-    ];
 
     public static PileType PileType =>
         ModCardPileRegistry.GetPileType(PileId);
@@ -68,16 +43,21 @@ public static class InspirationMechanics
     {
         var rng = player.RunState.Rng.Niche;
         int rarityRoll = rng.NextInt(100);
-        Type[] pool = rarityRoll < 50
-            ? CommonCards
-            : rarityRoll < 90
-                ? UncommonCards
-                : RareCards;
-        Type selectedType = rng.NextItem(pool)
+        CardRarity rarity = rarityRoll < 10
+            ? CardRarity.Rare
+            : rarityRoll < 50
+                ? CardRarity.Uncommon
+                : CardRarity.Common;
+        List<CardModel> pool = ModelDb
+            .CardPool<NymphInspirationCardPool>()
+            .GetUnlockedCards(
+                player.UnlockState,
+                player.RunState.CardMultiplayerConstraint)
+            .Where(card => card.Rarity == rarity)
+            .ToList();
+        CardModel canonical = rng.NextItem(pool)
             ?? throw new InvalidOperationException(
-                "The inspiration card pool is empty.");
-        CardModel canonical = ModelDb.GetById<CardModel>(
-            ModelDb.GetId(selectedType));
+                $"The {rarity} inspiration card pool is empty.");
         return player.RunState.CreateCard(canonical, player);
     }
 
