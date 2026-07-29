@@ -1,3 +1,4 @@
+using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -35,17 +36,40 @@ public sealed class NymphBlueprintMapping : ModCardTemplate
         PlayerChoiceContext choiceContext,
         CardPlay cardPlay)
     {
-        IEnumerable<CardModel> drawn = await CardPileCmd.Draw(
-            choiceContext,
-            DynamicVars.Cards.IntValue,
-            Owner);
-        foreach (CardModel card in drawn)
+        List<CardModel> drawn =
+        [
+            .. await CardPileCmd.Draw(
+                choiceContext,
+                DynamicVars.Cards.IntValue,
+                Owner)
+        ];
+
+        EnchantmentModel enchantment =
+            ModelDb.Enchantment<NymphTransformationEnchantment>();
+        List<CardModel> candidates = drawn
+            .Where(enchantment.CanEnchant)
+            .ToList();
+        if (candidates.Count == 0)
         {
-            if (ModelDb.Enchantment<NymphTransformationEnchantment>()
-                .CanEnchant(card))
-            {
-                CardCmd.Enchant<NymphTransformationEnchantment>(card, 1);
-            }
+            return;
+        }
+
+        CardSelectorPrefs prefs = new(
+            SelectionScreenPrompt,
+            0,
+            candidates.Count)
+        {
+            Cancelable = true
+        };
+        IEnumerable<CardModel> selected = await CardSelectCmd.FromSimpleGrid(
+            choiceContext,
+            candidates,
+            Owner,
+            prefs);
+
+        foreach (CardModel card in selected)
+        {
+            CardCmd.Enchant<NymphTransformationEnchantment>(card, 1);
         }
     }
 

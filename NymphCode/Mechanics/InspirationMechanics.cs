@@ -2,6 +2,7 @@ using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization;
@@ -63,7 +64,7 @@ public static class InspirationMechanics
             });
     }
 
-    public static async Task<CardModel> AddRandom(Player player)
+    public static CardModel CreateRandomCard(Player player)
     {
         var rng = player.RunState.Rng.Niche;
         int rarityRoll = rng.NextInt(100);
@@ -77,9 +78,19 @@ public static class InspirationMechanics
                 "The inspiration card pool is empty.");
         CardModel canonical = ModelDb.GetById<CardModel>(
             ModelDb.GetId(selectedType));
-        CardModel card = player.RunState.CreateCard(canonical, player);
+        return player.RunState.CreateCard(canonical, player);
+    }
+
+    public static async Task<CardModel> AddRandom(Player player)
+    {
+        CardModel card = CreateRandomCard(player);
         await CardPileCmd.Add(card, PileType);
         return card;
+    }
+
+    public static async Task AddToPile(CardModel card)
+    {
+        await CardPileCmd.Add(card, PileType);
     }
 
     public static async Task OfferAtCombatStart(
@@ -96,6 +107,27 @@ public static class InspirationMechanics
             return;
         }
 
+        CardModel? source = await SelectInspirationCard(
+            choiceContext,
+            options,
+            player);
+        if (source is null)
+        {
+            return;
+        }
+
+        await PlaySelectedInspiration(
+            choiceContext,
+            combatState,
+            player,
+            source);
+    }
+
+    private static async Task<CardModel?> SelectInspirationCard(
+        PlayerChoiceContext choiceContext,
+        IReadOnlyList<CardModel> options,
+        Player player)
+    {
         CardSelectorPrefs prefs = new(
             new LocString(
                 "relics",
@@ -104,25 +136,58 @@ public static class InspirationMechanics
             1)
         {
             Cancelable = true,
-            RequireManualConfirmation = true
+            RequireManualConfirmation = false
         };
 
-        CardModel? source = (await CardSelectCmd.FromSimpleGrid(
+        return (await CardSelectCmd.FromSimpleGrid(
             choiceContext,
             options,
             player,
             prefs)).FirstOrDefault();
-        if (source is not null)
+    }
+
+    private static async Task PlaySelectedInspiration(
+        PlayerChoiceContext choiceContext,
+        ICombatState combatState,
+        Player player,
+        CardModel source)
+    {
+        CardModel selected = combatState.CreateCard(
+            source.CanonicalInstance,
+            player);
+        selected.DeckVersion = source;
+        await CardPileCmd.AddGeneratedCardToCombat(
+            selected,
+            PileType.Hand,
+            player);
+
+        Creature? target = ResolveAutoPlayTarget(
+            selected,
+            player,
+            combatState);
+        await CardCmd.AutoPlay(choiceContext, selected, target);
+
+        if (selected.Pile?.Type == PileType.Hand)
         {
-            CardModel selected = combatState.CreateCard(
-                source.CanonicalInstance,
-                player);
-            selected.DeckVersion = source;
-            await CardPileCmd.AddGeneratedCardToCombat(
-                selected,
-                PileType.Hand,
-                player);
+            await CardCmd.Exhaust(choiceContext, selected);
         }
+    }
+
+    private static Creature? ResolveAutoPlayTarget(
+        CardModel card,
+        Player player,
+        ICombatState combatState)
+    {
+        return card.TargetType switch
+        {
+            TargetType.Self => player.Creature,
+            TargetType.AnyEnemy or TargetType.RandomEnemy =>
+                player.RunState.Rng.CombatTargets.NextItem(
+                    combatState
+                        .GetOpponentsOf(player.Creature)
+                        .Where(enemy => !enemy.IsDead)),
+            _ => null
+        };
     }
 
     public static void ConsumeSelected(CardModel combatCard)

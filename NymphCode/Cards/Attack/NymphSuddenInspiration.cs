@@ -1,9 +1,13 @@
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Commands.Builders;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.ValueProps;
 using Nymph.Characters;
+using Nymph.Rewards;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 
@@ -37,10 +41,27 @@ public sealed class NymphSuddenInspiration : ModCardTemplate
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
 
-        await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
+        AttackCommand attack = await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this, cardPlay)
             .Targeting(cardPlay.Target)
             .Execute(choiceContext);
+
+        if (Owner.RunState.CurrentRoom is not CombatRoom combatRoom)
+        {
+            return;
+        }
+
+        bool countsAsFatal = cardPlay.Target.Powers.All(
+            power => power.ShouldOwnerDeathTriggerFatal());
+        bool killed = attack.Results
+            .SelectMany(results => results)
+            .Any(result => result.WasTargetKilled);
+        if (!countsAsFatal || !killed)
+        {
+            return;
+        }
+
+        combatRoom.AddExtraReward(Owner, new InspirationReward(Owner));
     }
 
     protected override void OnUpgrade()

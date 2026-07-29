@@ -89,6 +89,8 @@ public sealed class NymphLostMyth : ModCardTemplate
             ValueProp.Unpowered,
             cardPlay);
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
+            .WithHitCount(
+                ThoughtMechanics.NarrationEffectMultiplier(Owner))
             .FromCard(this, cardPlay)
             .Targeting(cardPlay.Target)
             .Execute(choiceContext);

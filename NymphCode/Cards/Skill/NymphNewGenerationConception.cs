@@ -1,7 +1,9 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Nodes.CommonUi;
 using Nymph.Characters;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
@@ -25,6 +27,11 @@ public sealed class NymphNewGenerationConception : ModCardTemplate
     {
     }
 
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromCard<NymphUntoldMatter>(IsUpgraded)
+    ];
+
     protected override async Task OnPlay(
         PlayerChoiceContext choiceContext,
         CardPlay cardPlay)
@@ -36,9 +43,15 @@ public sealed class NymphNewGenerationConception : ModCardTemplate
         List<CardModel> cards = [];
         for (int i = 0; i < count; i++)
         {
-            cards.Add(
+            NymphUntoldMatter untold =
                 Owner.Creature.CombatState!
-                    .CreateCard<NymphUntoldMatter>(Owner));
+                    .CreateCard<NymphUntoldMatter>(Owner);
+            if (IsUpgraded)
+            {
+                CardCmd.Upgrade(untold, CardPreviewStyle.None);
+            }
+
+            cards.Add(untold);
         }
 
         await CardPileCmd.AddGeneratedCardsToCombat(

@@ -66,7 +66,8 @@ public sealed class NymphBoundlessImagination : ModCardTemplate
                 ValueProp.Unpowered,
                 cardPlay);
             await PlayerCmd.GainEnergy(
-                DynamicVars["Energy"].IntValue,
+                DynamicVars["Energy"].IntValue
+                    * ThoughtMechanics.NarrationEffectMultiplier(Owner),
                 Owner);
         }
     }

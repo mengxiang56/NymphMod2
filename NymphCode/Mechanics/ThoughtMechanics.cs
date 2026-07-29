@@ -240,6 +240,19 @@ public static class ThoughtMechanics
             : 0;
     }
 
+    public static int NarrationEffectCount(CardPlay cardPlay)
+    {
+        return Narrations.TryGetValue(cardPlay, out NarrationRecord? record)
+            ? record.EffectCount
+            : 0;
+    }
+
+    public static int NarrationEffectMultiplier(Player player)
+    {
+        return 1
+            + (player.Creature.GetPower<BabelOathPower>()?.Amount ?? 0);
+    }
+
     public static bool WasPreviousCardConceive(CardModel currentCard)
     {
         return PreviousCards.TryGetValue(
@@ -249,6 +262,16 @@ public static class ThoughtMechanics
                 record.CombatState,
                 currentCard.CombatState)
             && record.WasConceive;
+    }
+
+    public static bool WasPreviousCard<T>(CardModel currentCard)
+        where T : CardModel
+    {
+        return PreviousCards.TryGetValue(
+                currentCard.Owner,
+                out PreviousCardRecord? record)
+            && ReferenceEquals(record.CombatState, currentCard.CombatState)
+            && record.CardType == typeof(T);
     }
 
     private static async Task<int> Spend(
@@ -271,8 +294,13 @@ public static class ThoughtMechanics
             cardPlay.Card,
             silent: true);
 
-        Narrations.GetOrCreateValue(cardPlay).Amount += amount;
-        return amount;
+        int effectMultiplier =
+            NarrationEffectMultiplier(cardPlay.Card.Owner);
+        int effectiveAmount = amount * effectMultiplier;
+        NarrationRecord record = Narrations.GetOrCreateValue(cardPlay);
+        record.Amount += effectiveAmount;
+        record.EffectCount += effectMultiplier;
+        return effectiveAmount;
     }
 
     public static IHoverTip CreateHoverTip()
@@ -338,12 +366,14 @@ public static class ThoughtMechanics
     private sealed class NarrationRecord
     {
         public int Amount { get; set; }
+        public int EffectCount { get; set; }
     }
 
     private sealed class PreviousCardRecord
     {
         public object? CombatState { get; set; }
         public bool WasConceive { get; set; }
+        public Type? CardType { get; set; }
     }
 
     private sealed class ThoughtCardPlayListener : ICardOnPlayHookListener
@@ -369,6 +399,7 @@ public static class ThoughtMechanics
             record.WasConceive =
                 context.CardPlay.Card.Keywords.Contains(
                     NymphKeywords.Conceive);
+            record.CardType = context.CardPlay.Card.GetType();
         }
     }
 }

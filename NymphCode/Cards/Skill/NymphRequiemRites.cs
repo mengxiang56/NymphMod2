@@ -80,7 +80,8 @@ public sealed class NymphRequiemRites : ModCardTemplate
         await PowerCmd.Apply<VulnerablePower>(
             choiceContext,
             cardPlay.Target,
-            DynamicVars.Vulnerable.IntValue,
+            DynamicVars.Vulnerable.IntValue
+                * ThoughtMechanics.NarrationEffectMultiplier(Owner),
             Owner.Creature,
             this);
     }

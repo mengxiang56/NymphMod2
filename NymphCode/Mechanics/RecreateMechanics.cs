@@ -2,6 +2,7 @@ using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes.Cards;
 using MegaCrit.Sts2.Core.Nodes.CommonUi;
@@ -319,13 +320,19 @@ public static class RecreateMechanics
             original is NymphMasterlessMemories
                 ? original.CombatState!
                     .CreateCard<NymphBagOfIdeas>(original.Owner)
+                : original is NymphNarrativeAnchor
+                    ? original.CombatState!
+                        .CreateCard<NymphNarrativeAnchor>(original.Owner)
                 : new CardTransformation(
                     original,
                     nymphCardPool).GetReplacement(
                     original.Owner.PlayerRng.Transformations)!;
 
+        int targetUpgradeLevel = original is NymphNarrativeAnchor
+            ? original.CurrentUpgradeLevel + 1
+            : original.CurrentUpgradeLevel;
         for (int i = 0;
-             i < original.CurrentUpgradeLevel && replacement.IsUpgradable;
+             i < targetUpgradeLevel && replacement.IsUpgradable;
              i++)
         {
             CardCmd.Upgrade(
@@ -337,6 +344,18 @@ public static class RecreateMechanics
         {
             replacement.EnergyCost.SetUntilPlayed(0);
             replacement.SetStarCostUntilPlayed(0);
+        }
+
+        if (original.Owner.Creature.GetPower<FutureLongingPower>()
+            is { } futureLonging)
+        {
+            foreach (DynamicVar variable in replacement.DynamicVars.Values)
+            {
+                variable.BaseValue += futureLonging.Amount;
+                variable.ResetToBase();
+            }
+
+            futureLonging.FlashForRecreate();
         }
 
         return new RecreateResult(

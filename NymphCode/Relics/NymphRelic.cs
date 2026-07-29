@@ -29,20 +29,22 @@ public sealed class NymphRelic : ModRelicTemplate
         await InspirationMechanics.AddRandom(Owner);
     }
 
-    public override async Task BeforeHandDraw(
-        Player player,
+    public override async Task AfterAutoPrePlayPhaseEntered(
         PlayerChoiceContext choiceContext,
-        ICombatState combatState)
+        Player player)
     {
-        if (player == Owner
-            && player.PlayerCombatState?.TurnNumber == 1)
+        if (player != Owner
+            || player.PlayerCombatState?.TurnNumber != 1
+            || player.Creature.CombatState is not ICombatState combatState)
         {
-            Flash();
-            await InspirationMechanics.OfferAtCombatStart(
-                player,
-                choiceContext,
-                combatState);
+            return;
         }
+
+        Flash();
+        await InspirationMechanics.OfferAtCombatStart(
+            player,
+            choiceContext,
+            combatState);
     }
 
     public override bool TryModifyRewards(

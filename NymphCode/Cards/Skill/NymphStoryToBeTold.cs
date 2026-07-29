@@ -72,7 +72,8 @@ public sealed class NymphStoryToBeTold : ModCardTemplate
         {
             await CardPileCmd.Draw(
                 choiceContext,
-                DynamicVars.Cards.IntValue,
+                DynamicVars.Cards.IntValue
+                    * ThoughtMechanics.NarrationEffectMultiplier(Owner),
                 Owner);
         }
     }

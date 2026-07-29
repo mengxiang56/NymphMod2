@@ -69,7 +69,12 @@ public sealed class NymphGatherIdea : ModCardTemplate
             narrated,
             ValueProp.Unpowered,
             cardPlay);
-        await MoveOneDiscardToHand(choiceContext);
+        for (int i = 0;
+             i < ThoughtMechanics.NarrationEffectMultiplier(Owner);
+             i++)
+        {
+            await MoveOneDiscardToHand(choiceContext);
+        }
     }
 
     private async Task MoveOneDiscardToHand(

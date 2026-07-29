@@ -5,7 +5,7 @@
   "NYMPH_DURABILITY.description": "Whenever this card is played, lose 1 Durability. At 0, remove this card from your deck."
 ,
   "NYMPH_CARDPILE_INSPIRATION.title": "Inspiration Pile",
-  "NYMPH_CARDPILE_INSPIRATION.description": "Stores Inspiration cards separately. At the start of combat, choose 1 Inspiration from the entire pile to add to your Hand, or skip.",
+  "NYMPH_CARDPILE_INSPIRATION.description": "Stores Inspiration cards separately. After you draw your opening hand each combat, choose 1 Inspiration from the entire pile to play immediately, or skip.",
   "NYMPH_CARDPILE_INSPIRATION.empty": "The Inspiration pile is empty.",
   "NYMPH_REWARD_INSPIRATION": "Obtain 1 random Inspiration card."
 }

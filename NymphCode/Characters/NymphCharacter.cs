@@ -21,6 +21,7 @@ public sealed class NymphCharacter : ModCharacterTemplate<NymphCardPool, NymphRe
     private const string MerchantScenePath = $"{SceneRoot}/Nymph_merchant.tscn";
     private const string RestSiteScenePath = $"{SceneRoot}/Nymph_rest_site.tscn";
     private const string CharacterSelectBgScenePath = $"{SceneRoot}/Nymph_character_select_bg.tscn";
+    private const string CompactIconScenePath = $"{SceneRoot}/Nymph_icon.tscn";
 
     // 角色名称颜色。
     public override Color NameColor => ThemeColor;
@@ -53,6 +54,8 @@ public sealed class NymphCharacter : ModCharacterTemplate<NymphCardPool, NymphRe
             IconTexturePath: $"{ImageRoot}/Nymph_character_icon.png",
             // 人物头像轮廓。
             IconOutlineTexturePath: $"{ImageRoot}/Nymph_character_icon_outline.png",
+            // 顶栏肖像、地图界面右上角等小图标（CharacterModel.IconPath 场景，不是 IconTexturePath）。
+            IconPath: CompactIconScenePath,
             // 人物选择背景。
             CharacterSelectBgPath: CharacterSelectBgScenePath,
             // 人物选择图标。

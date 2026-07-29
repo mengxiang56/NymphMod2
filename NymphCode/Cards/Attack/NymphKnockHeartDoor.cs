@@ -47,14 +47,13 @@ public sealed class NymphKnockHeartDoor : ModCardTemplate
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
 
-        int hitCount = DynamicVars["Hits"].IntValue;
-        if (cardPlay.Target.HasPower<NecrosisPower>())
+        if (cardPlay.Target.GetPower<NecrosisPower>() is { } necrosis)
         {
-            hitCount++;
+            necrosis.ReductionLockedThisTurn = true;
         }
 
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
-            .WithHitCount(hitCount)
+            .WithHitCount(DynamicVars["Hits"].IntValue)
             .FromCard(this, cardPlay)
             .Targeting(cardPlay.Target)
             .Execute(choiceContext);

@@ -72,13 +72,15 @@ public sealed class NymphFaceOff : ModCardTemplate
         await PowerCmd.Apply<StrengthPower>(
             choiceContext,
             Owner.Creature,
-            DynamicVars.Strength.IntValue,
+            DynamicVars.Strength.IntValue
+                * ThoughtMechanics.NarrationEffectMultiplier(Owner),
             Owner.Creature,
             this);
         await PowerCmd.Apply<StrengthPower>(
             choiceContext,
             cardPlay.Target,
-            DynamicVars["TargetStrength"].IntValue,
+            DynamicVars["TargetStrength"].IntValue
+                * ThoughtMechanics.NarrationEffectMultiplier(Owner),
             Owner.Creature,
             this);
     }

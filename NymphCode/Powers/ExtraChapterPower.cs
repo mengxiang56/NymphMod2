@@ -24,8 +24,10 @@ public sealed class ExtraChapterPower : ModPowerTemplate
         PlayerChoiceContext choiceContext,
         CardPlay cardPlay)
     {
+        int effectCount =
+            ThoughtMechanics.NarrationEffectCount(cardPlay);
         if (cardPlay.Card.Owner != Owner.Player
-            || ThoughtMechanics.NarratedAmount(cardPlay) <= 0)
+            || effectCount <= 0)
         {
             return;
         }
@@ -33,7 +35,7 @@ public sealed class ExtraChapterPower : ModPowerTemplate
         Flash();
         await CreatureCmd.GainBlock(
             Owner,
-            Amount,
+            Amount * effectCount,
             ValueProp.Unpowered,
             cardPlay);
     }

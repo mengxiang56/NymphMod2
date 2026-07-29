@@ -28,7 +28,7 @@ public sealed class NymphSoulFurnaceFuel : ModCardTemplate
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(9, ValueProp.Move)
+        new DamageVar(8, ValueProp.Move)
     ];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
@@ -47,28 +47,20 @@ public sealed class NymphSoulFurnaceFuel : ModCardTemplate
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
 
-        int narrated = await ThoughtMechanics.NarrateAll(
-            choiceContext,
-            cardPlay);
-        if (narrated > 0)
-        {
-            await CreatureCmd.GainBlock(
-                Owner.Creature,
-                narrated,
-                ValueProp.Unpowered,
-                cardPlay);
-        }
-
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this, cardPlay)
             .Targeting(cardPlay.Target)
             .Execute(choiceContext);
 
+        int narrated = await ThoughtMechanics.NarrateAll(
+            choiceContext,
+            cardPlay);
         DynamicVars.Damage.BaseValue += narrated;
+        DynamicVars.Damage.ResetToBase();
     }
 
     protected override void OnUpgrade()
     {
-        EnergyCost.UpgradeBy(-1);
+        DynamicVars.Damage.UpgradeValueBy(4);
     }
 }

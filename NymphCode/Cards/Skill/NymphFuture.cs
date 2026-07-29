@@ -70,7 +70,8 @@ public sealed class NymphFuture : ModCardTemplate
                 cardPlay);
             await CardPileCmd.Draw(
                 choiceContext,
-                DynamicVars["Draw"].IntValue,
+                DynamicVars["Draw"].IntValue
+                    * ThoughtMechanics.NarrationEffectMultiplier(Owner),
                 Owner);
         }
     }

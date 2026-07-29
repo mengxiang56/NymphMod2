@@ -69,7 +69,8 @@ public sealed class NymphHolyCityEmbrace : ModCardTemplate
             await PowerCmd.Apply<HolyCityEmbracePower>(
                 choiceContext,
                 Owner.Creature,
-                DynamicVars["Reduction"].IntValue,
+                DynamicVars["Reduction"].IntValue
+                    * ThoughtMechanics.NarrationEffectMultiplier(Owner),
                 Owner.Creature,
                 this);
         }
