@@ -1,6 +1,8 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Models.Cards;
 using Nymph.Characters;
 using Nymph.Mechanics;
 using Nymph.Powers;
@@ -15,6 +17,11 @@ public sealed class NymphConstructHistoryForm : ModCardTemplate
     public override CardAssetProfile AssetProfile => new(
         PortraitPath: $"{Entry.ResPath}/images/cards/{GetType().Name}.png",
         FramePath: $"{Entry.ResPath}/images/cards/frames/bg_power_sts2.png");
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromCard<Discovery>()
+    ];
 
     public NymphConstructHistoryForm()
         : base(3, CardType.Power, CardRarity.Rare, TargetType.Self, true)

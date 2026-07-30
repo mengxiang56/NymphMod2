@@ -3,6 +3,7 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models.Powers;
 using Nymph.Characters;
 using Nymph.Mechanics;
 using Nymph.Powers;
@@ -26,7 +27,8 @@ public sealed class NymphExtraChapter : ModCardTemplate
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        ModKeywordRegistry.CreateHoverTip(NymphKeywords.NarrateId)
+        ModKeywordRegistry.CreateHoverTip(NymphKeywords.NarrateId),
+        HoverTipFactory.Static(StaticHoverTip.Block)
     ];
 
     public NymphExtraChapter()

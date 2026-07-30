@@ -9,21 +9,6 @@ namespace Nymph.Patches;
 [HarmonyPatch(typeof(NCardPileScreen), nameof(NCardPileScreen._Ready))]
 internal static class InspirationPileScreenPatch
 {
-    private static bool _isApplied;
-
-    public static void Apply()
-    {
-        if (_isApplied)
-        {
-            return;
-        }
-
-        new Harmony($"{Entry.ModId}.InspirationPileScreen")
-            .CreateClassProcessor(typeof(InspirationPileScreenPatch))
-            .Patch();
-        _isApplied = true;
-    }
-
     [HarmonyPostfix]
     private static void ShowDescription(NCardPileScreen __instance)
     {

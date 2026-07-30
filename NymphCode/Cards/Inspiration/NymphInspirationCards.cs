@@ -1,6 +1,7 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
@@ -14,9 +15,12 @@ namespace Nymph.Cards;
 
 public abstract class NymphInspirationCard : ModCardTemplate
 {
+    protected const int CreateAmount = 4;
+
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
     [
-        CardKeyword.Exhaust
+        CardKeyword.Exhaust,
+        NymphKeywords.Conceive
     ];
 
     public override CardAssetProfile AssetProfile => new(
@@ -48,6 +52,11 @@ public abstract class NymphInspirationCard : ModCardTemplate
             1,
             Owner.Creature,
             this);
+        await ThoughtMechanics.Create(
+            choiceContext,
+            Owner,
+            CreateAmount,
+            this);
         await ApplyInspiration(choiceContext, cardPlay);
     }
 
@@ -60,6 +69,7 @@ public abstract class NymphHandCostInspiration : NymphInspirationCard
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
+        new DynamicVar("Create", CreateAmount),
         new DynamicVar("Amount", 1)
     ];
 
@@ -127,6 +137,7 @@ public abstract class NymphSelfPowerInspiration<TPower>
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
+        new DynamicVar("Create", CreateAmount),
         new DynamicVar("Amount", Amount)
     ];
 
@@ -136,6 +147,11 @@ public abstract class NymphSelfPowerInspiration<TPower>
         : base(rarity)
     {
     }
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<TPower>()
+    ];
 
     protected override async Task ApplyInspiration(
         PlayerChoiceContext choiceContext,
@@ -215,6 +231,7 @@ public abstract class NymphStrengthTransferInspiration
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
+        new DynamicVar("Create", CreateAmount),
         new DynamicVar("Amount", Amount)
     ];
 
@@ -224,6 +241,11 @@ public abstract class NymphStrengthTransferInspiration
         : base(rarity, TargetType.AnyEnemy)
     {
     }
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<StrengthPower>()
+    ];
 
     protected override async Task ApplyInspiration(
         PlayerChoiceContext choiceContext,
@@ -269,6 +291,7 @@ public abstract class NymphGoldInspiration : NymphInspirationCard
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
+        new DynamicVar("Create", CreateAmount),
         new DynamicVar("Gold", Gold)
     ];
 
@@ -311,6 +334,7 @@ public abstract class NymphDrawInspiration<TPower>
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
+        new DynamicVar("Create", CreateAmount),
         new CardsVar(DrawAmount),
         new DynamicVar("Turns", 2)
     ];

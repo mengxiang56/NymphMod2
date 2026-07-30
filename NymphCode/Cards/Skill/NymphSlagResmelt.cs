@@ -31,7 +31,8 @@ public sealed class NymphSlagResmelt : ModCardTemplate
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        HoverTipFactory.FromCard<Fuel>()
+        HoverTipFactory.FromCard<Fuel>(),
+        HoverTipFactory.FromKeyword(CardKeyword.Retain)
     ];
 
     public NymphSlagResmelt()

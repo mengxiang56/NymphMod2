@@ -36,7 +36,7 @@ public partial class Entry
 
         ThoughtMechanics.Initialize();
         InspirationMechanics.Initialize();
-        InspirationPileScreenPatch.Apply();
+        NymphPatchBootstrap.Apply();
         ModRewardRegistry.For(ModId).RegisterOwned(
             InspirationReward.LocalRewardStem,
             (_, player, _) => new InspirationReward(player));

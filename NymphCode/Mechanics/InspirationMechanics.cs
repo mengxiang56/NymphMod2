@@ -1,12 +1,17 @@
+using Godot;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Context;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Nodes;
+using MegaCrit.Sts2.Core.Nodes.Cards;
+using MegaCrit.Sts2.Core.Nodes.Vfx;
 using Nymph.Cards;
 using Nymph.Characters;
 using STS2RitsuLib.CardPiles;
@@ -15,6 +20,9 @@ namespace Nymph.Mechanics;
 
 public static class InspirationMechanics
 {
+    private static readonly List<CardPileAddResult>
+        PendingInitialPreviews = [];
+
     public const string PileStem = "Inspiration";
     public const string PileId = "NYMPH_CARDPILE_INSPIRATION";
     public const string PileIconPath =
@@ -64,8 +72,84 @@ public static class InspirationMechanics
     public static async Task<CardModel> AddRandom(Player player)
     {
         CardModel card = CreateRandomCard(player);
-        await CardPileCmd.Add(card, PileType);
+        CardPileAddResult result = await CardPileCmd.Add(card, PileType);
+        QueueInitialCardPreview(result);
         return card;
+    }
+
+    private static void QueueInitialCardPreview(
+        CardPileAddResult result)
+    {
+        if (result.success)
+        {
+            PendingInitialPreviews.Add(result);
+        }
+    }
+
+    public static void FlushPendingInitialPreviews()
+    {
+        NRun? run = NRun.Instance;
+        if (run is null || PendingInitialPreviews.Count == 0)
+        {
+            return;
+        }
+
+        foreach (CardPileAddResult result in PendingInitialPreviews)
+        {
+            if (result.success && LocalContext.IsMine(result.cardAdded))
+            {
+                PreviewInitialInspiration(run, result.cardAdded);
+            }
+        }
+
+        PendingInitialPreviews.Clear();
+    }
+
+    private static void PreviewInitialInspiration(
+        NRun run,
+        CardModel card)
+    {
+        NCard? cardNode = NCard.Create(card);
+        if (cardNode is null)
+        {
+            return;
+        }
+
+        run.GlobalUi.CardPreviewContainer.AddChild(cardNode);
+        cardNode.UpdateVisuals(PileType, CardPreviewMode.Normal);
+
+        Tween tween = cardNode.CreateTween();
+        tween.TweenProperty(
+                cardNode,
+                "scale",
+                Vector2.One,
+                0.25)
+            .From(Vector2.Zero)
+            .SetEase(Tween.EaseType.Out)
+            .SetTrans(Tween.TransitionType.Cubic);
+        tween.TweenCallback(Callable.From(() =>
+        {
+            NRun? currentRun = NRun.Instance;
+            if (currentRun is null ||
+                !GodotObject.IsInstanceValid(cardNode))
+            {
+                return;
+            }
+
+            NCardFlyVfx? flyVfx = NCardFlyVfx.Create(
+                cardNode,
+                PileType,
+                true,
+                card.Owner.Character.TrailPath);
+            if (flyVfx is null)
+            {
+                cardNode.QueueFree();
+                return;
+            }
+
+            currentRun.GlobalUi.TopBar.TrailContainer
+                .AddChild(flyVfx);
+        })).SetDelay(2f);
     }
 
     public static async Task AddToPile(CardModel card)

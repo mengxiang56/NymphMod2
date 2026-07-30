@@ -1,6 +1,7 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using Nymph.Characters;
 using Nymph.Powers;
@@ -21,7 +22,13 @@ public sealed class NymphMindsRipple : ModCardTemplate
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new PowerVar<NecrosisPower>(2),
-        new DynamicVar("BonusTimes", 0)
+        new DynamicVar("BonusTimes", 0),
+        new DynamicVar("TriggerMultiplier", 3)
+    ];
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<NecrosisPower>()
     ];
 
     public NymphMindsRipple()
@@ -34,9 +41,9 @@ public sealed class NymphMindsRipple : ModCardTemplate
         CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
-        int times =
-            ResolveEnergyXValue() + DynamicVars["BonusTimes"].IntValue;
-        for (int i = 0; i < times; i++)
+        int x = ResolveEnergyXValue();
+        int applyTimes = x + DynamicVars["BonusTimes"].IntValue;
+        for (int i = 0; i < applyTimes; i++)
         {
             await PowerCmd.Apply<NecrosisPower>(
                 choiceContext,
@@ -44,6 +51,15 @@ public sealed class NymphMindsRipple : ModCardTemplate
                 DynamicVars["NecrosisPower"].IntValue,
                 Owner.Creature,
                 this);
+        }
+
+        if (cardPlay.Target.GetPower<NecrosisPower>() is { } necrosis)
+        {
+            await necrosis.Trigger(
+                choiceContext,
+                Owner.Creature,
+                this,
+                DynamicVars["TriggerMultiplier"].IntValue * x);
         }
     }
 

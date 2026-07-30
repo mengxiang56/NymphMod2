@@ -15,10 +15,9 @@ using STS2RitsuLib.Scaffolding.Content;
 namespace Nymph.Relics;
 
 [RegisterRelic(typeof(NymphRelicPool))]
-[RegisterCharacterStarterRelic(typeof(NymphCharacter))]
 public sealed class NymphHeartSeal : ModRelicTemplate
 {
-    public override RelicRarity Rarity => RelicRarity.Starter;
+    public override RelicRarity Rarity => RelicRarity.Uncommon;
 
     public override RelicAssetProfile AssetProfile => new(
         IconPath: $"{Entry.ResPath}/images/relics/{GetType().Name}.png",
