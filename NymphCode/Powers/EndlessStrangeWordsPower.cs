@@ -18,8 +18,8 @@ public sealed class EndlessStrangeWordsPower : ModPowerTemplate
     public override bool AllowNegative => false;
 
     public override PowerAssetProfile AssetProfile => new(
-        IconPath: $"{Entry.ResPath}/images/cards/NymphEndlessStrangeWords.png",
-        BigIconPath: $"{Entry.ResPath}/images/cards/NymphEndlessStrangeWords.png");
+        IconPath: $"{Entry.ResPath}/images/powers/EndlessStoryPower32.png",
+        BigIconPath: $"{Entry.ResPath}/images/powers/EndlessStoryPower84.png");
 
     [SavedProperty]
     public bool ViceVersa { get; set; }

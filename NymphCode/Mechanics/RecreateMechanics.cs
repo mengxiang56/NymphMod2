@@ -310,7 +310,8 @@ public static class RecreateMechanics
                     or CardType.Power
                 && card.Rarity is CardRarity.Common
                     or CardRarity.Uncommon
-                    or CardRarity.Rare);
+                    or CardRarity.Rare
+                && card is not IHasMetaBenefit);
         if (replacementFilter is not null)
         {
             nymphCardPool = nymphCardPool.Where(replacementFilter);
@@ -351,6 +352,11 @@ public static class RecreateMechanics
         {
             foreach (DynamicVar variable in replacement.DynamicVars.Values)
             {
+                if (variable.Name == "Energy")
+                {
+                    continue;
+                }
+
                 variable.BaseValue += futureLonging.Amount;
                 variable.ResetToBase();
             }

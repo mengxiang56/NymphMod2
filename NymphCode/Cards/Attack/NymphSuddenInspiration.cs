@@ -3,21 +3,24 @@ using MegaCrit.Sts2.Core.Commands.Builders;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.ValueProps;
 using Nymph.Characters;
+using Nymph.Mechanics;
 using Nymph.Rewards;
 using STS2RitsuLib.Interop.AutoRegistration;
+using STS2RitsuLib.Keywords;
 using STS2RitsuLib.Scaffolding.Content;
 
 namespace Nymph.Cards;
 
 [RegisterCard(typeof(NymphCardPool))]
-public sealed class NymphSuddenInspiration : ModCardTemplate
+public sealed class NymphSuddenInspiration : ModCardTemplate, IHasMetaBenefit
 {
+    private const int FatalInspirationRewardCount = 1;
+
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
     [
         CardKeyword.Exhaust
@@ -34,13 +37,8 @@ public sealed class NymphSuddenInspiration : ModCardTemplate
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        new HoverTip(
-            new LocString(
-                "static_hover_tips",
-                "NYMPH_CARDPILE_INSPIRATION.title"),
-            new LocString(
-                "static_hover_tips",
-                "NYMPH_CARDPILE_INSPIRATION.description"))
+        HoverTipFactory.Static(StaticHoverTip.Fatal),
+        ModKeywordRegistry.CreateHoverTip(NymphKeywords.InspirationId),
     ];
 
     public NymphSuddenInspiration()
@@ -74,7 +72,10 @@ public sealed class NymphSuddenInspiration : ModCardTemplate
             return;
         }
 
-        combatRoom.AddExtraReward(Owner, new InspirationReward(Owner));
+        for (int i = 0; i < FatalInspirationRewardCount; i++)
+        {
+            combatRoom.AddExtraReward(Owner, new InspirationReward(Owner));
+        }
     }
 
     protected override void OnUpgrade()

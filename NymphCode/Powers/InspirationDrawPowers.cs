@@ -21,6 +21,12 @@ public abstract class InspirationDrawPower : ModPowerTemplate
     public override PowerStackType StackType => PowerStackType.Counter;
     protected abstract int CardsToDraw { get; }
 
+    public override PowerAssetProfile AssetProfile => new(
+        IconPath:
+            $"{Entry.ResPath}/images/powers/DrawCardEachTurnPower32.png",
+        BigIconPath:
+            $"{Entry.ResPath}/images/powers/DrawCardEachTurnPower84.png");
+
     public override async Task AfterPlayerTurnStart(
         PlayerChoiceContext choiceContext,
         Player player)

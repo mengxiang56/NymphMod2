@@ -1,6 +1,8 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using Nymph.Characters;
 using Nymph.Powers;
@@ -27,8 +29,13 @@ public sealed class NymphEmpathy : ModCardTemplate
         new DynamicVar("Interval", 1)
     ];
 
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<NecrosisPower>()
+    ];
+
     public NymphEmpathy()
-        : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.AnyEnemy, true)
+        : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.AllEnemies, true)
     {
     }
 
@@ -36,15 +43,23 @@ public sealed class NymphEmpathy : ModCardTemplate
         PlayerChoiceContext choiceContext,
         CardPlay cardPlay)
     {
-        ArgumentNullException.ThrowIfNull(cardPlay.Target);
+        IEnumerable<Creature> enemies = CombatState!
+            .GetOpponentsOf(Owner.Creature)
+            .Where(opponent => !opponent.IsDead);
+
         await PowerCmd.Apply<NecrosisPower>(
             choiceContext,
-            cardPlay.Target,
+            enemies,
             DynamicVars["NecrosisPower"].IntValue,
             Owner.Creature,
             this);
-        cardPlay.Target.GetPower<NecrosisPower>()?
-            .IncreaseCardsPerLayerLoss(DynamicVars["Interval"].IntValue);
+
+        int interval = DynamicVars["Interval"].IntValue;
+        foreach (Creature enemy in enemies.Where(enemy => !enemy.IsDead))
+        {
+            enemy.GetPower<NecrosisPower>()?
+                .IncreaseCardsPerLayerLoss(interval);
+        }
     }
 
     protected override void OnUpgrade()

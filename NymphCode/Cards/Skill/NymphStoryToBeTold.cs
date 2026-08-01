@@ -37,7 +37,6 @@ public sealed class NymphStoryToBeTold : ModCardTemplate
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        ThoughtMechanics.CreateHoverTip(),
         ModKeywordRegistry.CreateHoverTip(
             NymphKeywords.ConceiveId)
     ];

@@ -23,7 +23,8 @@ public sealed class NymphKnockHeartDoor : ModCardTemplate
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new DamageVar(4, ValueProp.Move),
-        new DynamicVar("Hits", 2)
+        new DynamicVar("Hits", 2),
+        new DynamicVar("ExtraTriggers", 2)
     ];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
@@ -47,20 +48,25 @@ public sealed class NymphKnockHeartDoor : ModCardTemplate
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
 
-        if (cardPlay.Target.GetPower<NecrosisPower>() is { } necrosis)
-        {
-            necrosis.ReductionLockedThisTurn = true;
-        }
-
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .WithHitCount(DynamicVars["Hits"].IntValue)
             .FromCard(this, cardPlay)
             .Targeting(cardPlay.Target)
             .Execute(choiceContext);
+
+        if (cardPlay.Target.GetPower<NecrosisPower>() is { } necrosis)
+        {
+            await necrosis.Trigger(
+                choiceContext,
+                Owner.Creature,
+                this,
+                DynamicVars["ExtraTriggers"].IntValue);
+        }
     }
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(2);
+        DynamicVars["Hits"].UpgradeValueBy(1);
+        DynamicVars["ExtraTriggers"].UpgradeValueBy(1);
     }
 }

@@ -22,12 +22,13 @@ public sealed class NymphNarrativeAnchor : ModCardTemplate
     ];
 
     public override CardAssetProfile AssetProfile => new(
-        PortraitPath: $"{Entry.ResPath}/images/cards/{GetType().Name}.png",
+        PortraitPath:
+            $"{Entry.ResPath}/images/cards/{nameof(NymphNarrativeAnchor)}.png",
         FramePath: $"{Entry.ResPath}/images/cards/frames/bg_attack_sts2.png");
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(9, ValueProp.Move)
+        new DamageVar(12, ValueProp.Move)
     ];
 
     public NymphNarrativeAnchor()
@@ -48,5 +49,6 @@ public sealed class NymphNarrativeAnchor : ModCardTemplate
 
     protected override void OnUpgrade()
     {
+        DynamicVars.Damage.UpgradeValueBy(4 + CurrentUpgradeLevel - 1);
     }
 }

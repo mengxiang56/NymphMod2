@@ -24,6 +24,8 @@ public sealed class NymphNewBranch : ModCardTemplate
     private static readonly BlockingPlayerChoiceContext PendingChoiceContext = new();
     private static bool _flushSubscribed;
 
+    private bool _manualPlayStarted;
+
     public static void EnsureAutoPlayFlushSubscribed()
     {
         if (_flushSubscribed)
@@ -41,13 +43,43 @@ public sealed class NymphNewBranch : ModCardTemplate
         _ = FlushPendingAutoPlaysAsync();
     }
 
+    private static void RemoveFromPendingAutoPlays(NymphNewBranch card)
+    {
+        if (PendingAutoPlays.Count == 0)
+        {
+            return;
+        }
+
+        int count = PendingAutoPlays.Count;
+        for (int i = 0; i < count; i++)
+        {
+            NymphNewBranch pending = PendingAutoPlays.Dequeue();
+            if (pending != card)
+            {
+                PendingAutoPlays.Enqueue(pending);
+            }
+        }
+    }
+
+    public override Task BeforeCardPlayed(CardPlay cardPlay)
+    {
+        if (cardPlay.Card == this)
+        {
+            _manualPlayStarted = true;
+            RemoveFromPendingAutoPlays(this);
+        }
+
+        return Task.CompletedTask;
+    }
+
     private static async Task FlushPendingAutoPlaysAsync()
     {
         await Cmd.Wait(0f);
         while (PendingAutoPlays.Count > 0)
         {
             NymphNewBranch card = PendingAutoPlays.Dequeue();
-            if (card.Pile?.Type != PileType.Hand
+            if (card._manualPlayStarted
+                || card.Pile?.Type != PileType.Hand
                 || card.CombatState is null
                 || CombatManager.Instance.IsOverOrEnding)
             {
@@ -90,7 +122,7 @@ public sealed class NymphNewBranch : ModCardTemplate
         CardModel card,
         bool fromHandDraw)
     {
-        if (card != this || CombatState is null)
+        if (card != this || CombatState is null || _manualPlayStarted)
         {
             return;
         }
@@ -107,6 +139,11 @@ public sealed class NymphNewBranch : ModCardTemplate
 
     private async Task AutoPlayFromDraw(PlayerChoiceContext choiceContext)
     {
+        if (_manualPlayStarted || Pile?.Type != PileType.Hand)
+        {
+            return;
+        }
+
         Creature? target = Owner.RunState.Rng.CombatTargets.NextItem(
             CombatState!
                 .GetOpponentsOf(Owner.Creature)

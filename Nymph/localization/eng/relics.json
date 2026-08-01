@@ -1,6 +1,6 @@
 {
   "NYMPH_RELIC_NYMPH_RELIC.title": "Count Spiritseeker",
-  "NYMPH_RELIC_NYMPH_RELIC.description": "Upon pickup, obtain 1 random Inspiration. Normal combats have a 25% chance to drop another; Elite and Boss combats always do.",
+  "NYMPH_RELIC_NYMPH_RELIC.description": "Upon pickup, obtain 1 random Inspiration. Normal combats use dynamic Inspiration drop odds like Potions; Elite and Boss combats always drop another.",
   "NYMPH_RELIC_NYMPH_RELIC.inspirationSelectionPrompt": "After drawing your hand, choose 1 Inspiration to play immediately, or skip.",
   "NYMPH_RELIC_NYMPH_RELIC.flavor": "Albrecht von Xishou, Count of the Rosehorn Spire, promises to return with lost treasure and hidden wisdom.",
   "NYMPH_RELIC_NYMPH_HEART_SEAL.title": "Heart-to-Heart Seal",

@@ -20,9 +20,9 @@ public sealed class ParallelNarrativePower : ModPowerTemplate
 
     public override PowerAssetProfile AssetProfile => new(
         IconPath:
-            $"{Entry.ResPath}/images/cards/NymphParallelNarrative.png",
+            $"{Entry.ResPath}/images/powers/ParallelNarrativePower32.png",
         BigIconPath:
-            $"{Entry.ResPath}/images/cards/NymphParallelNarrative.png");
+            $"{Entry.ResPath}/images/powers/ParallelNarrativePower84.png");
 
     public override int ModifyCardPlayCount(
         CardModel card,

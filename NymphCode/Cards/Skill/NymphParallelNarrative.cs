@@ -31,7 +31,6 @@ public sealed class NymphParallelNarrative : ModCardTemplate
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        ThoughtMechanics.CreateHoverTip(),
         HoverTipFactory.FromPower<ParallelNarrativePower>()
     ];
 

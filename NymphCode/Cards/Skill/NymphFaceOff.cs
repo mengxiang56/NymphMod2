@@ -40,7 +40,6 @@ public sealed class NymphFaceOff : ModCardTemplate
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        ThoughtMechanics.CreateHoverTip(),
         HoverTipFactory.FromPower<StrengthPower>()
     ];
 

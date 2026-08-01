@@ -3,6 +3,8 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Factories;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes.CommonUi;
 using Nymph.Characters;
@@ -11,6 +13,16 @@ namespace Nymph.Mechanics;
 
 public static class DiscoveryMechanics
 {
+    public const string HoverTipTitleKey = "NYMPH_DISCOVERY.title";
+    public const string HoverTipDescriptionKey = "NYMPH_DISCOVERY.description";
+
+    public static IHoverTip CreateHoverTip()
+    {
+        return new HoverTip(
+            new LocString("static_hover_tips", HoverTipTitleKey),
+            new LocString("static_hover_tips", HoverTipDescriptionKey));
+    }
+
     public static async Task Discover(
         PlayerChoiceContext choiceContext,
         Player player,

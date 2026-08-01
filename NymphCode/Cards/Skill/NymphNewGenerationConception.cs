@@ -23,7 +23,7 @@ public sealed class NymphNewGenerationConception : ModCardTemplate
         FramePath: $"{Entry.ResPath}/images/cards/frames/bg_skill_sts2.png");
 
     public NymphNewGenerationConception()
-        : base(0, CardType.Skill, CardRarity.Rare, TargetType.Self, true)
+        : base(1, CardType.Skill, CardRarity.Rare, TargetType.Self, true)
     {
     }
 

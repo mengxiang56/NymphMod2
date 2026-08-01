@@ -19,7 +19,7 @@ public abstract class NymphInspirationCard : ModCardTemplate
 
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
     [
-        CardKeyword.Exhaust,
+        NymphKeywords.Inspiration,
         NymphKeywords.Conceive
     ];
 
@@ -58,6 +58,7 @@ public abstract class NymphInspirationCard : ModCardTemplate
             CreateAmount,
             this);
         await ApplyInspiration(choiceContext, cardPlay);
+        await InspirationMechanics.RemoveFromCombatAfterPlayed(this);
     }
 
     protected abstract Task ApplyInspiration(

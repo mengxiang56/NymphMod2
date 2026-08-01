@@ -18,8 +18,8 @@ public sealed class ConstructHistoryFormPower : ModPowerTemplate
     public override bool AllowNegative => false;
 
     public override PowerAssetProfile AssetProfile => new(
-        IconPath: $"{Entry.ResPath}/images/cards/NymphConstructHistoryForm.png",
-        BigIconPath: $"{Entry.ResPath}/images/cards/NymphConstructHistoryForm.png");
+        IconPath: $"{Entry.ResPath}/images/powers/CreateHistoryPower32.png",
+        BigIconPath: $"{Entry.ResPath}/images/powers/CreateHistoryPower84.png");
 
     [SavedProperty]
     public int UpgradedDiscoveries

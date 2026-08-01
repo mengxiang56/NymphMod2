@@ -13,6 +13,6 @@ public sealed class NecrosisPermanentLockPower : ModPowerTemplate
     protected override bool IsVisibleInternal => false;
 
     public override PowerAssetProfile AssetProfile => new(
-        IconPath: $"{Entry.ResPath}/images/cards/NymphLostSoul.png",
-        BigIconPath: $"{Entry.ResPath}/images/cards/NymphLostSoul.png");
+        IconPath: $"{Entry.ResPath}/images/powers/SoulStolenPower32.png",
+        BigIconPath: $"{Entry.ResPath}/images/powers/SoulStolenPower84.png");
 }

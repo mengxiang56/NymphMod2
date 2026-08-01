@@ -4,5 +4,9 @@
   "NYMPH_KEYWORD_NARRATE.title": "Narrate",
   "NYMPH_KEYWORD_NARRATE.description": "If you have enough Thought, spend the corresponding amount and gain that much Block. Then trigger any follow-up effect.",
   "NYMPH_KEYWORD_RECREATE.title": "Recreate Card",
-  "NYMPH_KEYWORD_RECREATE.description": "Transform the target card into a random card from this character's card pool, add it to your Hand, and preserve its upgrade status."
+  "NYMPH_KEYWORD_RECREATE.description": "Transform the target card into a random card from this character's card pool, add it to your Hand, and preserve its upgrade status.",
+  "NYMPH_KEYWORD_RECREATE_POTION.title": "Recreate Potion",
+  "NYMPH_KEYWORD_RECREATE_POTION.description": "Transform into a random Potion.",
+  "NYMPH_KEYWORD_INSPIRATION.title": "Inspiration",
+  "NYMPH_KEYWORD_INSPIRATION.description": "A series of Inspiration cards. Only the 1st Inspiration used each combat takes effect."
 }

@@ -39,7 +39,9 @@ public partial class Entry
         NymphPatchBootstrap.Apply();
         ModRewardRegistry.For(ModId).RegisterOwned(
             InspirationReward.LocalRewardStem,
-            (_, player, _) => new InspirationReward(player));
+            (_, player, json) => new InspirationReward(
+                player,
+                InspirationReward.ParseForcedRarity(json)));
 
         // 自动注册扫描会读取当前程序集里的 RegisterCard/RegisterRelic 等 attribute。
         // 新增内容类后，只要 attribute 写对，通常不需要在入口里手动逐个注册。

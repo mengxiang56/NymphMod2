@@ -1,4 +1,5 @@
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
@@ -8,7 +9,9 @@ using STS2RitsuLib.Combat.Rewards;
 
 namespace Nymph.Rewards;
 
-public sealed class InspirationReward(Player player) : ModCustomReward(player)
+public sealed class InspirationReward(
+    Player player,
+    CardRarity? forcedRarity = null) : ModCustomReward(player)
 {
     public const string LocalRewardStem = "Inspiration";
     public const string RewardId = "NYMPH_REWARD_INSPIRATION";
@@ -28,6 +31,16 @@ public sealed class InspirationReward(Player player) : ModCustomReward(player)
     protected override string DescriptionLocTable =>
         "static_hover_tips";
 
+    public static CardRarity? ParseForcedRarity(string? json)
+    {
+        return Enum.TryParse(json, out CardRarity rarity) ? rarity : null;
+    }
+
+    public override string? ToModRewardJson()
+    {
+        return forcedRarity?.ToString();
+    }
+
     public override void Populate()
     {
         if (_offeredCard is not null)
@@ -35,12 +48,14 @@ public sealed class InspirationReward(Player player) : ModCustomReward(player)
             return;
         }
 
-        _offeredCard = InspirationMechanics.CreateRandomCard(Player);
+        _offeredCard =
+            InspirationMechanics.CreateRandomCard(Player, forcedRarity);
     }
 
     protected override async Task<bool> OnSelect()
     {
-        _offeredCard ??= InspirationMechanics.CreateRandomCard(Player);
+        _offeredCard ??=
+            InspirationMechanics.CreateRandomCard(Player, forcedRarity);
         CardModel offered = _offeredCard;
         _offeredCard = null;
 

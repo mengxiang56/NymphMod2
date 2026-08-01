@@ -2,9 +2,12 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using Nymph.Characters;
+using Nymph.Mechanics;
 using Nymph.Powers;
 using STS2RitsuLib.Interop.AutoRegistration;
+using STS2RitsuLib.Keywords;
 using STS2RitsuLib.Scaffolding.Content;
 
 namespace Nymph.Cards;
@@ -18,7 +21,13 @@ public sealed class NymphSmallKindness : ModCardTemplate
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
+        ModKeywordRegistry.CreateHoverTip(NymphKeywords.NarrateId),
         HoverTipFactory.FromPower<NecrosisPower>()
+    ];
+
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+    [
+        new PowerVar<SmallKindnessPower>(1)
     ];
 
     public NymphSmallKindness()
@@ -33,13 +42,13 @@ public sealed class NymphSmallKindness : ModCardTemplate
         await PowerCmd.Apply<SmallKindnessPower>(
             choiceContext,
             Owner.Creature,
-            1,
+            DynamicVars["SmallKindnessPower"].IntValue,
             Owner.Creature,
             this);
     }
 
     protected override void OnUpgrade()
     {
-        EnergyCost.UpgradeBy(-1);
+        DynamicVars["SmallKindnessPower"].UpgradeValueBy(1);
     }
 }

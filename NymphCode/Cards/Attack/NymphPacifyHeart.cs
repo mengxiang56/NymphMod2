@@ -21,12 +21,13 @@ public sealed class NymphPacifyHeart : ModCardTemplate
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new DamageVar(4, ValueProp.Move),
-        new DynamicVar("ExtraTriggers", 2)
+        new PowerVar<NecrosisReductionBarrierPower>(1)
     ];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        HoverTipFactory.FromPower<NecrosisPower>()
+        HoverTipFactory.FromPower<NecrosisPower>(),
+        HoverTipFactory.FromPower<NecrosisReductionBarrierPower>()
     ];
 
     public NymphPacifyHeart()
@@ -45,19 +46,22 @@ public sealed class NymphPacifyHeart : ModCardTemplate
             .Targeting(cardPlay.Target)
             .Execute(choiceContext);
 
-        if (cardPlay.Target.GetPower<NecrosisPower>() is { } necrosis)
+        if (cardPlay.Target.GetPower<NecrosisPower>() is null)
         {
-            await necrosis.Trigger(
-                choiceContext,
-                Owner.Creature,
-                this,
-                DynamicVars["ExtraTriggers"].IntValue);
+            return;
         }
+
+        await PowerCmd.Apply<NecrosisReductionBarrierPower>(
+            choiceContext,
+            cardPlay.Target,
+            DynamicVars["NecrosisReductionBarrierPower"].IntValue,
+            Owner.Creature,
+            this);
     }
 
     protected override void OnUpgrade()
     {
         DynamicVars.Damage.UpgradeValueBy(2);
-        DynamicVars["ExtraTriggers"].UpgradeValueBy(1);
+        DynamicVars["NecrosisReductionBarrierPower"].UpgradeValueBy(1);
     }
 }

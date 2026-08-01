@@ -14,6 +14,6 @@ public sealed class ThoughtThresholdPower : ModPowerTemplate
     public override bool ShouldPlayVfx => false;
 
     public override PowerAssetProfile AssetProfile => new(
-        IconPath: $"{Entry.ResPath}/images/ui/thought/thought_clear.png",
-        BigIconPath: $"{Entry.ResPath}/images/ui/thought/thought_clear.png");
+        IconPath: $"{Entry.ResPath}/images/powers/AddLimitPower32.png",
+        BigIconPath: $"{Entry.ResPath}/images/powers/AddLimitPower84.png");
 }

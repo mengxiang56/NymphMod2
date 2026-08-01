@@ -40,7 +40,6 @@ public sealed class NymphRequiemRites : ModCardTemplate
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        ThoughtMechanics.CreateHoverTip(),
         HoverTipFactory.FromPower<WeakPower>(),
         HoverTipFactory.FromPower<VulnerablePower>()
     ];

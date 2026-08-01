@@ -12,6 +12,6 @@ public sealed class NecrosisReductionBarrierPower : ModPowerTemplate
     public override bool AllowNegative => false;
 
     public override PowerAssetProfile AssetProfile => new(
-        IconPath: $"{Entry.ResPath}/images/relics/NymphRelic.png",
-        BigIconPath: $"{Entry.ResPath}/images/relics/NymphRelic.png");
+        IconPath: $"{Entry.ResPath}/images/powers/HeartCalmPower32.png",
+        BigIconPath: $"{Entry.ResPath}/images/powers/HeartCalmPower84.png");
 }

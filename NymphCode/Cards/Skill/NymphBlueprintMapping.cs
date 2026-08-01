@@ -46,9 +46,9 @@ public sealed class NymphBlueprintMapping : ModCardTemplate
 
         EnchantmentModel enchantment =
             ModelDb.Enchantment<NymphTransformationEnchantment>();
-        List<CardModel> candidates = drawn
+        HashSet<CardModel> candidates = drawn
             .Where(enchantment.CanEnchant)
-            .ToList();
+            .ToHashSet();
         if (candidates.Count == 0)
         {
             return;
@@ -61,11 +61,12 @@ public sealed class NymphBlueprintMapping : ModCardTemplate
         {
             Cancelable = true
         };
-        IEnumerable<CardModel> selected = await CardSelectCmd.FromSimpleGrid(
+        IEnumerable<CardModel> selected = await CardSelectCmd.FromHand(
             choiceContext,
-            candidates,
             Owner,
-            prefs);
+            prefs,
+            card => candidates.Contains(card),
+            this);
 
         foreach (CardModel card in selected)
         {

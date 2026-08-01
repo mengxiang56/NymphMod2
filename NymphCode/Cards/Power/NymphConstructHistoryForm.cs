@@ -2,7 +2,6 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Models.Cards;
 using Nymph.Characters;
 using Nymph.Mechanics;
 using Nymph.Powers;
@@ -20,7 +19,7 @@ public sealed class NymphConstructHistoryForm : ModCardTemplate
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        HoverTipFactory.FromCard<Discovery>()
+        DiscoveryMechanics.CreateHoverTip()
     ];
 
     public NymphConstructHistoryForm()

@@ -1,11 +1,12 @@
 {
     "NYMPH_SECONDARY_RESOURCE_THOUGHT.title": "思绪值",
-    "NYMPH_SECONDARY_RESOURCE_THOUGHT.description": "每打出一张牌获得 1 点。达到临界点后变为思维混乱，达到阻滞点后变为思维阻滞。",
-    "NYMPH_DURABILITY.title": "耐久",
-    "NYMPH_DURABILITY.description": "每次打出后减少1。耐久为0时这张牌会从牌组中移除。"
-,
+    "NYMPH_SECONDARY_RESOURCE_THOUGHT.description": "每打出一张牌获得 1 点。\n达到临界点后进入[gold]混乱[/gold]：你的攻击伤害降低 20%。\n达到阻滞点（临界点的 2 倍）后进入[gold]阻滞[/gold]：你的攻击伤害降低 50%，且从卡牌获得的格挡降低 50%（[gold]讲述[/gold]转化的格挡不受影响）。",
+  "NYMPH_DURABILITY.title": "耐久",
+  "NYMPH_DURABILITY.description": "每次打出后减少1。耐久为0时这张牌会从牌组中移除。",
+  "NYMPH_DISCOVERY.title": "发现",
+  "NYMPH_DISCOVERY.description": "从三张随机牌中选择一张加入手牌，这张牌在本回合可以免费打出一次。",
   "NYMPH_CARDPILE_INSPIRATION.title": "灵感牌堆",
   "NYMPH_CARDPILE_INSPIRATION.description": "保存你获得的灵感牌。\n战斗开始时，可以从中选择一张打出。",
   "NYMPH_CARDPILE_INSPIRATION.empty": "灵感牌堆中没有牌。",
-  "NYMPH_REWARD_INSPIRATION": "将一张灵感牌加入到你的灵感牌组。"
+  "NYMPH_REWARD_INSPIRATION": "获得一缕灵感。"
 }

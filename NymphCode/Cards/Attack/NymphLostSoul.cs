@@ -25,7 +25,8 @@ public sealed class NymphLostSoul : ModCardTemplate
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(9, ValueProp.Move)
+        new DamageVar(9, ValueProp.Move),
+        new PowerVar<NecrosisPower>(2)
     ];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
@@ -49,6 +50,12 @@ public sealed class NymphLostSoul : ModCardTemplate
             .Execute(choiceContext);
         if (!cardPlay.Target.IsDead)
         {
+            await PowerCmd.Apply<NecrosisPower>(
+                choiceContext,
+                cardPlay.Target,
+                DynamicVars["NecrosisPower"].IntValue,
+                Owner.Creature,
+                this);
             await PowerCmd.Apply<NecrosisPermanentLockPower>(
                 choiceContext,
                 cardPlay.Target,
@@ -65,5 +72,7 @@ public sealed class NymphLostSoul : ModCardTemplate
 
     protected override void OnUpgrade()
     {
+        DynamicVars.Damage.UpgradeValueBy(4);
+        DynamicVars["NecrosisPower"].UpgradeValueBy(1);
     }
 }

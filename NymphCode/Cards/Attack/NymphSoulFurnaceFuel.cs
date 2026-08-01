@@ -1,7 +1,6 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
 using Nymph.Characters;
@@ -19,6 +18,7 @@ public sealed class NymphSoulFurnaceFuel : ModCardTemplate
 
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
     [
+        CardKeyword.Ethereal,
         NymphKeywords.Narrate
     ];
 
@@ -28,16 +28,11 @@ public sealed class NymphSoulFurnaceFuel : ModCardTemplate
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(8, ValueProp.Move)
-    ];
-
-    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
-    [
-        ThoughtMechanics.CreateHoverTip()
+        new DamageVar(10, ValueProp.Move)
     ];
 
     public NymphSoulFurnaceFuel()
-        : base(2, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy, true)
+        : base(1, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy, true)
     {
     }
 
@@ -61,6 +56,6 @@ public sealed class NymphSoulFurnaceFuel : ModCardTemplate
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(4);
+        RemoveKeyword(CardKeyword.Ethereal);
     }
 }

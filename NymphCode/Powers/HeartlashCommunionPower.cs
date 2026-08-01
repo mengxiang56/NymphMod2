@@ -38,19 +38,16 @@ public sealed class HeartlashCommunionPower : ModPowerTemplate
         }
     }
 
-    public override decimal ModifyDamageAdditive(
+    public override decimal ModifyDamageCap(
         Creature? target,
-        decimal amount,
         ValueProp props,
         Creature? dealer,
         CardModel? cardSource,
         CardPlay? cardPlay)
     {
-        return target == Owner
-            && dealer == ProtectedFrom
-            && amount > 0
-                ? -amount
-                : 0;
+        return target == Owner && dealer == ProtectedFrom
+            ? 0
+            : decimal.MaxValue;
     }
 
     public override async Task AfterSideTurnEnd(

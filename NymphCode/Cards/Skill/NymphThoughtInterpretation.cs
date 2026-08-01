@@ -5,7 +5,6 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
 using Nymph.Characters;
 using Nymph.Mechanics;
-using MegaCrit.Sts2.Core.HoverTips;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 
@@ -33,13 +32,8 @@ public sealed class NymphThoughtInterpretation : ModCardTemplate
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new BlockVar(4m, ValueProp.Move)
+        new BlockVar(5m, ValueProp.Move)
         , new DynamicVar("Narrate", 5)
-    ];
-
-    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
-    [
-        ThoughtMechanics.CreateHoverTip()
     ];
 
     public NymphThoughtInterpretation()

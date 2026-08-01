@@ -6,5 +6,7 @@
   "NYMPH_KEYWORD_RECREATE.title": "重构（卡牌）",
   "NYMPH_KEYWORD_RECREATE.description": "变化为[gold]本角色[/gold]卡池中的随机牌（升级状态不变）,并加入[gold]手牌[/gold]。",
   "NYMPH_KEYWORD_RECREATE_POTION.title": "重构（药水）",
-  "NYMPH_KEYWORD_RECREATE_POTION.description": "变化为随机药水。"
+  "NYMPH_KEYWORD_RECREATE_POTION.description": "变化为随机药水。",
+  "NYMPH_KEYWORD_INSPIRATION.title": "灵感",
+  "NYMPH_KEYWORD_INSPIRATION.description": "一系列灵感牌。每场战斗只有第1缕使用的灵感会生效。"
 }

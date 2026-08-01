@@ -30,7 +30,9 @@ public sealed class NymphInterpretChange : ModCardTemplate
     ];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
-        HoverTipFactory.FromEnchantment<Glam>(1);
+    [
+        .. HoverTipFactory.FromEnchantment<Glam>(1)
+    ];
 
     public NymphInterpretChange()
         : base(1, CardType.Skill, CardRarity.Rare, TargetType.Self, true)
@@ -53,7 +55,8 @@ public sealed class NymphInterpretChange : ModCardTemplate
 
         foreach (RecreateResult result in results)
         {
-            CardCmd.Enchant<Glam>(
+            CardCmd.Enchant(
+                glam.ToMutable(),
                 result.Replacement,
                 1);
         }

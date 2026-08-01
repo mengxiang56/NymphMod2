@@ -25,7 +25,8 @@ public sealed class NymphBagOfIdeas : ModCardTemplate
 
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
     [
-        NymphKeywords.Conceive
+        NymphKeywords.Conceive,
+        CardKeyword.Innate
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
@@ -60,7 +61,7 @@ public sealed class NymphBagOfIdeas : ModCardTemplate
     }
 
     public NymphBagOfIdeas()
-        : base(0, CardType.Skill, CardRarity.Common, TargetType.Self, true)
+        : base(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self, true)
     {
     }
 

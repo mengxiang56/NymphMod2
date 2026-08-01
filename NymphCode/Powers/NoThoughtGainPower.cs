@@ -17,9 +17,9 @@ public sealed class NoThoughtGainPower : ModPowerTemplate
 
     public override PowerAssetProfile AssetProfile => new(
         IconPath:
-            $"{Entry.ResPath}/images/ui/thought/thought_obstructed.png",
+            $"{Entry.ResPath}/images/powers/CantAddThoughtPower32.png",
         BigIconPath:
-            $"{Entry.ResPath}/images/ui/thought/thought_obstructed.png");
+            $"{Entry.ResPath}/images/powers/CantAddThoughtPower84.png");
 
     public override async Task AfterSideTurnEnd(
         PlayerChoiceContext choiceContext,

@@ -3,6 +3,7 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Saves.Runs;
@@ -43,8 +44,20 @@ public sealed class NecrosisPower :
     ];
 
     public override PowerAssetProfile AssetProfile => new(
-        IconPath: $"{Entry.ResPath}/images/relics/NymphRelic.png",
-        BigIconPath: $"{Entry.ResPath}/images/relics/NymphRelic.png");
+        IconPath: $"{Entry.ResPath}/images/powers/NecrosisPower32.png",
+        BigIconPath: $"{Entry.ResPath}/images/powers/NecrosisPower84.png");
+
+    public override LocString Description =>
+        new LocString(
+            "powers",
+            Owner?.IsPlayer == true
+                ? "NYMPH_POWER_NECROSIS_POWER.descriptionOnPlayer"
+                : "NYMPH_POWER_NECROSIS_POWER.descriptionOnEnemy");
+
+    protected override string SmartDescriptionLocKey =>
+        Owner?.IsPlayer == true
+            ? "NYMPH_POWER_NECROSIS_POWER.smartDescriptionOnPlayer"
+            : "NYMPH_POWER_NECROSIS_POWER.smartDescriptionOnEnemy";
 
     [SavedProperty]
     public int CardsPlayedTowardLayerLoss
@@ -167,22 +180,15 @@ public sealed class NecrosisPower :
         Creature applier,
         CardModel? cardSource,
         int times = 1,
-        int? maximumAmount = null)
+        int? maximumAmount = null,
+        bool advancesReduction = true)
     {
         if (times <= 0 || Amount <= 0 || Owner.IsDead)
         {
             return;
         }
 
-        int multiplier = 1 + CombatState.Players.Sum(
-            player => CombatState
-                    .GetOpponentsOf(player.Creature)
-                    .Contains(Owner)
-                ? player.Creature
-                    .GetPower<SmallKindnessPower>()?.Amount ?? 0
-                : 0);
-
-        for (int i = 0; i < times * multiplier; i++)
+        for (int i = 0; i < times; i++)
         {
             int triggerAmount = maximumAmount.HasValue
                 ? Math.Min(Amount, maximumAmount.Value)
@@ -199,8 +205,17 @@ public sealed class NecrosisPower :
                 Owner.HasPower<FearPower>()
                     ? triggerAmount * 2
                     : triggerAmount,
-                DamageProps.nonCardHpLoss,
+                Owner.Player is null
+                    ? DamageProps.nonCardHpLoss
+                    : DamageProps.nonCardUnpowered,
                 applier);
+
+            // Lethal damage completes the creature's death processing before
+            // returning. Do not mutate powers that were just removed with it.
+            if (Owner.IsDead)
+            {
+                return;
+            }
 
             int keyProgress = TriggersTowardKeyEffect + 1;
             if (keyProgress >= 3)
@@ -216,7 +231,8 @@ public sealed class NecrosisPower :
                 TriggersTowardKeyEffect = keyProgress;
             }
 
-            if (ReductionLockedPermanently
+            if (!advancesReduction
+                || ReductionLockedPermanently
                 || Owner.HasPower<NecrosisPermanentLockPower>()
                 || ReductionLockedThisTurn)
             {
@@ -231,6 +247,18 @@ public sealed class NecrosisPower :
             }
 
             CardsPlayedTowardLayerLoss = 0;
+            if (Owner.GetPower<NecrosisReductionBarrierPower>()
+                is { Amount: > 0 } barrier)
+            {
+                await PowerCmd.ModifyAmount(
+                    choiceContext,
+                    barrier,
+                    -1,
+                    applier,
+                    cardSource);
+                continue;
+            }
+
             await PowerCmd.ModifyAmount(
                 choiceContext,
                 this,
@@ -281,7 +309,7 @@ public sealed class NecrosisPower :
         return
         [
             ExtraIconAmountLabelSpec.Plain(
-                ExtraIconAmountLabelCorner.TopLeft,
+                ExtraIconAmountLabelCorner.TopRight,
                 CardsRemaining.ToString()),
         ];
     }

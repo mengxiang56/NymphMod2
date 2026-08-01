@@ -27,6 +27,10 @@ public static class ThoughtMechanics
     public const int ObstructedThreshold = 24;
     public const int MaxAmount = 999;
 
+    public const decimal ConfusedDamageMultiplier = 0.8m;
+    public const decimal ObstructedDamageMultiplier = 0.5m;
+    public const decimal ObstructedBlockMultiplier = 0.5m;
+
     private const string ClearIconPath =
         $"{Entry.ResPath}/images/ui/thought/thought_clear.png";
     private const string ConfusedIconPath =
@@ -41,6 +45,9 @@ public static class ThoughtMechanics
     private static readonly ConditionalWeakTable<
         CardPlay,
         NarrationRecord> Narrations = new();
+    private static readonly ConditionalWeakTable<
+        CardPlay,
+        CardPlayThoughtStateRecord> CardPlayThoughtStates = new();
     private static readonly ConditionalWeakTable<
         Player,
         PreviousCardRecord> PreviousCards = new();
@@ -110,6 +117,18 @@ public static class ThoughtMechanics
             : ThoughtState.Clear;
     }
 
+    public static ThoughtState GetState(
+        Player player,
+        CardPlay? cardPlay)
+    {
+        return cardPlay is not null
+            && CardPlayThoughtStates.TryGetValue(
+                cardPlay,
+                out CardPlayThoughtStateRecord? record)
+            ? record.State
+            : GetState(player);
+    }
+
     public static int GetConfusedThreshold(Player player)
     {
         return ConfusedThreshold
@@ -120,6 +139,27 @@ public static class ThoughtMechanics
     public static int GetObstructedThreshold(Player player)
     {
         return GetConfusedThreshold(player) * 2;
+    }
+
+    public static decimal GetAttackDamageMultiplier(
+        Player player,
+        CardPlay? cardPlay = null)
+    {
+        return GetState(player, cardPlay) switch
+        {
+            ThoughtState.Confused => ConfusedDamageMultiplier,
+            ThoughtState.Obstructed => ObstructedDamageMultiplier,
+            _ => 1m
+        };
+    }
+
+    public static decimal GetCardBlockMultiplier(
+        Player player,
+        CardPlay? cardPlay = null)
+    {
+        return GetState(player, cardPlay) == ThoughtState.Obstructed
+            ? ObstructedBlockMultiplier
+            : 1m;
     }
 
     public static async Task IncreaseConfusedThreshold(
@@ -140,6 +180,8 @@ public static class ThoughtMechanics
             player.Creature,
             source,
             silent: true);
+
+        await SyncStatePower(choiceContext, player);
     }
 
     public static bool CanNarrate(Player? player, int amount)
@@ -179,6 +221,8 @@ public static class ThoughtMechanics
             player.Creature,
             source,
             silent: true);
+
+        await SyncStatePower(choiceContext, player);
 
         if (source is not null
             && source.Keywords.Contains(NymphKeywords.Conceive))
@@ -294,6 +338,10 @@ public static class ThoughtMechanics
             cardPlay.Card,
             silent: true);
 
+        await SyncStatePower(
+            choiceContext,
+            cardPlay.Card.Owner);
+
         int effectMultiplier =
             NarrationEffectMultiplier(cardPlay.Card.Owner);
         int effectiveAmount = amount * effectMultiplier;
@@ -301,6 +349,80 @@ public static class ThoughtMechanics
         record.Amount += effectiveAmount;
         record.EffectCount += effectMultiplier;
         return effectiveAmount;
+    }
+
+    public static async Task SyncStatePower(
+        PlayerChoiceContext choiceContext,
+        Player player)
+    {
+        if (player.Character is not NymphCharacter
+            || player.Creature.IsDead)
+        {
+            return;
+        }
+
+        ThoughtState state = GetState(player);
+        bool hasDesiredPower = state switch
+        {
+            ThoughtState.Clear =>
+                player.Creature.HasPower<LucidPower>(),
+            ThoughtState.Confused =>
+                player.Creature.HasPower<FracturedPower>(),
+            ThoughtState.Obstructed =>
+                player.Creature.HasPower<ObstructedPower>(),
+            _ => false
+        };
+
+        if (state != ThoughtState.Clear)
+        {
+            await PowerCmd.Remove<LucidPower>(player.Creature);
+        }
+
+        if (state != ThoughtState.Confused)
+        {
+            await PowerCmd.Remove<FracturedPower>(player.Creature);
+        }
+
+        if (state != ThoughtState.Obstructed)
+        {
+            await PowerCmd.Remove<ObstructedPower>(player.Creature);
+        }
+
+        if (hasDesiredPower)
+        {
+            return;
+        }
+
+        switch (state)
+        {
+            case ThoughtState.Clear:
+                await PowerCmd.Apply<LucidPower>(
+                    choiceContext,
+                    player.Creature,
+                    1,
+                    player.Creature,
+                    null,
+                    silent: true);
+                break;
+            case ThoughtState.Confused:
+                await PowerCmd.Apply<FracturedPower>(
+                    choiceContext,
+                    player.Creature,
+                    1,
+                    player.Creature,
+                    null,
+                    silent: true);
+                break;
+            case ThoughtState.Obstructed:
+                await PowerCmd.Apply<ObstructedPower>(
+                    choiceContext,
+                    player.Creature,
+                    1,
+                    player.Creature,
+                    null,
+                    silent: true);
+                break;
+        }
     }
 
     public static IHoverTip CreateHoverTip()
@@ -369,6 +491,11 @@ public static class ThoughtMechanics
         public int EffectCount { get; set; }
     }
 
+    private sealed class CardPlayThoughtStateRecord
+    {
+        public ThoughtState State { get; set; }
+    }
+
     private sealed class PreviousCardRecord
     {
         public object? CombatState { get; set; }
@@ -378,6 +505,19 @@ public static class ThoughtMechanics
 
     private sealed class ThoughtCardPlayListener : ICardOnPlayHookListener
     {
+        public Task<bool> BeforeCardOnPlay(
+            BeforeCardOnPlayContext context)
+        {
+            Player player = context.CardPlay.Card.Owner;
+            if (player.Character is NymphCharacter)
+            {
+                CardPlayThoughtStates.GetOrCreateValue(
+                    context.CardPlay).State = GetState(player);
+            }
+
+            return Task.FromResult(false);
+        }
+
         public async Task AfterCardOnPlay(AfterCardOnPlayContext context)
         {
             Player player = context.CardPlay.Card.Owner;

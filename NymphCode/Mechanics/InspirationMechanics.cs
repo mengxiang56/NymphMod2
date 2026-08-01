@@ -47,15 +47,26 @@ public static class InspirationMechanics
             });
     }
 
-    public static CardModel CreateRandomCard(Player player)
+    public static CardModel CreateRandomCard(
+        Player player,
+        CardRarity? forcedRarity = null)
     {
         var rng = player.RunState.Rng.Niche;
-        int rarityRoll = rng.NextInt(100);
-        CardRarity rarity = rarityRoll < 10
-            ? CardRarity.Rare
-            : rarityRoll < 50
-                ? CardRarity.Uncommon
-                : CardRarity.Common;
+        CardRarity rarity;
+        if (forcedRarity is { } forced)
+        {
+            rarity = forced;
+        }
+        else
+        {
+            int rarityRoll = rng.NextInt(100);
+            rarity = rarityRoll < 10
+                ? CardRarity.Rare
+                : rarityRoll < 50
+                    ? CardRarity.Uncommon
+                    : CardRarity.Common;
+        }
+
         List<CardModel> pool = ModelDb
             .CardPool<NymphInspirationCardPool>()
             .GetUnlockedCards(
@@ -149,7 +160,7 @@ public static class InspirationMechanics
 
             currentRun.GlobalUi.TopBar.TrailContainer
                 .AddChild(flyVfx);
-        })).SetDelay(2f);
+        })).SetDelay(1.2f);
     }
 
     public static async Task AddToPile(CardModel card)
@@ -230,11 +241,7 @@ public static class InspirationMechanics
             player,
             combatState);
         await CardCmd.AutoPlay(choiceContext, selected, target);
-
-        if (selected.Pile?.Type == PileType.Hand)
-        {
-            await CardCmd.Exhaust(choiceContext, selected);
-        }
+        await RemoveFromCombatAfterPlayed(selected);
     }
 
     private static Creature? ResolveAutoPlayTarget(
@@ -264,5 +271,15 @@ public static class InspirationMechanics
 
         storedCard.RemoveFromCurrentPile();
         combatCard.DeckVersion = null;
+    }
+
+    public static async Task RemoveFromCombatAfterPlayed(CardModel combatCard)
+    {
+        if (combatCard.Pile is not { IsCombatPile: true })
+        {
+            return;
+        }
+
+        await CardPileCmd.RemoveFromCombat(combatCard);
     }
 }

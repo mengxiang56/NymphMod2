@@ -1,7 +1,6 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
 using Nymph.Characters;
@@ -14,8 +13,22 @@ namespace Nymph.Cards;
 [RegisterCard(typeof(NymphCardPool))]
 public sealed class NymphRoughWaterRecovery : ModCardTemplate
 {
+    private const int BaseEnergyGain = 1;
+    private const int UpgradedEnergyGain = 2;
+
+    private int EnergyGain =>
+        CurrentUpgradeLevel > 0 ? UpgradedEnergyGain : BaseEnergyGain;
+
     protected override bool ShouldGlowGoldInternal =>
-        ThoughtMechanics.GetState(Owner) == ThoughtState.Confused;
+        ThoughtMechanics.GetState(Owner) != ThoughtState.Clear
+        && ThoughtMechanics.CanNarrate(
+            Owner,
+            DynamicVars["Narrate"].IntValue);
+
+    public override IEnumerable<CardKeyword> CanonicalKeywords =>
+    [
+        NymphKeywords.Narrate
+    ];
 
     public override CardAssetProfile AssetProfile => new(
         PortraitPath:
@@ -26,12 +39,7 @@ public sealed class NymphRoughWaterRecovery : ModCardTemplate
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new DamageVar(16, ValueProp.Move),
-        new DynamicVar("Refund", 1)
-    ];
-
-    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
-    [
-        ThoughtMechanics.CreateHoverTip()
+        new DynamicVar("Narrate", 6)
     ];
 
     public NymphRoughWaterRecovery()
@@ -49,24 +57,31 @@ public sealed class NymphRoughWaterRecovery : ModCardTemplate
         CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
-        bool wasConfused =
-            ThoughtMechanics.GetState(Owner) == ThoughtState.Confused;
+        bool notClear =
+            ThoughtMechanics.GetState(Owner, cardPlay) != ThoughtState.Clear;
 
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this, cardPlay)
             .Targeting(cardPlay.Target)
             .Execute(choiceContext);
 
-        if (wasConfused)
+        if (!notClear)
         {
-            await PlayerCmd.GainEnergy(
-                DynamicVars["Refund"].IntValue,
-                Owner);
+            return;
         }
-    }
 
-    protected override void OnUpgrade()
-    {
-        DynamicVars["Refund"].UpgradeValueBy(1);
+        int narrated = await ThoughtMechanics.Narrate(
+            choiceContext,
+            cardPlay,
+            DynamicVars["Narrate"].IntValue);
+        if (narrated <= 0)
+        {
+            return;
+        }
+
+        await PlayerCmd.GainEnergy(
+            EnergyGain
+                * ThoughtMechanics.NarrationEffectMultiplier(Owner),
+            Owner);
     }
 }

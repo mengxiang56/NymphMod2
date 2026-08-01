@@ -1,9 +1,10 @@
 {
   "NYMPH_SECONDARY_RESOURCE_THOUGHT.title": "Thought",
-  "NYMPH_SECONDARY_RESOURCE_THOUGHT.description": "Gain 1 whenever you play a card. At the first threshold, become Confused. At the second threshold, become Obstructed.",
+  "NYMPH_SECONDARY_RESOURCE_THOUGHT.description": "Gain 1 whenever you play a card.\nAt the Confusion threshold, become [gold]Confused[/gold]: your Attack damage is reduced by 20%.\nAt the Obstruction threshold (twice the Confusion threshold), become [gold]Obstructed[/gold]: your Attack damage is reduced by 50% and Block gained from cards is reduced by 50% ([gold]Narrate[/gold] Block is unaffected).",
   "NYMPH_DURABILITY.title": "Durability",
-  "NYMPH_DURABILITY.description": "Whenever this card is played, lose 1 Durability. At 0, remove this card from your deck."
-,
+  "NYMPH_DURABILITY.description": "Whenever this card is played, lose 1 Durability. At 0, remove this card from your deck.",
+  "NYMPH_DISCOVERY.title": "Discover",
+  "NYMPH_DISCOVERY.description": "Choose 1 of 3 random cards to add to your Hand. It costs 0 this turn.",
   "NYMPH_CARDPILE_INSPIRATION.title": "Inspiration Pile",
   "NYMPH_CARDPILE_INSPIRATION.description": "Stores Inspiration cards separately. After you draw your opening hand each combat, choose 1 Inspiration from the entire pile to play immediately, or skip.",
   "NYMPH_CARDPILE_INSPIRATION.empty": "The Inspiration pile is empty.",
