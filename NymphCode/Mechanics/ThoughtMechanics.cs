@@ -5,6 +5,7 @@ using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.ValueProps;
 using System.Runtime.CompilerServices;
 using STS2RitsuLib.Cards;
 using STS2RitsuLib.Combat.SecondaryResources;
@@ -26,10 +27,6 @@ public static class ThoughtMechanics
     public const int ConfusedThreshold = 12;
     public const int ObstructedThreshold = 24;
     public const int MaxAmount = 999;
-
-    public const decimal ConfusedDamageMultiplier = 0.8m;
-    public const decimal ObstructedDamageMultiplier = 0.5m;
-    public const decimal ObstructedBlockMultiplier = 0.5m;
 
     private const string ClearIconPath =
         $"{Entry.ResPath}/images/ui/thought/thought_clear.png";
@@ -139,27 +136,6 @@ public static class ThoughtMechanics
     public static int GetObstructedThreshold(Player player)
     {
         return GetConfusedThreshold(player) * 2;
-    }
-
-    public static decimal GetAttackDamageMultiplier(
-        Player player,
-        CardPlay? cardPlay = null)
-    {
-        return GetState(player, cardPlay) switch
-        {
-            ThoughtState.Confused => ConfusedDamageMultiplier,
-            ThoughtState.Obstructed => ObstructedDamageMultiplier,
-            _ => 1m
-        };
-    }
-
-    public static decimal GetCardBlockMultiplier(
-        Player player,
-        CardPlay? cardPlay = null)
-    {
-        return GetState(player, cardPlay) == ThoughtState.Obstructed
-            ? ObstructedBlockMultiplier
-            : 1m;
     }
 
     public static async Task IncreaseConfusedThreshold(
@@ -547,6 +523,33 @@ public static class ThoughtMechanics
         {
             Player player = context.CardPlay.Card.Owner;
             if (player.Character is not NymphCharacter)
+            {
+                return;
+            }
+
+            ThoughtState state = GetState(player, context.CardPlay);
+            switch (state)
+            {
+                case ThoughtState.Clear:
+                    player.Creature.GetPower<LucidPower>()?.Flash();
+                    await CreatureCmd.GainBlock(
+                        player.Creature,
+                        1,
+                        ValueProp.Unpowered,
+                        context.CardPlay);
+                    break;
+                case ThoughtState.Obstructed:
+                    player.Creature.GetPower<ObstructedPower>()?.Flash();
+                    await CreatureCmd.Damage(
+                        context.ChoiceContext,
+                        player.Creature,
+                        1,
+                        DamageProps.nonCardUnpowered,
+                        player.Creature);
+                    break;
+            }
+
+            if (player.Creature.IsDead)
             {
                 return;
             }

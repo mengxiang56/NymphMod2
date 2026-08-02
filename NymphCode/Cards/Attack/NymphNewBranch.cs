@@ -9,7 +9,6 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 using Nymph.Characters;
 using Nymph.Mechanics;
-using Nymph.Powers;
 using STS2RitsuLib;
 using STS2RitsuLib.Interop;
 using STS2RitsuLib.Interop.AutoRegistration;
@@ -107,7 +106,7 @@ public sealed class NymphNewBranch : ModCardTemplate
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(6, ValueProp.Move),
+        new DamageVar(7, ValueProp.Move),
         new DynamicVar("Create", 3),
         new CardsVar(1)
     ];
@@ -172,11 +171,10 @@ public sealed class NymphNewBranch : ModCardTemplate
             .FromCard(this, cardPlay)
             .Targeting(cardPlay.Target)
             .Execute(choiceContext);
-
-        if (!Owner.Creature.HasPower<NewBranchDrawUsedPower>())
-        {
-            ScheduleFirstPlayDraw(choiceContext);
-        }
+        await CardPileCmd.Draw(
+            choiceContext,
+            DynamicVars.Cards.IntValue,
+            Owner);
 
         var copy = CombatState!.CreateCard<NymphNewBranch>(Owner);
         if (IsUpgraded)
@@ -194,41 +192,6 @@ public sealed class NymphNewBranch : ModCardTemplate
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(2);
-    }
-
-    private void ScheduleFirstPlayDraw(PlayerChoiceContext choiceContext)
-    {
-        void OnPlayed()
-        {
-            Played -= OnPlayed;
-            _ = DrawAfterResolvedPlayAsync(choiceContext);
-        }
-
-        Played += OnPlayed;
-    }
-
-    private async Task DrawAfterResolvedPlayAsync(
-        PlayerChoiceContext choiceContext)
-    {
-        if (Owner.Creature.HasPower<NewBranchDrawUsedPower>()
-            || CombatState is null
-            || CombatManager.Instance.IsOverOrEnding)
-        {
-            return;
-        }
-
-        await PowerCmd.Apply<NewBranchDrawUsedPower>(
-            choiceContext,
-            Owner.Creature,
-            1,
-            Owner.Creature,
-            this,
-            silent: true);
-        await CardPileCmd.Draw(
-            choiceContext,
-            DynamicVars.Cards.IntValue,
-            Owner);
-        await FlushPendingAutoPlaysAsync();
+        DynamicVars.Damage.UpgradeValueBy(3);
     }
 }

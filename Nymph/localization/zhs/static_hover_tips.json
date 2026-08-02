@@ -1,6 +1,6 @@
 {
     "NYMPH_SECONDARY_RESOURCE_THOUGHT.title": "思绪值",
-    "NYMPH_SECONDARY_RESOURCE_THOUGHT.description": "每打出一张牌获得 1 点。\n达到临界点后进入[gold]混乱[/gold]：你的攻击伤害降低 20%。\n达到阻滞点（临界点的 2 倍）后进入[gold]阻滞[/gold]：你的攻击伤害降低 50%，且从卡牌获得的格挡降低 50%（[gold]讲述[/gold]转化的格挡不受影响）。",
+    "NYMPH_SECONDARY_RESOURCE_THOUGHT.description": "每打出一张牌获得1点。\n处于[gold]清晰[/gold]时，每打出一张牌获得1点[gold]格挡[/gold]。\n达到临界点后进入[gold]混乱[/gold]，无特殊效果。\n达到阻滞点（临界点的2倍）后进入[gold]阻滞[/gold]，每打出一张牌受到1点伤害。",
   "NYMPH_DURABILITY.title": "耐久",
   "NYMPH_DURABILITY.description": "每次打出后减少1。耐久为0时这张牌会从牌组中移除。",
   "NYMPH_DISCOVERY.title": "发现",

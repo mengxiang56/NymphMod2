@@ -1,6 +1,6 @@
 {
   "NYMPH_SECONDARY_RESOURCE_THOUGHT.title": "Thought",
-  "NYMPH_SECONDARY_RESOURCE_THOUGHT.description": "Gain 1 whenever you play a card.\nAt the Confusion threshold, become [gold]Confused[/gold]: your Attack damage is reduced by 20%.\nAt the Obstruction threshold (twice the Confusion threshold), become [gold]Obstructed[/gold]: your Attack damage is reduced by 50% and Block gained from cards is reduced by 50% ([gold]Narrate[/gold] Block is unaffected).",
+  "NYMPH_SECONDARY_RESOURCE_THOUGHT.description": "Gain 1 whenever you play a card.\nWhile [gold]Clear[/gold], gain 1 [gold]Block[/gold] whenever you play a card.\nAt the Confusion threshold, become [gold]Confused[/gold] with no special effect.\nAt the Obstruction threshold (twice the Confusion threshold), become [gold]Obstructed[/gold] and take 1 damage whenever you play a card.",
   "NYMPH_DURABILITY.title": "Durability",
   "NYMPH_DURABILITY.description": "Whenever this card is played, lose 1 Durability. At 0, remove this card from your deck.",
   "NYMPH_DISCOVERY.title": "Discover",

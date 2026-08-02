@@ -50,12 +50,12 @@ public sealed class NecrosisPower :
     public override LocString Description =>
         new LocString(
             "powers",
-            Owner?.IsPlayer == true
+            !IsCanonical && Owner?.IsPlayer == true
                 ? "NYMPH_POWER_NECROSIS_POWER.descriptionOnPlayer"
                 : "NYMPH_POWER_NECROSIS_POWER.descriptionOnEnemy");
 
     protected override string SmartDescriptionLocKey =>
-        Owner?.IsPlayer == true
+        !IsCanonical && Owner?.IsPlayer == true
             ? "NYMPH_POWER_NECROSIS_POWER.smartDescriptionOnPlayer"
             : "NYMPH_POWER_NECROSIS_POWER.smartDescriptionOnEnemy";
 
