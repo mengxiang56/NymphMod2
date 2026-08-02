@@ -1,6 +1,8 @@
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
 using Nymph.Characters;
 using Nymph.Mechanics;
 using STS2RitsuLib.Keywords;
@@ -17,6 +19,11 @@ public sealed class NymphMasterlessMemories : ModCardTemplate
         CardKeyword.Unplayable
     ];
 
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+    [
+        new CardsVar(2)
+    ];
+
     public override CardAssetProfile AssetProfile => new(
         PortraitPath: $"{Entry.ResPath}/images/cards/{GetType().Name}.png",
         FramePath: $"{Entry.ResPath}/images/cards/frames/bg_skill_sts2.png");
@@ -24,7 +31,8 @@ public sealed class NymphMasterlessMemories : ModCardTemplate
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
         ModKeywordRegistry.CreateHoverTip(NymphKeywords.RecreateId),
-        HoverTipFactory.FromCard<NymphBagOfIdeas>()
+        ModKeywordRegistry.CreateHoverTip(NymphKeywords.InspirationId),
+        HoverTipFactory.FromCard<NymphBagOfIdeas>(IsUpgraded)
     ];
 
     public NymphMasterlessMemories()
@@ -39,8 +47,26 @@ public sealed class NymphMasterlessMemories : ModCardTemplate
         return Task.CompletedTask;
     }
 
+    public override async Task AfterCardChangedPiles(
+        CardModel card,
+        PileType oldPileType,
+        AbstractModel? clonedBy)
+    {
+        if (card != this
+            || oldPileType != PileType.None
+            || card.Pile?.Type != PileType.Deck)
+        {
+            return;
+        }
+
+        await InspirationMechanics.AddRandomToPile(
+            Owner,
+            DynamicVars.Cards.IntValue);
+    }
+
     protected override void OnUpgrade()
     {
         AddKeyword(CardKeyword.Retain);
+        DynamicVars.Cards.UpgradeValueBy(1);
     }
 }

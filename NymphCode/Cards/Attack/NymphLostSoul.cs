@@ -31,7 +31,8 @@ public sealed class NymphLostSoul : ModCardTemplate
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        HoverTipFactory.FromPower<NecrosisPower>()
+        HoverTipFactory.FromPower<NecrosisPower>(),
+        HoverTipFactory.FromPower<NecrosisPermanentLockPower>()
     ];
 
     public NymphLostSoul()

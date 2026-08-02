@@ -32,7 +32,7 @@ public sealed class NymphSuddenInspiration : ModCardTemplate, IHasMetaBenefit
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(9, ValueProp.Move)
+        new DamageVar(10, ValueProp.Move)
     ];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>

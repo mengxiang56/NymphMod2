@@ -22,7 +22,6 @@ public sealed class NymphMindsRipple : ModCardTemplate
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new PowerVar<NecrosisPower>(2),
-        new DynamicVar("BonusTimes", 0),
         new DynamicVar("TriggerMultiplier", 3)
     ];
 
@@ -42,7 +41,7 @@ public sealed class NymphMindsRipple : ModCardTemplate
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
         int x = ResolveEnergyXValue();
-        int applyTimes = x + DynamicVars["BonusTimes"].IntValue;
+        int applyTimes = x + (IsUpgraded ? 1 : 0);
         for (int i = 0; i < applyTimes; i++)
         {
             await PowerCmd.Apply<NecrosisPower>(
@@ -65,6 +64,5 @@ public sealed class NymphMindsRipple : ModCardTemplate
 
     protected override void OnUpgrade()
     {
-        DynamicVars["BonusTimes"].UpgradeValueBy(1);
     }
 }

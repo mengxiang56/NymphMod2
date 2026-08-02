@@ -2,33 +2,29 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using Nymph.Characters;
+using Nymph.Mechanics;
 using Nymph.Powers;
 using STS2RitsuLib.Interop.AutoRegistration;
+using STS2RitsuLib.Keywords;
 using STS2RitsuLib.Scaffolding.Content;
 
 namespace Nymph.Cards;
 
 [RegisterCard(typeof(NymphCardPool))]
-public sealed class NymphHeartDefenseCollapse : ModCardTemplate
+public sealed class NymphGlimmerInPalm : ModCardTemplate
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-    [
-        new PowerVar<FearPower>(1)
-    ];
-
     public override CardAssetProfile AssetProfile => new(
         PortraitPath: $"{Entry.ResPath}/images/cards/{GetType().Name}.png",
         FramePath: $"{Entry.ResPath}/images/cards/frames/bg_power_sts2.png");
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        HoverTipFactory.FromPower<NecrosisPower>(),
-        HoverTipFactory.FromPower<FearPower>()
+        ModKeywordRegistry.CreateHoverTip(NymphKeywords.RecreateId),
+        HoverTipFactory.FromCard<NymphMiracle>()
     ];
 
-    public NymphHeartDefenseCollapse()
+    public NymphGlimmerInPalm()
         : base(2, CardType.Power, CardRarity.Rare, TargetType.Self, true)
     {
     }
@@ -37,16 +33,16 @@ public sealed class NymphHeartDefenseCollapse : ModCardTemplate
         PlayerChoiceContext choiceContext,
         CardPlay cardPlay)
     {
-        await PowerCmd.Apply<HeartDefenseCollapsePower>(
+        await PowerCmd.Apply<GlimmerInPalmPower>(
             choiceContext,
             Owner.Creature,
-            DynamicVars["FearPower"].IntValue,
+            1,
             Owner.Creature,
             this);
     }
 
     protected override void OnUpgrade()
     {
-        DynamicVars["FearPower"].UpgradeValueBy(1);
+        AddKeyword(CardKeyword.Innate);
     }
 }

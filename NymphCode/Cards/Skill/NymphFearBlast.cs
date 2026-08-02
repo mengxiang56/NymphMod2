@@ -30,7 +30,8 @@ public sealed class NymphFearBlast : ModCardTemplate
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        HoverTipFactory.FromPower<ArtifactPower>()
+        HoverTipFactory.FromPower<ArtifactPower>(),
+        HoverTipFactory.FromPower<FearPower>()
     ];
 
     public NymphFearBlast()

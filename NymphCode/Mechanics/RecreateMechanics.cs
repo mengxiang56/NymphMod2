@@ -1,6 +1,7 @@
 using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
@@ -42,6 +43,75 @@ public static class RecreateMechanics
             makeFreeUntilPlayed,
             null,
             applyAdaptability);
+    }
+
+    public static async Task<IReadOnlyList<RecreateResult>> SelectFromHand(
+        PlayerChoiceContext choiceContext,
+        MegaCrit.Sts2.Core.Entities.Players.Player player,
+        AbstractModel source,
+        int minCount,
+        int maxCount,
+        bool makeFreeUntilPlayed = false,
+        bool applyAdaptability = true)
+    {
+        if (maxCount <= 0)
+        {
+            return [];
+        }
+
+        CardSelectorPrefs prefs = new(
+            CardSelectorPrefs.TransformSelectionPrompt,
+            minCount,
+            maxCount)
+        {
+            Cancelable = minCount == 0
+        };
+
+        IReadOnlyList<CardModel> selected = (await CardSelectCmd.FromHand(
+            choiceContext,
+            player,
+            prefs,
+            card => card.IsTransformable,
+            source)).ToList();
+
+        return await Recreate(
+            selected,
+            makeFreeUntilPlayed,
+            null,
+            applyAdaptability);
+    }
+
+    public static async Task AutoPlayReplacements(
+        PlayerChoiceContext choiceContext,
+        IReadOnlyList<RecreateResult> results)
+    {
+        foreach (RecreateResult result in results)
+        {
+            CardModel card = result.Replacement;
+            if (card.Pile?.Type != PileType.Hand)
+            {
+                continue;
+            }
+
+            Creature? target = card.TargetType switch
+            {
+                TargetType.Self => card.Owner.Creature,
+                TargetType.AnyEnemy or TargetType.RandomEnemy =>
+                    card.Owner.RunState.Rng.CombatTargets.NextItem(
+                        card.CombatState!
+                            .GetOpponentsOf(card.Owner.Creature)
+                            .Where(enemy => !enemy.IsDead)),
+                _ => null
+            };
+            if (card.TargetType is TargetType.AnyEnemy
+                    or TargetType.RandomEnemy
+                && target is null)
+            {
+                continue;
+            }
+
+            await CardCmd.AutoPlay(choiceContext, card, target);
+        }
     }
 
     public static async Task<IReadOnlyList<RecreateResult>> RandomFromHand(
@@ -101,6 +171,7 @@ public static class RecreateMechanics
         Func<CardModel, bool>? replacementFilter = null,
         bool applyAdaptability = true)
     {
+        RegisterMysteryOfSmelting(original);
         RecreateResult result = CreateResult(
             original,
             makeFreeUntilPlayed: false,
@@ -180,6 +251,7 @@ public static class RecreateMechanics
 
         foreach (CardModel combatOriginal in selected)
         {
+            RegisterMysteryOfSmelting(combatOriginal);
             CardModel deckOriginal = combatOriginal.DeckVersion!;
             RecreateResult deckResult = CreateResult(
                 deckOriginal,
@@ -241,6 +313,7 @@ public static class RecreateMechanics
 
         foreach (CardModel original in originals)
         {
+            RegisterMysteryOfSmelting(original);
             if (original.Pile?.Type == PileType.Play
                 && NCard.FindOnTable(original) is { } playedCardNode)
             {
@@ -292,6 +365,18 @@ public static class RecreateMechanics
         return results;
     }
 
+    private static void RegisterMysteryOfSmelting(CardModel original)
+    {
+        if (original is NymphMysteryOfSmelting
+            {
+                CombatState: not null,
+                DeckVersion: NymphMysteryOfSmelting deckVersion
+            })
+        {
+            deckVersion.AutoPlayNextCombat = true;
+        }
+    }
+
     private static RecreateResult CreateResult(
         CardModel original,
         bool makeFreeUntilPlayed,
@@ -305,12 +390,12 @@ public static class RecreateMechanics
                 original.Owner.UnlockState,
                 original.Owner.RunState.CardMultiplayerConstraint)
             .Where(card =>
-                card.Type is CardType.Attack
+                (card.Type is CardType.Attack
                     or CardType.Skill
-                    or CardType.Power
-                && card.Rarity is CardRarity.Common
+                    or CardType.Power)
+                && (card.Rarity is CardRarity.Common
                     or CardRarity.Uncommon
-                    or CardRarity.Rare
+                    or CardRarity.Rare)
                 && card is not IHasMetaBenefit);
         if (replacementFilter is not null)
         {

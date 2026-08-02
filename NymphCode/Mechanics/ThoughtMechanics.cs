@@ -184,6 +184,31 @@ public static class ThoughtMechanics
         await SyncStatePower(choiceContext, player);
     }
 
+    public static async Task DecreaseConfusedThreshold(
+        PlayerChoiceContext choiceContext,
+        Player player,
+        int amount,
+        CardModel? source = null)
+    {
+        int reduction = Math.Min(
+            Math.Max(0, amount),
+            Math.Max(0, GetConfusedThreshold(player) - 1));
+        if (reduction <= 0)
+        {
+            return;
+        }
+
+        await PowerCmd.Apply<ThoughtThresholdPower>(
+            choiceContext,
+            player.Creature,
+            -reduction,
+            player.Creature,
+            source,
+            silent: true);
+
+        await SyncStatePower(choiceContext, player);
+    }
+
     public static bool CanNarrate(Player? player, int amount)
     {
         return player is not null
@@ -531,6 +556,18 @@ public static class ThoughtMechanics
                 player,
                 1,
                 context.CardPlay.Card);
+
+            if (context.CardPlay.Card.Keywords.Contains(
+                    NymphKeywords.Conceive))
+            {
+                await PowerCmd.Apply<ConceiveCardPlayedThisTurnPower>(
+                    context.ChoiceContext,
+                    player.Creature,
+                    1,
+                    player.Creature,
+                    context.CardPlay.Card,
+                    silent: true);
+            }
 
             PreviousCardRecord record =
                 PreviousCards.GetOrCreateValue(player);

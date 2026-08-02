@@ -30,11 +30,11 @@ public sealed class NymphBoundlessImagination : ModCardTemplate
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new DynamicVar("Narrate", 6),
-        new DynamicVar("Times", 3)
+        new DynamicVar("Times", 2)
     ];
 
     public NymphBoundlessImagination()
-        : base(3, CardType.Skill, CardRarity.Common, TargetType.Self, true)
+        : base(2, CardType.Skill, CardRarity.Common, TargetType.Self, true)
     {
     }
 
@@ -66,6 +66,6 @@ public sealed class NymphBoundlessImagination : ModCardTemplate
 
     protected override void OnUpgrade()
     {
-        EnergyCost.UpgradeBy(-1);
+        DynamicVars["Times"].UpgradeValueBy(1);
     }
 }

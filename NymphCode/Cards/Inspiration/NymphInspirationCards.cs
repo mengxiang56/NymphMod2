@@ -5,9 +5,13 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.Nodes;
+using MegaCrit.Sts2.Core.Nodes.Cards;
+using MegaCrit.Sts2.Core.Rooms;
 using Nymph.Characters;
 using Nymph.Mechanics;
 using Nymph.Powers;
+using Nymph.Rewards;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 
@@ -380,5 +384,126 @@ public sealed class NymphInspirationFlames
     protected override int DrawAmount => 2;
     public NymphInspirationFlames() : base(CardRarity.Uncommon)
     {
+    }
+}
+
+[RegisterCard(typeof(NymphInspirationCardPool))]
+public sealed class NymphInspirationLost : NymphInspirationCard
+{
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+    [
+        new DynamicVar("Create", CreateAmount)
+    ];
+
+    public NymphInspirationLost() : base(CardRarity.Common)
+    {
+    }
+
+    protected override Task ApplyInspiration(
+        PlayerChoiceContext choiceContext,
+        CardPlay cardPlay)
+    {
+        if (Owner.RunState.CurrentRoom is CombatRoom combatRoom)
+        {
+            combatRoom.AddExtraReward(
+                Owner,
+                new InspirationReward(Owner));
+        }
+
+        return Task.CompletedTask;
+    }
+}
+
+[RegisterCard(typeof(NymphInspirationCardPool))]
+public sealed class NymphInspirationCityDriving
+    : NymphSelfPowerInspiration<InspirationCityDrivingPower>
+{
+    protected override int Amount => 1;
+
+    public NymphInspirationCityDriving()
+        : base(CardRarity.Uncommon)
+    {
+    }
+}
+
+[RegisterCard(typeof(NymphInspirationCardPool))]
+public sealed class NymphInspirationTemperBlade
+    : NymphSelfPowerInspiration<InspirationTemperBladePower>
+{
+    protected override int Amount => 1;
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        .. base.AdditionalHoverTips,
+        HoverTipFactory.FromPower<NecrosisPower>()
+    ];
+
+    public NymphInspirationTemperBlade()
+        : base(CardRarity.Uncommon)
+    {
+    }
+}
+
+[RegisterCard(typeof(NymphInspirationCardPool))]
+public sealed class NymphInspirationDeadFight : NymphInspirationCard
+{
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+    [
+        new DynamicVar("Create", CreateAmount),
+        new CardsVar(3)
+    ];
+
+    public NymphInspirationDeadFight()
+        : base(CardRarity.Uncommon)
+    {
+    }
+
+    protected override Task ApplyInspiration(
+        PlayerChoiceContext choiceContext,
+        CardPlay cardPlay)
+    {
+        List<CardModel> candidates = PileType.Hand
+            .GetPile(Owner)
+            .Cards
+            .Where(card => card is not NymphInspirationCard
+                && card.Type is not CardType.Status
+                && card.Type is not CardType.Curse)
+            .ToList();
+
+        int count = Math.Min(DynamicVars.Cards.IntValue, candidates.Count);
+        for (int i = 0; i < count; i++)
+        {
+            CardModel? selected = Owner.RunState.Rng
+                .CombatCardSelection
+                .NextItem(candidates);
+            if (selected is null)
+            {
+                break;
+            }
+
+            candidates.Remove(selected);
+            DoubleCardNumbers(selected);
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private static void DoubleCardNumbers(CardModel card)
+    {
+        foreach (DynamicVar variable in card.DynamicVars.Values)
+        {
+            if (variable.Name == "Energy" || variable.BaseValue < 0)
+            {
+                continue;
+            }
+
+            variable.BaseValue *= 2;
+            variable.ResetToBase();
+        }
+
+        NCard? node = NCard.FindOnTable(card);
+        node?.UpdateVisuals(
+            card.Pile?.Type ?? PileType.Hand,
+            CardPreviewMode.Normal);
     }
 }

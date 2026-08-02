@@ -25,8 +25,8 @@
   "NYMPH_POWER_NO_THOUGHT_GAIN_POWER.title": "无话可说",
   "NYMPH_POWER_NO_THOUGHT_GAIN_POWER.description": "本回合不能增加思绪。",
   "NYMPH_POWER_FEAR_POWER.title": "恐惧",
-  "NYMPH_POWER_FEAR_POWER.description": "[gold]凋亡[/gold]造成的伤害翻倍。每回合减少1层。",
-  "NYMPH_POWER_FEAR_POWER.smartDescription": "[gold]凋亡[/gold]造成的伤害翻倍。剩余[blue]{Amount}[/blue]回合。",
+  "NYMPH_POWER_FEAR_POWER.description": "使[gold]凋亡[/gold]造成的伤害翻倍，回合开始时层数减少1。",
+  "NYMPH_POWER_FEAR_POWER.smartDescription": "使[gold]凋亡[/gold]造成的伤害翻倍，回合开始时层数减少1。当前为[blue]{Amount}[/blue]层。",
   "NYMPH_POWER_NARRATE_VIGOR_POWER.title": "死魂灵",
   "NYMPH_POWER_NARRATE_VIGOR_POWER.description": "本回合内，[gold]讲述[/gold]还会获得等量[gold]活力[/gold]。",
   "NYMPH_POWER_DREADKAZ_ECHO_POWER.title": "造物倒影",
@@ -67,6 +67,13 @@
   "NYMPH_POWER_INSPIRATION_FLAMES_POWER.description": "之后{Amount}回合开始时，多抽2张牌。",
   "NYMPH_POWER_INSPIRATION_USED_POWER.title": "灵感已使用",
   "NYMPH_POWER_INSPIRATION_USED_POWER.description": "本场战斗已经打出过灵感牌。",
+  "NYMPH_POWER_CONCEIVE_CARD_PLAYED_THIS_TURN_POWER.title": "本回合已创想",
+  "NYMPH_POWER_CONCEIVE_CARD_PLAYED_THIS_TURN_POWER.description": "本回合打出过创想牌。",
+  "NYMPH_POWER_INSPIRATION_CITY_DRIVING_POWER.title": "驱城",
+  "NYMPH_POWER_INSPIRATION_CITY_DRIVING_POWER.description": "每回合开始时，选择弃牌堆中的[blue]{Amount}[/blue]张牌放入[gold]手牌[/gold]。",
+  "NYMPH_POWER_INSPIRATION_CITY_DRIVING_POWER.selectionPrompt": "选择要放入手牌的牌。",
+  "NYMPH_POWER_INSPIRATION_TEMPER_BLADE_POWER.title": "淬刃",
+  "NYMPH_POWER_INSPIRATION_TEMPER_BLADE_POWER.description": "每回合第一次打出[gold]攻击牌[/gold]时，额外给予目标[blue]{Amount}[/blue]层[gold]凋亡[/gold]。",
   "NYMPH_POWER_BABEL_OATH_POWER.title": "巴别塔誓言",
   "NYMPH_POWER_BABEL_OATH_POWER.description": "[gold]讲述[/gold]的后续效果会多触发一次。",
   "NYMPH_POWER_CONSTRUCT_HISTORY_FORM_POWER.title": "构史形态",
@@ -82,5 +89,7 @@
   "NYMPH_POWER_FUTURE_LONGING_POWER.title": "憧憬未来",
   "NYMPH_POWER_FUTURE_LONGING_POWER.description": "[gold]重构[/gold]出的卡牌上所有数字增加[blue]{Amount}[/blue]。",
   "NYMPH_POWER_NECROSIS_PERMANENT_LOCK_POWER.title": "失魂",
-  "NYMPH_POWER_NECROSIS_PERMANENT_LOCK_POWER.description": "[gold]凋亡[/gold]层数与触发计数不再减少。"
+  "NYMPH_POWER_NECROSIS_PERMANENT_LOCK_POWER.description": "[gold]凋亡[/gold]层数与触发计数不再减少。",
+  "NYMPH_POWER_GLIMMER_IN_PALM_POWER.title": "掌中的微光",
+  "NYMPH_POWER_GLIMMER_IN_PALM_POWER.description": "每回合开始时，向[gold]手牌[/gold]中加入[blue]{Amount}[/blue]张[gold]奇迹[/gold]，并选择至多[blue]{Amount}[/blue]张牌[gold]重构[/gold]。"
 }

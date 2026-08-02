@@ -61,5 +61,6 @@ public sealed class NymphEmptyReverie : ModCardTemplate
 
     protected override void OnUpgrade()
     {
+        DynamicVars.Damage.UpgradeValueBy(3);
     }
 }

@@ -28,7 +28,8 @@ public sealed class NymphHeartEcho : ModCardTemplate
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
         HoverTipFactory.FromPower<NecrosisPower>(),
-        HoverTipFactory.FromCard<NymphResonance>()
+        .. HoverTipFactory.FromCardWithCardHoverTips<NymphResonance>(
+            IsUpgraded)
     ];
 
     public NymphHeartEcho()
@@ -54,10 +55,21 @@ public sealed class NymphHeartEcho : ModCardTemplate
             return;
         }
 
-        var cards = Enumerable
-            .Range(0, resonanceCount)
-            .Select(_ => CombatState.CreateCard<NymphResonance>(Owner))
-            .ToList();
+        List<CardModel> cards = [];
+        for (int i = 0; i < resonanceCount; i++)
+        {
+            NymphResonance resonance =
+                CombatState.CreateCard<NymphResonance>(Owner);
+            if (IsUpgraded)
+            {
+                CardCmd.Upgrade(
+                    resonance,
+                    MegaCrit.Sts2.Core.Nodes.CommonUi.CardPreviewStyle.None);
+            }
+
+            cards.Add(resonance);
+        }
+
         await CardPileCmd.AddGeneratedCardsToCombat(
             cards,
             PileType.Hand,
@@ -66,6 +78,6 @@ public sealed class NymphHeartEcho : ModCardTemplate
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(4);
+        DynamicVars.Damage.UpgradeValueBy(3);
     }
 }

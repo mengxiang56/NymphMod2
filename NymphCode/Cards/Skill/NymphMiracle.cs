@@ -1,8 +1,8 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.ValueProps;
 using Nymph.Characters;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
@@ -10,9 +10,9 @@ using STS2RitsuLib.Scaffolding.Content;
 namespace Nymph.Cards;
 
 [RegisterCard(typeof(NymphDerivedCardPool))]
-public sealed class NymphResonance : ModCardTemplate
+public sealed class NymphMiracle : ModCardTemplate
 {
-    public override bool GainsBlock => true;
+    public override int MaxUpgradeLevel => 0;
 
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
     [
@@ -26,10 +26,15 @@ public sealed class NymphResonance : ModCardTemplate
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new BlockVar(8, ValueProp.Move)
+        new EnergyVar(1)
     ];
 
-    public NymphResonance()
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.ForEnergy(this)
+    ];
+
+    public NymphMiracle()
         : base(0, CardType.Skill, CardRarity.Token, TargetType.Self, false)
     {
     }
@@ -38,15 +43,12 @@ public sealed class NymphResonance : ModCardTemplate
         PlayerChoiceContext choiceContext,
         CardPlay cardPlay)
     {
-        await CreatureCmd.GainBlock(
-            Owner.Creature,
-            DynamicVars.Block.BaseValue,
-            ValueProp.Move,
-            cardPlay);
+        await PlayerCmd.GainEnergy(
+            DynamicVars.Energy.BaseValue,
+            Owner);
     }
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Block.UpgradeValueBy(2);
     }
 }

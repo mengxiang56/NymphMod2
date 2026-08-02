@@ -17,6 +17,7 @@ namespace Nymph.Cards;
 public sealed class NymphBagOfIdeas : ModCardTemplate
 {
     private const int MaxDurability = 3;
+    private const int UpgradedEnergyGain = 1;
     private int _durabilityRemaining = MaxDurability;
 
     public override CardAssetProfile AssetProfile => new(
@@ -96,6 +97,11 @@ public sealed class NymphBagOfIdeas : ModCardTemplate
             Owner,
             DynamicVars["Create"].IntValue,
             this);
+        if (IsUpgraded)
+        {
+            await PlayerCmd.GainEnergy(UpgradedEnergyGain, Owner);
+        }
+
         await CardPileCmd.Draw(
             choiceContext,
             DynamicVars.Cards.IntValue,
@@ -111,6 +117,5 @@ public sealed class NymphBagOfIdeas : ModCardTemplate
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Cards.UpgradeValueBy(1);
     }
 }

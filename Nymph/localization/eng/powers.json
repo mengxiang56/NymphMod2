@@ -25,8 +25,8 @@
   "NYMPH_POWER_NO_THOUGHT_GAIN_POWER.title": "Nothing to Say",
   "NYMPH_POWER_NO_THOUGHT_GAIN_POWER.description": "Thought cannot be increased this turn.",
   "NYMPH_POWER_FEAR_POWER.title": "Fear",
-  "NYMPH_POWER_FEAR_POWER.description": "[gold]Necrosis[/gold] deals double damage. Decreases by 1 each turn.",
-  "NYMPH_POWER_FEAR_POWER.smartDescription": "[gold]Necrosis[/gold] deals double damage. [blue]{Amount}[/blue] turns remaining.",
+  "NYMPH_POWER_FEAR_POWER.description": "Double the damage dealt by [gold]Necrosis[/gold]. At the start of the owner's turn, decrease this by 1.",
+  "NYMPH_POWER_FEAR_POWER.smartDescription": "Double the damage dealt by [gold]Necrosis[/gold]. At the start of the owner's turn, decrease this by 1. Currently [blue]{Amount}[/blue].",
   "NYMPH_POWER_NARRATE_VIGOR_POWER.title": "Dead Soul",
   "NYMPH_POWER_NARRATE_VIGOR_POWER.description": "This turn, [gold]Narrate[/gold] also grants that much [gold]Vigor[/gold].",
   "NYMPH_POWER_DREADKAZ_ECHO_POWER.title": "Creation's Reflection",
@@ -67,6 +67,13 @@
   "NYMPH_POWER_INSPIRATION_FLAMES_POWER.description": "For the next {Amount} turns, draw 2 additional cards at the start of your turn.",
   "NYMPH_POWER_INSPIRATION_USED_POWER.title": "Inspiration Used",
   "NYMPH_POWER_INSPIRATION_USED_POWER.description": "An Inspiration card has already been played this combat.",
+  "NYMPH_POWER_CONCEIVE_CARD_PLAYED_THIS_TURN_POWER.title": "Conceived This Turn",
+  "NYMPH_POWER_CONCEIVE_CARD_PLAYED_THIS_TURN_POWER.description": "A Conceive card has been played this turn.",
+  "NYMPH_POWER_INSPIRATION_CITY_DRIVING_POWER.title": "City Driving",
+  "NYMPH_POWER_INSPIRATION_CITY_DRIVING_POWER.description": "At the start of each turn, choose [blue]{Amount}[/blue] card from your discard pile and put it into your [gold]Hand[/gold].",
+  "NYMPH_POWER_INSPIRATION_CITY_DRIVING_POWER.selectionPrompt": "Choose a card to put into your Hand.",
+  "NYMPH_POWER_INSPIRATION_TEMPER_BLADE_POWER.title": "Temper Blade",
+  "NYMPH_POWER_INSPIRATION_TEMPER_BLADE_POWER.description": "The first time you play an [gold]Attack[/gold] each turn, apply [blue]{Amount}[/blue] additional [gold]Necrosis[/gold] to its target.",
   "NYMPH_POWER_BABEL_OATH_POWER.title": "Babel Oath",
   "NYMPH_POWER_BABEL_OATH_POWER.description": "The follow-up effect of [gold]Narrate[/gold] triggers one additional time.",
   "NYMPH_POWER_CONSTRUCT_HISTORY_FORM_POWER.title": "Construct History Form",
@@ -82,5 +89,7 @@
   "NYMPH_POWER_FUTURE_LONGING_POWER.title": "Future Longing",
   "NYMPH_POWER_FUTURE_LONGING_POWER.description": "Increase all numbers on [gold]Recreated[/gold] cards by [blue]{Amount}[/blue].",
   "NYMPH_POWER_NECROSIS_PERMANENT_LOCK_POWER.title": "Lost Soul",
-  "NYMPH_POWER_NECROSIS_PERMANENT_LOCK_POWER.description": "[gold]Necrosis[/gold] layers and trigger counter no longer decrease."
+  "NYMPH_POWER_NECROSIS_PERMANENT_LOCK_POWER.description": "[gold]Necrosis[/gold] layers and trigger counter no longer decrease.",
+  "NYMPH_POWER_GLIMMER_IN_PALM_POWER.title": "Glimmer in the Palm",
+  "NYMPH_POWER_GLIMMER_IN_PALM_POWER.description": "At the start of each turn, add [blue]{Amount}[/blue] [gold]Miracle[/gold] to your [gold]Hand[/gold], then choose up to [blue]{Amount}[/blue] card to [gold]Recreate[/gold]."
 }

@@ -5,6 +5,7 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using Nymph.Characters;
 using Nymph.Mechanics;
+using Nymph.Powers;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Keywords;
 using STS2RitsuLib.Scaffolding.Content;
@@ -15,7 +16,7 @@ namespace Nymph.Cards;
 public sealed class NymphStoryToBeTold : ModCardTemplate
 {
     protected override bool ShouldGlowGoldInternal =>
-        ThoughtMechanics.WasPreviousCardConceive(this)
+        MeetsConceiveCondition()
         && ThoughtMechanics.CanNarrate(
             Owner,
             DynamicVars["Narrate"].IntValue);
@@ -32,7 +33,7 @@ public sealed class NymphStoryToBeTold : ModCardTemplate
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new CardsVar(1),
-        new DynamicVar("Narrate", 5)
+        new DynamicVar("Narrate", 6)
     ];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
@@ -42,7 +43,7 @@ public sealed class NymphStoryToBeTold : ModCardTemplate
     ];
 
     public NymphStoryToBeTold()
-        : base(0, CardType.Skill, CardRarity.Common, TargetType.Self, true)
+        : base(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self, true)
     {
     }
 
@@ -50,15 +51,14 @@ public sealed class NymphStoryToBeTold : ModCardTemplate
         PlayerChoiceContext choiceContext,
         CardPlay cardPlay)
     {
-        bool previousCardWasConceive =
-            ThoughtMechanics.WasPreviousCardConceive(this);
+        bool meetsConceiveCondition = MeetsConceiveCondition();
 
         await CardPileCmd.Draw(
             choiceContext,
             DynamicVars.Cards.IntValue,
             Owner);
 
-        if (!previousCardWasConceive)
+        if (!meetsConceiveCondition)
         {
             return;
         }
@@ -79,5 +79,13 @@ public sealed class NymphStoryToBeTold : ModCardTemplate
 
     protected override void OnUpgrade()
     {
+    }
+
+    private bool MeetsConceiveCondition()
+    {
+        return IsUpgraded
+            ? Owner.Creature
+                .GetPower<ConceiveCardPlayedThisTurnPower>() is not null
+            : ThoughtMechanics.WasPreviousCardConceive(this);
     }
 }

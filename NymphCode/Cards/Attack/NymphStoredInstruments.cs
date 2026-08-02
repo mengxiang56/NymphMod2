@@ -32,7 +32,8 @@ public sealed class NymphStoredInstruments : ModCardTemplate
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        HoverTipFactory.FromCard<NymphEmptyReverie>()
+        .. HoverTipFactory.FromCardWithCardHoverTips<NymphEmptyReverie>(
+            IsUpgraded)
     ];
 
     public NymphStoredInstruments()
@@ -57,8 +58,15 @@ public sealed class NymphStoredInstruments : ModCardTemplate
             .Targeting(cardPlay.Target)
             .Execute(choiceContext);
 
-        CardModel reverie =
+        NymphEmptyReverie reverie =
             CombatState!.CreateCard<NymphEmptyReverie>(Owner);
+        if (IsUpgraded)
+        {
+            CardCmd.Upgrade(
+                reverie,
+                MegaCrit.Sts2.Core.Nodes.CommonUi.CardPreviewStyle.None);
+        }
+
         await CardPileCmd.AddGeneratedCardToCombat(
             reverie,
             PileType.Hand,
@@ -67,5 +75,6 @@ public sealed class NymphStoredInstruments : ModCardTemplate
 
     protected override void OnUpgrade()
     {
+        DynamicVars.Damage.UpgradeValueBy(3);
     }
 }

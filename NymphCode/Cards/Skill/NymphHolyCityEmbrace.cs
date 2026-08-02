@@ -72,6 +72,7 @@ public sealed class NymphHolyCityEmbrace : ModCardTemplate
 
     protected override void OnUpgrade()
     {
+        DynamicVars.Block.UpgradeValueBy(2);
         DynamicVars["Reduction"].UpgradeValueBy(1);
     }
 }

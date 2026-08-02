@@ -70,5 +70,7 @@ public sealed class NymphPostwarReconstruction : ModCardTemplate
 
     protected override void OnUpgrade()
     {
+        DynamicVars.Block.UpgradeValueBy(2);
+        DynamicVars["Threshold"].UpgradeValueBy(1);
     }
 }

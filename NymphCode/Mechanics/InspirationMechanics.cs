@@ -88,6 +88,24 @@ public static class InspirationMechanics
         return card;
     }
 
+    public static async Task<IReadOnlyList<CardModel>> AddRandomToPile(
+        Player player,
+        int amount)
+    {
+        List<CardModel> added = [];
+        for (int i = 0; i < amount; i++)
+        {
+            CardModel card = CreateRandomCard(player);
+            CardPileAddResult result = await CardPileCmd.Add(card, PileType);
+            if (result.success)
+            {
+                added.Add(result.cardAdded);
+            }
+        }
+
+        return added;
+    }
+
     private static void QueueInitialCardPreview(
         CardPileAddResult result)
     {

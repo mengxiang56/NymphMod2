@@ -17,7 +17,7 @@ public sealed class NymphRoughWaterRecovery : ModCardTemplate
     private const int UpgradedEnergyGain = 2;
 
     private int EnergyGain =>
-        CurrentUpgradeLevel > 0 ? UpgradedEnergyGain : BaseEnergyGain;
+        IsUpgraded ? UpgradedEnergyGain : BaseEnergyGain;
 
     protected override bool ShouldGlowGoldInternal =>
         ThoughtMechanics.GetState(Owner) != ThoughtState.Clear
@@ -83,5 +83,10 @@ public sealed class NymphRoughWaterRecovery : ModCardTemplate
             EnergyGain
                 * ThoughtMechanics.NarrationEffectMultiplier(Owner),
             Owner);
+    }
+
+    protected override void OnUpgrade()
+    {
+        DynamicVars.Damage.UpgradeValueBy(4);
     }
 }
