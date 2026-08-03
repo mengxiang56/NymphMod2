@@ -64,10 +64,17 @@ public sealed class NymphUnwrittenDeed : ModCardTemplate
 
         NymphBabelOath oath =
             CombatState!.CreateCard<NymphBabelOath>(Owner);
-        await CardPileCmd.AddGeneratedCardToCombat(
-            oath,
-            IsUpgraded ? PileType.Hand : PileType.Draw,
-            Owner);
+        PileType destination =
+            IsUpgraded ? PileType.Hand : PileType.Draw;
+        CardPileAddResult result =
+            await CardPileCmd.AddGeneratedCardToCombat(
+                oath,
+                destination,
+                Owner,
+                IsUpgraded
+                    ? CardPilePosition.Bottom
+                    : CardPilePosition.Random);
+        CardCmd.PreviewCardPileAdd(result);
     }
 
     protected override void OnUpgrade()

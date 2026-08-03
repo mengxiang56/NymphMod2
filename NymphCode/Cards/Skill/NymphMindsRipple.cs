@@ -21,8 +21,7 @@ public sealed class NymphMindsRipple : ModCardTemplate
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new PowerVar<NecrosisPower>(2),
-        new DynamicVar("TriggerMultiplier", 3)
+        new PowerVar<NecrosisPower>(2)
     ];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
@@ -58,7 +57,7 @@ public sealed class NymphMindsRipple : ModCardTemplate
                 choiceContext,
                 Owner.Creature,
                 this,
-                DynamicVars["TriggerMultiplier"].IntValue * x);
+                x);
         }
     }
 

@@ -6,7 +6,6 @@ using STS2RitsuLib.Interop;
 using Nymph.Mechanics;
 using Nymph.Patches;
 using Nymph.Rewards;
-using Nymph.Cards;
 using STS2RitsuLib.Combat.Rewards;
 using Logger = MegaCrit.Sts2.Core.Logging.Logger;
 
@@ -46,8 +45,6 @@ public partial class Entry
         // 自动注册扫描会读取当前程序集里的 RegisterCard/RegisterRelic 等 attribute。
         // 新增内容类后，只要 attribute 写对，通常不需要在入口里手动逐个注册。
         ModTypeDiscoveryHub.RegisterModAssembly(ModId, assembly);
-
-        NymphNewBranch.EnsureAutoPlayFlushSubscribed();
 
         Logger.Info("Nymph initialized.");
     }

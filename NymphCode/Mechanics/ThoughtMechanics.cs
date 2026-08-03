@@ -225,17 +225,17 @@ public static class ThoughtMechanics
 
         await SyncStatePower(choiceContext, player);
 
+        await PowerCmd.Apply<ConceivedThoughtThisTurnPower>(
+            choiceContext,
+            player.Creature,
+            gain,
+            player.Creature,
+            source,
+            silent: true);
+
         if (source is not null
             && source.Keywords.Contains(NymphKeywords.Conceive))
         {
-            await PowerCmd.Apply<ConceivedThoughtThisTurnPower>(
-                choiceContext,
-                player.Creature,
-                gain,
-                player.Creature,
-                source,
-                silent: true);
-
             if (player.Creature.GetPower<MentalConstructionPower>()
                 is { } mentalConstruction)
             {

@@ -61,7 +61,8 @@ public sealed class NymphMasterlessMemories : ModCardTemplate
 
         await InspirationMechanics.AddRandomToPile(
             Owner,
-            DynamicVars.Cards.IntValue);
+            DynamicVars.Cards.IntValue,
+            preview: true);
     }
 
     protected override void OnUpgrade()

@@ -15,11 +15,11 @@ using STS2RitsuLib.Scaffolding.Content;
 namespace Nymph.Cards;
 
 [RegisterCard(typeof(NymphCardPool))]
-public sealed class NymphMysteryOfSmelting :
-    ModCardTemplate,
-    IHasMetaBenefit
+public sealed class NymphMysteryOfSmelting : ModCardTemplate
 {
     private bool _autoPlayNextCombat;
+
+    public override bool CanBeGeneratedInCombat => false;
 
     protected override bool HasEnergyCostX => true;
 

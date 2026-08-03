@@ -46,7 +46,7 @@ public sealed class NymphPacifyHeart : ModCardTemplate
             .Targeting(cardPlay.Target)
             .Execute(choiceContext);
 
-        if (cardPlay.Target.GetPower<NecrosisPower>() is null)
+        if (cardPlay.Target.IsDead)
         {
             return;
         }

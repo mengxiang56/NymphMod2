@@ -31,7 +31,7 @@ public sealed class NymphInterpretChange : ModCardTemplate
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        .. HoverTipFactory.FromEnchantment<Glam>(1)
+        ModelDb.Enchantment<Glam>().HoverTip
     ];
 
     public NymphInterpretChange()

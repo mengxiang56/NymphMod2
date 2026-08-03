@@ -46,7 +46,6 @@ public sealed class NymphKnotThread : ModCardTemplate
         CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
-        bool hadNecrosis = cardPlay.Target.HasPower<NecrosisPower>();
 
         await ThoughtMechanics.Create(
             choiceContext,
@@ -58,7 +57,7 @@ public sealed class NymphKnotThread : ModCardTemplate
             .Targeting(cardPlay.Target)
             .Execute(choiceContext);
 
-        if (!hadNecrosis && !cardPlay.Target.IsDead)
+        if (!cardPlay.Target.IsDead)
         {
             await PowerCmd.Apply<NecrosisPower>(
                 choiceContext,

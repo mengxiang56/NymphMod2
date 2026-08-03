@@ -15,6 +15,9 @@ namespace Nymph.Mechanics;
 
 public static class RecreateMechanics
 {
+    private static readonly BlockingPlayerChoiceContext
+        AutoPlayChoiceContext = new();
+
     public static async Task<IReadOnlyList<RecreateResult>> SelectFromHand(
         PlayerChoiceContext choiceContext,
         CardModel source,
@@ -187,6 +190,8 @@ public static class RecreateMechanics
                 [result]);
         }
 
+        await AutoPlayNewBranches([result]);
+
         return result;
     }
 
@@ -293,6 +298,7 @@ public static class RecreateMechanics
         AdaptabilityPower.EnchantRecreatedCards(
             source.Owner,
             results);
+        await AutoPlayNewBranches(results);
         return results;
     }
 
@@ -362,7 +368,25 @@ public static class RecreateMechanics
                 results);
         }
 
+        await AutoPlayNewBranches(results);
+
         return results;
+    }
+
+    private static async Task AutoPlayNewBranches(
+        IEnumerable<RecreateResult> results)
+    {
+        foreach (NymphNewBranch card in results
+            .Select(result => result.Replacement)
+            .OfType<NymphNewBranch>()
+            .Where(card => card.Pile?.Type == PileType.Hand)
+            .ToList())
+        {
+            await CardCmd.AutoPlay(
+                AutoPlayChoiceContext,
+                card,
+                null);
+        }
     }
 
     private static void RegisterMysteryOfSmelting(CardModel original)
@@ -396,7 +420,7 @@ public static class RecreateMechanics
                 && (card.Rarity is CardRarity.Common
                     or CardRarity.Uncommon
                     or CardRarity.Rare)
-                && card is not IHasMetaBenefit);
+                && card.CanBeGeneratedInCombat);
         if (replacementFilter is not null)
         {
             nymphCardPool = nymphCardPool.Where(replacementFilter);

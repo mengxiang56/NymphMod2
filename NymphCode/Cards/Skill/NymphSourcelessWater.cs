@@ -13,8 +13,10 @@ using STS2RitsuLib.Scaffolding.Content;
 namespace Nymph.Cards;
 
 [RegisterCard(typeof(NymphCardPool))]
-public sealed class NymphSourcelessWater : ModCardTemplate, IHasMetaBenefit
+public sealed class NymphSourcelessWater : ModCardTemplate
 {
+    public override bool CanBeGeneratedInCombat => false;
+
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
     [
         CardKeyword.Exhaust

@@ -34,7 +34,7 @@ public sealed class NymphBoundlessImagination : ModCardTemplate
     ];
 
     public NymphBoundlessImagination()
-        : base(2, CardType.Skill, CardRarity.Common, TargetType.Self, true)
+        : base(1, CardType.Skill, CardRarity.Common, TargetType.Self, true)
     {
     }
 

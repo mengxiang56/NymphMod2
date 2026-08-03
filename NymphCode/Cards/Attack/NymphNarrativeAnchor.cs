@@ -23,7 +23,7 @@ public sealed class NymphNarrativeAnchor : ModCardTemplate
 
     public override CardAssetProfile AssetProfile => new(
         PortraitPath:
-            $"{Entry.ResPath}/images/cards/{nameof(NymphNarrativeAnchor)}.png",
+            $"{Entry.ResPath}/images/cards/{GetType().Name}.png",
         FramePath: $"{Entry.ResPath}/images/cards/frames/bg_attack_sts2.png");
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>

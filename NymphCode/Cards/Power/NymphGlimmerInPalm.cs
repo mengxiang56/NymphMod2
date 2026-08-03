@@ -2,6 +2,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using Nymph.Characters;
 using Nymph.Mechanics;
 using Nymph.Powers;
@@ -17,6 +18,11 @@ public sealed class NymphGlimmerInPalm : ModCardTemplate
     public override CardAssetProfile AssetProfile => new(
         PortraitPath: $"{Entry.ResPath}/images/cards/{GetType().Name}.png",
         FramePath: $"{Entry.ResPath}/images/cards/frames/bg_power_sts2.png");
+
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+    [
+        new DynamicVar("Amount", 1)
+    ];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
@@ -36,7 +42,7 @@ public sealed class NymphGlimmerInPalm : ModCardTemplate
         await PowerCmd.Apply<GlimmerInPalmPower>(
             choiceContext,
             Owner.Creature,
-            1,
+            DynamicVars["Amount"].IntValue,
             Owner.Creature,
             this);
     }

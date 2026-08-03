@@ -19,7 +19,7 @@ namespace Nymph.Cards;
 
 public abstract class NymphInspirationCard : ModCardTemplate
 {
-    protected const int CreateAmount = 4;
+    protected const int CreateAmount = 5;
 
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
     [

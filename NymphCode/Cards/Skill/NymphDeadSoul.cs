@@ -3,7 +3,6 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models.Powers;
 using Nymph.Characters;
 using Nymph.Mechanics;
 using Nymph.Powers;
@@ -25,10 +24,15 @@ public sealed class NymphDeadSoul : ModCardTemplate
         PortraitPath: $"{Entry.ResPath}/images/cards/{GetType().Name}.png",
         FramePath: $"{Entry.ResPath}/images/cards/frames/bg_skill_sts2.png");
 
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+    [
+        new PowerVar<NecrosisPower>(1)
+    ];
+
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
         ModKeywordRegistry.CreateHoverTip(NymphKeywords.NarrateId),
-        HoverTipFactory.FromPower<VigorPower>()
+        HoverTipFactory.FromPower<NecrosisPower>()
     ];
 
     public NymphDeadSoul()
@@ -43,7 +47,7 @@ public sealed class NymphDeadSoul : ModCardTemplate
         await PowerCmd.Apply<NarrateVigorPower>(
             choiceContext,
             Owner.Creature,
-            1,
+            DynamicVars["NecrosisPower"].IntValue,
             Owner.Creature,
             this);
     }

@@ -2,15 +2,12 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 using Nymph.Characters;
-using Nymph.Mechanics;
 using Nymph.Powers;
 using STS2RitsuLib.Interop.AutoRegistration;
-using STS2RitsuLib.Keywords;
 using STS2RitsuLib.Scaffolding.Content;
 
 namespace Nymph.Cards;
@@ -28,11 +25,6 @@ public sealed class NymphThoughtSort : ModCardTemplate
     [
         new ThoughtSortDamageVar(6, ValueProp.Move),
         new DynamicVar(BonusPerThoughtVar, 2)
-    ];
-
-    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
-    [
-        ModKeywordRegistry.CreateHoverTip(NymphKeywords.ConceiveId)
     ];
 
     public NymphThoughtSort()

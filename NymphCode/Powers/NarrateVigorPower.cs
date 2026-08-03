@@ -4,7 +4,7 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.HoverTips;
 using Nymph.Mechanics;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
@@ -14,8 +14,13 @@ namespace Nymph.Powers;
 [RegisterPower]
 public sealed class NarrateVigorPower : ModPowerTemplate
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<NecrosisPower>()
+    ];
+
     public override PowerType Type => PowerType.Buff;
-    public override PowerStackType StackType => PowerStackType.Single;
+    public override PowerStackType StackType => PowerStackType.Counter;
     public override bool AllowNegative => false;
 
     public override PowerAssetProfile AssetProfile => new(
@@ -28,17 +33,25 @@ public sealed class NarrateVigorPower : ModPowerTemplate
         PlayerChoiceContext choiceContext,
         CardPlay cardPlay)
     {
-        int narrated = ThoughtMechanics.NarratedAmount(cardPlay);
-        if (cardPlay.Card.Owner != Owner.Player || narrated <= 0)
+        if (cardPlay.Card.Owner != Owner.Player
+            || ThoughtMechanics.NarratedAmount(cardPlay) <= 0)
+        {
+            return;
+        }
+
+        Creature? target = Owner.Player.RunState.Rng.CombatTargets.NextItem(
+            CombatState.GetOpponentsOf(Owner)
+                .Where(enemy => !enemy.IsDead));
+        if (target is null)
         {
             return;
         }
 
         Flash();
-        await PowerCmd.Apply<VigorPower>(
+        await PowerCmd.Apply<NecrosisPower>(
             choiceContext,
-            Owner,
-            narrated,
+            target,
+            Amount,
             Owner,
             cardPlay.Card);
     }

@@ -40,6 +40,8 @@ public static class InspirationMechanics
                 Scope = ModCardPileScope.RunPersistent,
                 Style = ModCardPileUiStyle.TopBarDeck,
                 IconPath = PileIconPath,
+                HoverTipPlacement =
+                    ModCardPileHoverTipPlacement.BelowButtonTrailingEdge,
                 View = ModCardPileViewSpec.DeckLike with
                 {
                     EnableUpgradePreviewToggle = false
@@ -90,9 +92,11 @@ public static class InspirationMechanics
 
     public static async Task<IReadOnlyList<CardModel>> AddRandomToPile(
         Player player,
-        int amount)
+        int amount,
+        bool preview = false)
     {
         List<CardModel> added = [];
+        List<CardPileAddResult> previewResults = [];
         for (int i = 0; i < amount; i++)
         {
             CardModel card = CreateRandomCard(player);
@@ -100,7 +104,17 @@ public static class InspirationMechanics
             if (result.success)
             {
                 added.Add(result.cardAdded);
+                if (preview)
+                {
+                    previewResults.Add(result);
+                }
             }
+        }
+
+        if (previewResults.Count > 0)
+        {
+            Callable.From(() => PreviewInspirations(previewResults))
+                .CallDeferred();
         }
 
         return added;
@@ -117,24 +131,35 @@ public static class InspirationMechanics
 
     public static void FlushPendingInitialPreviews()
     {
-        NRun? run = NRun.Instance;
-        if (run is null || PendingInitialPreviews.Count == 0)
+        if (NRun.Instance is null
+            || PendingInitialPreviews.Count == 0)
         {
             return;
         }
 
-        foreach (CardPileAddResult result in PendingInitialPreviews)
-        {
-            if (result.success && LocalContext.IsMine(result.cardAdded))
-            {
-                PreviewInitialInspiration(run, result.cardAdded);
-            }
-        }
-
+        PreviewInspirations(PendingInitialPreviews);
         PendingInitialPreviews.Clear();
     }
 
-    private static void PreviewInitialInspiration(
+    private static void PreviewInspirations(
+        IReadOnlyList<CardPileAddResult> results)
+    {
+        NRun? run = NRun.Instance;
+        if (run is null)
+        {
+            return;
+        }
+
+        foreach (CardPileAddResult result in results)
+        {
+            if (result.success && LocalContext.IsMine(result.cardAdded))
+            {
+                PreviewInspiration(run, result.cardAdded);
+            }
+        }
+    }
+
+    private static void PreviewInspiration(
         NRun run,
         CardModel card)
     {

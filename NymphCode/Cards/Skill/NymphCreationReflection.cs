@@ -13,18 +13,13 @@ namespace Nymph.Cards;
 [RegisterCard(typeof(NymphCardPool))]
 public sealed class NymphCreationReflection : ModCardTemplate
 {
-    private const int BaseEnergyGain = 2;
-    private const int UpgradedEnergyGain = 3;
-
-    private int EnergyGain =>
-        CurrentUpgradeLevel > 0 ? UpgradedEnergyGain : BaseEnergyGain;
-
     public override CardAssetProfile AssetProfile => new(
         PortraitPath: $"{Entry.ResPath}/images/cards/{GetType().Name}.png",
         FramePath: $"{Entry.ResPath}/images/cards/frames/bg_skill_sts2.png");
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
+        new EnergyVar(2),
         new DynamicVar("Cards", 2)
     ];
 
@@ -42,12 +37,17 @@ public sealed class NymphCreationReflection : ModCardTemplate
         PlayerChoiceContext choiceContext,
         CardPlay cardPlay)
     {
-        await PlayerCmd.GainEnergy(EnergyGain, Owner);
+        await PlayerCmd.GainEnergy(DynamicVars.Energy.BaseValue, Owner);
         await PowerCmd.Apply<DreadkazEchoPower>(
             choiceContext,
             Owner.Creature,
             DynamicVars["Cards"].IntValue,
             Owner.Creature,
             this);
+    }
+
+    protected override void OnUpgrade()
+    {
+        DynamicVars.Energy.UpgradeValueBy(1);
     }
 }
