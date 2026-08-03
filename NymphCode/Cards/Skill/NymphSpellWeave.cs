@@ -13,27 +13,25 @@ namespace Nymph.Cards;
 [RegisterCard(typeof(NymphCardPool))]
 public sealed class NymphSpellWeave : ModCardTemplate
 {
-    public override IEnumerable<CardKeyword> CanonicalKeywords =>
-    [
-        CardKeyword.Retain
-    ];
-
     public override CardAssetProfile AssetProfile => new(
         PortraitPath: $"{Entry.ResPath}/images/cards/{GetType().Name}.png",
         FramePath: $"{Entry.ResPath}/images/cards/frames/bg_skill_sts2.png");
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new PowerVar<NecrosisPower>(4)
+        new PowerVar<NecrosisPower>(1),
+        new DynamicVar("Turns", 2),
+        new DynamicVar("Delayed", 1)
     ];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        HoverTipFactory.FromPower<NecrosisPower>()
+        HoverTipFactory.FromPower<NecrosisPower>(),
+        HoverTipFactory.FromPower<SpellWeavePower>()
     ];
 
     public NymphSpellWeave()
-        : base(2, CardType.Skill, CardRarity.Common, TargetType.AnyEnemy, true)
+        : base(0, CardType.Skill, CardRarity.Common, TargetType.AnyEnemy, true)
     {
     }
 
@@ -46,6 +44,12 @@ public sealed class NymphSpellWeave : ModCardTemplate
             choiceContext,
             cardPlay.Target,
             DynamicVars["NecrosisPower"].IntValue,
+            Owner.Creature,
+            this);
+        await PowerCmd.Apply<SpellWeavePower>(
+            choiceContext,
+            cardPlay.Target,
+            DynamicVars["Turns"].IntValue,
             Owner.Creature,
             this);
     }

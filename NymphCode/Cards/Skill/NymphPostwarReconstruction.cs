@@ -1,6 +1,7 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
@@ -29,6 +30,11 @@ public sealed class NymphPostwarReconstruction : ModCardTemplate
     [
         new BlockVar(4, ValueProp.Unpowered),
         new DynamicVar("Threshold", 2)
+    ];
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        NymphKeywords.CreateThresholdHoverTip()
     ];
 
     public NymphPostwarReconstruction()
@@ -70,7 +76,7 @@ public sealed class NymphPostwarReconstruction : ModCardTemplate
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Block.UpgradeValueBy(2);
+        DynamicVars.Block.UpgradeValueBy(1);
         DynamicVars["Threshold"].UpgradeValueBy(1);
     }
 }

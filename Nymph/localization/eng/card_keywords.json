@@ -8,5 +8,7 @@
   "NYMPH_KEYWORD_RECREATE_POTION.title": "Recreate Potion",
   "NYMPH_KEYWORD_RECREATE_POTION.description": "Transform into a random Potion.",
   "NYMPH_KEYWORD_INSPIRATION.title": "Inspiration",
-  "NYMPH_KEYWORD_INSPIRATION.description": "A series of Inspiration cards. Only the 1st Inspiration used each combat takes effect."
+  "NYMPH_KEYWORD_INSPIRATION.description": "A series of Inspiration cards. Only the 1st Inspiration used each combat takes effect.",
+  "NYMPH_KEYWORD_THRESHOLD.title": "Confusion Threshold",
+  "NYMPH_KEYWORD_THRESHOLD.description": "When Thought reaches the [gold]Confusion Threshold[/gold], enter [gold]Confused[/gold].\nThe [gold]Obstruction Threshold[/gold] equals [blue]2[/blue] times the Confusion Threshold."
 }

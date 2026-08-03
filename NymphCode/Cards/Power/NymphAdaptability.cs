@@ -37,7 +37,7 @@ public sealed class NymphAdaptability : ModCardTemplate
     ];
 
     public NymphAdaptability()
-        : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self, true)
+        : base(0, CardType.Power, CardRarity.Uncommon, TargetType.Self, true)
     {
     }
 

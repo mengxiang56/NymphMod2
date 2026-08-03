@@ -38,7 +38,7 @@ public sealed class NymphUnwrittenDeed : ModCardTemplate
     ];
 
     public NymphUnwrittenDeed()
-        : base(2, CardType.Attack, CardRarity.Token, TargetType.AnyEnemy, true)
+        : base(2, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy, true)
     {
     }
 
@@ -79,5 +79,6 @@ public sealed class NymphUnwrittenDeed : ModCardTemplate
 
     protected override void OnUpgrade()
     {
+        DynamicVars.Damage.UpgradeValueBy(4);
     }
 }

@@ -19,7 +19,7 @@ public sealed class NymphHeartlashCommunion : ModCardTemplate
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new PowerVar<NecrosisPower>(3)
+        new PowerVar<NecrosisPower>(4)
     ];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>

@@ -26,7 +26,7 @@ public sealed class NymphBabelOath : ModCardTemplate
     ];
 
     public NymphBabelOath()
-        : base(0, CardType.Power, CardRarity.Token, TargetType.Self, false)
+        : base(0, CardType.Power, CardRarity.Rare, TargetType.Self, false)
     {
     }
 

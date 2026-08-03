@@ -28,6 +28,11 @@ public static class ThoughtMechanics
     public const int ObstructedThreshold = 24;
     public const int MaxAmount = 999;
 
+    /// <summary>
+    /// 思绪计数器两行数值之间的行距，可在 <see cref="NThoughtCounter.AmountLineSpacing" /> 覆盖。
+    /// </summary>
+    public const int AmountLineSpacing = -6;
+
     private const string ClearIconPath =
         $"{Entry.ResPath}/images/ui/thought/thought_clear.png";
     private const string ConfusedIconPath =
@@ -51,10 +56,16 @@ public static class ThoughtMechanics
 
     private static readonly SecondaryResourceCounterStyle CounterStyle = new()
     {
-        CounterSize = new Vector2(150f, 100f),
-        IconSize = new Vector2(150f, 100f),
-        FontSize = 30,
-        FormatAmount = (amount, _) => amount.ToString()
+        CounterSize = new Vector2(150f, 110f),
+        IconSize = new Vector2(150f, 110f),
+        FontSize = 26,
+        AmountLabelOffset = new Vector2(0f, 6f),
+        ZeroColor = SecondaryResourceCounterStyle.Default.PositiveColor,
+        // 塔一样式：上行思绪值，下行 临界点/阻滞点
+        FormatAmount = (amount, max) =>
+            max is { } threshold
+                ? $"{amount}\n{threshold}/{threshold * 2}"
+                : amount.ToString()
     };
 
     public static string ResourceId =>

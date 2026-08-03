@@ -36,7 +36,7 @@ public sealed class NymphDeadSoul : ModCardTemplate
     ];
 
     public NymphDeadSoul()
-        : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self, true)
+        : base(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self, true)
     {
     }
 
