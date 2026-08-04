@@ -54,12 +54,12 @@ public sealed class NymphEmpathy : ModCardTemplate
             Owner.Creature,
             this);
 
-        int interval = DynamicVars["Interval"].IntValue;
-        foreach (Creature enemy in enemies.Where(enemy => !enemy.IsDead))
-        {
-            enemy.GetPower<NecrosisPower>()?
-                .IncreaseCardsPerLayerLoss(interval);
-        }
+        await PowerCmd.Apply<NecrosisDecayIntervalPower>(
+            choiceContext,
+            enemies.Where(enemy => !enemy.IsDead),
+            DynamicVars["Interval"].IntValue,
+            Owner.Creature,
+            this);
     }
 
     protected override void OnUpgrade()

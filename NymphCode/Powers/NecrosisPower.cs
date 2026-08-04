@@ -25,7 +25,7 @@ public sealed class NecrosisPower :
         public Dictionary<CardModel, int> AmountsAtPlayStart { get; } = [];
     }
 
-    private const int DefaultCardsPerLayerLoss = 3;
+    internal const int DefaultCardsPerLayerLoss = 3;
     private int _cardsPlayedTowardLayerLoss;
     private int _cardsPerLayerLoss = DefaultCardsPerLayerLoss;
     private int _triggersTowardKeyEffect;
@@ -101,14 +101,6 @@ public sealed class NecrosisPower :
         }
     }
 
-    public void IncreaseCardsPerLayerLoss(int amount)
-    {
-        if (amount > 0)
-        {
-            CardsPerLayerLoss += amount;
-        }
-    }
-
     [SavedProperty]
     public bool ReductionLockedPermanently
     {
@@ -148,6 +140,12 @@ public sealed class NecrosisPower :
     protected override object InitInternalData()
     {
         return new CardPlayData();
+    }
+
+    public override Task AfterApplied(Creature? applier, CardModel? cardSource)
+    {
+        NecrosisDecayIntervalPower.SyncToNecrosis(Owner);
+        return Task.CompletedTask;
     }
 
     public override Task BeforeCardPlayed(CardPlay cardPlay)
@@ -283,8 +281,7 @@ public sealed class NecrosisPower :
                 : 0);
         if (temporaryStrengthLoss > 0 && !Owner.IsDead)
         {
-            await PowerCmd.Apply<
-                MegaCrit.Sts2.Core.Models.Powers.DarkShacklesPower>(
+            await PowerCmd.Apply<KeyToHeartStrengthDownPower>(
                 choiceContext,
                 Owner,
                 temporaryStrengthLoss,

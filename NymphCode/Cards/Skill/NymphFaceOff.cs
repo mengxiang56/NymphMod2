@@ -63,11 +63,6 @@ public sealed class NymphFaceOff : ModCardTemplate
             return;
         }
 
-        await CreatureCmd.GainBlock(
-            Owner.Creature,
-            narrated,
-            ValueProp.Unpowered,
-            cardPlay);
         await PowerCmd.Apply<StrengthPower>(
             choiceContext,
             Owner.Creature,

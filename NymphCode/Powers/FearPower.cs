@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Localization;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 
@@ -24,6 +25,20 @@ public sealed class FearPower : ModPowerTemplate
     public override PowerAssetProfile AssetProfile => new(
         IconPath: $"{Entry.ResPath}/images/powers/FearPower32.png",
         BigIconPath: $"{Entry.ResPath}/images/powers/FearPower84.png");
+
+    public override LocString Description =>
+        new LocString(
+            "powers",
+            IsCanonical
+                ? "NYMPH_POWER_FEAR_POWER.description"
+                : Owner?.IsPlayer == true
+                    ? "NYMPH_POWER_FEAR_POWER.descriptionOnPlayer"
+                    : "NYMPH_POWER_FEAR_POWER.descriptionOnEnemy");
+
+    protected override string SmartDescriptionLocKey =>
+        !IsCanonical && Owner?.IsPlayer == true
+            ? "NYMPH_POWER_FEAR_POWER.smartDescriptionOnPlayer"
+            : "NYMPH_POWER_FEAR_POWER.smartDescriptionOnEnemy";
 
     public override async Task AfterSideTurnStart(
         CombatSide side,

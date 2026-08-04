@@ -55,11 +55,6 @@ public sealed class NymphHolyCityEmbrace : ModCardTemplate
             DynamicVars["Narrate"].IntValue);
         if (narrated > 0)
         {
-            await CreatureCmd.GainBlock(
-                Owner.Creature,
-                narrated,
-                ValueProp.Unpowered,
-                cardPlay);
             await PowerCmd.Apply<HolyCityEmbracePower>(
                 choiceContext,
                 Owner.Creature,

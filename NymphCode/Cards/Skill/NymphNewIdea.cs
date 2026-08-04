@@ -49,14 +49,6 @@ public sealed class NymphNewIdea : ModCardTemplate
             choiceContext,
             cardPlay,
             DynamicVars["Narrate"].IntValue);
-        if (narrated > 0)
-        {
-            await CreatureCmd.GainBlock(
-                Owner.Creature,
-                narrated,
-                ValueProp.Unpowered,
-                cardPlay);
-        }
 
         if (CurrentUpgradeLevel > 0)
         {

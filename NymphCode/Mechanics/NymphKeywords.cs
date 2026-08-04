@@ -41,6 +41,13 @@ public sealed class RecreatePotionKeywordRegistration
 }
 
 [RegisterOwnedCardKeyword(
+    "RecreateRelic",
+    IncludeInCardHoverTip = true)]
+public sealed class RecreateRelicKeywordRegistration
+{
+}
+
+[RegisterOwnedCardKeyword(
     "Threshold",
     IncludeInCardHoverTip = true)]
 public sealed class ThresholdKeywordRegistration
@@ -54,6 +61,7 @@ public static class NymphKeywords
     public const string RecreateId = "NYMPH_KEYWORD_RECREATE";
     public const string InspirationId = "NYMPH_KEYWORD_INSPIRATION";
     public const string RecreatePotionId = "NYMPH_KEYWORD_RECREATE_POTION";
+    public const string RecreateRelicId = "NYMPH_KEYWORD_RECREATE_RELIC";
     public const string ThresholdId = "NYMPH_KEYWORD_THRESHOLD";
 
     public static CardKeyword Conceive =>
@@ -67,6 +75,9 @@ public static class NymphKeywords
 
     public static CardKeyword Inspiration =>
         ModKeywordRegistry.GetCardKeyword(InspirationId);
+
+    public static CardKeyword RecreateRelic =>
+        ModKeywordRegistry.GetCardKeyword(RecreateRelicId);
 
     public static CardKeyword Threshold =>
         ModKeywordRegistry.GetCardKeyword(ThresholdId);

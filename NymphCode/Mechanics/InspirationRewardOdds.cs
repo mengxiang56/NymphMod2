@@ -4,8 +4,8 @@ using MegaCrit.Sts2.Core.Random;
 namespace Nymph.Mechanics;
 
 /// <summary>
-/// Mirrors vanilla <see cref="PotionRewardOdds"/> for normal-combat Inspiration drops.
-/// Elite and Boss guaranteed drops should not call <see cref="Roll"/> so this state stays untouched.
+/// Mirrors vanilla <see cref="PotionRewardOdds"/> for normal and elite Inspiration drops.
+/// Boss combats always drop a Rare Inspiration and do not call <see cref="Roll"/>.
 /// </summary>
 public sealed class InspirationRewardOdds : AbstractOdds
 {

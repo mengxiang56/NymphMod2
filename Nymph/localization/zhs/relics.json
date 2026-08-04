@@ -1,6 +1,6 @@
 {
   "NYMPH_RELIC_NYMPH_RELIC.title": "探灵伯爵",
-  "NYMPH_RELIC_NYMPH_RELIC.description": "初始获得一缕灵感。战斗后有概率掉落一缕灵感。",
+  "NYMPH_RELIC_NYMPH_RELIC.description": "初始获得一缕[gold]灵感[/gold]。战斗后有概率掉落一缕[gold]灵感[/gold]。",
   "NYMPH_RELIC_NYMPH_RELIC.inspirationSelectionPrompt": "选择1张灵感牌打出或跳过。",
   "NYMPH_RELIC_NYMPH_RELIC.flavor": "阿尔布雷希特·冯·蹊兽，蔷花圆号之塔的伯爵，愿为您带回失落的财宝与隐藏的智慧。",
   "NYMPH_RELIC_NYMPH_HEART_SEAL.title": "心心相印",

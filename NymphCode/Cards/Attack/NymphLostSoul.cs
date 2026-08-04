@@ -31,8 +31,7 @@ public sealed class NymphLostSoul : ModCardTemplate
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        HoverTipFactory.FromPower<NecrosisPower>(),
-        HoverTipFactory.FromPower<NecrosisPermanentLockPower>()
+        HoverTipFactory.FromPower<NecrosisPower>()
     ];
 
     public NymphLostSoul()
@@ -62,12 +61,7 @@ public sealed class NymphLostSoul : ModCardTemplate
                 cardPlay.Target,
                 1,
                 Owner.Creature,
-                this,
-                silent: true);
-            if (cardPlay.Target.GetPower<NecrosisPower>() is { } necrosis)
-            {
-                necrosis.ReductionLockedPermanently = true;
-            }
+                this);
         }
     }
 

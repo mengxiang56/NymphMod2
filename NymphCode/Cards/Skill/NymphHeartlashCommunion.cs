@@ -24,8 +24,7 @@ public sealed class NymphHeartlashCommunion : ModCardTemplate
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        HoverTipFactory.FromPower<NecrosisPower>(),
-        HoverTipFactory.FromPower<HeartlashCommunionPower>()
+        HoverTipFactory.FromPower<NecrosisPower>()
     ];
 
     public NymphHeartlashCommunion()

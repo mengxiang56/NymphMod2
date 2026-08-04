@@ -55,7 +55,7 @@ public sealed class HeartlashCommunionPower : ModPowerTemplate
         CombatSide side,
         IEnumerable<Creature> participants)
     {
-        if (participants.Contains(Owner))
+        if (ProtectedFrom is null || side == ProtectedFrom.Side)
         {
             await PowerCmd.Remove(this);
         }

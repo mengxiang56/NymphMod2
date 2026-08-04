@@ -7,10 +7,9 @@ namespace Nymph.Powers;
 [RegisterPower]
 public sealed class NecrosisPermanentLockPower : ModPowerTemplate
 {
-    public override PowerType Type => PowerType.Buff;
+    public override PowerType Type => PowerType.Debuff;
     public override PowerStackType StackType => PowerStackType.Single;
     public override bool AllowNegative => false;
-    protected override bool IsVisibleInternal => false;
 
     public override PowerAssetProfile AssetProfile => new(
         IconPath: $"{Entry.ResPath}/images/powers/SoulStolenPower32.png",

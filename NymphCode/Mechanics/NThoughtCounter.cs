@@ -7,34 +7,139 @@ namespace Nymph.Mechanics;
 
 public sealed partial class NThoughtCounter : NSecondaryResourceCounter
 {
-    /// <summary>
-    /// 数值标签两行之间的行距（Label theme constant <c>line_spacing</c>）。
-    /// </summary>
-    public static int AmountLineSpacing { get; set; } =
-        ThoughtMechanics.AmountLineSpacing;
+    private MegaLabel? _amountLabel;
+    private MegaLabel? _thresholdLabel;
 
+    public static int AmountFontSize { get; set; } =
+        ThoughtMechanics.AmountFontSize;
+
+    public static int ThresholdFontSize { get; set; } =
+        ThoughtMechanics.ThresholdFontSize;
+
+    public static float AmountLabelVerticalOffset { get; set; } =
+        ThoughtMechanics.AmountLabelVerticalOffset;
+
+    public static float ThresholdLabelOffsetY { get; set; } =
+        ThoughtMechanics.ThresholdLabelOffsetY;
+
+    private Vector2? _amountLabelBasePosition;
     private Player? _player;
 
     public override void _Ready()
     {
         base._Ready();
-        ApplyAmountLineSpacing();
+        SetupLabels();
     }
 
-    private void ApplyAmountLineSpacing()
+    private void SetupLabels()
+    {
+        _amountLabel ??= FindAmountLabel();
+        if (_amountLabel is null)
+        {
+            return;
+        }
+
+        CreateThresholdLabelIfNeeded();
+        ApplyLabelLayout();
+    }
+
+    private MegaLabel? FindAmountLabel()
     {
         foreach (Node child in GetChildren())
         {
-            if (child is not MegaLabel label)
+            if (child is MegaLabel label)
             {
-                continue;
+                return label;
             }
-
-            label.AddThemeConstantOverride(
-                ThemeConstants.Label.LineSpacing,
-                AmountLineSpacing);
-            break;
         }
+
+        return null;
+    }
+
+    private void CreateThresholdLabelIfNeeded()
+    {
+        if (_thresholdLabel is not null || _amountLabel is null)
+        {
+            return;
+        }
+
+        _thresholdLabel = new MegaLabel
+        {
+            MouseFilter = MouseFilterEnum.Ignore,
+            CustomMinimumSize = _amountLabel.CustomMinimumSize,
+            Size = _amountLabel.Size,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center,
+            AutoSizeEnabled = false,
+        };
+        AddChild(_thresholdLabel);
+    }
+
+    private void ApplyLabelLayout()
+    {
+        if (_amountLabel is null)
+        {
+            return;
+        }
+
+        _amountLabel.MaxFontSize = AmountFontSize;
+        _amountLabel.MinFontSize = Mathf.Max(8, AmountFontSize - 6);
+
+        _amountLabelBasePosition ??= _amountLabel.Position;
+        Vector2 amountPosition = _amountLabelBasePosition.Value
+            + new Vector2(0f, AmountLabelVerticalOffset);
+        _amountLabel.Position = amountPosition;
+
+        if (_thresholdLabel is null)
+        {
+            return;
+        }
+
+        ApplyThresholdTheme();
+        _thresholdLabel.Position = amountPosition + new Vector2(0f, ThresholdLabelOffsetY);
+    }
+
+    private void ApplyThresholdTheme()
+    {
+        if (_amountLabel is null || _thresholdLabel is null)
+        {
+            return;
+        }
+
+        Font? font = _amountLabel.GetThemeFont(ThemeConstants.Label.Font);
+        if (font is not null)
+        {
+            _thresholdLabel.AddThemeFontOverride(ThemeConstants.Label.Font, font);
+        }
+
+        _thresholdLabel.AddThemeFontSizeOverride(
+            ThemeConstants.Label.FontSize,
+            ThresholdFontSize);
+        _thresholdLabel.AddThemeColorOverride(
+            ThemeConstants.Label.FontColor,
+            _amountLabel.GetThemeColor(ThemeConstants.Label.FontColor));
+        _thresholdLabel.AddThemeColorOverride(
+            ThemeConstants.Label.FontOutlineColor,
+            _amountLabel.GetThemeColor(ThemeConstants.Label.FontOutlineColor));
+        _thresholdLabel.AddThemeConstantOverride(
+            ThemeConstants.Label.OutlineSize,
+            _amountLabel.GetThemeConstant(ThemeConstants.Label.OutlineSize));
+    }
+
+    private void UpdateThresholdLabel(int? threshold, bool visible)
+    {
+        if (_thresholdLabel is null)
+        {
+            return;
+        }
+
+        _thresholdLabel.Visible = visible && threshold is not null;
+        if (!(_thresholdLabel.Visible && threshold is { } value))
+        {
+            return;
+        }
+
+        _thresholdLabel.Text = ThoughtMechanics.FormatThresholdLine(value);
     }
 
     public void BindThoughtPlayer(Player? player)
@@ -45,13 +150,14 @@ public sealed partial class NThoughtCounter : NSecondaryResourceCounter
         if (player is null)
         {
             SetAmount(0);
+            UpdateThresholdLabel(null, visible: false);
             return;
         }
 
-        // max 参数传临界点；FormatAmount 会显示为「思绪\n临界点/阻滞点」
-        SetAmount(
-            ThoughtMechanics.Get(player),
-            ThoughtMechanics.GetConfusedThreshold(player));
+        int threshold = ThoughtMechanics.GetConfusedThreshold(player);
+        SetAmount(ThoughtMechanics.Get(player), threshold);
+        SetupLabels();
+        UpdateThresholdLabel(threshold, visible: true);
     }
 
     public override void _Process(double delta)

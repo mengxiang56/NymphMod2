@@ -153,10 +153,12 @@ public abstract class NymphSelfPowerInspiration<TPower>
     {
     }
 
+    protected virtual bool IncludeSelfPowerHoverTip => true;
+
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
-    [
-        HoverTipFactory.FromPower<TPower>()
-    ];
+        IncludeSelfPowerHoverTip
+            ? [HoverTipFactory.FromPower<TPower>()]
+            : [];
 
     protected override async Task ApplyInspiration(
         PlayerChoiceContext choiceContext,
@@ -419,6 +421,7 @@ public sealed class NymphInspirationCityDriving
     : NymphSelfPowerInspiration<InspirationCityDrivingPower>
 {
     protected override int Amount => 1;
+    protected override bool IncludeSelfPowerHoverTip => false;
 
     public NymphInspirationCityDriving()
         : base(CardRarity.Uncommon)
@@ -431,10 +434,10 @@ public sealed class NymphInspirationTemperBlade
     : NymphSelfPowerInspiration<InspirationTemperBladePower>
 {
     protected override int Amount => 1;
+    protected override bool IncludeSelfPowerHoverTip => false;
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        .. base.AdditionalHoverTips,
         HoverTipFactory.FromPower<NecrosisPower>()
     ];
 

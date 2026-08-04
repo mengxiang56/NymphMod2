@@ -58,11 +58,6 @@ public sealed class NymphGatherIdea : ModCardTemplate
             return;
         }
 
-        await CreatureCmd.GainBlock(
-            Owner.Creature,
-            narrated,
-            ValueProp.Unpowered,
-            cardPlay);
         for (int i = 0;
              i < ThoughtMechanics.NarrationEffectMultiplier(Owner);
              i++)

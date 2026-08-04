@@ -88,21 +88,19 @@ public sealed class NymphRelic : ModRelicTemplate
         }
 
         if (room.RoomType == RoomType.Boss
-            && IsFinalBoss(player))
+            && IsLastAct(player))
         {
             return false;
         }
 
-        if (room.RoomType is RoomType.Elite or RoomType.Boss)
+        if (room.RoomType == RoomType.Boss)
         {
             Flash();
-            rewards.Add(new InspirationReward(
-                player,
-                room.RoomType == RoomType.Boss ? CardRarity.Rare : null));
+            rewards.Add(new InspirationReward(player, CardRarity.Rare));
             return true;
         }
 
-        if (room.RoomType != RoomType.Monster)
+        if (room.RoomType is not (RoomType.Monster or RoomType.Elite))
         {
             return false;
         }
@@ -122,17 +120,6 @@ public sealed class NymphRelic : ModRelicTemplate
         return true;
     }
 
-    private static bool IsFinalBoss(Player player)
-    {
-        var runState = player.RunState;
-        if (runState.CurrentActIndex != runState.Acts.Count - 1)
-        {
-            return false;
-        }
-
-        var secondBoss = runState.Map.SecondBossMapPoint;
-        return secondBoss is not null
-            ? runState.CurrentMapCoord == secondBoss.coord
-            : runState.CurrentMapCoord == runState.Map.BossMapPoint.coord;
-    }
+    private static bool IsLastAct(Player player) =>
+        player.RunState.CurrentActIndex == player.RunState.Acts.Count - 1;
 }

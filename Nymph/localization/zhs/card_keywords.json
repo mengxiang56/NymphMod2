@@ -7,6 +7,8 @@
   "NYMPH_KEYWORD_RECREATE.description": "变化为[gold]本角色[/gold]卡池中的随机牌（升级状态不变）,并加入[gold]手牌[/gold]。",
   "NYMPH_KEYWORD_RECREATE_POTION.title": "重构（药水）",
   "NYMPH_KEYWORD_RECREATE_POTION.description": "变化为随机药水。",
+  "NYMPH_KEYWORD_RECREATE_RELIC.title": "重构（遗物）",
+  "NYMPH_KEYWORD_RECREATE_RELIC.description": "变化为其所在遗物池中的其他随机遗物。",
   "NYMPH_KEYWORD_INSPIRATION.title": "灵感",
   "NYMPH_KEYWORD_INSPIRATION.description": "一系列[gold]灵感牌[/gold]。战斗开始时可以选择一张打出。",
   "NYMPH_KEYWORD_THRESHOLD.title": "临界点",

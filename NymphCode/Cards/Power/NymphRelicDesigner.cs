@@ -2,7 +2,6 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using Nymph.Characters;
 using Nymph.Mechanics;
 using Nymph.Powers;
@@ -13,25 +12,26 @@ using STS2RitsuLib.Scaffolding.Content;
 namespace Nymph.Cards;
 
 [RegisterCard(typeof(NymphCardPool))]
-public sealed class NymphGlimmerInPalm : ModCardTemplate
+public sealed class NymphRelicDesigner : ModCardTemplate
 {
-    public override CardAssetProfile AssetProfile => new(
-        PortraitPath: $"{Entry.ResPath}/images/cards/{GetType().Name}.png",
-        FramePath: $"{Entry.ResPath}/images/cards/frames/bg_power_sts2.png");
-
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
+    public override IEnumerable<CardKeyword> CanonicalKeywords =>
     [
-        new DynamicVar("Amount", 1)
+        NymphKeywords.RecreateRelic
     ];
+
+    public override CardAssetProfile AssetProfile =>
+        ContentAssetProfiles.AncientCard(
+            $"{Entry.ResPath}/images/cards/{GetType().Name}.png",
+            GetType().Name,
+            CardType.Power);
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        ModKeywordRegistry.CreateHoverTip(NymphKeywords.RecreateId),
-        HoverTipFactory.FromCard<NymphMiracle>()
+        ModKeywordRegistry.CreateHoverTip(NymphKeywords.RecreateRelicId)
     ];
 
-    public NymphGlimmerInPalm()
-        : base(3, CardType.Power, CardRarity.Rare, TargetType.Self, true)
+    public NymphRelicDesigner()
+        : base(2, CardType.Power, CardRarity.Ancient, TargetType.Self, true)
     {
     }
 
@@ -39,16 +39,20 @@ public sealed class NymphGlimmerInPalm : ModCardTemplate
         PlayerChoiceContext choiceContext,
         CardPlay cardPlay)
     {
-        await PowerCmd.Apply<GlimmerInPalmPower>(
+        await CreatureCmd.TriggerAnim(
+            Owner.Creature,
+            "PowerUp",
+            Owner.Character.PowerUpAnimDelay);
+        await PowerCmd.Apply<RelicDesignerPower>(
             choiceContext,
             Owner.Creature,
-            DynamicVars["Amount"].IntValue,
+            1,
             Owner.Creature,
             this);
     }
 
     protected override void OnUpgrade()
     {
-        AddKeyword(CardKeyword.Innate);
+        EnergyCost.UpgradeBy(-1);
     }
 }

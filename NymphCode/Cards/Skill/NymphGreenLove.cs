@@ -1,8 +1,5 @@
-using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.ValueProps;
 using Nymph.Characters;
 using Nymph.Mechanics;
 using STS2RitsuLib.Interop.AutoRegistration;
@@ -18,20 +15,15 @@ public sealed class NymphGreenLove : ModCardTemplate
     protected override bool ShouldGlowGoldInternal =>
         ThoughtMechanics.CanNarrateAll(Owner);
 
-    public override CardAssetProfile AssetProfile => new(
-        PortraitPath: $"{Entry.ResPath}/images/cards/{GetType().Name}.png",
-        FramePath: $"{Entry.ResPath}/images/cards/frames/bg_skill_sts2.png");
-
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
     [
         CardKeyword.Exhaust,
         NymphKeywords.Narrate
     ];
 
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-    [
-        new BlockVar(0m, ValueProp.Move)
-    ];
+    public override CardAssetProfile AssetProfile => new(
+        PortraitPath: $"{Entry.ResPath}/images/cards/{GetType().Name}.png",
+        FramePath: $"{Entry.ResPath}/images/cards/frames/bg_skill_sts2.png");
 
     public NymphGreenLove()
         : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self, true)
@@ -42,19 +34,8 @@ public sealed class NymphGreenLove : ModCardTemplate
         PlayerChoiceContext choiceContext,
         CardPlay cardPlay)
     {
-        int narrated = await ThoughtMechanics.NarrateAll(
+        await ThoughtMechanics.NarrateAll(
             choiceContext,
-            cardPlay);
-
-        if (narrated <= 0)
-        {
-            return;
-        }
-
-        DynamicVars.Block.BaseValue = narrated;
-        await CreatureCmd.GainBlock(
-            Owner.Creature,
-            DynamicVars.Block,
             cardPlay);
     }
 

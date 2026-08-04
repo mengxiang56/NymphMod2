@@ -26,8 +26,7 @@ public sealed class NymphSpellWeave : ModCardTemplate
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        HoverTipFactory.FromPower<NecrosisPower>(),
-        HoverTipFactory.FromPower<SpellWeavePower>()
+        HoverTipFactory.FromPower<NecrosisPower>()
     ];
 
     public NymphSpellWeave()

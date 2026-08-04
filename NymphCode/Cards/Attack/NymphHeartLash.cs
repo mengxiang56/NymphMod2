@@ -13,6 +13,7 @@ namespace Nymph.Cards;
 
 [RegisterCard(typeof(NymphCardPool))]
 [RegisterCharacterStarterCard(typeof(NymphCharacter), 1)]
+[RegisterArchaicToothTranscendence(typeof(NymphHeartFire))]
 public sealed class NymphHeartLash : ModCardTemplate
 {
     public override CardAssetProfile AssetProfile => new(

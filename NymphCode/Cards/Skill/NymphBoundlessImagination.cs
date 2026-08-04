@@ -53,11 +53,6 @@ public sealed class NymphBoundlessImagination : ModCardTemplate
                 break;
             }
 
-            await CreatureCmd.GainBlock(
-                Owner.Creature,
-                narrated,
-                ValueProp.Unpowered,
-                cardPlay);
             await PlayerCmd.GainEnergy(
                 ThoughtMechanics.NarrationEffectMultiplier(Owner),
                 Owner);

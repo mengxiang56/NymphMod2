@@ -27,6 +27,10 @@
   "NYMPH_POWER_FEAR_POWER.title": "Fear",
   "NYMPH_POWER_FEAR_POWER.description": "Double the damage dealt by [gold]Necrosis[/gold]. At the start of the owner's turn, decrease this by 1.",
   "NYMPH_POWER_FEAR_POWER.smartDescription": "Double the damage dealt by [gold]Necrosis[/gold]. At the start of the owner's turn, decrease this by 1. Currently [blue]{Amount}[/blue].",
+  "NYMPH_POWER_FEAR_POWER.descriptionOnEnemy": "For the next [blue]{Amount}[/blue] turns, HP lost from [gold]Necrosis[/gold] is doubled.",
+  "NYMPH_POWER_FEAR_POWER.smartDescriptionOnEnemy": "For the next [blue]{Amount}[/blue] turns, HP lost from [gold]Necrosis[/gold] is doubled.",
+  "NYMPH_POWER_FEAR_POWER.descriptionOnPlayer": "Double the damage dealt by [gold]Necrosis[/gold]. At the start of the owner's turn, decrease this by 1.",
+  "NYMPH_POWER_FEAR_POWER.smartDescriptionOnPlayer": "Double the damage dealt by [gold]Necrosis[/gold]. At the start of the owner's turn, decrease this by 1. Currently [blue]{Amount}[/blue].",
   "NYMPH_POWER_SPELL_WEAVE_POWER.title": "Spell Weave",
   "NYMPH_POWER_SPELL_WEAVE_POWER.description": "At the start of the applier's turn, gain [gold]Necrosis[/gold].",
   "NYMPH_POWER_SPELL_WEAVE_POWER.smartDescription": "At the start of the applier's turn, gain [blue]1[/blue] [gold]Necrosis[/gold]. [blue]{Amount}[/blue] turns remaining.",
@@ -42,6 +46,8 @@
   "NYMPH_POWER_KEY_TO_HEART_POWER.title": "Key to the Heart",
   "NYMPH_POWER_KEY_TO_HEART_POWER.description": "Whenever an enemy's [gold]Necrosis[/gold] triggers 3 times, it loses Strength for the turn.",
   "NYMPH_POWER_KEY_TO_HEART_POWER.smartDescription": "Whenever an enemy's [gold]Necrosis[/gold] triggers 3 times, it loses [blue]{Amount}[/blue] Strength for the turn.",
+  "NYMPH_POWER_KEY_TO_HEART_STRENGTH_DOWN_POWER.title": "Key to the Heart",
+  "NYMPH_POWER_KEY_TO_HEART_STRENGTH_DOWN_POWER.description": "At the end of this turn, lose [blue]{Amount}[/blue] [gold]Strength[/gold].",
   "NYMPH_POWER_MENTAL_CONSTRUCTION_POWER.title": "Mental Construction",
   "NYMPH_POWER_MENTAL_CONSTRUCTION_POWER.description": "The first time you [gold]Conceive[/gold] each turn, you may [gold]Recreate[/gold] cards in your Hand into [gold]Narrate[/gold] cards.",
   "NYMPH_POWER_MENTAL_CONSTRUCTION_POWER.smartDescription": "The first time you [gold]Conceive[/gold] each turn, you may [gold]Recreate[/gold] up to [blue]{Amount}[/blue] cards in your Hand into [gold]Narrate[/gold] cards.",
@@ -94,6 +100,11 @@
   "NYMPH_POWER_FUTURE_LONGING_POWER.description": "Increase all numbers on [gold]Recreated[/gold] cards by [blue]{Amount}[/blue].",
   "NYMPH_POWER_NECROSIS_PERMANENT_LOCK_POWER.title": "Lost Soul",
   "NYMPH_POWER_NECROSIS_PERMANENT_LOCK_POWER.description": "[gold]Necrosis[/gold] layers and trigger counter no longer decrease.",
+  "NYMPH_POWER_NECROSIS_DECAY_INTERVAL_POWER.title": "Empathy",
+  "NYMPH_POWER_NECROSIS_DECAY_INTERVAL_POWER.description": "Increase the number of triggers required for [gold]Necrosis[/gold] to decay by [blue]{Amount}[/blue].",
+  "NYMPH_POWER_NECROSIS_DECAY_INTERVAL_POWER.smartDescription": "Increase the number of triggers required for [gold]Necrosis[/gold] to decay by [blue]{Amount}[/blue].",
   "NYMPH_POWER_GLIMMER_IN_PALM_POWER.title": "Glimmer in the Palm",
-  "NYMPH_POWER_GLIMMER_IN_PALM_POWER.description": "At the start of each turn, add [blue]{Amount}[/blue] [gold]Miracle[/gold] to your [gold]Hand[/gold], then choose up to [blue]{Amount}[/blue] card to [gold]Recreate[/gold]."
+  "NYMPH_POWER_GLIMMER_IN_PALM_POWER.description": "At the start of each turn, add [blue]{Amount}[/blue] [gold]Miracle[/gold] to your [gold]Hand[/gold], then choose up to [blue]{Amount}[/blue] card to [gold]Recreate[/gold].",
+  "NYMPH_POWER_RELIC_DESIGNER_POWER.title": "Relic Designer",
+  "NYMPH_POWER_RELIC_DESIGNER_POWER.description": "At the end of combat, gain one [gold]Recreate Relic[/gold]."
 }

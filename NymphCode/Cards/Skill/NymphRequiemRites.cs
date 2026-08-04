@@ -71,11 +71,6 @@ public sealed class NymphRequiemRites : ModCardTemplate
             return;
         }
 
-        await CreatureCmd.GainBlock(
-            Owner.Creature,
-            narrated,
-            ValueProp.Unpowered,
-            cardPlay);
         await PowerCmd.Apply<VulnerablePower>(
             choiceContext,
             cardPlay.Target,

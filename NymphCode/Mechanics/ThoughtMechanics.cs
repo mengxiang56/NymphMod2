@@ -29,9 +29,29 @@ public static class ThoughtMechanics
     public const int MaxAmount = 999;
 
     /// <summary>
-    /// 思绪计数器两行数值之间的行距，可在 <see cref="NThoughtCounter.AmountLineSpacing" /> 覆盖。
+    /// 思绪计数器上行（思绪值）字号。
     /// </summary>
-    public const int AmountLineSpacing = -6;
+    public const int AmountFontSize = 30;
+
+    /// <summary>
+    /// 思绪计数器下行（临界点/阻滞点）字号。
+    /// </summary>
+    public const int ThresholdFontSize = 22;
+
+    /// <summary>
+    /// 思绪值标签相对默认位置的纵向偏移（负值上移）。
+    /// </summary>
+    public const float AmountLabelVerticalOffset = -10f;
+
+    /// <summary>
+    /// 临界点/阻滞点标签相对思绪值标签的纵向偏移（正值下移）。
+    /// </summary>
+    public const float ThresholdLabelOffsetY = 28f;
+
+    /// <summary>
+    /// 思绪计数器数字描边宽度（上下两行共用）。
+    /// </summary>
+    public const int AmountOutlineSize = 15;
 
     private const string ClearIconPath =
         $"{Entry.ResPath}/images/ui/thought/thought_clear.png";
@@ -58,15 +78,15 @@ public static class ThoughtMechanics
     {
         CounterSize = new Vector2(150f, 110f),
         IconSize = new Vector2(150f, 110f),
-        FontSize = 26,
+        FontSize = AmountFontSize,
+        OutlineSize = AmountOutlineSize,
         AmountLabelOffset = new Vector2(0f, 6f),
         ZeroColor = SecondaryResourceCounterStyle.Default.PositiveColor,
-        // 塔一样式：上行思绪值，下行 临界点/阻滞点
-        FormatAmount = (amount, max) =>
-            max is { } threshold
-                ? $"{amount}\n{threshold}/{threshold * 2}"
-                : amount.ToString()
+        FormatAmount = (amount, _) => amount.ToString(),
     };
+
+    public static string FormatThresholdLine(int threshold) =>
+        $"{threshold}/{threshold * 2}";
 
     public static string ResourceId =>
         ModSecondaryResourceRegistry.GetResourceId(Entry.ModId, LocalId);
@@ -267,10 +287,19 @@ public static class ThoughtMechanics
             return 0;
         }
 
-        return await Spend(
+        int narrated = await Spend(
             choiceContext,
             cardPlay,
             amount);
+        if (narrated > 0)
+        {
+            await ApplyStandardNarrateBlock(
+                choiceContext,
+                cardPlay,
+                narrated);
+        }
+
+        return narrated;
     }
 
     public static async Task<int> NarrateAll(
@@ -283,10 +312,19 @@ public static class ThoughtMechanics
             return 0;
         }
 
-        return await Spend(
+        int narrated = await Spend(
             choiceContext,
             cardPlay,
             amount);
+        if (narrated > 0)
+        {
+            await ApplyStandardNarrateBlock(
+                choiceContext,
+                cardPlay,
+                narrated);
+        }
+
+        return narrated;
     }
 
     public static int NarratedAmount(CardPlay cardPlay)
@@ -361,6 +399,18 @@ public static class ThoughtMechanics
         record.Amount += effectiveAmount;
         record.EffectCount += effectMultiplier;
         return effectiveAmount;
+    }
+
+    private static async Task ApplyStandardNarrateBlock(
+        PlayerChoiceContext choiceContext,
+        CardPlay cardPlay,
+        int amount)
+    {
+        await CreatureCmd.GainBlock(
+            cardPlay.Card.Owner.Creature,
+            amount,
+            ValueProp.Unpowered,
+            cardPlay);
     }
 
     public static async Task SyncStatePower(
@@ -448,7 +498,7 @@ public static class ThoughtMechanics
         counter.Configure(Definition, CounterStyle);
 
         counter.SetAnchorsPreset(Control.LayoutPreset.BottomLeft);
-        counter.Position = new Vector2(90f, -350f);
+        counter.Position = new Vector2(85f, -350f);
         return counter;
     }
 

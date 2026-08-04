@@ -77,11 +77,6 @@ public sealed class NymphLostMyth : ModCardTemplate
             return;
         }
 
-        await CreatureCmd.GainBlock(
-            Owner.Creature,
-            narrated,
-            ValueProp.Unpowered,
-            cardPlay);
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .WithHitCount(
                 ThoughtMechanics.NarrationEffectMultiplier(Owner))

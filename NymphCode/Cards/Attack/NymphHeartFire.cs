@@ -12,25 +12,29 @@ using STS2RitsuLib.Scaffolding.Content;
 namespace Nymph.Cards;
 
 [RegisterCard(typeof(NymphCardPool))]
-public sealed class NymphPacifyHeart : ModCardTemplate
+public sealed class NymphHeartFire : ModCardTemplate
 {
-    public override CardAssetProfile AssetProfile => new(
-        PortraitPath: $"{Entry.ResPath}/images/cards/{GetType().Name}.png",
-        FramePath: $"{Entry.ResPath}/images/cards/frames/bg_attack_sts2.png");
+    public override CardAssetProfile AssetProfile =>
+        ContentAssetProfiles.AncientCard(
+            $"{Entry.ResPath}/images/cards/{GetType().Name}.png",
+            GetType().Name,
+            CardType.Attack);
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new DamageVar(4, ValueProp.Move),
-        new DynamicVar("NecrosisReductionBarrierPower", 1)
+        new DynamicVar("Necrosis", 3),
+        new PowerVar<FearPower>(3)
     ];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        HoverTipFactory.FromPower<NecrosisPower>()
+        HoverTipFactory.FromPower<NecrosisPower>(),
+        HoverTipFactory.FromPower<FearPower>()
     ];
 
-    public NymphPacifyHeart()
-        : base(0, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy, true)
+    public NymphHeartFire()
+        : base(1, CardType.Attack, CardRarity.Ancient, TargetType.AnyEnemy, true)
     {
     }
 
@@ -45,22 +49,24 @@ public sealed class NymphPacifyHeart : ModCardTemplate
             .Targeting(cardPlay.Target)
             .Execute(choiceContext);
 
-        if (cardPlay.Target.IsDead)
-        {
-            return;
-        }
-
-        await PowerCmd.Apply<NecrosisReductionBarrierPower>(
+        await PowerCmd.Apply<NecrosisPower>(
             choiceContext,
             cardPlay.Target,
-            DynamicVars["NecrosisReductionBarrierPower"].IntValue,
+            DynamicVars["Necrosis"].IntValue,
+            Owner.Creature,
+            this);
+
+        await PowerCmd.Apply<FearPower>(
+            choiceContext,
+            cardPlay.Target,
+            DynamicVars["FearPower"].IntValue,
             Owner.Creature,
             this);
     }
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(2);
-        DynamicVars["NecrosisReductionBarrierPower"].UpgradeValueBy(1);
+        DynamicVars["Necrosis"].UpgradeValueBy(1);
+        DynamicVars["FearPower"].UpgradeValueBy(1);
     }
 }

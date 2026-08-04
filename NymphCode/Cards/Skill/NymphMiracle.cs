@@ -12,8 +12,6 @@ namespace Nymph.Cards;
 [RegisterCard(typeof(NymphDerivedCardPool))]
 public sealed class NymphMiracle : ModCardTemplate
 {
-    public override int MaxUpgradeLevel => 0;
-
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
     [
         CardKeyword.Retain,
@@ -50,5 +48,6 @@ public sealed class NymphMiracle : ModCardTemplate
 
     protected override void OnUpgrade()
     {
+        DynamicVars.Energy.UpgradeValueBy(1);
     }
 }

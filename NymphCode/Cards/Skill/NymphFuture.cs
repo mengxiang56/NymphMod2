@@ -57,11 +57,6 @@ public sealed class NymphFuture : ModCardTemplate
             DynamicVars["Narrate"].IntValue);
         if (narrated > 0)
         {
-            await CreatureCmd.GainBlock(
-                Owner.Creature,
-                narrated,
-                ValueProp.Unpowered,
-                cardPlay);
             await CardPileCmd.Draw(
                 choiceContext,
                 DynamicVars["Draw"].IntValue

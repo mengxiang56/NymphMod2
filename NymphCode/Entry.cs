@@ -41,6 +41,9 @@ public partial class Entry
             (_, player, json) => new InspirationReward(
                 player,
                 InspirationReward.ParseForcedRarity(json)));
+        ModRewardRegistry.For(ModId).RegisterOwned(
+            RecreateRelicReward.LocalRewardStem,
+            (_, player, _) => new RecreateRelicReward(player));
 
         // 自动注册扫描会读取当前程序集里的 RegisterCard/RegisterRelic 等 attribute。
         // 新增内容类后，只要 attribute 写对，通常不需要在入口里手动逐个注册。

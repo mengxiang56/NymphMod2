@@ -45,18 +45,10 @@ public sealed class NymphThoughtInterpretation : ModCardTemplate
     {
         await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
 
-        int narrated = await ThoughtMechanics.Narrate(
+        await ThoughtMechanics.Narrate(
             choiceContext,
             cardPlay,
             DynamicVars["Narrate"].IntValue);
-        if (narrated > 0)
-        {
-            await CreatureCmd.GainBlock(
-                Owner.Creature,
-                narrated,
-                ValueProp.Unpowered,
-                cardPlay);
-        }
     }
 
     protected override void OnUpgrade()

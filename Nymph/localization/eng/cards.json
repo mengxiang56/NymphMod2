@@ -132,7 +132,8 @@
   "NYMPH_CARD_NYMPH_GLIMMER_IN_PALM.title": "Glimmer in the Palm",
   "NYMPH_CARD_NYMPH_GLIMMER_IN_PALM.description": "At the start of each turn, add {Amount} [gold]Miracle[/gold] to your [gold]Hand[/gold], then choose up to {Amount} card to [gold]Recreate[/gold].",
   "NYMPH_CARD_NYMPH_MIRACLE.title": "Miracle",
-  "NYMPH_CARD_NYMPH_MIRACLE.description": "Gain {Energy:energyIcons()}.",
+  "NYMPH_CARD_NYMPH_MIRACLE.description": "Gain {IfUpgraded:show:{energyPrefix:energyIcons(2)}|{energyPrefix:energyIcons(1)}}.",
+  "NYMPH_CARD_NYMPH_MIRACLE.upgradeDescription": "Gain {energyPrefix:energyIcons(2)}.",
   "NYMPH_CARD_NYMPH_SOURCELESS_WATER.title": "Sourceless Water",
   "NYMPH_CARD_NYMPH_SOURCELESS_WATER.description": "[gold]Recreate[/gold] your Potions. If you have none, obtain a random Potion.",
   "NYMPH_CARD_NYMPH_SOURCELESS_WATER.smartDescription": "[gold]Recreate[/gold] your Potions. If you have none, obtain a random Potion.",
@@ -306,5 +307,12 @@
   "NYMPH_CARD_NYMPH_MYSTERY_OF_SMELTING.smartDescription": "Deal {Damage:diff()} damage to ALL enemies X times.\nIf [gold]Recreated[/gold] and still in your deck at the start of the next combat, automatically play it.",
   "NYMPH_CARD_NYMPH_THOUGHT_TRAINING.title": "Thought Training",
   "NYMPH_CARD_NYMPH_THOUGHT_TRAINING.description": "Deal {Damage:diff()} damage to ALL enemies.\nLower the Confusion threshold by {Threshold}.",
-  "NYMPH_CARD_NYMPH_THOUGHT_TRAINING.smartDescription": "Deal {Damage:diff()} damage to ALL enemies.\nLower the Confusion threshold by {Threshold}."
+  "NYMPH_CARD_NYMPH_THOUGHT_TRAINING.smartDescription": "Deal {Damage:diff()} damage to ALL enemies.\nLower the Confusion threshold by {Threshold}.",
+  "NYMPH_CARD_NYMPH_HEART_FIRE.title": "Heart Fire",
+  "NYMPH_CARD_NYMPH_HEART_FIRE.description": "Deal {Damage:diff()} damage.\nApply {Necrosis:diff()} [gold]Necrosis[/gold].\nApply {FearPower:diff()} [gold]Fear[/gold].",
+  "NYMPH_CARD_NYMPH_HEART_FIRE.smartDescription": "Deal {Damage:diff()} damage.\nApply {Necrosis:diff()} [gold]Necrosis[/gold].\nApply {FearPower:diff()} [gold]Fear[/gold].",
+  "NYMPH_CARD_NYMPH_RELIC_DESIGNER.title": "Relic Designer",
+  "NYMPH_CARD_NYMPH_RELIC_DESIGNER.description": "At the end of combat, you may [gold]Recreate[/gold] 1 held Relic.",
+  "NYMPH_CARD_NYMPH_RELIC_DESIGNER.smartDescription": "At the end of combat, you may [gold]Recreate[/gold] 1 held Relic.",
+  "NYMPH_CARD_NYMPH_RELIC_DESIGNER.upgradeDescription": "At the end of combat, you may [gold]Recreate[/gold] 1 held Relic."
 }

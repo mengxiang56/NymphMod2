@@ -40,6 +40,10 @@ public sealed class NymphSoulFurnaceFuel : ModCardTemplate
         PlayerChoiceContext choiceContext,
         CardPlay cardPlay)
     {
+        int narrated = await ThoughtMechanics.NarrateAll(
+            choiceContext,
+            cardPlay);
+
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
 
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
@@ -47,9 +51,6 @@ public sealed class NymphSoulFurnaceFuel : ModCardTemplate
             .Targeting(cardPlay.Target)
             .Execute(choiceContext);
 
-        int narrated = await ThoughtMechanics.NarrateAll(
-            choiceContext,
-            cardPlay);
         DynamicVars.Damage.BaseValue += narrated;
         DynamicVars.Damage.ResetToBase();
     }

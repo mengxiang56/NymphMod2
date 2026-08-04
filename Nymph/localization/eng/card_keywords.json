@@ -7,6 +7,8 @@
   "NYMPH_KEYWORD_RECREATE.description": "Transform the target card into a random card from this character's card pool, add it to your Hand, and preserve its upgrade status.",
   "NYMPH_KEYWORD_RECREATE_POTION.title": "Recreate Potion",
   "NYMPH_KEYWORD_RECREATE_POTION.description": "Transform into a random Potion.",
+  "NYMPH_KEYWORD_RECREATE_RELIC.title": "Recreate Relic",
+  "NYMPH_KEYWORD_RECREATE_RELIC.description": "Choose 1 held Relic and transform it into another random Relic from the same Relic pool.",
   "NYMPH_KEYWORD_INSPIRATION.title": "Inspiration",
   "NYMPH_KEYWORD_INSPIRATION.description": "A series of Inspiration cards. Only the 1st Inspiration used each combat takes effect.",
   "NYMPH_KEYWORD_THRESHOLD.title": "Confusion Threshold",

@@ -21,7 +21,7 @@ public sealed class NymphMentalConstruction : ModCardTemplate
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new PowerVar<MentalConstructionPower>(1)
+        new DynamicVar("MentalConstructionPower", 1)
     ];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>

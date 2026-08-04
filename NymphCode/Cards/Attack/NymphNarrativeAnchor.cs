@@ -49,6 +49,6 @@ public sealed class NymphNarrativeAnchor : ModCardTemplate
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(4 + CurrentUpgradeLevel - 1);
+        DynamicVars.Damage.UpgradeValueBy(4 + 2*(CurrentUpgradeLevel - 1));
     }
 }
