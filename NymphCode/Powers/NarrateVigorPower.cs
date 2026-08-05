@@ -25,9 +25,9 @@ public sealed class NarrateVigorPower : ModPowerTemplate
 
     public override PowerAssetProfile AssetProfile => new(
         IconPath:
-            $"{Entry.ResPath}/images/powers/AncestorPower32.png",
+            $"{Entry.ResPath}/images/powers/NarrateVigorPower32.png",
         BigIconPath:
-            $"{Entry.ResPath}/images/powers/AncestorPower84.png");
+            $"{Entry.ResPath}/images/powers/NarrateVigorPower84.png");
 
     public override async Task AfterCardPlayed(
         PlayerChoiceContext choiceContext,

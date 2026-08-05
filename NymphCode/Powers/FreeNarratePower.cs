@@ -18,9 +18,9 @@ public sealed class FreeNarratePower : ModPowerTemplate
 
     public override PowerAssetProfile AssetProfile => new(
         IconPath:
-            $"{Entry.ResPath}/images/cards/NymphLeadBreastplate.png",
+            $"{Entry.ResPath}/images/powers/FreeNarratePower32.png",
         BigIconPath:
-            $"{Entry.ResPath}/images/cards/NymphLeadBreastplate.png");
+            $"{Entry.ResPath}/images/powers/FreeNarratePower84.png");
 
     public override bool TryModifyEnergyCostInCombat(
         CardModel card,

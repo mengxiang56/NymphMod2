@@ -26,7 +26,7 @@ public sealed class NymphDeadSoul : ModCardTemplate
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new PowerVar<NecrosisPower>(1)
+        new PowerVar<NecrosisPower>(2)
     ];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>

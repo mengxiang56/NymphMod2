@@ -9,5 +9,6 @@
   "NYMPH_CARDPILE_INSPIRATION.description": "保存你获得的灵感牌。\n战斗开始时，可以从中选择一张打出。",
   "NYMPH_CARDPILE_INSPIRATION.empty": "灵感牌堆中没有牌。",
   "NYMPH_REWARD_INSPIRATION": "获得一缕灵感。",
-  "NYMPH_REWARD_RECREATE_RELIC": "重构1个持有的遗物。"
+  "NYMPH_REWARD_RECREATE_RELIC": "重构1个持有的遗物。",
+  "NYMPH_RECREATE_SELECTION_PROMPT": "选择{Amount}张牌[gold]重构[/gold]。"
 }

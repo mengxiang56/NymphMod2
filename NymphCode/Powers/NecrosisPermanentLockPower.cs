@@ -12,6 +12,6 @@ public sealed class NecrosisPermanentLockPower : ModPowerTemplate
     public override bool AllowNegative => false;
 
     public override PowerAssetProfile AssetProfile => new(
-        IconPath: $"{Entry.ResPath}/images/powers/SoulStolenPower32.png",
-        BigIconPath: $"{Entry.ResPath}/images/powers/SoulStolenPower84.png");
+        IconPath: $"{Entry.ResPath}/images/powers/NecrosisPermanentLockPower32.png",
+        BigIconPath: $"{Entry.ResPath}/images/powers/NecrosisPermanentLockPower84.png");
 }

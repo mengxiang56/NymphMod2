@@ -25,7 +25,7 @@ public sealed class NymphNewBranch : ModCardTemplate
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(7, ValueProp.Move),
+        new DamageVar(6, ValueProp.Move),
         new DynamicVar("Create", 3),
         new CardsVar(1)
     ];
@@ -83,6 +83,6 @@ public sealed class NymphNewBranch : ModCardTemplate
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(3);
+        DynamicVars.Damage.UpgradeValueBy(2);
     }
 }

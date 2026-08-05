@@ -19,7 +19,7 @@ public sealed class NymphSoulFurnaceFuel : ModCardTemplate
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
     [
         CardKeyword.Ethereal,
-        NymphKeywords.Narrate
+        NymphKeywords.FullNarrate
     ];
 
     public override CardAssetProfile AssetProfile => new(

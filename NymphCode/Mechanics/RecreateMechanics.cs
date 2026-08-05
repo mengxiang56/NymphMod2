@@ -3,6 +3,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes.Cards;
@@ -18,6 +19,10 @@ public static class RecreateMechanics
     private static readonly BlockingPlayerChoiceContext
         AutoPlayChoiceContext = new();
 
+    private static LocString SelectionPrompt => new(
+        "static_hover_tips",
+        "NYMPH_RECREATE_SELECTION_PROMPT");
+
     public static async Task<IReadOnlyList<RecreateResult>> SelectFromHand(
         PlayerChoiceContext choiceContext,
         CardModel source,
@@ -27,7 +32,7 @@ public static class RecreateMechanics
         bool applyAdaptability = true)
     {
         CardSelectorPrefs prefs = new(
-            CardSelectorPrefs.TransformSelectionPrompt,
+            SelectionPrompt,
             minCount,
             maxCount)
         {
@@ -63,7 +68,7 @@ public static class RecreateMechanics
         }
 
         CardSelectorPrefs prefs = new(
-            CardSelectorPrefs.TransformSelectionPrompt,
+            SelectionPrompt,
             minCount,
             maxCount)
         {
@@ -205,7 +210,7 @@ public static class RecreateMechanics
         bool applyAdaptability = true)
     {
         CardSelectorPrefs prefs = new(
-            CardSelectorPrefs.TransformSelectionPrompt,
+            SelectionPrompt,
             minCount,
             maxCount)
         {
@@ -234,7 +239,7 @@ public static class RecreateMechanics
             int maxCount)
     {
         CardSelectorPrefs prefs = new(
-            CardSelectorPrefs.TransformSelectionPrompt,
+            SelectionPrompt,
             minCount,
             maxCount)
         {

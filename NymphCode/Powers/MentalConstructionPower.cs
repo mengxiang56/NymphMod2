@@ -23,9 +23,9 @@ public sealed class MentalConstructionPower : ModPowerTemplate
 
     public override PowerAssetProfile AssetProfile => new(
         IconPath:
-            $"{Entry.ResPath}/images/powers/MentalConstructPower32.png",
+            $"{Entry.ResPath}/images/powers/MentalConstructionPower32.png",
         BigIconPath:
-            $"{Entry.ResPath}/images/powers/MentalConstructPower84.png");
+            $"{Entry.ResPath}/images/powers/MentalConstructionPower84.png");
 
     [SavedProperty]
     public bool UsedThisTurn

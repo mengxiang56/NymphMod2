@@ -20,9 +20,9 @@ public sealed class HolyCityEmbracePower : ModPowerTemplate
 
     public override PowerAssetProfile AssetProfile => new(
         IconPath:
-            $"{Entry.ResPath}/images/powers/EmbracePower32.png",
+            $"{Entry.ResPath}/images/powers/HolyCityEmbracePower32.png",
         BigIconPath:
-            $"{Entry.ResPath}/images/powers/EmbracePower84.png");
+            $"{Entry.ResPath}/images/powers/HolyCityEmbracePower84.png");
 
     public override decimal ModifyDamageAdditive(
         Creature? target,

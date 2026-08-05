@@ -23,9 +23,9 @@ public sealed class AdaptabilityPower : ModPowerTemplate
 
     public override PowerAssetProfile AssetProfile => new(
         IconPath:
-            $"{Entry.ResPath}/images/powers/LookForFuturePower32.png",
+            $"{Entry.ResPath}/images/powers/AdaptabilityPower32.png",
         BigIconPath:
-            $"{Entry.ResPath}/images/powers/LookForFuturePower84.png");
+            $"{Entry.ResPath}/images/powers/AdaptabilityPower84.png");
 
     [SavedProperty]
     public int UsedThisTurn

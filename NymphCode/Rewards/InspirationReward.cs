@@ -26,7 +26,7 @@ public sealed class InspirationReward(
     public override bool IsPopulated => _offeredCard is not null;
 
     protected override string? RewardIconPath =>
-        InspirationMechanics.PileIconPath;
+        InspirationMechanics.RewardIconPath;
 
     protected override string DescriptionLocTable =>
         "static_hover_tips";

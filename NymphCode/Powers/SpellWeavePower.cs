@@ -21,8 +21,8 @@ public sealed class SpellWeavePower : ModPowerTemplate
     public override bool AllowNegative => false;
 
     public override PowerAssetProfile AssetProfile => new(
-        IconPath: $"{Entry.ResPath}/images/cards/NymphSpellWeave.png",
-        BigIconPath: $"{Entry.ResPath}/images/cards/NymphSpellWeave.png");
+        IconPath: $"{Entry.ResPath}/images/powers/SpellWeavePower32.png",
+        BigIconPath: $"{Entry.ResPath}/images/powers/SpellWeavePower84.png");
 
     public override async Task AfterPlayerTurnStart(
         PlayerChoiceContext choiceContext,

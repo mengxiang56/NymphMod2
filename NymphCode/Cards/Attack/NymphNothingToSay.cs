@@ -27,7 +27,7 @@ public sealed class NymphNothingToSay : ModCardTemplate
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(10, ValueProp.Move),
+        new DamageVar(12, ValueProp.Move),
         new DynamicVar("Create", 4)
     ];
 

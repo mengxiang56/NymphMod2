@@ -14,8 +14,8 @@ public sealed class NecrosisDecayIntervalPower : ModPowerTemplate
     public override bool AllowNegative => false;
 
     public override PowerAssetProfile AssetProfile => new(
-        IconPath: $"{Entry.ResPath}/images/powers/EmotionAmpPower32.png",
-        BigIconPath: $"{Entry.ResPath}/images/powers/EmotionAmpPower84.png");
+        IconPath: $"{Entry.ResPath}/images/powers/NecrosisDecayIntervalPower32.png",
+        BigIconPath: $"{Entry.ResPath}/images/powers/NecrosisDecayIntervalPower84.png");
 
     public override Task AfterApplied(Creature? applier, CardModel? cardSource)
     {

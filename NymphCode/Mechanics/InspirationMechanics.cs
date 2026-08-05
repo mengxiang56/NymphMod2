@@ -27,6 +27,8 @@ public static class InspirationMechanics
     public const string PileId = "NYMPH_CARDPILE_INSPIRATION";
     public const string PileIconPath =
         $"{Entry.ResPath}/images/ui/inspiration_pile.png";
+    public const string RewardIconPath =
+        $"{Entry.ResPath}/images/ui/inspiration_reward.png";
 
     public static PileType PileType =>
         ModCardPileRegistry.GetPileType(PileId);
@@ -42,6 +44,8 @@ public static class InspirationMechanics
                 IconPath = PileIconPath,
                 HoverTipPlacement =
                     ModCardPileHoverTipPlacement.BelowButtonTrailingEdge,
+                VisibleWhen = static context =>
+                    context.Player?.Character is NymphCharacter,
                 View = ModCardPileViewSpec.DeckLike with
                 {
                     EnableUpgradePreviewToggle = false

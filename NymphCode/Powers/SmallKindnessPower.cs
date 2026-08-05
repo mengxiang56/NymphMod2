@@ -21,8 +21,8 @@ public sealed class SmallKindnessPower : ModPowerTemplate
     public override bool AllowNegative => false;
 
     public override PowerAssetProfile AssetProfile => new(
-        IconPath: $"{Entry.ResPath}/images/powers/KindnessPower32.png",
-        BigIconPath: $"{Entry.ResPath}/images/powers/KindnessPower84.png");
+        IconPath: $"{Entry.ResPath}/images/powers/SmallKindnessPower32.png",
+        BigIconPath: $"{Entry.ResPath}/images/powers/SmallKindnessPower84.png");
 
     public override async Task AfterCardPlayed(
         PlayerChoiceContext choiceContext,

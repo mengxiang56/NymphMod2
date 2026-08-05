@@ -26,7 +26,6 @@ public sealed class NymphKeyToHeart : ModCardTemplate
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
         HoverTipFactory.FromPower<NecrosisPower>(),
-        HoverTipFactory.FromPower<KeyToHeartStrengthDownPower>(),
         HoverTipFactory.FromPower<StrengthPower>()
     ];
 

@@ -18,9 +18,9 @@ public sealed class DreadkazEchoPower : ModPowerTemplate
 
     public override PowerAssetProfile AssetProfile => new(
         IconPath:
-            $"{Entry.ResPath}/images/powers/DispileCardToHandPower32.png",
+            $"{Entry.ResPath}/images/powers/DreadkazEchoPower32.png",
         BigIconPath:
-            $"{Entry.ResPath}/images/powers/DispileCardToHandPower84.png");
+            $"{Entry.ResPath}/images/powers/DreadkazEchoPower84.png");
 
     public override async Task AfterCardPlayed(
         PlayerChoiceContext choiceContext,

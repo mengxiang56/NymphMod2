@@ -1,9 +1,11 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Nodes.Vfx;
 using MegaCrit.Sts2.Core.Saves.Runs;
 using MegaCrit.Sts2.Core.ValueProps;
 using Nymph.Characters;
@@ -86,6 +88,8 @@ public sealed class NymphMysteryOfSmelting : ModCardTemplate
             .WithHitCount(ResolveEnergyXValue())
             .FromCard(this, cardPlay)
             .TargetingAllOpponents(CombatState!)
+            .WithAttackerFx(null, "event:/sfx/characters/attack_fire")
+            .WithHitVfxNode(target => NFireBurstVfx.Create(target, 0.6f))
             .Execute(choiceContext);
     }
 

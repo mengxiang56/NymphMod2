@@ -8,6 +8,7 @@ using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Nodes;
 using MegaCrit.Sts2.Core.Nodes.Cards;
 using MegaCrit.Sts2.Core.Rooms;
+using MegaCrit.Sts2.Core.ValueProps;
 using Nymph.Characters;
 using Nymph.Mechanics;
 using Nymph.Powers;
@@ -444,6 +445,91 @@ public sealed class NymphInspirationTemperBlade
     public NymphInspirationTemperBlade()
         : base(CardRarity.Uncommon)
     {
+    }
+}
+
+public abstract class NymphBlockInspiration : NymphInspirationCard
+{
+    public override bool GainsBlock => true;
+
+    protected abstract decimal BlockAmount { get; }
+
+    protected NymphBlockInspiration(CardRarity rarity) : base(rarity)
+    {
+    }
+
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+    [
+        new DynamicVar("Create", CreateAmount),
+        new BlockVar(BlockAmount, ValueProp.Move)
+    ];
+
+    protected override async Task ApplyInspiration(
+        PlayerChoiceContext choiceContext,
+        CardPlay cardPlay)
+    {
+        await CreatureCmd.GainBlock(
+            Owner.Creature,
+            DynamicVars.Block,
+            cardPlay);
+    }
+}
+
+[RegisterCard(typeof(NymphInspirationCardPool))]
+public sealed class NymphInspirationConsume : NymphBlockInspiration
+{
+    protected override decimal BlockAmount => 8;
+
+    public NymphInspirationConsume() : base(CardRarity.Common)
+    {
+    }
+}
+
+[RegisterCard(typeof(NymphInspirationCardPool))]
+public sealed class NymphInspirationReclaim : NymphBlockInspiration
+{
+    protected override decimal BlockAmount => 15;
+
+    public NymphInspirationReclaim() : base(CardRarity.Uncommon)
+    {
+    }
+}
+
+[RegisterCard(typeof(NymphInspirationCardPool))]
+public sealed class NymphInspirationRiseAndFall : NymphInspirationCard
+{
+    public override bool GainsBlock => true;
+
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+    [
+        new DynamicVar("Create", CreateAmount),
+        new BlockVar(15, ValueProp.Move),
+        new DynamicVar("Amount", 2)
+    ];
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<StrengthPower>()
+    ];
+
+    public NymphInspirationRiseAndFall() : base(CardRarity.Rare)
+    {
+    }
+
+    protected override async Task ApplyInspiration(
+        PlayerChoiceContext choiceContext,
+        CardPlay cardPlay)
+    {
+        await CreatureCmd.GainBlock(
+            Owner.Creature,
+            DynamicVars.Block,
+            cardPlay);
+        await PowerCmd.Apply<StrengthPower>(
+            choiceContext,
+            Owner.Creature,
+            DynamicVars["Amount"].IntValue,
+            Owner.Creature,
+            this);
     }
 }
 

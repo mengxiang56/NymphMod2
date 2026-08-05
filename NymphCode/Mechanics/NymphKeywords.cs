@@ -20,6 +20,13 @@ public sealed class NarrateKeywordRegistration
 }
 
 [RegisterOwnedCardKeyword(
+    "FullNarrate",
+    IncludeInCardHoverTip = true)]
+public sealed class FullNarrateKeywordRegistration
+{
+}
+
+[RegisterOwnedCardKeyword(
     "Recreate",
     IncludeInCardHoverTip = true)]
 public sealed class RecreateKeywordRegistration
@@ -58,6 +65,7 @@ public static class NymphKeywords
 {
     public const string ConceiveId = "NYMPH_KEYWORD_CONCEIVE";
     public const string NarrateId = "NYMPH_KEYWORD_NARRATE";
+    public const string FullNarrateId = "NYMPH_KEYWORD_FULL_NARRATE";
     public const string RecreateId = "NYMPH_KEYWORD_RECREATE";
     public const string InspirationId = "NYMPH_KEYWORD_INSPIRATION";
     public const string RecreatePotionId = "NYMPH_KEYWORD_RECREATE_POTION";
@@ -69,6 +77,9 @@ public static class NymphKeywords
 
     public static CardKeyword Narrate =>
         ModKeywordRegistry.GetCardKeyword(NarrateId);
+
+    public static CardKeyword FullNarrate =>
+        ModKeywordRegistry.GetCardKeyword(FullNarrateId);
 
     public static CardKeyword Recreate =>
         ModKeywordRegistry.GetCardKeyword(RecreateId);

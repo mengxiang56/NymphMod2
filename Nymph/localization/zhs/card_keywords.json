@@ -3,6 +3,8 @@
   "NYMPH_KEYWORD_CONCEIVE.description": "额外获得相应[gold]思绪值[/gold]。",
   "NYMPH_KEYWORD_NARRATE.title": "讲述",
   "NYMPH_KEYWORD_NARRATE.description": "若[gold]思绪值[/gold]足够，将相应[gold]思绪值[/gold]转化为[gold]格挡[/gold]，有后续效果则将其触发。",
+  "NYMPH_KEYWORD_FULL_NARRATE.title": "尽叙",
+  "NYMPH_KEYWORD_FULL_NARRATE.description": "将全部[gold]思绪值[/gold]转化为[gold]格挡[/gold]，有后续效果则将其触发。",
   "NYMPH_KEYWORD_RECREATE.title": "重构（卡牌）",
   "NYMPH_KEYWORD_RECREATE.description": "变化为[gold]本角色[/gold]卡池中的随机牌（升级状态不变）,并加入[gold]手牌[/gold]。",
   "NYMPH_KEYWORD_RECREATE_POTION.title": "重构（药水）",

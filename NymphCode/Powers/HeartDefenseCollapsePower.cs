@@ -24,8 +24,8 @@ public sealed class HeartDefenseCollapsePower : ModPowerTemplate
     public override bool AllowNegative => false;
 
     public override PowerAssetProfile AssetProfile => new(
-        IconPath: $"{Entry.ResPath}/images/powers/CrumblingHeartPower32.png",
-        BigIconPath: $"{Entry.ResPath}/images/powers/CrumblingHeartPower84.png");
+        IconPath: $"{Entry.ResPath}/images/powers/HeartDefenseCollapsePower32.png",
+        BigIconPath: $"{Entry.ResPath}/images/powers/HeartDefenseCollapsePower84.png");
 
     public override async Task AfterPowerAmountChanged(
         PlayerChoiceContext choiceContext,

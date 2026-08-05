@@ -14,11 +14,8 @@ namespace Nymph.Cards;
 [RegisterCard(typeof(NymphCardPool))]
 public sealed class NymphHeartFire : ModCardTemplate
 {
-    public override CardAssetProfile AssetProfile =>
-        ContentAssetProfiles.AncientCard(
-            $"{Entry.ResPath}/images/cards/{GetType().Name}.png",
-            GetType().Name,
-            CardType.Attack);
+    public override CardAssetProfile AssetProfile => new(
+        PortraitPath: $"{Entry.ResPath}/images/cards/{GetType().Name}.png");
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [

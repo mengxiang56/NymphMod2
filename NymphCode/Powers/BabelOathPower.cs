@@ -12,6 +12,6 @@ public sealed class BabelOathPower : ModPowerTemplate
     public override bool AllowNegative => false;
 
     public override PowerAssetProfile AssetProfile => new(
-        IconPath: $"{Entry.ResPath}/images/powers/EmotionAmpPower32.png",
-        BigIconPath: $"{Entry.ResPath}/images/powers/EmotionAmpPower84.png");
+        IconPath: $"{Entry.ResPath}/images/powers/BabelOathPower32.png",
+        BigIconPath: $"{Entry.ResPath}/images/powers/BabelOathPower84.png");
 }

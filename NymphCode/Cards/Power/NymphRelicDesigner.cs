@@ -19,11 +19,8 @@ public sealed class NymphRelicDesigner : ModCardTemplate
         NymphKeywords.RecreateRelic
     ];
 
-    public override CardAssetProfile AssetProfile =>
-        ContentAssetProfiles.AncientCard(
-            $"{Entry.ResPath}/images/cards/{GetType().Name}.png",
-            GetType().Name,
-            CardType.Power);
+    public override CardAssetProfile AssetProfile => new(
+        PortraitPath: $"{Entry.ResPath}/images/cards/{GetType().Name}.png");
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [

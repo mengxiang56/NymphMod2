@@ -23,9 +23,9 @@ public sealed class HeartlashCommunionPower : ModPowerTemplate
 
     public override PowerAssetProfile AssetProfile => new(
         IconPath:
-            $"{Entry.ResPath}/images/cards/NymphHeartlashCommunion.png",
+            $"{Entry.ResPath}/images/powers/HeartlashCommunionPower32.png",
         BigIconPath:
-            $"{Entry.ResPath}/images/cards/NymphHeartlashCommunion.png");
+            $"{Entry.ResPath}/images/powers/HeartlashCommunionPower84.png");
 
     [SavedProperty]
     public Creature? ProtectedFrom

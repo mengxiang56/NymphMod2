@@ -281,7 +281,7 @@ public sealed class NecrosisPower :
                 : 0);
         if (temporaryStrengthLoss > 0 && !Owner.IsDead)
         {
-            await PowerCmd.Apply<KeyToHeartStrengthDownPower>(
+            await PowerCmd.Apply<KeyToHeartPower>(
                 choiceContext,
                 Owner,
                 temporaryStrengthLoss,
@@ -308,7 +308,7 @@ public sealed class NecrosisPower :
         return
         [
             ExtraIconAmountLabelSpec.Plain(
-                ExtraIconAmountLabelCorner.TopRight,
+                ExtraIconAmountLabelCorner.BottomLeft,
                 CardsRemaining.ToString()),
         ];
     }

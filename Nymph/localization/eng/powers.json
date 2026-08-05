@@ -48,7 +48,7 @@
   "NYMPH_POWER_KEY_TO_HEART_POWER.smartDescription": "Whenever an enemy's [gold]Necrosis[/gold] triggers 3 times, it loses [blue]{Amount}[/blue] Strength for the turn.",
   "NYMPH_POWER_KEY_TO_HEART_STRENGTH_DOWN_POWER.title": "Key to the Heart",
   "NYMPH_POWER_KEY_TO_HEART_STRENGTH_DOWN_POWER.description": "At the end of this turn, lose [blue]{Amount}[/blue] [gold]Strength[/gold].",
-  "NYMPH_POWER_MENTAL_CONSTRUCTION_POWER.title": "Mental Construction",
+  "NYMPH_POWER_MENTAL_CONSTRUCTION_POWER.title": "Urge to Express",
   "NYMPH_POWER_MENTAL_CONSTRUCTION_POWER.description": "The first time you [gold]Conceive[/gold] each turn, you may [gold]Recreate[/gold] cards in your Hand into [gold]Narrate[/gold] cards.",
   "NYMPH_POWER_MENTAL_CONSTRUCTION_POWER.smartDescription": "The first time you [gold]Conceive[/gold] each turn, you may [gold]Recreate[/gold] up to [blue]{Amount}[/blue] cards in your Hand into [gold]Narrate[/gold] cards.",
   "NYMPH_POWER_FALSE_TO_TRUTH_POWER.title": "False to Truth",
