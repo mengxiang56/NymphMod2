@@ -47,7 +47,9 @@ public sealed class NymphGatherIdea : ModCardTemplate
         PlayerChoiceContext choiceContext,
         CardPlay cardPlay)
     {
-        await MoveOneDiscardToHand(choiceContext);
+        await MoveDiscardToHand(
+            choiceContext,
+            DynamicVars.Cards.IntValue);
 
         int narrated = await ThoughtMechanics.Narrate(
             choiceContext,
@@ -58,34 +60,41 @@ public sealed class NymphGatherIdea : ModCardTemplate
             return;
         }
 
-        for (int i = 0;
-             i < ThoughtMechanics.NarrationEffectMultiplier(Owner);
-             i++)
-        {
-            await MoveOneDiscardToHand(choiceContext);
-        }
+        await MoveDiscardToHand(
+            choiceContext,
+            DynamicVars.Cards.IntValue
+                * ThoughtMechanics.NarrationEffectMultiplier(Owner));
     }
 
-    private async Task MoveOneDiscardToHand(
-        PlayerChoiceContext choiceContext)
+    private async Task MoveDiscardToHand(
+        PlayerChoiceContext choiceContext,
+        int count)
     {
+        if (count <= 0)
+        {
+            return;
+        }
+
         CardPile discardPile = PileType.Discard.GetPile(Owner);
         if (discardPile.Cards.Count == 0)
         {
             return;
         }
 
+        int maxCount = Math.Min(count, discardPile.Cards.Count);
         CardSelectorPrefs prefs = new(
             SelectionScreenPrompt,
-            DynamicVars.Cards.IntValue);
-        CardModel? selected = (await CardSelectCmd.FromCombatPile(
+            maxCount,
+            maxCount);
+        IEnumerable<CardModel> selected = await CardSelectCmd.FromCombatPile(
             choiceContext,
             discardPile,
             Owner,
-            prefs)).FirstOrDefault();
-        if (selected is not null)
+            prefs);
+
+        foreach (CardModel card in selected)
         {
-            await CardPileCmd.Add(selected, PileType.Hand);
+            await CardPileCmd.Add(card, PileType.Hand);
         }
     }
 

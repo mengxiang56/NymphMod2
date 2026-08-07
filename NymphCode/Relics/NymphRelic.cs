@@ -6,8 +6,11 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Rewards;
 using MegaCrit.Sts2.Core.Rooms;
+using MegaCrit.Sts2.Core.Runs;
+using MegaCrit.Sts2.Core.Saves;
 using MegaCrit.Sts2.Core.Saves.Runs;
 using Nymph.Characters;
+using Nymph.Ftue;
 using Nymph.Mechanics;
 using Nymph.Rewards;
 using STS2RitsuLib.Interop.AutoRegistration;
@@ -67,6 +70,15 @@ public sealed class NymphRelic : ModRelicTemplate
             || player.PlayerCombatState?.TurnNumber != 1
             || player.Creature.CombatState is not ICombatState combatState)
         {
+            return;
+        }
+
+        // FTUE progress is profile-local. In multiplayer every peer must run
+        // the same hook logic for a player, so never gate inspiration on SeenFtue.
+        if (RunManager.Instance.IsSingleplayerOrFakeMultiplayer
+            && !SaveManager.Instance.SeenFtue(NymphThoughtFtue.Id))
+        {
+            NymphThoughtFtueTrigger.ScheduleShow(player);
             return;
         }
 

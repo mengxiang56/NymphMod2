@@ -38,9 +38,8 @@ public partial class Entry
         NymphPatchBootstrap.Apply();
         ModRewardRegistry.For(ModId).RegisterOwned(
             InspirationReward.LocalRewardStem,
-            (_, player, json) => new InspirationReward(
-                player,
-                InspirationReward.ParseForcedRarity(json)));
+            (_, player, json) =>
+                InspirationReward.FromSavedJson(player, json));
         ModRewardRegistry.For(ModId).RegisterOwned(
             RecreateRelicReward.LocalRewardStem,
             (_, player, _) => new RecreateRelicReward(player));

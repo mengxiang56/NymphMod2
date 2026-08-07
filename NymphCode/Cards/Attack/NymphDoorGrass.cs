@@ -27,7 +27,7 @@ public sealed class NymphDoorGrass : ModCardTemplate
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(3, ValueProp.Move),
+        new DamageVar(4, ValueProp.Move),
         new DynamicVar("Hits", 4),
         new DynamicVar("Create", 5)
     ];

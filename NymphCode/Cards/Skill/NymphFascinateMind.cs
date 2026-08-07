@@ -44,21 +44,20 @@ public sealed class NymphFascinateMind : ModCardTemplate
         CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
-        await PowerCmd.Apply<NecrosisPower>(
+        NecrosisPower? necrosis = await PowerCmd.Apply<NecrosisPower>(
             choiceContext,
             cardPlay.Target,
             DynamicVars["NecrosisPower"].IntValue,
             Owner.Creature,
             this);
 
-        int necrosis =
-            cardPlay.Target.GetPower<NecrosisPower>()?.Amount ?? 0;
-        if (necrosis > 0)
+        int necrosisAmount = necrosis?.Amount ?? 0;
+        if (necrosisAmount > 0)
         {
             await PowerCmd.Apply<StrengthPower>(
                 choiceContext,
                 cardPlay.Target,
-                -necrosis,
+                -necrosisAmount,
                 Owner.Creature,
                 this);
         }

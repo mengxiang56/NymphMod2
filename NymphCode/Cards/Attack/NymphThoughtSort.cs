@@ -3,7 +3,6 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 using Nymph.Characters;
 using Nymph.Powers;
@@ -15,16 +14,18 @@ namespace Nymph.Cards;
 [RegisterCard(typeof(NymphCardPool))]
 public sealed class NymphThoughtSort : ModCardTemplate
 {
-    private const string BonusPerThoughtVar = "BonusPerThought";
-
     public override CardAssetProfile AssetProfile => new(
         PortraitPath: $"{Entry.ResPath}/images/cards/{GetType().Name}.png",
         FramePath: $"{Entry.ResPath}/images/cards/frames/bg_attack_sts2.png");
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new ThoughtSortDamageVar(6, ValueProp.Move),
-        new DynamicVar(BonusPerThoughtVar, 2)
+        new CalculationBaseVar(6m),
+        new ExtraDamageVar(2m),
+        new CalculatedDamageVar(ValueProp.Move).WithMultiplier(
+            static (card, _) =>
+                card.Owner.Creature
+                    .GetPower<ConceivedThoughtThisTurnPower>()?.Amount ?? 0)
     ];
 
     public NymphThoughtSort()
@@ -38,13 +39,7 @@ public sealed class NymphThoughtSort : ModCardTemplate
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
 
-        DynamicVars.Damage.UpdateCardPreview(
-            this,
-            CardPreviewMode.Normal,
-            cardPlay.Target,
-            runGlobalHooks: true);
-
-        await DamageCmd.Attack(DynamicVars.Damage.PreviewValue)
+        await DamageCmd.Attack(DynamicVars.CalculatedDamage)
             .FromCard(this, cardPlay)
             .Targeting(cardPlay.Target)
             .Execute(choiceContext);
@@ -52,34 +47,6 @@ public sealed class NymphThoughtSort : ModCardTemplate
 
     protected override void OnUpgrade()
     {
-        DynamicVars[BonusPerThoughtVar].UpgradeValueBy(1);
-    }
-
-    private sealed class ThoughtSortDamageVar : DamageVar
-    {
-        public ThoughtSortDamageVar(decimal damage, ValueProp props)
-            : base(damage, props)
-        {
-        }
-
-        public override void UpdateCardPreview(
-            CardModel card,
-            CardPreviewMode previewMode,
-            Creature? target,
-            bool runGlobalHooks)
-        {
-            base.UpdateCardPreview(card, previewMode, target, runGlobalHooks);
-
-            if (card is not NymphThoughtSort thoughtSort)
-            {
-                return;
-            }
-
-            int conceived = card.Owner.Creature
-                .GetPower<ConceivedThoughtThisTurnPower>()?.Amount ?? 0;
-            int bonusPerThought = thoughtSort
-                .DynamicVars[BonusPerThoughtVar].IntValue;
-            PreviewValue += conceived * bonusPerThought;
-        }
+        DynamicVars.ExtraDamage.UpgradeValueBy(1m);
     }
 }

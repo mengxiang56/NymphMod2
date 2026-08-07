@@ -37,8 +37,8 @@ public sealed class SmallKindnessPower : ModPowerTemplate
         List<NecrosisPower> necrosisPowers = CombatState
             .GetOpponentsOf(Owner)
             .Where(enemy => !enemy.IsDead)
-            .Select(enemy => enemy.GetPower<NecrosisPower>())
-            .Where(power => power is not null)
+            .Select(enemy => NecrosisPower.GetInstance(enemy, Owner))
+            .Where(necrosis => necrosis is not null)
             .Cast<NecrosisPower>()
             .ToList();
         if (necrosisPowers.Count == 0)

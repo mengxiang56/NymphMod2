@@ -13,9 +13,33 @@ public sealed class NymphTransformationEnchantment
 {
     public override bool HasExtraCardText => true;
 
+    public override bool CanEnchant(CardModel card)
+    {
+        if (!CanEnchantCardType(card.Type))
+        {
+            return false;
+        }
+
+        CardPile? pile = card.Pile;
+        if (pile != null
+            && pile.Type == PileType.Deck
+            && card.Keywords.Contains(CardKeyword.Unplayable))
+        {
+            return false;
+        }
+
+        if (card.Enchantment != null
+            && (!IsStackable || card.Enchantment.GetType() != GetType()))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
     public override EnchantmentAssetProfile AssetProfile => new(
         IconPath:
-            $"{Entry.ResPath}/images/cards/NymphFurnaceIllusion.png");
+            $"{Entry.ResPath}/images/enchantments/NymphTransformationEnchantment.png");
 
     public override CardLocation ModifyCardPlayResultLocation(
         CardModel card,
@@ -35,7 +59,8 @@ public sealed class NymphTransformationEnchantment
         PlayerChoiceContext choiceContext,
         CardPlay? cardPlay)
     {
-        if (cardPlay?.Card != Card)
+        if (cardPlay?.Card != Card
+            || Card is ISelfRecreatingOnPlayCard)
         {
             return;
         }

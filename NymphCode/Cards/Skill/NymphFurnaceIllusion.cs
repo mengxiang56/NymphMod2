@@ -49,11 +49,8 @@ public sealed class NymphFurnaceIllusion : ModCardTemplate
 
         CardSelectorPrefs prefs = new(
             SelectionScreenPrompt,
-            IsUpgraded ? 0 : maxCount,
-            maxCount)
-        {
-            Cancelable = IsUpgraded
-        };
+            maxCount,
+            maxCount);
         IEnumerable<CardModel> selected =
             await CardSelectCmd.FromCombatPile(
                 choiceContext,
@@ -72,5 +69,6 @@ public sealed class NymphFurnaceIllusion : ModCardTemplate
 
     protected override void OnUpgrade()
     {
+        EnergyCost.UpgradeBy(-1);
     }
 }

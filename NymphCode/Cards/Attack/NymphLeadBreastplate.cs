@@ -26,8 +26,7 @@ public sealed class NymphLeadBreastplate : ModCardTemplate
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new DamageVar(14, ValueProp.Move),
-        new DynamicVar("Create", 6),
-        new DynamicVar("FreeNarratePower", 1)
+        new DynamicVar("Create", 6)
     ];
 
     public NymphLeadBreastplate()
@@ -53,7 +52,7 @@ public sealed class NymphLeadBreastplate : ModCardTemplate
         await PowerCmd.Apply<FreeNarratePower>(
             choiceContext,
             Owner.Creature,
-            DynamicVars["FreeNarratePower"].IntValue,
+            1,
             Owner.Creature,
             this);
     }

@@ -31,7 +31,7 @@ public sealed class NymphSmallKindness : ModCardTemplate
     ];
 
     public NymphSmallKindness()
-        : base(1, CardType.Power, CardRarity.Rare, TargetType.Self, true)
+        : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self, true)
     {
     }
 

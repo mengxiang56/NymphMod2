@@ -54,7 +54,8 @@ public sealed class NymphKnockHeartDoor : ModCardTemplate
             .Targeting(cardPlay.Target)
             .Execute(choiceContext);
 
-        if (cardPlay.Target.GetPower<NecrosisPower>() is { } necrosis)
+        if (NecrosisPower.GetInstance(cardPlay.Target, Owner.Creature)
+            is { } necrosis)
         {
             await necrosis.Trigger(
                 choiceContext,

@@ -1,4 +1,5 @@
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
@@ -26,9 +27,7 @@ public sealed class FalseToTruthPower : ModPowerTemplate
         CardModel card,
         bool fromHandDraw)
     {
-        if (card.Owner != Owner.Player
-            || card.Type != CardType.Status
-            || !card.IsTransformable)
+        if (!ShouldRecreateStatus(card))
         {
             return;
         }
@@ -36,4 +35,23 @@ public sealed class FalseToTruthPower : ModPowerTemplate
         Flash();
         await RecreateMechanics.Cards([card]);
     }
+
+    public override async Task AfterCardGeneratedForCombat(
+        CardModel card,
+        Player? creator)
+    {
+        if (!ShouldRecreateStatus(card)
+            || card.Pile?.Type != PileType.Hand)
+        {
+            return;
+        }
+
+        Flash();
+        await RecreateMechanics.Cards([card]);
+    }
+
+    private bool ShouldRecreateStatus(CardModel card) =>
+        card.Owner == Owner.Player
+        && card.Type == CardType.Status
+        && card.IsTransformable;
 }

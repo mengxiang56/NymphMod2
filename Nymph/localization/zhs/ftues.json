@@ -1,0 +1,8 @@
+{
+  "NYMPH_THOUGHT_FTUE_HEADER": "思绪值！",
+  "NYMPH_THOUGHT_FTUE_BODY_1": "[gold]思绪值[/gold]是本mod的特殊机制。\n每打出一张牌，获得[blue]1[/blue]点[gold]思绪值[/gold]。\nUI上方数字为[gold]思绪值[/gold]，下方数字为[gold]临界点[/gold]/[gold]阻滞点[/gold]。",
+  "NYMPH_THOUGHT_FTUE_BODY_2": "初始处于[green]清晰[/green]状态。\n达到临界点/阻滞点时，会分别进入[orange]混乱[/orange]/[red]阻滞[/red]状态。\n[green]清晰[/green]：每打出一张牌，获得[blue]1[/blue]点[gold]格挡[/gold]。\n[orange]混乱[/orange]：无特殊效果。\n[red]阻滞[/red]：每打出一张牌，受到[blue]1[/blue]点伤害。",
+  "NYMPH_THOUGHT_FTUE_BODY_3": "卡牌词条：\n[gold]创想[/gold]可以额外增加思绪值。\n[gold]讲述[/gold]则可以把思绪值转化为[gold]格挡[/gold]，并触发后续效果。",
+  "NYMPH_THOUGHT_FTUE_CONFIRM": "下一步",
+  "NYMPH_THOUGHT_FTUE_DONE": "明白了"
+}

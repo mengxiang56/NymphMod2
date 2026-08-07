@@ -2,6 +2,8 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models.Powers;
 using Nymph.Characters;
 using Nymph.Mechanics;
 using Nymph.Powers;
@@ -22,7 +24,13 @@ public sealed class NymphBabelOath : ModCardTemplate
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        ModKeywordRegistry.CreateHoverTip(NymphKeywords.NarrateId)
+        ModKeywordRegistry.CreateHoverTip(NymphKeywords.NarrateId),
+        HoverTipFactory.FromPower<StrengthPower>()
+    ];
+
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+    [
+        new PowerVar<BabelOathPower>(1)
     ];
 
     public NymphBabelOath()
@@ -37,7 +45,7 @@ public sealed class NymphBabelOath : ModCardTemplate
         await PowerCmd.Apply<BabelOathPower>(
             choiceContext,
             Owner.Creature,
-            1,
+            DynamicVars["BabelOathPower"].IntValue,
             Owner.Creature,
             this);
     }

@@ -41,7 +41,7 @@ public sealed class NymphDismantleHeartLock : ModCardTemplate
         int playCount)
     {
         return card == this && target is not null
-            ? playCount + (target.GetPower<NecrosisPower>()?.Amount ?? 0)
+            ? playCount + NecrosisPower.GetTotalAmount(target)
             : playCount;
     }
 

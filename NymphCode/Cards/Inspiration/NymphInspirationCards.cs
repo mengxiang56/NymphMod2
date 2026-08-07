@@ -24,7 +24,7 @@ public abstract class NymphInspirationCard : ModCardTemplate
 
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
     [
-        NymphKeywords.Inspiration,
+        NymphKeywords.InspirationCard,
         NymphKeywords.Conceive
     ];
 
@@ -218,7 +218,7 @@ public sealed class NymphInspirationOathbreak
 public sealed class NymphInspirationRest
     : NymphSelfPowerInspiration<RegenPower>
 {
-    protected override int Amount => 4;
+    protected override int Amount => 3;
     public NymphInspirationRest() : base(CardRarity.Common)
     {
     }
@@ -228,7 +228,7 @@ public sealed class NymphInspirationRest
 public sealed class NymphInspirationSleep
     : NymphSelfPowerInspiration<RegenPower>
 {
-    protected override int Amount => 6;
+    protected override int Amount => 4;
     public NymphInspirationSleep() : base(CardRarity.Uncommon)
     {
     }
@@ -488,7 +488,7 @@ public sealed class NymphInspirationConsume : NymphBlockInspiration
 [RegisterCard(typeof(NymphInspirationCardPool))]
 public sealed class NymphInspirationReclaim : NymphBlockInspiration
 {
-    protected override decimal BlockAmount => 15;
+    protected override decimal BlockAmount => 12;
 
     public NymphInspirationReclaim() : base(CardRarity.Uncommon)
     {
@@ -503,7 +503,7 @@ public sealed class NymphInspirationRiseAndFall : NymphInspirationCard
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new DynamicVar("Create", CreateAmount),
-        new BlockVar(15, ValueProp.Move),
+        new BlockVar(12, ValueProp.Move),
         new DynamicVar("Amount", 2)
     ];
 

@@ -10,9 +10,11 @@
   "NYMPH_KEYWORD_RECREATE_POTION.title": "Recreate Potion",
   "NYMPH_KEYWORD_RECREATE_POTION.description": "Transform into a random Potion.",
   "NYMPH_KEYWORD_RECREATE_RELIC.title": "Recreate Relic",
-  "NYMPH_KEYWORD_RECREATE_RELIC.description": "Choose 1 held Relic and transform it into another random Relic from the same Relic pool.",
+  "NYMPH_KEYWORD_RECREATE_RELIC.description": "Transform into another random non-Ancient Relic from the same Relic pool.",
   "NYMPH_KEYWORD_INSPIRATION.title": "Inspiration",
   "NYMPH_KEYWORD_INSPIRATION.description": "A series of Inspiration cards. Only the 1st Inspiration used each combat takes effect.",
+  "NYMPH_KEYWORD_INSPIRATION_CARD.title": "Inspiration Card",
+  "NYMPH_KEYWORD_INSPIRATION_CARD.description": "Single-use. Removed from the Inspiration pile after being played.",
   "NYMPH_KEYWORD_THRESHOLD.title": "Confusion Threshold",
   "NYMPH_KEYWORD_THRESHOLD.description": "When Thought reaches the [gold]Confusion Threshold[/gold], enter [gold]Confused[/gold].\nThe [gold]Obstruction Threshold[/gold] equals [blue]2[/blue] times the Confusion Threshold."
 }

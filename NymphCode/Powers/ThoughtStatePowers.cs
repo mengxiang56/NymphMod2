@@ -8,7 +8,6 @@ public abstract class ThoughtStatePower : ModPowerTemplate
 {
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Single;
-    public override bool ShouldPlayVfx => false;
 }
 
 [RegisterPower]

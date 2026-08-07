@@ -2,6 +2,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Saves.Runs;
 using Nymph.Mechanics;
@@ -20,6 +21,18 @@ public sealed class EndlessStrangeWordsPower : ModPowerTemplate
     public override PowerAssetProfile AssetProfile => new(
         IconPath: $"{Entry.ResPath}/images/powers/EndlessStoryPower32.png",
         BigIconPath: $"{Entry.ResPath}/images/powers/EndlessStoryPower84.png");
+
+    public override LocString Description =>
+        new LocString(
+            "powers",
+            ViceVersa
+                ? "NYMPH_POWER_ENDLESS_STRANGE_WORDS_POWER.descriptionUpgraded"
+                : "NYMPH_POWER_ENDLESS_STRANGE_WORDS_POWER.description");
+
+    protected override string SmartDescriptionLocKey =>
+        ViceVersa
+            ? "NYMPH_POWER_ENDLESS_STRANGE_WORDS_POWER.smartDescriptionUpgraded"
+            : "NYMPH_POWER_ENDLESS_STRANGE_WORDS_POWER.smartDescription";
 
     [SavedProperty]
     public bool ViceVersa { get; set; }

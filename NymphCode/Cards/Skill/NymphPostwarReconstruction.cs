@@ -29,7 +29,7 @@ public sealed class NymphPostwarReconstruction : ModCardTemplate
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new BlockVar(4, ValueProp.Unpowered),
-        new DynamicVar("Threshold", 2)
+        new DynamicVar("Threshold", 1)
     ];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>

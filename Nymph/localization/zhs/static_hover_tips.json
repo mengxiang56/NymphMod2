@@ -1,6 +1,6 @@
 {
     "NYMPH_SECONDARY_RESOURCE_THOUGHT.title": "思绪值/临界点/阻滞点",
-    "NYMPH_SECONDARY_RESOURCE_THOUGHT.description": "每打出一张牌获得[blue]1[/blue]点思绪值。\n阻滞点为临界点的[blue]2[/blue]倍。",
+    "NYMPH_SECONDARY_RESOURCE_THOUGHT.description": "每打出一张牌获得[blue]1[/blue]点思绪值。\n阻滞点为临界点的[blue]2[/blue]倍。\n[green]清晰[/green]：每打出[blue]1[/blue]张牌获得[blue]1[/blue]点[gold]格挡[/gold]。\n[orange]混乱[/orange]：无特殊效果。\n[red]阻滞[/red]：每打出[blue]1[/blue]张牌受到[blue]1[/blue]点伤害。",
   "NYMPH_DURABILITY.title": "耐久",
   "NYMPH_DURABILITY.description": "每次打出后减少1。耐久为0时这张牌会从牌组中移除。",
   "NYMPH_DISCOVERY.title": "发现",
@@ -9,6 +9,7 @@
   "NYMPH_CARDPILE_INSPIRATION.description": "保存你获得的灵感牌。\n战斗开始时，可以从中选择一张打出。",
   "NYMPH_CARDPILE_INSPIRATION.empty": "灵感牌堆中没有牌。",
   "NYMPH_REWARD_INSPIRATION": "获得一缕灵感。",
-  "NYMPH_REWARD_RECREATE_RELIC": "重构1个持有的遗物。",
-  "NYMPH_RECREATE_SELECTION_PROMPT": "选择{Amount}张牌[gold]重构[/gold]。"
+  "NYMPH_REWARD_RECREATE_RELIC": "重构1个持有的非先古遗物。",
+  "NYMPH_RECREATE_SELECTION_PROMPT": "选择{Amount}张牌[gold]重构[/gold]。",
+  "NYMPH_RECREATE_SELECTION_PROMPT_UP_TO": "选择最多{Amount}张牌[gold]重构[/gold]。"
 }

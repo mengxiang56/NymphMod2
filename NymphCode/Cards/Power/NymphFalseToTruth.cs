@@ -24,7 +24,7 @@ public sealed class NymphFalseToTruth : ModCardTemplate
     ];
 
     public NymphFalseToTruth()
-        : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self, true)
+        : base(2, CardType.Power, CardRarity.Rare, TargetType.Self, true)
     {
     }
 
@@ -42,6 +42,6 @@ public sealed class NymphFalseToTruth : ModCardTemplate
 
     protected override void OnUpgrade()
     {
-        AddKeyword(CardKeyword.Innate);
+        EnergyCost.UpgradeBy(-1);
     }
 }

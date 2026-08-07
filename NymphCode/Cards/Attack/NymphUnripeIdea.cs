@@ -11,7 +11,7 @@ using STS2RitsuLib.Scaffolding.Content;
 namespace Nymph.Cards;
 
 [RegisterCard(typeof(NymphCardPool))]
-public sealed class NymphUnripeIdea : ModCardTemplate
+public sealed class NymphUnripeIdea : ModCardTemplate, ISelfRecreatingOnPlayCard
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
     [

@@ -1,12 +1,11 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using Nymph.Characters;
 using Nymph.Mechanics;
-using Nymph.Powers;
-using STS2RitsuLib.Keywords;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 
@@ -15,6 +14,11 @@ namespace Nymph.Cards;
 [RegisterCard(typeof(NymphCardPool))]
 public sealed class NymphDeadSoul : ModCardTemplate
 {
+    public override bool CanBeGeneratedInCombat => false;
+
+    public override CardMultiplayerConstraint MultiplayerConstraint =>
+        CardMultiplayerConstraint.MultiplayerOnly;
+
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
     [
         CardKeyword.Exhaust
@@ -26,17 +30,16 @@ public sealed class NymphDeadSoul : ModCardTemplate
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new PowerVar<NecrosisPower>(2)
+        new DynamicVar("Gold", 30)
     ];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        ModKeywordRegistry.CreateHoverTip(NymphKeywords.NarrateId),
-        HoverTipFactory.FromPower<NecrosisPower>()
+        ThoughtMechanics.CreateHoverTip()
     ];
 
     public NymphDeadSoul()
-        : base(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self, true)
+        : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.AnyAlly, true)
     {
     }
 
@@ -44,16 +47,26 @@ public sealed class NymphDeadSoul : ModCardTemplate
         PlayerChoiceContext choiceContext,
         CardPlay cardPlay)
     {
-        await PowerCmd.Apply<NarrateVigorPower>(
+        ArgumentNullException.ThrowIfNull(cardPlay.Target);
+        Player ally = cardPlay.Target.Player
+            ?? throw new InvalidOperationException(
+                "Sting to Ingot target must be a player creature.");
+
+        int thoughtAmount = await ThoughtMechanics.Clear(
             choiceContext,
-            Owner.Creature,
-            DynamicVars["NecrosisPower"].IntValue,
-            Owner.Creature,
+            Owner,
             this);
+        int goldGain = Math.Min(
+            thoughtAmount,
+            DynamicVars["Gold"].IntValue);
+        if (goldGain > 0)
+        {
+            await PlayerCmd.GainGold(goldGain, ally);
+        }
     }
 
     protected override void OnUpgrade()
     {
-        AddKeyword(CardKeyword.Retain);
+        DynamicVars["Gold"].UpgradeValueBy(10);
     }
 }

@@ -81,7 +81,11 @@ internal static class ChooseARelicSelectionPagination
 
         for (int i = 0; i < relics.Count; i++)
         {
-            NRelicBasicHolder holder = NRelicBasicHolder.Create(relics[i]);
+            if (NRelicBasicHolder.Create(relics[i]) is not { } holder)
+            {
+                continue;
+            }
+
             holder.Scale = Vector2.One * 2f;
             holder.Modulate = Colors.White;
             holder.Position = Vector2.Zero;

@@ -56,7 +56,8 @@ public sealed class NymphMindsRipple : ModCardTemplate
                 this);
         }
 
-        if (cardPlay.Target.GetPower<NecrosisPower>() is { } necrosis)
+        if (NecrosisPower.GetInstance(cardPlay.Target, Owner.Creature)
+            is { } necrosis)
         {
             await necrosis.Trigger(
                 choiceContext,

@@ -38,14 +38,14 @@ public sealed class NecrosisDecayIntervalPower : ModPowerTemplate
 
     internal static void SyncToNecrosis(Creature owner)
     {
-        if (owner.GetPower<NecrosisPower>() is not { } necrosis)
-        {
-            return;
-        }
-
         int intervalBonus =
             owner.GetPower<NecrosisDecayIntervalPower>()?.Amount ?? 0;
-        necrosis.CardsPerLayerLoss =
+        int cardsPerLayerLoss =
             NecrosisPower.DefaultCardsPerLayerLoss + intervalBonus;
+
+        foreach (NecrosisPower necrosis in owner.GetPowerInstances<NecrosisPower>())
+        {
+            necrosis.CardsPerLayerLoss = cardsPerLayerLoss;
+        }
     }
 }

@@ -53,6 +53,13 @@ public static class ThoughtMechanics
     /// </summary>
     public const int AmountOutlineSize = 15;
 
+    /// <summary>
+    /// 思绪计数器悬停提示框屏幕偏移（正值右移、负值上移；不影响计数器本体）。
+    /// </summary>
+    public static readonly Vector2 HoverTipScreenOffset = new(48f, -120f);
+
+    private static readonly Vector2 CounterIconSize = new(150f, 110f);
+
     private const string ClearIconPath =
         $"{Entry.ResPath}/images/ui/thought/thought_clear.png";
     private const string ConfusedIconPath =
@@ -76,13 +83,22 @@ public static class ThoughtMechanics
 
     private static readonly SecondaryResourceCounterStyle CounterStyle = new()
     {
-        CounterSize = new Vector2(150f, 110f),
-        IconSize = new Vector2(150f, 110f),
+        CounterSize = CounterIconSize,
+        IconSize = CounterIconSize,
         FontSize = AmountFontSize,
         OutlineSize = AmountOutlineSize,
         AmountLabelOffset = new Vector2(0f, 6f),
         ZeroColor = SecondaryResourceCounterStyle.Default.PositiveColor,
         FormatAmount = (amount, _) => amount.ToString(),
+        IconStyle = SecondaryResourceIconStyle.Default with
+        {
+            // 显式设置 IconStyle 时必须带上 Size，否则不会套用 IconSize。
+            Size = CounterIconSize,
+            HoverTip = SecondaryResourceHoverTipStyle.Default with
+            {
+                ScreenOffset = HoverTipScreenOffset,
+            },
+        },
     };
 
     public static string FormatThresholdLine(int threshold) =>
@@ -228,6 +244,29 @@ public static class ThoughtMechanics
         return player is not null && Get(player) > 0;
     }
 
+    public static async Task<int> Clear(
+        PlayerChoiceContext choiceContext,
+        Player player,
+        CardModel? source = null)
+    {
+        int amount = Get(player);
+        if (amount <= 0
+            || player.Creature.GetPower<ThoughtPower>() is not { } thought)
+        {
+            return 0;
+        }
+
+        await PowerCmd.ModifyAmount(
+            choiceContext,
+            thought,
+            -amount,
+            player.Creature,
+            source,
+            silent: true);
+        await SyncStatePower(choiceContext, player);
+        return amount;
+    }
+
     public static async Task Create(
         PlayerChoiceContext choiceContext,
         Player player,
@@ -341,11 +380,7 @@ public static class ThoughtMechanics
             : 0;
     }
 
-    public static int NarrationEffectMultiplier(Player player)
-    {
-        return 1
-            + (player.Creature.GetPower<BabelOathPower>()?.Amount ?? 0);
-    }
+    public static int NarrationEffectMultiplier(Player player) => 1;
 
     public static bool WasPreviousCardConceive(CardModel currentCard)
     {
@@ -463,8 +498,7 @@ public static class ThoughtMechanics
                     player.Creature,
                     1,
                     player.Creature,
-                    null,
-                    silent: true);
+                    null);
                 break;
             case ThoughtState.Confused:
                 await PowerCmd.Apply<FracturedPower>(
@@ -472,8 +506,7 @@ public static class ThoughtMechanics
                     player.Creature,
                     1,
                     player.Creature,
-                    null,
-                    silent: true);
+                    null);
                 break;
             case ThoughtState.Obstructed:
                 await PowerCmd.Apply<ObstructedPower>(
@@ -481,8 +514,7 @@ public static class ThoughtMechanics
                     player.Creature,
                     1,
                     player.Creature,
-                    null,
-                    silent: true);
+                    null);
                 break;
         }
     }

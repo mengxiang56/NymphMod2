@@ -9,7 +9,7 @@ using STS2RitsuLib.Scaffolding.Content;
 namespace Nymph.Cards;
 
 [RegisterCard(typeof(NymphDerivedCardPool))]
-public sealed class NymphUntoldMatter : ModCardTemplate
+public sealed class NymphUntoldMatter : ModCardTemplate, ISelfRecreatingOnPlayCard
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
     [

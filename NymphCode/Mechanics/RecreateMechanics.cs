@@ -19,9 +19,27 @@ public static class RecreateMechanics
     private static readonly BlockingPlayerChoiceContext
         AutoPlayChoiceContext = new();
 
-    private static LocString SelectionPrompt => new(
+    private static LocString SelectionPromptExact => new(
         "static_hover_tips",
         "NYMPH_RECREATE_SELECTION_PROMPT");
+
+    private static LocString SelectionPromptUpTo => new(
+        "static_hover_tips",
+        "NYMPH_RECREATE_SELECTION_PROMPT_UP_TO");
+
+    private static CardSelectorPrefs CreateSelectorPrefs(
+        int minCount,
+        int maxCount)
+    {
+        LocString prompt = minCount < maxCount
+            ? SelectionPromptUpTo
+            : SelectionPromptExact;
+
+        return new CardSelectorPrefs(prompt, minCount, maxCount)
+        {
+            Cancelable = minCount == 0
+        };
+    }
 
     public static async Task<IReadOnlyList<RecreateResult>> SelectFromHand(
         PlayerChoiceContext choiceContext,
@@ -31,13 +49,12 @@ public static class RecreateMechanics
         bool makeFreeUntilPlayed = false,
         bool applyAdaptability = true)
     {
-        CardSelectorPrefs prefs = new(
-            SelectionPrompt,
-            minCount,
-            maxCount)
+        if (maxCount <= 0)
         {
-            Cancelable = minCount == 0
-        };
+            return [];
+        }
+
+        CardSelectorPrefs prefs = CreateSelectorPrefs(minCount, maxCount);
 
         IReadOnlyList<CardModel> selected = (await CardSelectCmd.FromHand(
             choiceContext,
@@ -67,13 +84,7 @@ public static class RecreateMechanics
             return [];
         }
 
-        CardSelectorPrefs prefs = new(
-            SelectionPrompt,
-            minCount,
-            maxCount)
-        {
-            Cancelable = minCount == 0
-        };
+        CardSelectorPrefs prefs = CreateSelectorPrefs(minCount, maxCount);
 
         IReadOnlyList<CardModel> selected = (await CardSelectCmd.FromHand(
             choiceContext,
@@ -195,6 +206,14 @@ public static class RecreateMechanics
                 [result]);
         }
 
+        ImpressionReconstructionPower.ReduceRecreatedCardCosts(
+            original.Owner,
+            [result]);
+
+        NymphSeeThroughPast.AddRecreatedAttackDamage(
+            original.Owner,
+            [result]);
+
         await AutoPlayNewBranches([result]);
 
         return result;
@@ -209,13 +228,7 @@ public static class RecreateMechanics
         Func<CardModel, bool> replacementFilter,
         bool applyAdaptability = true)
     {
-        CardSelectorPrefs prefs = new(
-            SelectionPrompt,
-            minCount,
-            maxCount)
-        {
-            Cancelable = minCount == 0
-        };
+        CardSelectorPrefs prefs = CreateSelectorPrefs(minCount, maxCount);
 
         IReadOnlyList<CardModel> selected = (await CardSelectCmd.FromHand(
             choiceContext,
@@ -238,13 +251,7 @@ public static class RecreateMechanics
             int minCount,
             int maxCount)
     {
-        CardSelectorPrefs prefs = new(
-            SelectionPrompt,
-            minCount,
-            maxCount)
-        {
-            Cancelable = minCount == 0
-        };
+        CardSelectorPrefs prefs = CreateSelectorPrefs(minCount, maxCount);
 
         IReadOnlyList<CardModel> selected = (await CardSelectCmd.FromHand(
             choiceContext,
@@ -301,6 +308,12 @@ public static class RecreateMechanics
         }
 
         AdaptabilityPower.EnchantRecreatedCards(
+            source.Owner,
+            results);
+        ImpressionReconstructionPower.ReduceRecreatedCardCosts(
+            source.Owner,
+            results);
+        NymphSeeThroughPast.AddRecreatedAttackDamage(
             source.Owner,
             results);
         await AutoPlayNewBranches(results);
@@ -373,6 +386,19 @@ public static class RecreateMechanics
                 results);
         }
 
+        ImpressionReconstructionPower.ReduceRecreatedCardCosts(
+            originals[0].Owner,
+            results);
+
+        NymphSeeThroughPast.AddRecreatedAttackDamage(
+            originals[0].Owner,
+            results);
+
+        if (originals[0].Owner.Creature.GetPower<NemesisUndertakerPower>() is { } undertaker)
+        {
+            await undertaker.OnRecreated(AutoPlayChoiceContext, results);
+        }
+
         await AutoPlayNewBranches(results);
 
         return results;
@@ -387,10 +413,9 @@ public static class RecreateMechanics
             .Where(card => card.Pile?.Type == PileType.Hand)
             .ToList())
         {
-            await CardCmd.AutoPlay(
+            await NymphNewBranch.TryAutoPlayIfAllowed(
                 AutoPlayChoiceContext,
-                card,
-                null);
+                card);
         }
     }
 

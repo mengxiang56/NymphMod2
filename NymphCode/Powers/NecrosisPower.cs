@@ -1,6 +1,8 @@
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization;
@@ -20,9 +22,16 @@ public sealed class NecrosisPower :
     IPowerExtraIconAmountLabelSpecsProvider,
     IPowerExtraIconAmountLabelsChangeSource
 {
+    private sealed class CardPlayRecord
+    {
+        public required int AmountAtPlayStart { get; init; }
+
+        public required bool AdvancesReduction { get; init; }
+    }
+
     private sealed class CardPlayData
     {
-        public Dictionary<CardModel, int> AmountsAtPlayStart { get; } = [];
+        public Dictionary<CardModel, CardPlayRecord> AmountsAtPlayStart { get; } = [];
     }
 
     internal const int DefaultCardsPerLayerLoss = 3;
@@ -36,6 +45,8 @@ public sealed class NecrosisPower :
 
     public override PowerType Type => PowerType.Debuff;
     public override PowerStackType StackType => PowerStackType.Counter;
+    public override PowerInstanceType InstanceType =>
+        PowerInstanceType.InstancedPerApplier;
     public override bool AllowNegative => false;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
@@ -60,6 +71,11 @@ public sealed class NecrosisPower :
         !IsCanonical && Owner?.IsPlayer == true
             ? "NYMPH_POWER_NECROSIS_POWER.smartDescriptionOnPlayer"
             : "NYMPH_POWER_NECROSIS_POWER.smartDescriptionOnEnemy";
+
+    protected override string RemoteDescriptionLocKey =>
+        !IsCanonical && Owner?.IsPlayer == true
+            ? "NYMPH_POWER_NECROSIS_POWER.remoteDescriptionOnPlayer"
+            : "NYMPH_POWER_NECROSIS_POWER.remoteDescriptionOnEnemy";
 
     [SavedProperty]
     public int CardsPlayedTowardLayerLoss
@@ -137,6 +153,19 @@ public sealed class NecrosisPower :
     private int CardsRemaining =>
         CardsPerLayerLoss - CardsPlayedTowardLayerLoss;
 
+    public static NecrosisPower? GetInstance(
+        Creature target,
+        Creature? applier)
+    {
+        return target.GetPowerInstances<NecrosisPower>()
+            .FirstOrDefault(power => power.Applier == applier);
+    }
+
+    public static int GetTotalAmount(Creature target)
+    {
+        return target.GetPowerInstances<NecrosisPower>().Sum(power => power.Amount);
+    }
+
     protected override object InitInternalData()
     {
         return new CardPlayData();
@@ -150,7 +179,28 @@ public sealed class NecrosisPower :
 
     public override Task BeforeCardPlayed(CardPlay cardPlay)
     {
-        GetInternalData<CardPlayData>().AmountsAtPlayStart[cardPlay.Card] = Amount;
+        if (Applier?.Player == null)
+        {
+            return Task.CompletedTask;
+        }
+
+        Player cardOwner = cardPlay.Card.Owner;
+        bool isApplierPlayer = cardOwner == Applier.Player;
+        bool isLinkedAlly = !isApplierPlayer
+            && cardOwner.Creature.GetPower<HeartToHeartPower>() is { } heartToHeart
+            && heartToHeart.Applier == Applier;
+
+        if (!isApplierPlayer && !isLinkedAlly)
+        {
+            return Task.CompletedTask;
+        }
+
+        GetInternalData<CardPlayData>().AmountsAtPlayStart[cardPlay.Card] =
+            new CardPlayRecord
+            {
+                AmountAtPlayStart = Amount,
+                AdvancesReduction = isApplierPlayer,
+            };
         return Task.CompletedTask;
     }
 
@@ -160,19 +210,22 @@ public sealed class NecrosisPower :
     {
         if (!GetInternalData<CardPlayData>().AmountsAtPlayStart.Remove(
                 cardPlay.Card,
-                out int amountAtPlayStart)
-            || amountAtPlayStart <= 0
-            || Owner.IsDead)
+                out CardPlayRecord? record)
+            || record is null
+            || record.AmountAtPlayStart <= 0
+            || Owner.IsDead
+            || Applier is null)
         {
             return;
         }
 
         await Trigger(
             choiceContext,
-            cardPlay.Card.Owner.Creature,
+            Applier,
             cardPlay.Card,
             1,
-            amountAtPlayStart);
+            record.AmountAtPlayStart,
+            advancesReduction: record.AdvancesReduction);
     }
 
     public async Task Trigger(

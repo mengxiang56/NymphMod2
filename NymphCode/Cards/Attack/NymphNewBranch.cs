@@ -26,7 +26,7 @@ public sealed class NymphNewBranch : ModCardTemplate
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new DamageVar(6, ValueProp.Move),
-        new DynamicVar("Create", 3),
+        new DynamicVar("Create", 4),
         new CardsVar(1)
     ];
 
@@ -40,12 +40,28 @@ public sealed class NymphNewBranch : ModCardTemplate
         CardModel card,
         bool fromHandDraw)
     {
-        if (card == this
-            && Pile?.Type == PileType.Hand
-            && CombatState is not null)
+        if (card == this)
         {
-            await CardCmd.AutoPlay(choiceContext, this, null);
+            await TryAutoPlayIfAllowed(choiceContext, this);
         }
+    }
+
+    internal static async Task TryAutoPlayIfAllowed(
+        PlayerChoiceContext choiceContext,
+        NymphNewBranch card)
+    {
+        if (card.Pile?.Type != PileType.Hand
+            || card.CombatState is null
+            || !card.CanPlay(out _, out _))
+        {
+            return;
+        }
+
+        await CardCmd.AutoPlay(
+            choiceContext,
+            card,
+            null,
+            AutoPlayType.None);
     }
 
     protected override async Task OnPlay(
@@ -67,18 +83,13 @@ public sealed class NymphNewBranch : ModCardTemplate
             DynamicVars.Cards.IntValue,
             Owner);
 
-        var copy = CombatState!.CreateCard<NymphNewBranch>(Owner);
-        if (IsUpgraded)
-        {
-            CardCmd.Upgrade(
+        CardModel copy = CreateClone();
+        CardCmd.PreviewCardPileAdd(
+            await CardPileCmd.AddGeneratedCardToCombat(
                 copy,
-                MegaCrit.Sts2.Core.Nodes.CommonUi.CardPreviewStyle.None);
-        }
-
-        await CardPileCmd.AddGeneratedCardsToCombat(
-            new CardModel[] { copy },
-            PileType.Discard,
-            Owner);
+                PileType.Discard,
+                Owner),
+            2.2f);
     }
 
     protected override void OnUpgrade()

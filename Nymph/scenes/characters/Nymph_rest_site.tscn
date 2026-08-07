@@ -1,28 +1,18 @@
 [gd_scene load_steps=2 format=3]
 
-[ext_resource type="Texture2D" path="res://Nymph/images/characters/Nymph_character_static.png" id="1_character"]
+[ext_resource type="SpineSkeletonDataResource" path="res://Nymph/images/characters/skin0/build_char_4146_nymph_skeleton_data.tres" id="1_spine"]
 
 [node name="NymphCharacterRestSite" type="Node2D"]
-
-[node name="Visuals" type="Sprite2D" parent="."]
-position = Vector2(0, -120)
-scale = Vector2(0.22, 0.22)
-texture = ExtResource("1_character")
-region_enabled = true
-region_rect = Rect2(0, 300, 800, 1177)
-
-[node name="Shadow" type="Sprite2D" parent="."]
-position = Vector2(75, -58)
-scale = Vector2(0.75, 0.75)
-modulate = Color(0.25, 0.25, 0.25, 0.45)
-texture = ExtResource("1_character")
-region_enabled = true
-region_rect = Rect2(0, 300, 800, 1177)
 
 [node name="ControlRoot" type="Control" parent="."]
 unique_name_in_owner = true
 layout_mode = 3
 anchors_preset = 0
+
+[node name="Visuals" type="SpineSprite" parent="ControlRoot"]
+position = Vector2(0, 35)
+scale = Vector2(0.85, 0.85)
+skeleton_data_res = ExtResource("1_spine")
 
 [node name="SelectionReticle" type="Control" parent="ControlRoot"]
 unique_name_in_owner = true
