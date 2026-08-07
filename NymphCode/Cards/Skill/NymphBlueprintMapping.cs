@@ -21,7 +21,8 @@ public sealed class NymphBlueprintMapping : ModCardTemplate
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new CardsVar(2)
+        new CardsVar(2),
+        new DynamicVar("SelectedCards", 1)
     ];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
@@ -54,13 +55,13 @@ public sealed class NymphBlueprintMapping : ModCardTemplate
             return;
         }
 
+        int selectionCount = Math.Min(
+            DynamicVars["SelectedCards"].IntValue,
+            candidates.Count);
         CardSelectorPrefs prefs = new(
             SelectionScreenPrompt,
-            0,
-            candidates.Count)
-        {
-            Cancelable = true
-        };
+            selectionCount,
+            selectionCount);
         IEnumerable<CardModel> selected = await CardSelectCmd.FromHand(
             choiceContext,
             Owner,
@@ -71,6 +72,7 @@ public sealed class NymphBlueprintMapping : ModCardTemplate
         foreach (CardModel card in selected)
         {
             CardCmd.Enchant<NymphTransformationEnchantment>(card, 1);
+            card.SetToFreeThisTurn();
         }
     }
 

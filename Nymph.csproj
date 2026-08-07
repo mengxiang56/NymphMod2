@@ -79,6 +79,7 @@
     <ItemGroup>
         <Folder Include="Nymph\images\cards\"/>
         <Folder Include="Nymph\images\characters\"/>
+        <Folder Include="Nymph\images\potions\"/>
         <Folder Include="Nymph\images\relics\"/>
         <Folder Include="Nymph\scenes\characters\"/>
     </ItemGroup>

@@ -1,0 +1,7 @@
+{
+  "NYMPH_POTION_NYMPH_RECREATE_POTION.title": "一瓶墨水",
+  "NYMPH_POTION_NYMPH_RECREATE_POTION.description": "[gold]重构[/gold]你[gold]手牌[/gold]中的任意张牌。",
+  "NYMPH_POTION_NYMPH_RECREATE_POTION.selectionScreenPrompt": "选择任意张牌[gold]重构[/gold]。",
+  "NYMPH_POTION_NYMPH_NECROSIS_POTION.title": "凋亡药水",
+  "NYMPH_POTION_NYMPH_NECROSIS_POTION.description": "给予[blue]{NecrosisPower}[/blue]层[gold]凋亡[/gold]。"
+}

@@ -21,7 +21,7 @@ public sealed class NymphHeartFire : ModCardTemplate
     [
         new DamageVar(4, ValueProp.Move),
         new DynamicVar("Necrosis", 3),
-        new PowerVar<FearPower>(3)
+        new PowerVar<FearPower>(2)
     ];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
@@ -63,6 +63,7 @@ public sealed class NymphHeartFire : ModCardTemplate
 
     protected override void OnUpgrade()
     {
+        DynamicVars.Damage.UpgradeValueBy(1);
         DynamicVars["Necrosis"].UpgradeValueBy(1);
         DynamicVars["FearPower"].UpgradeValueBy(1);
     }

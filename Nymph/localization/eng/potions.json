@@ -1,0 +1,7 @@
+{
+  "NYMPH_POTION_NYMPH_RECREATE_POTION.title": "A Bottle of Ink",
+  "NYMPH_POTION_NYMPH_RECREATE_POTION.description": "Choose any number of cards in the target player's [gold]Hand[/gold] to [gold]Recreate[/gold].",
+  "NYMPH_POTION_NYMPH_RECREATE_POTION.selectionScreenPrompt": "Choose any number of cards to [gold]Recreate[/gold].",
+  "NYMPH_POTION_NYMPH_NECROSIS_POTION.title": "Necrosis Potion",
+  "NYMPH_POTION_NYMPH_NECROSIS_POTION.description": "Apply {NecrosisPower} [gold]Necrosis[/gold] to an enemy."
+}

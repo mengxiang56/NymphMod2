@@ -30,7 +30,7 @@ public sealed class NymphThoughtTraining : ModCardTemplate
     ];
 
     public NymphThoughtTraining()
-        : base(1, CardType.Attack, CardRarity.Rare, TargetType.AllEnemies, true)
+        : base(0, CardType.Attack, CardRarity.Rare, TargetType.AllEnemies, true)
     {
     }
 
@@ -52,6 +52,6 @@ public sealed class NymphThoughtTraining : ModCardTemplate
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(3);
+        DynamicVars.Damage.UpgradeValueBy(4);
     }
 }

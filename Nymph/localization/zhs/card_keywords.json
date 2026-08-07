@@ -14,7 +14,7 @@
   "NYMPH_KEYWORD_INSPIRATION.title": "灵感",
   "NYMPH_KEYWORD_INSPIRATION.description": "一系列[gold]灵感牌[/gold]。战斗开始时可以选择一张打出",
   "NYMPH_KEYWORD_INSPIRATION_CARD.title": "灵感牌",
-  "NYMPH_KEYWORD_INSPIRATION_CARD.description": "一次性，打出后会从灵感牌堆移除。",
+  "NYMPH_KEYWORD_INSPIRATION_CARD.description": "[gold]一次性[/gold]。打出后会从灵感牌堆移除。",
   "NYMPH_KEYWORD_THRESHOLD.title": "临界点",
   "NYMPH_KEYWORD_THRESHOLD.description": "思绪值大于等于[gold]临界点[/gold]时，进入[gold]混乱[/gold]状态。\n[gold]阻滞点[/gold]等于[gold]临界点[/gold]的[blue]2[/blue]倍。"
 }

@@ -33,7 +33,7 @@ public sealed class NymphStoryToBeTold : ModCardTemplate
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new CardsVar(1),
-        new DynamicVar("Narrate", 6)
+        new DynamicVar("Narrate", 4)
     ];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
@@ -43,7 +43,7 @@ public sealed class NymphStoryToBeTold : ModCardTemplate
     ];
 
     public NymphStoryToBeTold()
-        : base(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self, true)
+        : base(0, CardType.Skill, CardRarity.Common, TargetType.Self, true)
     {
     }
 
@@ -83,9 +83,12 @@ public sealed class NymphStoryToBeTold : ModCardTemplate
 
     private bool MeetsConceiveCondition()
     {
+        bool conceivedThisTurn = Owner.Creature
+            .GetPower<ConceiveCardPlayedThisTurnPower>() is not null;
+
         return IsUpgraded
-            ? Owner.Creature
-                .GetPower<ConceiveCardPlayedThisTurnPower>() is not null
-            : ThoughtMechanics.WasPreviousCardConceive(this);
+            ? conceivedThisTurn
+            : conceivedThisTurn
+                && ThoughtMechanics.WasPreviousCardConceive(this);
     }
 }

@@ -25,7 +25,7 @@ public sealed class NymphEmpathy : ModCardTemplate
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new PowerVar<NecrosisPower>(3),
+        new PowerVar<NecrosisPower>(2),
         new DynamicVar("Interval", 1)
     ];
 
@@ -64,6 +64,6 @@ public sealed class NymphEmpathy : ModCardTemplate
 
     protected override void OnUpgrade()
     {
-        DynamicVars["Interval"].UpgradeValueBy(1);
+        DynamicVars["NecrosisPower"].UpgradeValueBy(1);
     }
 }

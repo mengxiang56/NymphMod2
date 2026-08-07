@@ -34,8 +34,8 @@ public sealed class NymphLostMyth : ModCardTemplate
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(5, ValueProp.Move),
-        new DynamicVar("Narrate", 5)
+        new DamageVar(4, ValueProp.Move),
+        new DynamicVar("Narrate", 4)
     ];
 
     public NymphLostMyth()
@@ -87,6 +87,7 @@ public sealed class NymphLostMyth : ModCardTemplate
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(3);
+        DynamicVars.Damage.UpgradeValueBy(2);
+        DynamicVars["Narrate"].UpgradeValueBy(2);
     }
 }
