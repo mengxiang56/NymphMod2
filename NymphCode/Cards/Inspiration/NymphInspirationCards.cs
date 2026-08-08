@@ -45,18 +45,7 @@ public abstract class NymphInspirationCard : ModCardTemplate
         PlayerChoiceContext choiceContext,
         CardPlay cardPlay)
     {
-        if (Owner.Creature.GetPower<InspirationUsedPower>() is not null)
-        {
-            return;
-        }
-
         InspirationMechanics.ConsumeSelected(this);
-        await PowerCmd.Apply<InspirationUsedPower>(
-            choiceContext,
-            Owner.Creature,
-            1,
-            Owner.Creature,
-            this);
         await ThoughtMechanics.Create(
             choiceContext,
             Owner,
@@ -297,6 +286,8 @@ public sealed class NymphInspirationInvasion
 
 public abstract class NymphGoldInspiration : NymphInspirationCard
 {
+    public override bool CanBeGeneratedInCombat => false;
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new DynamicVar("Create", CreateAmount),

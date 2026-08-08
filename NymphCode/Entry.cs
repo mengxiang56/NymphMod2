@@ -6,6 +6,7 @@ using STS2RitsuLib.Interop;
 using Nymph.Mechanics;
 using Nymph.Patches;
 using Nymph.Rewards;
+using Nymph.Characters;
 using STS2RitsuLib.Combat.Rewards;
 using Logger = MegaCrit.Sts2.Core.Logging.Logger;
 
@@ -33,6 +34,7 @@ public partial class Entry
         // 这一步和 RitsuLib 的内容自动注册不是同一件事，两个都需要保留。
         RitsuLibFramework.EnsureGodotScriptsRegistered(assembly, Logger);
 
+        NymphSkinManager.Initialize();
         ThoughtMechanics.Initialize();
         InspirationMechanics.Initialize();
         NymphPatchBootstrap.Apply();

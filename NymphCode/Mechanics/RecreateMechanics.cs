@@ -11,11 +11,15 @@ using MegaCrit.Sts2.Core.Nodes.CommonUi;
 using Nymph.Cards;
 using Nymph.Characters;
 using Nymph.Powers;
+using Nymph.Relics;
 
 namespace Nymph.Mechanics;
 
 public static class RecreateMechanics
 {
+    private const float HandRecreateReturnPauseFastSeconds = 0.35f;
+    private const float HandRecreateReturnPauseStandardSeconds = 0.6f;
+
     private static readonly BlockingPlayerChoiceContext
         AutoPlayChoiceContext = new();
 
@@ -63,7 +67,7 @@ public static class RecreateMechanics
             card => card.IsTransformable,
             source)).ToList();
 
-        return await Recreate(
+        return await RecreateAfterHandSelection(
             selected,
             makeFreeUntilPlayed,
             null,
@@ -93,11 +97,32 @@ public static class RecreateMechanics
             card => card.IsTransformable,
             source)).ToList();
 
-        return await Recreate(
+        return await RecreateAfterHandSelection(
             selected,
             makeFreeUntilPlayed,
             null,
             applyAdaptability);
+    }
+
+    private static async Task<IReadOnlyList<RecreateResult>> RecreateAfterHandSelection(
+        IReadOnlyList<CardModel> selected,
+        bool makeFreeUntilPlayed,
+        Func<CardModel, bool>? replacementFilter,
+        bool applyAdaptability)
+    {
+        IReadOnlyList<RecreateResult> results = await Recreate(
+            selected,
+            makeFreeUntilPlayed,
+            replacementFilter,
+            applyAdaptability);
+        if (results.Count > 0)
+        {
+            await Cmd.CustomScaledWait(
+                HandRecreateReturnPauseFastSeconds,
+                HandRecreateReturnPauseStandardSeconds);
+        }
+
+        return results;
     }
 
     public static async Task AutoPlayReplacements(
@@ -237,7 +262,7 @@ public static class RecreateMechanics
             card => card.IsTransformable,
             source)).ToList();
 
-        return await Recreate(
+        return await RecreateAfterHandSelection(
             selected,
             makeFreeUntilPlayed: false,
             replacementFilter,
@@ -400,6 +425,10 @@ public static class RecreateMechanics
         }
 
         await AutoPlayNewBranches(results);
+
+        NymphRevenantRemnant.TryApplyFirstRecreateReplay(
+            originals[0].Owner,
+            results);
 
         return results;
     }

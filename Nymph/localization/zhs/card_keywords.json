@@ -12,7 +12,7 @@
   "NYMPH_KEYWORD_RECREATE_RELIC.title": "重构（遗物）",
   "NYMPH_KEYWORD_RECREATE_RELIC.description": "变化为其所在遗物池中的随机遗物。",
   "NYMPH_KEYWORD_INSPIRATION.title": "灵感",
-  "NYMPH_KEYWORD_INSPIRATION.description": "一系列[gold]灵感牌[/gold]。战斗开始时可以选择一张打出",
+  "NYMPH_KEYWORD_INSPIRATION.description": "一系列[gold]灵感牌[/gold]。战斗开始时可以从中选择一张打出。",
   "NYMPH_KEYWORD_INSPIRATION_CARD.title": "灵感牌",
   "NYMPH_KEYWORD_INSPIRATION_CARD.description": "[gold]一次性[/gold]。打出后会从灵感牌堆移除。",
   "NYMPH_KEYWORD_THRESHOLD.title": "临界点",

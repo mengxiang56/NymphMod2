@@ -17,5 +17,9 @@
   "NYMPH_CHARACTER_NYMPH_CHARACTER.title": "妮芙",
   "NYMPH_CHARACTER_NYMPH_CHARACTER.titleObject": "妮芙",
   "NYMPH_CHARACTER_NYMPH_CHARACTER.unlockText": "使用 [pink]{Prerequisite}[/pink] 完成一局游戏以解锁该角色。",
-  "NYMPH_CHARACTER_NYMPH_CHARACTER.victoryMessage": "故事抵达了新的篇章。"
+  "NYMPH_CHARACTER_NYMPH_CHARACTER.victoryMessage": "故事抵达了新的篇章。",
+  "NYMPH_SKIN_SELECT.title": "选择皮肤",
+  "NYMPH_SKIN_SELECT.default": "默认皮肤",
+  "NYMPH_SKIN_SELECT.epoque": "甜美配方",
+  "NYMPH_SKIN_SELECT.ambienceSynesthesia": "繁花梦幻谭"
 }

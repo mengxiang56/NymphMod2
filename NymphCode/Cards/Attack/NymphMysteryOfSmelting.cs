@@ -1,3 +1,4 @@
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -58,6 +59,27 @@ public sealed class NymphMysteryOfSmelting : ModCardTemplate
     public NymphMysteryOfSmelting()
         : base(0, CardType.Attack, CardRarity.Rare, TargetType.AllEnemies, true)
     {
+    }
+
+    public override Task BeforeHandDraw(
+        Player player,
+        PlayerChoiceContext choiceContext,
+        ICombatState combatState)
+    {
+        if (player != Owner
+            || player.PlayerCombatState?.TurnNumber != 1
+            || !AutoPlayNextCombat)
+        {
+            return Task.CompletedTask;
+        }
+
+        CardPile? pile = Pile;
+        if (pile?.Type == PileType.Draw)
+        {
+            pile.MoveToBottomInternal(this);
+        }
+
+        return Task.CompletedTask;
     }
 
     public override async Task AfterAutoPrePlayPhaseEntered(

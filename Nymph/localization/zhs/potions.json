@@ -3,5 +3,8 @@
   "NYMPH_POTION_NYMPH_RECREATE_POTION.description": "[gold]重构[/gold]你[gold]手牌[/gold]中的任意张牌。",
   "NYMPH_POTION_NYMPH_RECREATE_POTION.selectionScreenPrompt": "选择任意张牌[gold]重构[/gold]。",
   "NYMPH_POTION_NYMPH_NECROSIS_POTION.title": "凋亡药水",
-  "NYMPH_POTION_NYMPH_NECROSIS_POTION.description": "给予[blue]{NecrosisPower}[/blue]层[gold]凋亡[/gold]。"
+  "NYMPH_POTION_NYMPH_NECROSIS_POTION.description": "给予所有敌人[blue]{NecrosisPower}[/blue]层[gold]凋亡[/gold]。",
+  "NYMPH_POTION_NYMPH_INSPIRATION_POTION.title": "瓶装灵感",
+  "NYMPH_POTION_NYMPH_INSPIRATION_POTION.description": "从[blue]3[/blue]张随机[gold]灵感[/gold]牌中选择一张打出。",
+  "NYMPH_POTION_NYMPH_INSPIRATION_POTION.selectionScreenPrompt": "选择一张[gold]灵感[/gold]牌打出。"
 }

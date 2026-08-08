@@ -13,6 +13,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 using STS2RitsuLib.Combat.Ui.ExtraCornerAmountLabels;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
+using Nymph.Relics;
 
 namespace Nymph.Powers;
 
@@ -22,6 +23,9 @@ public sealed class NecrosisPower :
     IPowerExtraIconAmountLabelSpecsProvider,
     IPowerExtraIconAmountLabelsChangeSource
 {
+    private static readonly BlockingPlayerChoiceContext
+        DisasterOriginChoiceContext = new();
+
     private sealed class CardPlayRecord
     {
         public required int AmountAtPlayStart { get; init; }
@@ -171,10 +175,37 @@ public sealed class NecrosisPower :
         return new CardPlayData();
     }
 
-    public override Task AfterApplied(Creature? applier, CardModel? cardSource)
+    public override async Task AfterApplied(
+        Creature? applier,
+        CardModel? cardSource)
     {
         NecrosisDecayIntervalPower.SyncToNecrosis(Owner);
-        return Task.CompletedTask;
+
+        if (applier?.Player is not { } applierPlayer
+            || cardSource is null
+            || applierPlayer.Creature.HasPower<DisasterOriginUsedThisTurnPower>()
+            || applierPlayer.Relics.All(relic => relic is not NymphDisasterOrigin))
+        {
+            return;
+        }
+
+        applierPlayer.Relics
+            .OfType<NymphDisasterOrigin>()
+            .First()
+            .Flash();
+        await PowerCmd.Apply<DisasterOriginUsedThisTurnPower>(
+            DisasterOriginChoiceContext,
+            applierPlayer.Creature,
+            1,
+            applierPlayer.Creature,
+            cardSource,
+            silent: true);
+        await PowerCmd.Apply<NecrosisPower>(
+            DisasterOriginChoiceContext,
+            Owner,
+            1,
+            applier,
+            cardSource);
     }
 
     public override Task BeforeCardPlayed(CardPlay cardPlay)

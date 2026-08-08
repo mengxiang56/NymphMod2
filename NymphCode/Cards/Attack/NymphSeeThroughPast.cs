@@ -15,8 +15,6 @@ namespace Nymph.Cards;
 [RegisterCard(typeof(NymphCardPool))]
 public sealed class NymphSeeThroughPast : ModCardTemplate
 {
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [NymphKeywords.Recreate];
-
     public override CardAssetProfile AssetProfile => new(
         PortraitPath: $"{Entry.ResPath}/images/cards/{GetType().Name}.png",
         FramePath: $"{Entry.ResPath}/images/cards/frames/bg_attack_sts2.png");
@@ -24,7 +22,7 @@ public sealed class NymphSeeThroughPast : ModCardTemplate
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new DamageVar(6, ValueProp.Move),
-        new DynamicVar("Hits", 2)
+        new RepeatVar("Hits", 2)
     ];
 
     public NymphSeeThroughPast()
@@ -57,18 +55,16 @@ public sealed class NymphSeeThroughPast : ModCardTemplate
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
 
-        for (int i = 0; i < DynamicVars["Hits"].IntValue; i++)
-        {
-            await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
-                .FromCard(this, cardPlay)
-                .Targeting(cardPlay.Target)
-                .Execute(choiceContext);
-        }
+        await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
+            .WithHitCount(DynamicVars["Hits"].IntValue)
+            .FromCard(this, cardPlay)
+            .Targeting(cardPlay.Target)
+            .Execute(choiceContext);
     }
 
     protected override void OnUpgrade()
     {
-        EnergyCost.UpgradeBy(-1);
+        DynamicVars["Hits"].UpgradeValueBy(1);
     }
 
     private static IEnumerable<NymphSeeThroughPast> GetAllInstances(Player player)

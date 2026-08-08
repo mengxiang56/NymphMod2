@@ -1,10 +1,8 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Enchantments;
 using Nymph.Characters;
 using Nymph.Mechanics;
 using STS2RitsuLib.Interop.AutoRegistration;
@@ -50,24 +48,21 @@ public sealed class NymphSmallCleverThought : ModCardTemplate
         }
 
         CardModel replacement = results[0].Replacement;
-        List<EnchantmentModel> enchantments = ModelDb.DebugEnchantments
-            .Where(enchantment =>
-                enchantment is not Inky
-                && enchantment.GetType().Namespace
-                    == "MegaCrit.Sts2.Core.Models.Enchantments"
-                && enchantment.GetType().Name
-                    != "DeprecatedEnchantment"
-                && enchantment.CanEnchant(replacement))
-            .ToList();
+        List<EnchantmentModel> enchantments =
+            SmallCleverThoughtEnchantments.GetEligibleEnchantments(
+                replacement);
         EnchantmentModel? selected =
             Owner.RunState.Rng.CombatCardSelection.NextItem(
                 enchantments);
         if (selected is not null)
         {
+            int amount = SmallCleverThoughtEnchantments.RollAmount(
+                selected,
+                Owner.PlayerRng.Rewards);
             CardCmd.Enchant(
                 selected.ToMutable(),
                 replacement,
-                1);
+                amount);
         }
     }
 

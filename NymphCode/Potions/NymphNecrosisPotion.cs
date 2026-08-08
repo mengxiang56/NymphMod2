@@ -17,15 +17,15 @@ namespace Nymph.Potions;
 [RegisterPotion(typeof(NymphPotionPool))]
 public sealed class NymphNecrosisPotion : ModPotionTemplate
 {
-    public override PotionRarity Rarity => PotionRarity.Common;
+    public override PotionRarity Rarity => PotionRarity.Uncommon;
 
     public override PotionUsage Usage => PotionUsage.CombatOnly;
 
-    public override TargetType TargetType => TargetType.AnyEnemy;
+    public override TargetType TargetType => TargetType.AllEnemies;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new PowerVar<NecrosisPower>(3)
+        new PowerVar<NecrosisPower>(4)
     ];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
@@ -43,17 +43,19 @@ public sealed class NymphNecrosisPotion : ModPotionTemplate
         PlayerChoiceContext choiceContext,
         Creature? target)
     {
-        AssertValidForTargetedPotion(target);
-        Creature selectedTarget = target!;
-        NCombatRoom.Instance?.PlaySplashVfx(
-            selectedTarget,
-            new Color("8c5bb5"));
+        Creature creature = Owner.Creature;
+        foreach (Creature enemy in creature.CombatState!.HittableEnemies)
+        {
+            NCombatRoom.Instance?.PlaySplashVfx(
+                enemy,
+                new Color("8c5bb5"));
+        }
 
         await PowerCmd.Apply<NecrosisPower>(
             choiceContext,
-            selectedTarget,
+            creature.CombatState.HittableEnemies,
             DynamicVars["NecrosisPower"].BaseValue,
-            Owner.Creature,
+            creature,
             null);
     }
 }

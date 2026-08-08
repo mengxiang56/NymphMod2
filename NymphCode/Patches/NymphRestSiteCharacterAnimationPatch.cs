@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.Bindings.MegaSpine;
 using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.Nodes.RestSite;
 using MegaCrit.Sts2.Core.Random;
+using Nymph.Characters;
 
 namespace Nymph.Patches;
 
@@ -93,6 +94,7 @@ internal static class NymphRestSiteCharacterReadyPatch
             return;
         }
 
+        NymphSkinManager.ApplyRestSiteSkinToSprite(spineNode);
         NymphRestSiteCharacterAnimation.Play(
             __instance,
             spineNode,

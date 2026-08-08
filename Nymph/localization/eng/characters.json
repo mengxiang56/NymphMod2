@@ -17,5 +17,9 @@
   "NYMPH_CHARACTER_NYMPH_CHARACTER.title": "Nymph",
   "NYMPH_CHARACTER_NYMPH_CHARACTER.titleObject": "Nymph",
   "NYMPH_CHARACTER_NYMPH_CHARACTER.unlockText": "Complete a run as [pink]{Prerequisite}[/pink] to unlock this character.",
-  "NYMPH_CHARACTER_NYMPH_CHARACTER.victoryMessage": "The story reaches a new chapter."
+  "NYMPH_CHARACTER_NYMPH_CHARACTER.victoryMessage": "The story reaches a new chapter.",
+  "NYMPH_SKIN_SELECT.title": "Choose a skin",
+  "NYMPH_SKIN_SELECT.default": "Default skin",
+  "NYMPH_SKIN_SELECT.epoque": "Delicious Recipe",
+  "NYMPH_SKIN_SELECT.ambienceSynesthesia": "Ambience Synesthesia"
 }

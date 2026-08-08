@@ -63,7 +63,12 @@ public sealed class NymphCharacter : ModCharacterTemplate<NymphCardPool, NymphRe
             // 人物选择图标-锁定状态。
             CharacterSelectLockedIconPath: $"{ImageRoot}/Nymph_character_select_locked.png",
             // 地图上的角色标记图标、表情轮盘上的角色头像。
-            MapMarkerPath: $"{ImageRoot}/Nymph_map_marker.png"));
+            MapMarkerPath: $"{ImageRoot}/Nymph_map_marker.png"),
+        Multiplayer: new CharacterMultiplayerAssetSet(
+            ArmPointingTexturePath: $"{ImageRoot}/Nymph_multiplayer_hand_point.png",
+            ArmRockTexturePath: $"{ImageRoot}/Nymph_multiplayer_hand_rock.png",
+            ArmPaperTexturePath: $"{ImageRoot}/Nymph_multiplayer_hand_paper.png",
+            ArmScissorsTexturePath: $"{ImageRoot}/Nymph_multiplayer_hand_scissors.png"));
 
     // 某个字段没写时，RitsuLib 会从占位角色配置里补齐。
     public override string? PlaceholderCharacterId => "ironclad";
@@ -103,8 +108,15 @@ public sealed class NymphCharacter : ModCharacterTemplate<NymphCardPool, NymphRe
     // 自动转换人物场景，让你不需要手动挂脚本。复制即可。
     protected override NCreatureVisuals? TryCreateCreatureVisuals()
     {
-        return RitsuGodotNodeFactories.CreateFromScenePath<NCreatureVisuals>(
-            CharacterScenePath);
+        NCreatureVisuals? visuals =
+            RitsuGodotNodeFactories.CreateFromScenePath<NCreatureVisuals>(
+                CharacterScenePath);
+        if (visuals is not null)
+        {
+            NymphSkinManager.ApplyCombatSkin(visuals);
+        }
+
+        return visuals;
     }
 
     // 攻击建筑师的攻击特效列表。

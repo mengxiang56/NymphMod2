@@ -48,6 +48,6 @@ public sealed class NymphKeyToHeart : ModCardTemplate
 
     protected override void OnUpgrade()
     {
-        DynamicVars["StrengthLoss"].UpgradeValueBy(1);
+        AddKeyword(CardKeyword.Innate);
     }
 }

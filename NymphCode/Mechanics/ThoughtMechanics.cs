@@ -11,6 +11,7 @@ using STS2RitsuLib.Cards;
 using STS2RitsuLib.Combat.SecondaryResources;
 using Nymph.Characters;
 using Nymph.Powers;
+using Nymph.Relics;
 
 namespace Nymph.Mechanics;
 
@@ -313,6 +314,11 @@ public static class ThoughtMechanics
                     choiceContext,
                     source);
             }
+
+            await NymphBridgeOfKnowledge.TryGainBlockFromConceive(
+                choiceContext,
+                player,
+                source);
         }
     }
 
@@ -426,6 +432,11 @@ public static class ThoughtMechanics
         await SyncStatePower(
             choiceContext,
             cardPlay.Card.Owner);
+
+        await NymphSoulBindingBone.OnThoughtSpent(
+            choiceContext,
+            cardPlay.Card.Owner,
+            amount);
 
         int effectMultiplier =
             NarrationEffectMultiplier(cardPlay.Card.Owner);

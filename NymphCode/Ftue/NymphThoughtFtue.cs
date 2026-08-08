@@ -224,9 +224,9 @@ public sealed partial class NymphThoughtFtue : NFtue
 
         foreach (RelicModel relic in player.Relics)
         {
-            if (relic is NymphRelic nymphRelic)
+            if (relic is NymphRelic or NymphThoughtsCatcher)
             {
-                nymphRelic.Flash();
+                relic.Flash();
                 break;
             }
         }

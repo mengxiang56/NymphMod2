@@ -31,7 +31,8 @@ public sealed class NymphEmpathy : ModCardTemplate
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        HoverTipFactory.FromPower<NecrosisPower>()
+        HoverTipFactory.FromPower<NecrosisPower>(),
+        HoverTipFactory.FromPower<NecrosisDecayIntervalPower>()
     ];
 
     public NymphEmpathy()

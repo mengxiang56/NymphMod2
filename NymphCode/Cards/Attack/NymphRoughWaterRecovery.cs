@@ -87,6 +87,6 @@ public sealed class NymphRoughWaterRecovery : ModCardTemplate
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(4);
+        DynamicVars.Damage.UpgradeValueBy(5);
     }
 }

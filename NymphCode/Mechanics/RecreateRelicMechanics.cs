@@ -7,10 +7,14 @@ namespace Nymph.Mechanics;
 
 public static class RecreateRelicMechanics
 {
-    public static async Task<bool> TryRecreateHeldRelic(Player player)
+    public static async Task<bool> TryRecreateHeldRelic(
+        Player player,
+        Func<RelicModel, bool>? relicFilter = null)
     {
         List<RelicModel> eligibleRelics = player.Relics
-            .Where(relic => relic.Rarity != RelicRarity.Ancient)
+            .Where(relic =>
+                relic.Rarity != RelicRarity.Ancient
+                && (relicFilter?.Invoke(relic) ?? true))
             .ToList();
         if (eligibleRelics.Count == 0)
         {

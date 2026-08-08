@@ -21,6 +21,7 @@ namespace Nymph.Relics;
 
 [RegisterRelic(typeof(NymphRelicPool))]
 [RegisterCharacterStarterRelic(typeof(NymphCharacter))]
+[RegisterTouchOfOrobasRefinement(typeof(NymphThoughtsCatcher))]
 public sealed class NymphRelic : ModRelicTemplate
 {
     private int _inspirationRewardOddsPermille =
@@ -31,7 +32,7 @@ public sealed class NymphRelic : ModRelicTemplate
     public override RelicAssetProfile AssetProfile => new(
         IconPath: $"{Entry.ResPath}/images/relics/{GetType().Name}.png",
         IconOutlinePath:
-            $"{Entry.ResPath}/images/relics/{GetType().Name}.png",
+            $"{Entry.ResPath}/images/relics/{GetType().Name}_outline.png",
         BigIconPath: $"{Entry.ResPath}/images/relics/{GetType().Name}.png");
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
@@ -73,8 +74,6 @@ public sealed class NymphRelic : ModRelicTemplate
             return;
         }
 
-        // FTUE progress is profile-local. In multiplayer every peer must run
-        // the same hook logic for a player, so never gate inspiration on SeenFtue.
         if (RunManager.Instance.IsSingleplayerOrFakeMultiplayer
             && !SaveManager.Instance.SeenFtue(NymphThoughtFtue.Id))
         {

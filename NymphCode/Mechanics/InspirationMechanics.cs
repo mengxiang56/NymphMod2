@@ -278,17 +278,28 @@ public static class InspirationMechanics
             source.CanonicalInstance,
             player);
         selected.DeckVersion = source;
+        await PlayGeneratedInspiration(choiceContext, player, selected);
+    }
+
+    public static async Task PlayGeneratedInspiration(
+        PlayerChoiceContext choiceContext,
+        Player player,
+        CardModel combatCard)
+    {
+        ICombatState combatState = player.Creature.CombatState
+            ?? throw new InvalidOperationException(
+                "Cannot play an inspiration card outside combat.");
         await CardPileCmd.AddGeneratedCardToCombat(
-            selected,
+            combatCard,
             PileType.Hand,
             player);
 
         Creature? target = ResolveAutoPlayTarget(
-            selected,
+            combatCard,
             player,
             combatState);
-        await CardCmd.AutoPlay(choiceContext, selected, target);
-        await RemoveFromCombatAfterPlayed(selected);
+        await CardCmd.AutoPlay(choiceContext, combatCard, target);
+        await RemoveFromCombatAfterPlayed(combatCard);
     }
 
     private static Creature? ResolveAutoPlayTarget(
