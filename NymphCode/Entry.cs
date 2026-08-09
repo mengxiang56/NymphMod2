@@ -35,6 +35,7 @@ public partial class Entry
         RitsuLibFramework.EnsureGodotScriptsRegistered(assembly, Logger);
 
         NymphSkinManager.Initialize();
+        NymphDifficultyManager.Initialize();
         ThoughtMechanics.Initialize();
         InspirationMechanics.Initialize();
         NymphPatchBootstrap.Apply();

@@ -33,7 +33,7 @@ public sealed class NymphStoryToBeTold : ModCardTemplate
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new CardsVar(1),
-        new DynamicVar("Narrate", 4)
+        new DynamicVar("Narrate", 5)
     ];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>

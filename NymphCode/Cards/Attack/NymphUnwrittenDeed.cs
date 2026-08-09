@@ -3,6 +3,7 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Nodes.CommonUi;
 using MegaCrit.Sts2.Core.ValueProps;
 using Nymph.Characters;
 using Nymph.Mechanics;
@@ -34,7 +35,7 @@ public sealed class NymphUnwrittenDeed : ModCardTemplate
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
         HoverTipFactory.FromCard<NymphPureWhitePetal>(),
-        HoverTipFactory.FromCard<NymphBabelOath>()
+        HoverTipFactory.FromCard<NymphBabelOath>(IsUpgraded)
     ];
 
     public NymphUnwrittenDeed()
@@ -64,16 +65,17 @@ public sealed class NymphUnwrittenDeed : ModCardTemplate
 
         NymphBabelOath oath =
             CombatState!.CreateCard<NymphBabelOath>(Owner);
-        PileType destination =
-            IsUpgraded ? PileType.Hand : PileType.Draw;
+        if (IsUpgraded)
+        {
+            CardCmd.Upgrade(oath, CardPreviewStyle.None);
+        }
+
         CardPileAddResult result =
             await CardPileCmd.AddGeneratedCardToCombat(
                 oath,
-                destination,
+                PileType.Hand,
                 Owner,
-                IsUpgraded
-                    ? CardPilePosition.Bottom
-                    : CardPilePosition.Random);
+                CardPilePosition.Bottom);
         CardCmd.PreviewCardPileAdd(result);
     }
 

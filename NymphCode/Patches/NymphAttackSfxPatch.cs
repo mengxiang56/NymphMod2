@@ -9,19 +9,30 @@ namespace Nymph.Patches;
     typeof(SfxCmd),
     nameof(SfxCmd.Play),
     [typeof(string), typeof(float)])]
-internal static class NymphAttackSfxPatch
+internal static class NymphCustomSfxPatch
 {
     private const string AttackStreamName = "Nymph_Attack.ogg";
 
     [HarmonyPrefix]
-    private static bool PlayCustomAttackSfx(string sfx, float volume)
+    private static bool PlayCustomSfx(string sfx, float volume)
     {
-        if (sfx != NymphCharacter.CustomAttackSfxToken)
+        if (sfx == NymphCharacter.CustomCharacterSelectSfxToken)
+        {
+            return false;
+        }
+
+        string? streamName = sfx switch
+        {
+            NymphCharacter.CustomAttackSfxToken => AttackStreamName,
+            _ => null
+        };
+
+        if (streamName is null)
         {
             return true;
         }
 
-        NDebugAudioManager.Instance?.Play(AttackStreamName, volume);
+        NDebugAudioManager.Instance?.Play(streamName, volume);
         return false;
     }
 }

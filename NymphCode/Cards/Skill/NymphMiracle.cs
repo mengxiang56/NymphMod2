@@ -3,13 +3,13 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using Nymph.Characters;
+using MegaCrit.Sts2.Core.Models.CardPools;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 
 namespace Nymph.Cards;
 
-[RegisterCard(typeof(NymphDerivedCardPool))]
+[RegisterCard(typeof(TokenCardPool))]
 public sealed class NymphMiracle : ModCardTemplate
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
@@ -19,8 +19,7 @@ public sealed class NymphMiracle : ModCardTemplate
     ];
 
     public override CardAssetProfile AssetProfile => new(
-        PortraitPath: $"{Entry.ResPath}/images/cards/{GetType().Name}.png",
-        FramePath: $"{Entry.ResPath}/images/cards/frames/bg_skill_sts2.png");
+        PortraitPath: $"{Entry.ResPath}/images/cards/{GetType().Name}.png");
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [

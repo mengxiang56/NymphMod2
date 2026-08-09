@@ -5,7 +5,7 @@
   "NYMPH_CHARACTER_NYMPH_CHARACTER.cardsModifierDescription": "Nymph cards can now appear in rewards and shops.",
   "NYMPH_CHARACTER_NYMPH_CHARACTER.cardsModifierTitle": "Nymph Cards",
   "NYMPH_CHARACTER_NYMPH_CHARACTER.defeatMessage": "This telling ends here.",
-  "NYMPH_CHARACTER_NYMPH_CHARACTER.description": "A thoughtful little heart-scourge who gathers thoughts, tells stories, and reconstructs inspiration into new possibilities.\nThis is the Slay the Spire 2 vertical migration prototype.",
+  "NYMPH_CHARACTER_NYMPH_CHARACTER.description": "The most understanding little Heartlash Demon in all Kazdel.\nSkilled at listening to hearts, and at constructing history!",
   "NYMPH_CHARACTER_NYMPH_CHARACTER.eventDeathPrevention": "Not the ending yet.",
   "NYMPH_CHARACTER_NYMPH_CHARACTER.flavor": "She hears every thought left unspoken.",
   "NYMPH_CHARACTER_NYMPH_CHARACTER.goldMonologue": "Enough for a few new stories.",
@@ -21,5 +21,12 @@
   "NYMPH_SKIN_SELECT.title": "Choose a skin",
   "NYMPH_SKIN_SELECT.default": "Default skin",
   "NYMPH_SKIN_SELECT.epoque": "Delicious Recipe",
-  "NYMPH_SKIN_SELECT.ambienceSynesthesia": "Ambience Synesthesia"
+  "NYMPH_SKIN_SELECT.ambienceSynesthesia": "Ambience Synesthesia",
+  "NYMPH_DIFFICULTY_SELECT.title": "Thought Burden",
+  "NYMPH_DIFFICULTY_SELECT.standard": "Standard",
+  "NYMPH_DIFFICULTY_SELECT.heavy": "Heavy",
+  "NYMPH_DIFFICULTY_SELECT.collapse": "Collapse",
+  "NYMPH_DIFFICULTY_SELECT.standardDescription": "No special debuff.",
+  "NYMPH_DIFFICULTY_SELECT.heavyDescription": "While [gold]Confused[/gold], lose an additional [blue]1[/blue] [gold]Strength[/gold].\nWhile [gold]Obstructed[/gold], lose an additional [blue]2[/blue] [gold]Strength[/gold].",
+  "NYMPH_DIFFICULTY_SELECT.collapseDescription": "In addition to [gold]Heavy[/gold] Thought Burden:\nWhile [gold]Clear[/gold], playing cards no longer grants [blue]1[/blue] [gold]Block[/gold].\nWhile [gold]Confused[/gold]/[gold]Obstructed[/gold], playing a card deals [blue]1[/blue] additional damage to you."
 }

@@ -20,7 +20,7 @@ public sealed class NymphExtensiveKnowledge : ModCardTemplate
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DynamicVar("Threshold", 4),
+        new DynamicVar("Threshold", 5),
         new PowerVar<ExtensiveKnowledgePower>(1)
     ];
 
@@ -54,6 +54,6 @@ public sealed class NymphExtensiveKnowledge : ModCardTemplate
 
     protected override void OnUpgrade()
     {
-        DynamicVars["Threshold"].UpgradeValueBy(2);
+        DynamicVars["Threshold"].UpgradeValueBy(3);
     }
 }

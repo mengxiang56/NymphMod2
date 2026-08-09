@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Saves.Runs;
 using MegaCrit.Sts2.Core.ValueProps;
@@ -26,6 +27,23 @@ public sealed class HeartlashCommunionPower : ModPowerTemplate
             $"{Entry.ResPath}/images/powers/HeartlashCommunionPower32.png",
         BigIconPath:
             $"{Entry.ResPath}/images/powers/HeartlashCommunionPower84.png");
+
+    public override LocString Description
+    {
+        get
+        {
+            LocString description = new(
+                "powers",
+                "NYMPH_POWER_HEARTLASH_COMMUNION_POWER.description");
+            description.Add(
+                "TargetName",
+                ProtectedFrom?.Name ?? new LocString(
+                    "powers",
+                    "NYMPH_POWER_HEARTLASH_COMMUNION_POWER.unknownTarget")
+                    .GetFormattedText());
+            return description;
+        }
+    }
 
     [SavedProperty]
     public Creature? ProtectedFrom

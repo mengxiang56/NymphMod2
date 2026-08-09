@@ -25,7 +25,8 @@ public sealed class NymphCreationReflection : ModCardTemplate
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        HoverTipFactory.FromCard<NymphDreadkaz>()
+        HoverTipFactory.FromCard<NymphDreadkaz>(),
+        HoverTipFactory.FromPower<NecrosisPower>()
     ];
 
     public NymphCreationReflection()

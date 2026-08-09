@@ -29,7 +29,7 @@ public sealed class NymphPostwarReconstruction : ModCardTemplate
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new BlockVar(4, ValueProp.Unpowered),
-        new DynamicVar("Threshold", 1)
+        new DynamicVar("Threshold", 2)
     ];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
@@ -76,7 +76,6 @@ public sealed class NymphPostwarReconstruction : ModCardTemplate
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Block.UpgradeValueBy(1);
-        DynamicVars["Threshold"].UpgradeValueBy(1);
+        DynamicVars.Block.UpgradeValueBy(2);
     }
 }

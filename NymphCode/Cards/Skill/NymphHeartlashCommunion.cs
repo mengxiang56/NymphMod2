@@ -28,7 +28,7 @@ public sealed class NymphHeartlashCommunion : ModCardTemplate
     ];
 
     public NymphHeartlashCommunion()
-        : base(1, CardType.Skill, CardRarity.Rare, TargetType.AnyEnemy, true)
+        : base(0, CardType.Skill, CardRarity.Rare, TargetType.AnyEnemy, true)
     {
     }
 

@@ -20,7 +20,7 @@ public sealed class NymphPacifyHeart : ModCardTemplate
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(4, ValueProp.Move),
+        new DamageVar(6, ValueProp.Move),
         new DynamicVar("NecrosisReductionBarrierPower", 1)
     ];
 

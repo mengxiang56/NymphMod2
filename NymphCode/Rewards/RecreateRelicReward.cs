@@ -16,7 +16,7 @@ public sealed class RecreateRelicReward(Player player) : ModCustomReward(player)
     public override bool IsPopulated => true;
 
     protected override string? RewardIconPath =>
-        $"{Entry.ResPath}/images/relics/NymphRelic.png";
+        $"{Entry.ResPath}/images/ui/recreate_relic_reward.png";
 
     protected override string DescriptionLocTable =>
         "static_hover_tips";

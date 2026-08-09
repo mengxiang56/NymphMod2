@@ -13,6 +13,12 @@ public sealed class RelicDesignerPower : ModPowerTemplate
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
 
+    public override PowerAssetProfile AssetProfile => new(
+        IconPath:
+            $"{Entry.ResPath}/images/powers/RelicDesignerPower32.png",
+        BigIconPath:
+            $"{Entry.ResPath}/images/powers/RelicDesignerPower84.png");
+
     public override Task AfterCombatEnd(CombatRoom room)
     {
         if (Owner.Player is null)

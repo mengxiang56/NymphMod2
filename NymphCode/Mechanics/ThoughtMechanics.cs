@@ -5,6 +5,7 @@ using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 using System.Runtime.CompilerServices;
 using STS2RitsuLib.Cards;
@@ -470,6 +471,11 @@ public static class ThoughtMechanics
         }
 
         ThoughtState state = GetState(player);
+        await SyncDifficultyStrengthPenalty(
+            choiceContext,
+            player,
+            state);
+
         bool hasDesiredPower = state switch
         {
             ThoughtState.Clear =>
@@ -530,6 +536,64 @@ public static class ThoughtMechanics
         }
     }
 
+    private static async Task SyncDifficultyStrengthPenalty(
+        PlayerChoiceContext choiceContext,
+        Player player,
+        ThoughtState state)
+    {
+        NymphDifficulty difficulty = NymphDifficultyManager.GetFor(player);
+        int desiredPenalty = difficulty is
+            NymphDifficulty.Heavy or NymphDifficulty.Collapse
+            ? state switch
+            {
+                ThoughtState.Confused => 1,
+                ThoughtState.Obstructed => 2,
+                _ => 0
+            }
+            : 0;
+        ThoughtBurdenStrengthPower? tracker =
+            player.Creature.GetPower<ThoughtBurdenStrengthPower>();
+        int currentPenalty = tracker?.Amount ?? 0;
+        int penaltyChange = desiredPenalty - currentPenalty;
+        if (penaltyChange == 0)
+        {
+            return;
+        }
+
+        await PowerCmd.Apply<StrengthPower>(
+            choiceContext,
+            player.Creature,
+            -penaltyChange,
+            player.Creature,
+            null);
+
+        if (desiredPenalty == 0)
+        {
+            await PowerCmd.Remove<ThoughtBurdenStrengthPower>(
+                player.Creature);
+        }
+        else if (tracker is null)
+        {
+            await PowerCmd.Apply<ThoughtBurdenStrengthPower>(
+                choiceContext,
+                player.Creature,
+                desiredPenalty,
+                player.Creature,
+                null,
+                silent: true);
+        }
+        else
+        {
+            await PowerCmd.ModifyAmount(
+                choiceContext,
+                tracker,
+                penaltyChange,
+                player.Creature,
+                null,
+                silent: true);
+        }
+    }
+
     public static IHoverTip CreateHoverTip()
     {
         return ModSecondaryResourceRegistry.CreateHoverTip(ResourceId);
@@ -556,20 +620,26 @@ public static class ThoughtMechanics
         }
 
         ThoughtState state = GetState(player);
+        NymphDifficulty difficulty = NymphDifficultyManager.GetFor(player);
         CounterVisualState visualState =
             CounterVisualStates.GetOrCreateValue(counter);
 
-        if (visualState.State != state)
+        if (visualState.State != state
+            || visualState.Difficulty != difficulty)
         {
-            counter.Configure(GetVisualDefinition(state), CounterStyle);
+            counter.Configure(
+                GetVisualDefinition(state, difficulty),
+                CounterStyle);
             visualState.State = state;
+            visualState.Difficulty = difficulty;
         }
 
         counter.BindThoughtPlayer(player);
     }
 
     private static SecondaryResourceDefinition GetVisualDefinition(
-        ThoughtState state)
+        ThoughtState state,
+        NymphDifficulty difficulty)
     {
         string iconPath = state switch
         {
@@ -577,9 +647,18 @@ public static class ThoughtMechanics
             ThoughtState.Obstructed => ObstructedIconPath,
             _ => ClearIconPath
         };
+        string descriptionKey = difficulty switch
+        {
+            NymphDifficulty.Heavy =>
+                "NYMPH_SECONDARY_RESOURCE_THOUGHT.heavyDescription",
+            NymphDifficulty.Collapse =>
+                "NYMPH_SECONDARY_RESOURCE_THOUGHT.collapseDescription",
+            _ => "NYMPH_SECONDARY_RESOURCE_THOUGHT.description"
+        };
 
         return Definition with
         {
+            DescriptionKey = descriptionKey,
             SmallIconPath = iconPath,
             LargeIconPath = iconPath
         };
@@ -588,6 +667,7 @@ public static class ThoughtMechanics
     private sealed class CounterVisualState
     {
         public ThoughtState? State { get; set; }
+        public NymphDifficulty? Difficulty { get; set; }
     }
 
     private sealed class NarrationRecord
@@ -632,25 +712,42 @@ public static class ThoughtMechanics
             }
 
             ThoughtState state = GetState(player, context.CardPlay);
-            switch (state)
+            NymphDifficulty difficulty = NymphDifficultyManager.GetFor(player);
+            int damage = state == ThoughtState.Obstructed ? 1 : 0;
+            if (difficulty == NymphDifficulty.Collapse &&
+                state is ThoughtState.Confused or ThoughtState.Obstructed)
             {
-                case ThoughtState.Clear:
-                    player.Creature.GetPower<LucidPower>()?.Flash();
-                    await CreatureCmd.GainBlock(
-                        player.Creature,
-                        1,
-                        ValueProp.Unpowered,
-                        context.CardPlay);
-                    break;
-                case ThoughtState.Obstructed:
+                damage++;
+            }
+
+            if (state == ThoughtState.Clear &&
+                difficulty != NymphDifficulty.Collapse)
+            {
+                player.Creature.GetPower<LucidPower>()?.Flash();
+                await CreatureCmd.GainBlock(
+                    player.Creature,
+                    1,
+                    ValueProp.Unpowered,
+                    context.CardPlay);
+            }
+
+            if (damage > 0)
+            {
+                if (state == ThoughtState.Confused)
+                {
+                    player.Creature.GetPower<FracturedPower>()?.Flash();
+                }
+                else
+                {
                     player.Creature.GetPower<ObstructedPower>()?.Flash();
-                    await CreatureCmd.Damage(
-                        context.ChoiceContext,
-                        player.Creature,
-                        1,
-                        DamageProps.nonCardUnpowered,
-                        player.Creature);
-                    break;
+                }
+
+                await CreatureCmd.Damage(
+                    context.ChoiceContext,
+                    player.Creature,
+                    damage,
+                    DamageProps.nonCardUnpowered,
+                    player.Creature);
             }
 
             if (player.Creature.IsDead)

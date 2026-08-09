@@ -31,7 +31,7 @@ public static class RecreateRelicMechanics
 
         List<RelicModel> candidates = selected.Pool.AllRelics
             .Where(relic =>
-                relic.Rarity != RelicRarity.Ancient
+                relic.Rarity == selected.Rarity
                 && relic.Id != selected.Id
                 && player.Relics.All(owned => owned.Id != relic.Id))
             .ToList();

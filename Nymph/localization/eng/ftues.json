@@ -1,7 +1,7 @@
 {
   "NYMPH_THOUGHT_FTUE_HEADER": "Thought!",
-  "NYMPH_THOUGHT_FTUE_BODY_1": "Thought is Nymph's special resource. You gain [blue]1[/blue] [gold]Thought[/gold] whenever you play a card.\nThe upper number is your [gold]Thought[/gold]. The lower number shows your [gold]Confusion Threshold[/gold] / [gold]Obstruction Threshold[/gold].\nThe Obstruction Threshold is [blue]2[/blue] times the Confusion Threshold.",
-  "NYMPH_THOUGHT_FTUE_BODY_2": "When [gold]Thought[/gold] reaches the Confusion or Obstruction Threshold, you become [gold]Confused[/gold] or [gold]Obstructed[/gold].\n[gold]Confused[/gold]: your [gold]Attack[/gold] damage is reduced by [blue]20%[/blue].\n[gold]Obstructed[/gold]: [gold]Attack[/gold] damage and [gold]Block[/gold] from cards are reduced by [blue]50%[/blue].",
+  "NYMPH_THOUGHT_FTUE_BODY_1": "[gold]Thought[/gold] is this mod's special mechanic.\nWhenever you play a card, gain [blue]1[/blue] [gold]Thought[/gold].\nThe upper UI number is [gold]Thought[/gold], and the lower numbers are the [gold]Confusion Threshold[/gold]/[gold]Obstruction Threshold[/gold].",
+  "NYMPH_THOUGHT_FTUE_BODY_2": "You begin [green]Clear[/green].\nUpon reaching the Confusion/Obstruction Threshold, enter [orange]Confused[/orange]/[red]Obstructed[/red], respectively.\n[green]Clear[/green]: Whenever you play a card, gain [blue]1[/blue] [gold]Block[/gold].\n[orange]Confused[/orange]: No special effect.\n[red]Obstructed[/red]: Whenever you play a card, take [blue]1[/blue] damage.",
   "NYMPH_THOUGHT_FTUE_BODY_3": "Card keywords:\n[gold]Conceive[/gold] grants extra [gold]Thought[/gold].\n[gold]Narrate[/gold] converts [gold]Thought[/gold] into [gold]Block[/gold] and triggers follow-up effects.",
   "NYMPH_THOUGHT_FTUE_CONFIRM": "Next",
   "NYMPH_THOUGHT_FTUE_DONE": "Got it"

@@ -3,14 +3,14 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using Nymph.Characters;
+using MegaCrit.Sts2.Core.Models.CardPools;
 using Nymph.Powers;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 
 namespace Nymph.Cards;
 
-[RegisterCard(typeof(NymphStatusCardPool))]
+[RegisterCard(typeof(StatusCardPool))]
 public sealed class NymphDreadkaz : ModCardTemplate
 {
     public override int MaxUpgradeLevel => 0;
@@ -24,9 +24,7 @@ public sealed class NymphDreadkaz : ModCardTemplate
 
     public override CardAssetProfile AssetProfile => new(
         PortraitPath:
-            $"{Entry.ResPath}/images/cards/{GetType().Name}.png",
-        FramePath:
-            $"{Entry.ResPath}/images/cards/frames/bg_skill_sts2.png");
+            $"{Entry.ResPath}/images/cards/{GetType().Name}.png");
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [

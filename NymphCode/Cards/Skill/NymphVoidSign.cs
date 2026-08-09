@@ -6,6 +6,7 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using Nymph.Afflictions;
 using Nymph.Characters;
+using Nymph.Powers;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 
@@ -24,7 +25,10 @@ public sealed class NymphVoidSign : ModCardTemplate
     ];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
-        HoverTipFactory.FromAffliction<CursePollutionAffliction>(1);
+    [
+        .. HoverTipFactory.FromAffliction<CursePollutionAffliction>(1),
+        HoverTipFactory.FromPower<NecrosisPower>()
+    ];
 
     public NymphVoidSign()
         : base(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self, true)

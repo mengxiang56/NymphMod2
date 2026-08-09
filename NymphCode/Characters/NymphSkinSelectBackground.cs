@@ -2,9 +2,12 @@ using Godot;
 using MegaCrit.Sts2.Core.Assets;
 using MegaCrit.Sts2.Core.Bindings.MegaSpine;
 using MegaCrit.Sts2.Core.Helpers;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Nodes.CommonUi;
 using MegaCrit.Sts2.Core.Nodes.GodotExtensions;
+using MegaCrit.Sts2.Core.Nodes.HoverTips;
+using MegaCrit.Sts2.Core.Nodes.Screens.CharacterSelect;
 
 namespace Nymph.Characters;
 
@@ -25,13 +28,30 @@ public sealed partial class NymphSkinSelectBackground : Control
     [Export]
     public Vector2 NextArrowOffset { get; set; } = new(110f, 0f);
 
+    [Export]
+    public Vector2 DifficultyArrowCenterRatio { get; set; } = new(0.205f, 0.4f);
+
+    [Export]
+    public Vector2 DifficultyPreviousArrowOffset { get; set; } = new(-165f, 0f);
+
+    [Export]
+    public Vector2 DifficultyNextArrowOffset { get; set; } = new(110f, 0f);
+
     private Node _preview = null!;
     private TextureRect _background = null!;
     private Control _skinSelector = null!;
     private Label _title = null!;
     private Label _skinName = null!;
+    private Control _difficultySelector = null!;
+    private Control _difficultyHoverArea = null!;
+    private Label _difficultyTitle = null!;
+    private Label _difficultyName = null!;
+    private NCharacterSelectScreen? _characterSelectScreen;
     private NGoldArrowButton? _leftButton;
     private NGoldArrowButton? _rightButton;
+    private NGoldArrowButton? _difficultyLeftButton;
+    private NGoldArrowButton? _difficultyRightButton;
+    private bool _difficultyHoverVisible;
 
     public override void _Ready()
     {
@@ -40,32 +60,43 @@ public sealed partial class NymphSkinSelectBackground : Control
         _skinSelector = GetNode<Control>("SkinSelector");
         _title = GetNode<Label>("SkinSelector/Title");
         _skinName = GetNode<Label>("SkinSelector/SkinName");
+        _difficultySelector = GetNode<Control>("DifficultySelector");
+        _difficultyHoverArea = GetNode<Control>(
+            "DifficultySelector/HoverArea");
+        _difficultyTitle = GetNode<Label>("DifficultySelector/Title");
+        _difficultyName = GetNode<Label>("DifficultySelector/DifficultyName");
+        _characterSelectScreen = FindCharacterSelectScreen();
+
+        _difficultyHoverArea.MouseEntered += ShowDifficultyHoverTip;
+        _difficultyHoverArea.MouseExited += HideDifficultyHoverTip;
 
         CreateArrowButtons();
         ConnectCharacterSelectButtons();
         Resized += PositionArrowButtons;
         RefreshPreview();
+        RefreshDifficulty();
+
+        if (_characterSelectScreen?.Lobby is not null)
+        {
+            NymphDifficultyManager.SyncLobby(_characterSelectScreen.Lobby);
+        }
     }
 
     private void ConnectCharacterSelectButtons()
     {
-        Node? screen = GetParent();
-        while (screen is not null && screen.GetNodeOrNull<NButton>("ConfirmButton") is null)
-        {
-            screen = screen.GetParent();
-        }
-
-        if (screen is null)
+        if (_characterSelectScreen is null)
         {
             return;
         }
 
-        NButton confirmButton = screen.GetNode<NButton>("ConfirmButton");
+        NButton confirmButton =
+            _characterSelectScreen.GetNode<NButton>("ConfirmButton");
         confirmButton.Connect(
             NClickableControl.SignalName.Released,
             Callable.From<NButton>(_ => SetSelectorVisible(false)));
 
-        NButton? unreadyButton = screen.GetNodeOrNull<NButton>("UnreadyButton");
+        NButton? unreadyButton =
+            _characterSelectScreen.GetNodeOrNull<NButton>("UnreadyButton");
         unreadyButton?.Connect(
             NClickableControl.SignalName.Released,
             Callable.From<NButton>(_ => SetSelectorVisible(true)));
@@ -88,7 +119,12 @@ public sealed partial class NymphSkinSelectBackground : Control
         {
             _leftButton = template.GetNode<NGoldArrowButton>("LeftArrow").Duplicate() as NGoldArrowButton;
             _rightButton = template.GetNode<NGoldArrowButton>("RightArrow").Duplicate() as NGoldArrowButton;
-            if (_leftButton is null || _rightButton is null)
+            _difficultyLeftButton = template.GetNode<NGoldArrowButton>("LeftArrow").Duplicate() as NGoldArrowButton;
+            _difficultyRightButton = template.GetNode<NGoldArrowButton>("RightArrow").Duplicate() as NGoldArrowButton;
+            if (_leftButton is null
+                || _rightButton is null
+                || _difficultyLeftButton is null
+                || _difficultyRightButton is null)
             {
                 Entry.Logger.Warn("Unable to duplicate character skin arrow buttons.");
                 return;
@@ -96,16 +132,32 @@ public sealed partial class NymphSkinSelectBackground : Control
 
             _leftButton.Name = "PreviousSkin";
             _rightButton.Name = "NextSkin";
+            _difficultyLeftButton.Name = "PreviousDifficulty";
+            _difficultyRightButton.Name = "NextDifficulty";
+            MakeArrowMaterialUnique(_leftButton);
+            MakeArrowMaterialUnique(_rightButton);
+            MakeArrowMaterialUnique(_difficultyLeftButton);
+            MakeArrowMaterialUnique(_difficultyRightButton);
             _leftButton.Scale = Vector2.One * ArrowScale;
             _rightButton.Scale = Vector2.One * ArrowScale;
+            _difficultyLeftButton.Scale = Vector2.One * ArrowScale;
+            _difficultyRightButton.Scale = Vector2.One * ArrowScale;
             this.AddChildSafely(_leftButton);
             this.AddChildSafely(_rightButton);
+            this.AddChildSafely(_difficultyLeftButton);
+            this.AddChildSafely(_difficultyRightButton);
             _leftButton.Connect(
                 NClickableControl.SignalName.Released,
                 Callable.From<NButton>(_ => ChangeSkin(-1)));
             _rightButton.Connect(
                 NClickableControl.SignalName.Released,
                 Callable.From<NButton>(_ => ChangeSkin(1)));
+            _difficultyLeftButton.Connect(
+                NClickableControl.SignalName.Released,
+                Callable.From<NButton>(_ => ChangeDifficulty(-1)));
+            _difficultyRightButton.Connect(
+                NClickableControl.SignalName.Released,
+                Callable.From<NButton>(_ => ChangeDifficulty(1)));
             PositionArrowButtons();
         }
         finally
@@ -114,9 +166,21 @@ public sealed partial class NymphSkinSelectBackground : Control
         }
     }
 
+    private static void MakeArrowMaterialUnique(NGoldArrowButton button)
+    {
+        TextureRect icon = button.GetNode<TextureRect>("TextureRect");
+        if (icon.Material is Material material)
+        {
+            icon.Material = material.Duplicate(true) as Material;
+        }
+    }
+
     private void PositionArrowButtons()
     {
-        if (_leftButton is null || _rightButton is null)
+        if (_leftButton is null
+            || _rightButton is null
+            || _difficultyLeftButton is null
+            || _difficultyRightButton is null)
         {
             return;
         }
@@ -124,8 +188,21 @@ public sealed partial class NymphSkinSelectBackground : Control
         Vector2 center = Size * ArrowCenterRatio;
         _leftButton.Position = center + PreviousArrowOffset;
         _rightButton.Position = center + NextArrowOffset;
+        Vector2 difficultyCenter = Size * DifficultyArrowCenterRatio;
+        _difficultyLeftButton.Position =
+            difficultyCenter + DifficultyPreviousArrowOffset;
+        _difficultyRightButton.Position =
+            difficultyCenter + DifficultyNextArrowOffset;
         _leftButton.FocusNeighborRight = _rightButton.GetPath();
         _rightButton.FocusNeighborLeft = _leftButton.GetPath();
+        _leftButton.FocusNeighborBottom = _difficultyLeftButton.GetPath();
+        _rightButton.FocusNeighborBottom = _difficultyRightButton.GetPath();
+        _difficultyLeftButton.FocusNeighborTop = _leftButton.GetPath();
+        _difficultyRightButton.FocusNeighborTop = _rightButton.GetPath();
+        _difficultyLeftButton.FocusNeighborRight =
+            _difficultyRightButton.GetPath();
+        _difficultyRightButton.FocusNeighborLeft =
+            _difficultyLeftButton.GetPath();
     }
 
     private void ChangeSkin(int delta)
@@ -134,9 +211,18 @@ public sealed partial class NymphSkinSelectBackground : Control
         RefreshPreview();
     }
 
+    private void ChangeDifficulty(int delta)
+    {
+        NymphDifficultyManager.Select(
+            NymphDifficultyManager.SelectedIndex + delta,
+            _characterSelectScreen?.Lobby);
+        RefreshDifficulty();
+    }
+
     private void SetSelectorVisible(bool visible)
     {
         _skinSelector.Visible = visible;
+        _difficultySelector.Visible = visible;
         _preview.Set("visible", visible);
         if (_leftButton is not null)
         {
@@ -146,6 +232,21 @@ public sealed partial class NymphSkinSelectBackground : Control
         if (_rightButton is not null)
         {
             _rightButton.Visible = visible;
+        }
+
+        if (_difficultyLeftButton is not null)
+        {
+            _difficultyLeftButton.Visible = visible;
+        }
+
+        if (_difficultyRightButton is not null)
+        {
+            _difficultyRightButton.Visible = visible;
+        }
+
+        if (!visible)
+        {
+            HideDifficultyHoverTip();
         }
     }
 
@@ -173,5 +274,64 @@ public sealed partial class NymphSkinSelectBackground : Control
         MegaSprite sprite = new(_preview);
         this.RunWhenSpineReady(sprite, animationState =>
             animationState.SetAnimation("Idle", true));
+    }
+
+    private void RefreshDifficulty()
+    {
+        _difficultyTitle.Text = new LocString(
+            "characters",
+            "NYMPH_DIFFICULTY_SELECT.title").GetFormattedText();
+        _difficultyName.Text = new LocString(
+            "characters",
+            NymphDifficultyManager.SelectedNameKey).GetFormattedText();
+
+        if (_difficultyHoverVisible)
+        {
+            NHoverTipSet.Remove(_difficultyHoverArea);
+            ShowDifficultyHoverTip();
+        }
+    }
+
+    private void ShowDifficultyHoverTip()
+    {
+        if (!_difficultySelector.Visible)
+        {
+            return;
+        }
+
+        _difficultyHoverVisible = true;
+        HoverTip hoverTip = new(
+            new LocString(
+                "characters",
+                NymphDifficultyManager.SelectedNameKey),
+            new LocString(
+                "characters",
+                NymphDifficultyManager.SelectedDescriptionKey));
+        NHoverTipSet.CreateAndShow(
+            _difficultyHoverArea,
+            hoverTip,
+            HoverTipAlignment.Right);
+    }
+
+    private void HideDifficultyHoverTip()
+    {
+        _difficultyHoverVisible = false;
+        NHoverTipSet.Remove(_difficultyHoverArea);
+    }
+
+    private NCharacterSelectScreen? FindCharacterSelectScreen()
+    {
+        Node? node = GetParent();
+        while (node is not null)
+        {
+            if (node is NCharacterSelectScreen screen)
+            {
+                return screen;
+            }
+
+            node = node.GetParent();
+        }
+
+        return null;
     }
 }

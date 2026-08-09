@@ -13,11 +13,9 @@ namespace Nymph.Cards;
 [RegisterCard(typeof(NymphCardPool))]
 public sealed class NymphRoughWaterRecovery : ModCardTemplate
 {
-    private const int BaseEnergyGain = 1;
-    private const int UpgradedEnergyGain = 2;
+    private const int BaseEnergyGain = 2;
 
-    private int EnergyGain =>
-        IsUpgraded ? UpgradedEnergyGain : BaseEnergyGain;
+    private int EnergyGain => BaseEnergyGain;
 
     protected override bool ShouldGlowGoldInternal =>
         ThoughtMechanics.GetState(Owner) != ThoughtState.Clear
@@ -87,6 +85,6 @@ public sealed class NymphRoughWaterRecovery : ModCardTemplate
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(5);
+        DynamicVars.Damage.UpgradeValueBy(4);
     }
 }

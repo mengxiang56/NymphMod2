@@ -1,7 +1,7 @@
-using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
@@ -40,12 +40,11 @@ public sealed class HolyCityEmbracePower : ModPowerTemplate
         return -Math.Min(amount, Amount);
     }
 
-    public override async Task AfterSideTurnEnd(
+    public override async Task AfterPlayerTurnStart(
         PlayerChoiceContext choiceContext,
-        CombatSide side,
-        IEnumerable<Creature> participants)
+        Player player)
     {
-        if (participants.Contains(Owner))
+        if (player == Owner.Player)
         {
             await PowerCmd.Remove(this);
         }

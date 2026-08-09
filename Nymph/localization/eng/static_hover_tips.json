@@ -1,15 +1,17 @@
 {
-  "NYMPH_SECONDARY_RESOURCE_THOUGHT.title": "Thought",
-  "NYMPH_SECONDARY_RESOURCE_THOUGHT.description": "Gain 1 whenever you play a card.\nWhile [gold]Clear[/gold], gain 1 [gold]Block[/gold] whenever you play a card.\nAt the Confusion threshold, become [gold]Confused[/gold] with no special effect.\nAt the Obstruction threshold (twice the Confusion threshold), become [gold]Obstructed[/gold] and take 1 damage whenever you play a card.",
+  "NYMPH_SECONDARY_RESOURCE_THOUGHT.title": "Thought/Confusion Threshold/Obstruction Threshold",
+  "NYMPH_SECONDARY_RESOURCE_THOUGHT.description": "Whenever you play a card, gain [blue]1[/blue] Thought.\nThe Obstruction Threshold is [blue]2[/blue] times the Confusion Threshold.\n[green]Clear[/green]: Whenever you play [blue]1[/blue] card, gain [blue]1[/blue] [gold]Block[/gold].\n[orange]Confused[/orange]: No special effect.\n[red]Obstructed[/red]: Whenever you play [blue]1[/blue] card, take [blue]1[/blue] damage.",
+  "NYMPH_SECONDARY_RESOURCE_THOUGHT.heavyDescription": "Whenever you play a card, gain [blue]1[/blue] Thought.\nThe Obstruction Threshold is [blue]2[/blue] times the Confusion Threshold.\n[green]Clear[/green]: Whenever you play [blue]1[/blue] card, gain [blue]1[/blue] [gold]Block[/gold].\n[orange]Confused[/orange]: Lose [blue]1[/blue] [gold]Strength[/gold].\n[red]Obstructed[/red]: Lose [blue]2[/blue] [gold]Strength[/gold]; whenever you play [blue]1[/blue] card, take [blue]1[/blue] damage.",
+  "NYMPH_SECONDARY_RESOURCE_THOUGHT.collapseDescription": "Whenever you play a card, gain [blue]1[/blue] Thought.\nThe Obstruction Threshold is [blue]2[/blue] times the Confusion Threshold.\n[green]Clear[/green]: No special effect.\n[orange]Confused[/orange]: Lose [blue]1[/blue] [gold]Strength[/gold]; whenever you play [blue]1[/blue] card, take [blue]1[/blue] damage.\n[red]Obstructed[/red]: Lose [blue]2[/blue] [gold]Strength[/gold]; whenever you play [blue]1[/blue] card, take [blue]2[/blue] damage.",
   "NYMPH_DURABILITY.title": "Durability",
   "NYMPH_DURABILITY.description": "Whenever this card is played, lose 1 Durability. At 0, remove this card from your deck.",
   "NYMPH_DISCOVERY.title": "Discover",
-  "NYMPH_DISCOVERY.description": "Choose 1 of 3 random cards to add to your Hand. It costs 0 this turn.",
+  "NYMPH_DISCOVERY.description": "Choose one of three random cards to add to your Hand. That card can be played for free this turn.",
   "NYMPH_CARDPILE_INSPIRATION.title": "Inspiration Pile",
-  "NYMPH_CARDPILE_INSPIRATION.description": "Stores Inspiration cards separately. After you draw your opening hand each combat, choose 1 Inspiration from the entire pile to play immediately, or skip.",
+  "NYMPH_CARDPILE_INSPIRATION.description": "Stores the Inspiration Cards you obtain.\nAt the start of combat, you may choose one of them to play.",
   "NYMPH_CARDPILE_INSPIRATION.empty": "The Inspiration pile is empty.",
-  "NYMPH_REWARD_INSPIRATION": "Obtain 1 random Inspiration card.",
-  "NYMPH_REWARD_RECREATE_RELIC": "Recreate 1 held non-Ancient Relic.",
-  "NYMPH_RECREATE_SELECTION_PROMPT": "Choose {Amount} card(s) to Recreate.",
-  "NYMPH_RECREATE_SELECTION_PROMPT_UP_TO": "Choose up to {Amount} card(s) to Recreate."
+  "NYMPH_REWARD_INSPIRATION": "Gain one Inspiration.",
+  "NYMPH_REWARD_RECREATE_RELIC": "Recreate one non-Ancient Relic.",
+  "NYMPH_RECREATE_SELECTION_PROMPT": "Choose {Amount} cards to [gold]Recreate[/gold].",
+  "NYMPH_RECREATE_SELECTION_PROMPT_UP_TO": "Choose up to {Amount} cards to [gold]Recreate[/gold]."
 }

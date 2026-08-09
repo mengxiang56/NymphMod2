@@ -5,7 +5,9 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using Nymph.Characters;
 using Nymph.Enchantments;
+using Nymph.Mechanics;
 using STS2RitsuLib.Interop.AutoRegistration;
+using STS2RitsuLib.Keywords;
 using STS2RitsuLib.Scaffolding.Content;
 
 namespace Nymph.Cards;
@@ -23,7 +25,10 @@ public sealed class NymphCityOfTransformation : ModCardTemplate
         FramePath: $"{Entry.ResPath}/images/cards/frames/bg_skill_sts2.png");
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
-        HoverTipFactory.FromEnchantment<NymphTransformationEnchantment>(1);
+    [
+        ModKeywordRegistry.CreateHoverTip(NymphKeywords.RecreateId),
+        .. HoverTipFactory.FromEnchantment<NymphTransformationEnchantment>(1)
+    ];
 
     public NymphCityOfTransformation()
         : base(3, CardType.Skill, CardRarity.Rare, TargetType.Self, true)

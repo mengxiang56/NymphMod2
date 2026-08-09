@@ -16,8 +16,6 @@ namespace Nymph.Cards;
 [RegisterCard(typeof(NymphDerivedCardPool))]
 public sealed class NymphBabelOath : ModCardTemplate
 {
-    public override int MaxUpgradeLevel => 0;
-
     public override CardAssetProfile AssetProfile => new(
         PortraitPath: $"{Entry.ResPath}/images/cards/{GetType().Name}.png",
         FramePath: $"{Entry.ResPath}/images/cards/frames/bg_power_sts2.png");
@@ -52,5 +50,6 @@ public sealed class NymphBabelOath : ModCardTemplate
 
     protected override void OnUpgrade()
     {
+        DynamicVars["BabelOathPower"].UpgradeValueBy(1);
     }
 }

@@ -40,7 +40,7 @@ public sealed class NymphPureWhitePetal : ModCardTemplate
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
         HoverTipFactory.FromCard<NymphUnwrittenDeed>(IsUpgraded),
-        HoverTipFactory.FromCard<NymphBabelOath>()
+        HoverTipFactory.FromCard<NymphBabelOath>(IsUpgraded)
     ];
 
     public override Task AfterCardGeneratedForCombat(
