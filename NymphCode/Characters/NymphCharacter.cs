@@ -12,6 +12,8 @@ namespace Nymph.Characters;
 [RegisterCharacter]
 public sealed class NymphCharacter : ModCharacterTemplate<NymphCardPool, NymphRelicPool, NymphPotionPool>
 {
+    internal const string CustomAttackSfxToken = "nymph:/sfx/attack";
+
     public static readonly Color ThemeColor = new(240f / 255f, 50f / 255f, 160f / 255f);
 
     private const string SceneRoot = $"{Entry.ResPath}/scenes/characters";
@@ -64,6 +66,9 @@ public sealed class NymphCharacter : ModCharacterTemplate<NymphCardPool, NymphRe
             CharacterSelectLockedIconPath: $"{ImageRoot}/Nymph_character_select_locked.png",
             // 地图上的角色标记图标、表情轮盘上的角色头像。
             MapMarkerPath: $"{ImageRoot}/Nymph_map_marker.png"),
+        Audio: new CharacterAudioAssetSet(
+            CharacterSelectSfx: "event:/sfx/ui/relics/relic_magical",
+            AttackSfx: CustomAttackSfxToken),
         Multiplayer: new CharacterMultiplayerAssetSet(
             ArmPointingTexturePath: $"{ImageRoot}/Nymph_multiplayer_hand_point.png",
             ArmRockTexturePath: $"{ImageRoot}/Nymph_multiplayer_hand_rock.png",

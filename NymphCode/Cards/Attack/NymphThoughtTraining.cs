@@ -21,7 +21,7 @@ public sealed class NymphThoughtTraining : ModCardTemplate
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new DamageVar(16, ValueProp.Move),
-        new DynamicVar("Threshold", 4)
+        new DynamicVar("Threshold", 6)
     ];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
