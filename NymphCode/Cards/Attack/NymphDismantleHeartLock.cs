@@ -27,7 +27,8 @@ public sealed class NymphDismantleHeartLock : ModCardTemplate
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        HoverTipFactory.FromPower<NecrosisPower>()
+        HoverTipFactory.FromPower<NecrosisPower>(),
+        HoverTipFactory.Static(StaticHoverTip.ReplayStatic)
     ];
 
     public NymphDismantleHeartLock()

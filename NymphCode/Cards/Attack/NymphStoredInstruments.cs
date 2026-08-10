@@ -32,8 +32,7 @@ public sealed class NymphStoredInstruments : ModCardTemplate
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        .. HoverTipFactory.FromCardWithCardHoverTips<NymphEmptyReverie>(
-            IsUpgraded)
+        HoverTipFactory.FromCard<NymphEmptyReverie>(IsUpgraded)
     ];
 
     public NymphStoredInstruments()

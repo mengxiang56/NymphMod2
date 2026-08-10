@@ -50,8 +50,10 @@ internal static class NymphCardFlavorTextPatch
 [HarmonyPatch(typeof(NHoverTipSet), "Init")]
 internal static class NymphCardFlavorTextStylePatch
 {
+    // Calibrate against the brighter frame pixels: the frame renders near
+    // #B8860B while the vanilla texture keeps the center naturally darker.
     private static readonly Color FlavorBackgroundColor =
-        new(0.66f, 0.28f, 0.08f, 1f);
+        new(1.92f, 1.06f, 0.08f, 1f);
 
     [HarmonyPostfix]
     private static void StyleFlavorText(
