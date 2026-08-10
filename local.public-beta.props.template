@@ -1,0 +1,8 @@
+<Project>
+  <PropertyGroup>
+    <Sts2Branch>public-beta</Sts2Branch>
+    <Sts2Dir>PATH_TO_PUBLIC_BETA_STS2_INSTALL</Sts2Dir>
+    <Sts2DataDir>$(Sts2Dir)/data_sts2_windows_x86_64</Sts2DataDir>
+    <GodotExe>PATH_TO_GODOT/MegaDot_v4.5.1-stable_mono_win64.exe</GodotExe>
+  </PropertyGroup>
+</Project>

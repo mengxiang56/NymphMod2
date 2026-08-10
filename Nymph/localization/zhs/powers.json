@@ -74,7 +74,7 @@
   "NYMPH_POWER_NECROSIS_REDUCTION_BARRIER_POWER.description": "阻止下[blue]{Amount}[/blue]次[gold]凋亡[/gold]衰减。",
   "NYMPH_POWER_NECROSIS_REDUCTION_BARRIER_POWER.smartDescription": "阻止下[blue]{Amount}[/blue]次[gold]凋亡[/gold]衰减。",
   "NYMPH_POWER_HEARTLASH_COMMUNION_POWER.title": "笞心魔的交心",
-  "NYMPH_POWER_HEARTLASH_COMMUNION_POWER.description": "本回合不会受到来自[gold]{TargetName}[/gold]的伤害。",
+  "NYMPH_POWER_HEARTLASH_COMMUNION_POWER.description": "[blue]{Amount}[/blue]回合内不会受到来自[gold]{TargetName}[/gold]的伤害。",
   "NYMPH_POWER_HEARTLASH_COMMUNION_POWER.unknownTarget": "所选敌人",
   "NYMPH_POWER_PARALLEL_NARRATIVE_POWER.title": "并行叙事",
   "NYMPH_POWER_PARALLEL_NARRATIVE_POWER.description": "本回合中，你的下[blue]{Amount}[/blue]张[gold]讲述[/gold]牌会打出两次。"

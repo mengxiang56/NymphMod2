@@ -1,0 +1,13 @@
+{
+  "title": "NymphModSTS2",
+  "description": "Nymph",
+  "visibility": "private",
+  "changeNote": "",
+  "tags": [],
+  "dependencies": [
+    "3747602295"
+  ],
+  "contentDescriptors": [],
+  "minBranch": "public-beta",
+  "maxBranch": "public-beta"
+}

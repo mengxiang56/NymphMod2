@@ -19,7 +19,8 @@ public sealed class NymphHeartlashCommunion : ModCardTemplate
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new PowerVar<NecrosisPower>(4)
+        new PowerVar<NecrosisPower>(4),
+        new DynamicVar("Turns", 1)
     ];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
@@ -44,10 +45,19 @@ public sealed class NymphHeartlashCommunion : ModCardTemplate
             Owner.Creature,
             this);
 
-        if (Owner.Creature.GetPower<HeartlashCommunionPower>()
-            is { } existing)
+        HeartlashCommunionPower? existing = Owner.Creature
+            .GetPowerInstances<HeartlashCommunionPower>()
+            .FirstOrDefault(power =>
+                power.ProtectedFrom == cardPlay.Target);
+        if (existing is not null)
         {
-            await PowerCmd.Remove(existing);
+            await PowerCmd.ModifyAmount(
+                choiceContext,
+                existing,
+                DynamicVars["Turns"].IntValue,
+                Owner.Creature,
+                this);
+            return;
         }
 
         HeartlashCommunionPower power =
@@ -59,7 +69,7 @@ public sealed class NymphHeartlashCommunion : ModCardTemplate
             choiceContext,
             power,
             Owner.Creature,
-            1,
+            DynamicVars["Turns"].IntValue,
             Owner.Creature,
             this);
     }

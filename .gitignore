@@ -6,12 +6,15 @@ obj/
 SpineGodotExtension4.5.1/
 SpineSkeletonDataConverter/
 tmp/
+artifacts/
 *.DotSettings
 *.DotSettings.user
 
 local.props
+local.*.props
+workshop/mod_id.txt
+workshop/image.png
 *.uid
 *.import
 *.tmp
 *.log
-

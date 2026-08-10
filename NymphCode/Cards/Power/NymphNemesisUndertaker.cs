@@ -41,6 +41,6 @@ public sealed class NymphNemesisUndertaker : ModCardTemplate
 
     protected override void OnUpgrade()
     {
-        DynamicVars["BlockGain"].UpgradeValueBy(1);
+        DynamicVars["BlockGain"].UpgradeValueBy(2);
     }
 }

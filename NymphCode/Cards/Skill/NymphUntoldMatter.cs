@@ -32,6 +32,12 @@ public sealed class NymphUntoldMatter : ModCardTemplate, ISelfRecreatingOnPlayCa
     {
     }
 
+#if STS2_PUBLIC
+    protected override PileType GetResultPileTypeForCardPlay()
+    {
+        return PileType.None;
+    }
+#else
     protected override CardLocation GetResultLocationForCardPlay()
     {
         return new CardLocation(
@@ -39,6 +45,7 @@ public sealed class NymphUntoldMatter : ModCardTemplate, ISelfRecreatingOnPlayCa
             PileType.None,
             CardPilePosition.Bottom);
     }
+#endif
 
     protected override async Task OnPlay(
         PlayerChoiceContext choiceContext,

@@ -96,6 +96,6 @@ public sealed class NymphPureWhitePetal : ModCardTemplate
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(4);
+        DynamicVars.Damage.UpgradeValueBy(6);
     }
 }

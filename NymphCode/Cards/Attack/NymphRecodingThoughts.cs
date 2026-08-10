@@ -28,7 +28,7 @@ public sealed class NymphRecodingThoughts : ModCardTemplate
     [
         new DamageVar(9, ValueProp.Move),
         new CardsVar(1),
-        new DynamicVar("Create", 5)
+        new DynamicVar("Create", 4)
     ];
 
     public NymphRecodingThoughts()

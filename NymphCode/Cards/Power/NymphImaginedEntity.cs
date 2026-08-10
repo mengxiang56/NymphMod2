@@ -2,6 +2,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using Nymph.Characters;
 using Nymph.Mechanics;
 using Nymph.Powers;
@@ -23,6 +24,11 @@ public sealed class NymphImaginedEntity : ModCardTemplate
         ModKeywordRegistry.CreateHoverTip(NymphKeywords.NarrateId)
     ];
 
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+    [
+        new DynamicVar("Times", 1)
+    ];
+
     public NymphImaginedEntity()
         : base(2, CardType.Power, CardRarity.Rare, TargetType.Self, true)
     {
@@ -35,7 +41,7 @@ public sealed class NymphImaginedEntity : ModCardTemplate
         await PowerCmd.Apply<ImaginedEntityPower>(
             choiceContext,
             Owner.Creature,
-            1,
+            DynamicVars["Times"].IntValue,
             Owner.Creature,
             this);
     }

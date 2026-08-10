@@ -56,6 +56,11 @@ internal sealed partial class ConstructHistoryFormPortraitAnimatorNode : Node
             return;
         }
 
+#if STS2_PUBLIC
+        _card._portrait.Texture = form.Portrait;
+        _card._ancientPortrait.Texture = form.Portrait;
+#else
         _card.Call(NCard.MethodName.UpdatePortrait);
+#endif
     }
 }

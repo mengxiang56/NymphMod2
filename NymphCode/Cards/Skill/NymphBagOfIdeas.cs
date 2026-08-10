@@ -66,6 +66,14 @@ public sealed class NymphBagOfIdeas : ModCardTemplate
     {
     }
 
+#if STS2_PUBLIC
+    protected override PileType GetResultPileTypeForCardPlay()
+    {
+        return DurabilityRemaining <= 1
+            ? PileType.None
+            : base.GetResultPileTypeForCardPlay();
+    }
+#else
     protected override CardLocation GetResultLocationForCardPlay()
     {
         return DurabilityRemaining <= 1
@@ -75,6 +83,7 @@ public sealed class NymphBagOfIdeas : ModCardTemplate
                 CardPilePosition.Bottom)
             : base.GetResultLocationForCardPlay();
     }
+#endif
 
     protected override async Task OnPlay(
         PlayerChoiceContext choiceContext,

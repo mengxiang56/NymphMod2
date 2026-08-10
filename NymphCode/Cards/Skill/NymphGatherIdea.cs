@@ -86,16 +86,13 @@ public sealed class NymphGatherIdea : ModCardTemplate
             SelectionScreenPrompt,
             maxCount,
             maxCount);
-        IEnumerable<CardModel> selected = await CardSelectCmd.FromCombatPile(
+        List<CardModel> selected = (await CardSelectCmd.FromCombatPile(
             choiceContext,
             discardPile,
             Owner,
-            prefs);
+            prefs)).ToList();
 
-        foreach (CardModel card in selected)
-        {
-            await CardPileCmd.Add(card, PileType.Hand);
-        }
+        await CardPileCmd.Add(selected, PileType.Hand);
     }
 
     protected override void OnUpgrade()

@@ -1,5 +1,7 @@
 # Nymph
 
+See [dual-branch release instructions](docs/dual-branch-release.md) for separate public/public-beta builds and publishing both versions to one Workshop item.
+
 Languages: [中文](README.md) | English
 
 A copyable, buildable RitsuLib mod template providing a general Godot/C# project layout, sample content, and static placeholder assets.

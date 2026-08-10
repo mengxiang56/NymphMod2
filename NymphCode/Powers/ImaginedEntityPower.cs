@@ -30,20 +30,23 @@ public sealed class ImaginedEntityPower : ModPowerTemplate
             return;
         }
 
-        var target = Owner.Player.RunState.Rng.CombatTargets.NextItem(
-            CombatState.GetOpponentsOf(Owner)
-                .Where(enemy => !enemy.IsDead));
-        if (target is null)
-        {
-            return;
-        }
-
         Flash();
-        await CreatureCmd.Damage(
-            choiceContext,
-            target,
-            narrated * Amount,
-            DamageProps.nonCardUnpowered,
-            Owner);
+        for (int i = 0; i < Amount; i++)
+        {
+            var target = Owner.Player.RunState.Rng.CombatTargets.NextItem(
+                CombatState.GetOpponentsOf(Owner)
+                    .Where(enemy => !enemy.IsDead));
+            if (target is null)
+            {
+                break;
+            }
+
+            await CreatureCmd.Damage(
+                choiceContext,
+                target,
+                narrated,
+                DamageProps.nonCardUnpowered,
+                Owner);
+        }
     }
 }

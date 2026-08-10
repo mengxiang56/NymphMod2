@@ -1,5 +1,17 @@
 <Project Sdk="Godot.NET.Sdk/4.5.1">
-    <Import Project=".\local.props" Condition="Exists('.\local.props')"/>
+    <PropertyGroup>
+        <GameBranch Condition="'$(GameBranch)' == ''">public-beta</GameBranch>
+        <NymphRitsuLibVersion>0.5.11</NymphRitsuLibVersion>
+        <GameMinVersion Condition="'$(GameBranch)' == 'public'">0.107.1</GameMinVersion>
+        <GameMinVersion Condition="'$(GameBranch)' == 'public-beta'">0.110.1</GameMinVersion>
+        <RitsuLibPackageId Condition="'$(GameBranch)' == 'public'">STS2.RitsuLib.Compat.0.107.1</RitsuLibPackageId>
+        <RitsuLibPackageId Condition="'$(GameBranch)' == 'public-beta'">STS2.RitsuLib</RitsuLibPackageId>
+        <BranchPropsFile>$(MSBuildProjectDirectory)\local.$(GameBranch).props</BranchPropsFile>
+    </PropertyGroup>
+
+    <Import Project="$(BranchPropsFile)" Condition="Exists('$(BranchPropsFile)')"/>
+    <Import Project=".\local.props"
+            Condition="'$(GameBranch)' == 'public-beta' and !Exists('$(BranchPropsFile)') and Exists('.\local.props')"/>
 
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
@@ -16,8 +28,11 @@
         <GodotExportPreset>Windows Desktop</GodotExportPreset>
         <Sts2Dir Condition="'$(Sts2Dir)' == ''">$(MSBuildProgramFiles32)\Steam\steamapps\common\Slay the Spire 2</Sts2Dir>
         <Sts2DataDir Condition="'$(Sts2DataDir)' == ''">$(Sts2Dir)\data_sts2_windows_x86_64</Sts2DataDir>
-        <ModOutputDir>$(Sts2Dir)\mods\NymphModSTS2\</ModOutputDir>
-        <ModPckPath>$(ModOutputDir)$(MSBuildProjectName).pck</ModPckPath>
+        <ModOutputDir Condition="'$(ModOutputDir)' == ''">$(Sts2Dir)\mods\NymphModSTS2\</ModOutputDir>
+        <ModPckPath>$(ModOutputDir)\$(MSBuildProjectName).pck</ModPckPath>
+        <Sts2Branch Condition="'$(Sts2Branch)' == '' and '$(GameBranch)' == 'public-beta'">public-beta</Sts2Branch>
+        <DefineConstants Condition="'$(GameBranch)' == 'public'">$(DefineConstants);STS2_PUBLIC</DefineConstants>
+        <DefineConstants Condition="'$(GameBranch)' == 'public-beta'">$(DefineConstants);STS2_PUBLIC_BETA</DefineConstants>
         <!-- 本机测试时 RitsuLib 包/构建逻辑会使用这个目录把 RitsuLib 部署到游戏 mods/STS2-RitsuLib。 -->
         <!-- Local test builds use this directory when RitsuLib package/build logic deploys RitsuLib to game mods/STS2-RitsuLib. -->
         <RitsuLibDeployDir Condition="'$(RitsuLibDeployDir)' == ''">$(Sts2Dir)\mods\STS2-RitsuLib</RitsuLibDeployDir>
@@ -40,7 +55,7 @@
         <PackageReference Include="Krafs.Publicizer" Version="2.2.1" PrivateAssets="all"/>
         <PackageReference Include="Nothing.STS2RitsuLib.ModAnalyzers" Version="0.8.2" PrivateAssets="all"/>
         <!-- 主线 RitsuLib（STS2 0.105.0+），跟踪 NuGet 最新版本。兼容分支和 manifest 版本对齐规则见 README。 -->
-        <PackageReference Include="STS2.RitsuLib" Version="0.4.62" GeneratePathProperty="true"/>
+        <PackageReference Include="$(RitsuLibPackageId)" Version="$(NymphRitsuLibVersion)" GeneratePathProperty="true"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -70,6 +85,8 @@
         <None Include="export_presets.cfg"/>
         <None Include=".gitignore"/>
         <None Include="local.props.template"/>
+        <None Include="local.public.props.template"/>
+        <None Include="local.public-beta.props.template"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -85,16 +102,29 @@
     </ItemGroup>
 
     <Target Name="ValidateSts2GameInstall" BeforeTargets="ResolveAssemblyReferences">
+        <Error Condition="'$(GameBranch)' != 'public' and '$(GameBranch)' != 'public-beta'"
+               Text="Unsupported GameBranch '$(GameBranch)'. Use 'public' or 'public-beta'."/>
+        <Error Condition="'$(Sts2Branch)' != '$(GameBranch)'"
+               Text="The selected build branch is '$(GameBranch)', but the configured game SDK branch is '$(Sts2Branch)'. Create local.$(GameBranch).props from its template and point it at the matching game installation."/>
         <Error Condition="!Exists('$(Sts2DataDir)\sts2.dll')" Text="Could not find sts2.dll under '$(Sts2DataDir)'. Copy local.props.template to local.props and set Sts2Dir/Sts2DataDir for your local game install."/>
+        <Exec Command="powershell -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildProjectDirectory)\tools\validate-game-sdk.ps1&quot; -ReleaseInfoPath &quot;$(Sts2Dir)\release_info.json&quot; -ExpectedVersion &quot;$(GameMinVersion)&quot; -ExpectedBranch &quot;$(GameBranch)&quot;"/>
     </Target>
 
-    <Target Name="CopyMod" AfterTargets="Build" Condition="'$(CopyModOnBuild)' != 'false'">
+    <Target Name="GenerateBranchManifest">
+        <PropertyGroup>
+            <GeneratedManifestFile>$(IntermediateOutputPath)$(MSBuildProjectName).json</GeneratedManifestFile>
+        </PropertyGroup>
+        <MakeDir Directories="$(IntermediateOutputPath)"/>
+        <Exec Command="powershell -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildProjectDirectory)\tools\generate-branch-manifest.ps1&quot; -TemplatePath &quot;$(MSBuildProjectDirectory)\$(MSBuildProjectName).json&quot; -OutputPath &quot;$(GeneratedManifestFile)&quot; -MinGameVersion &quot;$(GameMinVersion)&quot; -RitsuLibVersion &quot;$(NymphRitsuLibVersion)&quot;"/>
+    </Target>
+
+    <Target Name="CopyMod" AfterTargets="Build" DependsOnTargets="GenerateBranchManifest" Condition="'$(CopyModOnBuild)' != 'false'">
         <MakeDir Directories="$(ModOutputDir)"/>
         <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ModOutputDir)"/>
         <Copy SourceFiles="$(TargetDir)$(TargetName).pdb"
               DestinationFolder="$(ModOutputDir)"
               Condition="Exists('$(TargetDir)$(TargetName).pdb')"/>
-        <Copy SourceFiles="$(MSBuildProjectDirectory)\$(MSBuildProjectName).json" DestinationFolder="$(ModOutputDir)"/>
+        <Copy SourceFiles="$(GeneratedManifestFile)" DestinationFiles="$(ModOutputDir)\$(MSBuildProjectName).json"/>
     </Target>
 
     <Target Name="CleanSpineGodotTempFiles" BeforeTargets="ExportPCK" Condition="'$(RunPckExport)' == 'true'">
@@ -110,35 +140,4 @@
         <Exec WorkingDirectory="$(MSBuildProjectDirectory)" Command="&quot;$(GodotExe)&quot; --headless --path &quot;$(MSBuildProjectDirectory)&quot; --export-pack &quot;$(GodotExportPreset)&quot; &quot;$(ModPckPath)&quot;" EnvironmentVariables="STS2_SKIP_PCK_EXPORT=1"/>
     </Target>
 
-    <Target Name="SyncManifestDependencies" AfterTargets="Build" BeforeTargets="CopyMod"
-            Condition="'$(DesignTimeBuild)' != 'true' and '$(PkgSTS2_RitsuLib)' != ''">
-        <PropertyGroup>
-            <RitsuLibVersion>$([System.IO.Path]::GetFileName('$(PkgSTS2_RitsuLib)'))</RitsuLibVersion>
-            <ManifestFile>$(MSBuildProjectDirectory)\$(MSBuildProjectName).json</ManifestFile>
-        </PropertyGroup>
-        <PropertyGroup>
-            <_Json>$([System.IO.File]::ReadAllText('$(ManifestFile)'))</_Json>
-            <_VersionSearchPattern>(?s)&quot;id&quot;\s*:\s*&quot;STS2-RitsuLib&quot;.*?&quot;version&quot;\s*:\s*&quot;([^&quot;]+)&quot;</_VersionSearchPattern>
-            <_VersionExtractPattern>(?s).*?&quot;id&quot;\s*:\s*&quot;STS2-RitsuLib&quot;.*?&quot;version&quot;\s*:\s*&quot;([^&quot;]+)&quot;.*</_VersionExtractPattern>
-            <_HasRitsuLibVersion>$([System.Text.RegularExpressions.Regex]::IsMatch('$(_Json)', '$(_VersionSearchPattern)'))</_HasRitsuLibVersion>
-            <_CurrentRitsuLibVersion Condition="'$(_HasRitsuLibVersion)' == 'True'">$([System.Text.RegularExpressions.Regex]::Replace('$(_Json)', '$(_VersionExtractPattern)', '$1'))</_CurrentRitsuLibVersion>
-            <_ManifestNeedsUpdate>false</_ManifestNeedsUpdate>
-            <_ManifestNeedsUpdate Condition="'$(_CurrentRitsuLibVersion)' != '' and '$(_CurrentRitsuLibVersion)' != '$(RitsuLibVersion)'">true</_ManifestNeedsUpdate>
-        </PropertyGroup>
-        <Error Condition="'$(_HasRitsuLibVersion)' != 'True'"
-               Text="Could not find dependencies[STS2-RitsuLib].version in '$(ManifestFile)'."/>
-        <Message Importance="High" Condition="'$(_ManifestNeedsUpdate)' == 'true'"
-                 Text="Sync STS2-RitsuLib manifest dependency: $(_CurrentRitsuLibVersion) -> $(RitsuLibVersion)"/>
-        <Message Importance="Low" Condition="'$(_ManifestNeedsUpdate)' != 'true'"
-                 Text="STS2-RitsuLib manifest dependency already matches $(RitsuLibVersion)."/>
-        <PropertyGroup Condition="'$(_ManifestNeedsUpdate)' == 'true'">
-            <_Pattern>(?s)(&quot;STS2-RitsuLib&quot;.*?&quot;version&quot;\s*:\s*&quot;)[^&quot;]+(&quot;)</_Pattern>
-            <_Replacement>${1}$(RitsuLibVersion)${2}</_Replacement>
-            <_Updated>$([System.Text.RegularExpressions.Regex]::Replace('$(_Json)', '$(_Pattern)', '$(_Replacement)'))</_Updated>
-        </PropertyGroup>
-        <ItemGroup Condition="'$(_ManifestNeedsUpdate)' == 'true'">
-            <_Lines Include="$([System.Text.RegularExpressions.Regex]::Split('$(_Updated)', '\\r?\\n'))" />
-        </ItemGroup>
-        <WriteLinesToFile Condition="'$(_ManifestNeedsUpdate)' == 'true'" File="$(ManifestFile)" Lines="@(_Lines)" Overwrite="true" />
-    </Target>
 </Project>

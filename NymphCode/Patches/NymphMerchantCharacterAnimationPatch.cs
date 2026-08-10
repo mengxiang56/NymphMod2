@@ -44,7 +44,11 @@ internal static class NymphMerchantCharacterAnimation
                 return;
             }
 
+#if STS2_PUBLIC
+            MegaTrackEntry? track = animationState.GetCurrent(0);
+#else
             using MegaTrackEntry? track = animationState.GetCurrent(0);
+#endif
             track?.SetTrackTime(
                 track.GetAnimationEnd() * Rng.Chaotic.NextFloat());
         });

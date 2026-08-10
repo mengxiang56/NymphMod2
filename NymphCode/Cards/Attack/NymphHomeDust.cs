@@ -33,10 +33,17 @@ public sealed class NymphHomeDust : ModCardTemplate
     {
     }
 
+#if STS2_PUBLIC
+    protected override PileType GetResultPileTypeForCardPlay()
+    {
+        return PileType.Hand;
+    }
+#else
     protected override CardLocation GetResultLocationForCardPlay()
     {
         return new CardLocation(Owner, PileType.Hand, CardPilePosition.Bottom);
     }
+#endif
 
     protected override async Task OnPlay(
         PlayerChoiceContext choiceContext,

@@ -19,7 +19,8 @@ public sealed class HeartlashCommunionPower : ModPowerTemplate
     private Creature? _protectedFrom;
 
     public override PowerType Type => PowerType.Buff;
-    public override PowerStackType StackType => PowerStackType.Single;
+    public override PowerStackType StackType => PowerStackType.Counter;
+    public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
     public override bool AllowNegative => false;
 
     public override PowerAssetProfile AssetProfile => new(
@@ -60,8 +61,13 @@ public sealed class HeartlashCommunionPower : ModPowerTemplate
         Creature? target,
         ValueProp props,
         Creature? dealer,
-        CardModel? cardSource,
+        CardModel? cardSource
+#if !STS2_PUBLIC
+        ,
         CardPlay? cardPlay)
+#else
+        )
+#endif
     {
         return target == Owner && dealer == ProtectedFrom
             ? 0
@@ -73,9 +79,15 @@ public sealed class HeartlashCommunionPower : ModPowerTemplate
         CombatSide side,
         IEnumerable<Creature> participants)
     {
-        if (ProtectedFrom is null || side == ProtectedFrom.Side)
+        if (ProtectedFrom is null)
         {
             await PowerCmd.Remove(this);
+            return;
+        }
+
+        if (side == ProtectedFrom.Side)
+        {
+            await PowerCmd.TickDownDuration(this);
         }
     }
 }

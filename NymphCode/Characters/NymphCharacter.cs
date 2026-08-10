@@ -24,6 +24,8 @@ public sealed class NymphCharacter : ModCharacterTemplate<NymphCardPool, NymphRe
     private const string MerchantScenePath = $"{SceneRoot}/Nymph_merchant.tscn";
     private const string RestSiteScenePath = $"{SceneRoot}/Nymph_rest_site.tscn";
     private const string CharacterSelectBgScenePath = $"{SceneRoot}/Nymph_character_select_bg.tscn";
+    private const string CustomTransitionMaterialPath =
+        $"{Entry.ResPath}/materials/transitions/Nymph_transition_mat.tres";
     private const string CompactIconScenePath = $"{SceneRoot}/Nymph_icon.tscn";
 
     // 角色名称颜色。
@@ -61,6 +63,8 @@ public sealed class NymphCharacter : ModCharacterTemplate<NymphCardPool, NymphRe
             IconPath: CompactIconScenePath,
             // 人物选择背景。
             CharacterSelectBgPath: CharacterSelectBgScenePath,
+            // 开始游戏时使用的角色专属过场遮罩材质。
+            CharacterSelectTransitionPath: CustomTransitionMaterialPath,
             // 人物选择图标。
             CharacterSelectIconPath: $"{ImageRoot}/Nymph_character_select.png",
             // 人物选择图标-锁定状态。

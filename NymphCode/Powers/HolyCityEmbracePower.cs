@@ -29,8 +29,13 @@ public sealed class HolyCityEmbracePower : ModPowerTemplate
         decimal amount,
         ValueProp props,
         Creature? dealer,
-        CardModel? cardSource,
+        CardModel? cardSource
+#if !STS2_PUBLIC
+        ,
         CardPlay? cardPlay)
+#else
+        )
+#endif
     {
         if (target != Owner || amount <= 0)
         {

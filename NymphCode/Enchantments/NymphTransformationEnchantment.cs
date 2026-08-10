@@ -41,6 +41,19 @@ public sealed class NymphTransformationEnchantment
         IconPath:
             $"{Entry.ResPath}/images/enchantments/NymphTransformationEnchantment.png");
 
+#if STS2_PUBLIC
+    public override (PileType, CardPilePosition) ModifyCardPlayResultPileTypeAndPosition(
+        CardModel card,
+        bool isAutoPlay,
+        ResourceInfo resources,
+        PileType pileType,
+        CardPilePosition position)
+    {
+        return card == Card
+            ? (PileType.None, CardPilePosition.Bottom)
+            : (pileType, position);
+    }
+#else
     public override CardLocation ModifyCardPlayResultLocation(
         CardModel card,
         bool isAutoPlay,
@@ -54,6 +67,7 @@ public sealed class NymphTransformationEnchantment
                 CardPilePosition.Bottom)
             : cardLocation;
     }
+#endif
 
     public override async Task OnPlay(
         PlayerChoiceContext choiceContext,
