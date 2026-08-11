@@ -27,5 +27,14 @@
   "NYMPH_RELIC_NYMPH_SONG_OF_RESILIENT_SOUL.flavor": "The song tells of a heart-dwelling demon who spoke every fear she sensed aloud, yet others still would not lower their guard.",
   "NYMPH_RELIC_NYMPH_SLEEPING_KIN.title": "Sleeping Kin",
   "NYMPH_RELIC_NYMPH_SLEEPING_KIN.description": "Upon pickup, choose a non-[gold]Ancient[/gold], non-[gold]Starter[/gold] relic you hold. This relic transforms into it.",
-  "NYMPH_RELIC_NYMPH_SLEEPING_KIN.flavor": "Sleeping kin still breathe deep within your pack, waiting for a new form."
+  "NYMPH_RELIC_NYMPH_SLEEPING_KIN.flavor": "Sleeping kin still breathe deep within your pack, waiting for a new form.",
+  "NYMPH_RELIC_NYMPH_HOPE_ERA_GRAFFITI.title": "Graffiti of the Age of Hope",
+  "NYMPH_RELIC_NYMPH_HOPE_ERA_GRAFFITI.description": "For the first turn of the next [blue]3[/blue] combats, you and all enemies cannot deal damage.",
+  "NYMPH_RELIC_NYMPH_HOPE_ERA_GRAFFITI.flavor": "For a moment, the beast lowered its fangs before the graffiti.",
+  "NYMPH_RELIC_NYMPH_NEMESIS_ERA_HATRED.title": "Hatred of the Age of Nemesis",
+  "NYMPH_RELIC_NYMPH_NEMESIS_ERA_HATRED.description": "At the start of the next [blue]2[/blue] combats, all enemies gain [red]3[/red] Strength. After each combat, gain an additional relic.",
+  "NYMPH_RELIC_NYMPH_NEMESIS_ERA_HATRED.flavor": "Hatred turns every encounter into a new blood feud.",
+  "NYMPH_RELIC_NYMPH_BEAUTIFUL_WISH_ERA_REMEMBRANCE.title": "Remembrance of the Age of Beautiful Wishes",
+  "NYMPH_RELIC_NYMPH_BEAUTIFUL_WISH_ERA_REMEMBRANCE.description": "Upon pickup, remove the relic you obtained most recently. The next [blue]2[/blue] times you obtain a relic, gain an additional random relic.",
+  "NYMPH_RELIC_NYMPH_BEAUTIFUL_WISH_ERA_REMEMBRANCE.flavor": "The wish was answered, but its remembrance refused to leave."
 }

@@ -1,0 +1,13 @@
+{
+  "NYMPH_EVENT_NYMPH_ENCOUNTER.title": "Encounter",
+  "NYMPH_EVENT_NYMPH_ENCOUNTER.pages.INITIAL.description": "The black beast clamps its jaws around its prey's throat until the struggling stops and the body goes limp. Suddenly, a golden light flashes across the wilderness. An unfamiliar creature stands there, its mane gleaming in the sun and its fangs and claws proclaiming its strength. What could it be? The black beast releases its prey, fixes its gaze upon the newcomer, and then...",
+  "NYMPH_EVENT_NYMPH_ENCOUNTER.pages.INITIAL.options.NYMPH_RELIC_NYMPH_HOPE_ERA_GRAFFITI.title": "It invites the other to share its prey",
+  "NYMPH_EVENT_NYMPH_ENCOUNTER.pages.INITIAL.options.NYMPH_RELIC_NYMPH_HOPE_ERA_GRAFFITI.description": "Gain Graffiti of the Age of Hope.",
+  "NYMPH_EVENT_NYMPH_ENCOUNTER.pages.INITIAL.options.NYMPH_RELIC_NYMPH_NEMESIS_ERA_HATRED.title": "It lunges forward",
+  "NYMPH_EVENT_NYMPH_ENCOUNTER.pages.INITIAL.options.NYMPH_RELIC_NYMPH_NEMESIS_ERA_HATRED.description": "Gain Hatred of the Age of Nemesis.",
+  "NYMPH_EVENT_NYMPH_ENCOUNTER.pages.INITIAL.options.NYMPH_RELIC_NYMPH_BEAUTIFUL_WISH_ERA_REMEMBRANCE.title": "It answers the wish",
+  "NYMPH_EVENT_NYMPH_ENCOUNTER.pages.INITIAL.options.NYMPH_RELIC_NYMPH_BEAUTIFUL_WISH_ERA_REMEMBRANCE.description": "Remove the relic you obtained most recently and gain Remembrance of the Age of Beautiful Wishes.",
+  "NYMPH_EVENT_NYMPH_ENCOUNTER.pages.HOPE.description": "They share the prey, and with it, a brief peace.",
+  "NYMPH_EVENT_NYMPH_ENCOUNTER.pages.NEMESIS.description": "Fangs meet claws, and hatred is carved into memory.",
+  "NYMPH_EVENT_NYMPH_ENCOUNTER.pages.WISH.description": "The wish is answered, while remembrance lingers in the wilderness."
+}

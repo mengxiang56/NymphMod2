@@ -1,0 +1,13 @@
+{
+  "NYMPH_EVENT_NYMPH_ENCOUNTER.title": "相遇",
+  "NYMPH_EVENT_NYMPH_ENCOUNTER.pages.INITIAL.description": "黑色的野兽死死咬住猎物的喉咙，直到它不再挣扎，瘫软在自己口中。突然，荒野中闪出一道金光，那是未曾见过的生物，鬃毛在阳光下生辉，利齿与锐爪彰显着它的武力。那究竟是什么？黑色的野兽放下猎物，目光紧盯着对方，而后......",
+  "NYMPH_EVENT_NYMPH_ENCOUNTER.pages.INITIAL.options.NYMPH_RELIC_NYMPH_HOPE_ERA_GRAFFITI.title": "它邀请对方共享猎物",
+  "NYMPH_EVENT_NYMPH_ENCOUNTER.pages.INITIAL.options.NYMPH_RELIC_NYMPH_HOPE_ERA_GRAFFITI.description": "获得[gold]希望时代的涂鸦[/gold]。",
+  "NYMPH_EVENT_NYMPH_ENCOUNTER.pages.INITIAL.options.NYMPH_RELIC_NYMPH_NEMESIS_ERA_HATRED.title": "它向前扑去",
+  "NYMPH_EVENT_NYMPH_ENCOUNTER.pages.INITIAL.options.NYMPH_RELIC_NYMPH_NEMESIS_ERA_HATRED.description": "获得[gold]死仇时代的恨意[/gold]。",
+  "NYMPH_EVENT_NYMPH_ENCOUNTER.pages.INITIAL.options.NYMPH_RELIC_NYMPH_BEAUTIFUL_WISH_ERA_REMEMBRANCE.title": "它回应愿望",
+  "NYMPH_EVENT_NYMPH_ENCOUNTER.pages.INITIAL.options.NYMPH_RELIC_NYMPH_BEAUTIFUL_WISH_ERA_REMEMBRANCE.description": "获得[gold]美愿时代的留恋[/gold]。",
+  "NYMPH_EVENT_NYMPH_ENCOUNTER.pages.HOPE.description": "千百年后，不同种族的人们早已不分彼此。合作才能共赢，这是所有人的共识。",
+  "NYMPH_EVENT_NYMPH_ENCOUNTER.pages.NEMESIS.description": "萨卡兹杀死猎物，那猎物的后代也会杀死萨卡兹。不是你死就是我亡，泰拉并不存在第二条路。",
+  "NYMPH_EVENT_NYMPH_ENCOUNTER.pages.WISH.description": "正是在这一刻，提卡兹听到了恳切的愿望，眼前的生物许愿不再饥饿。于是提卡兹将猎物让给了它，并看着它死于暴食，成为自己的美餐。可惜，此后的人们只记着提卡兹能够实现愿望，他们不断许愿，许愿，最终将提卡兹与他们自身尽数毁灭。"
+}
