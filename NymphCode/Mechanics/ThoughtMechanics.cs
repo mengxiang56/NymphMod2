@@ -445,6 +445,16 @@ public static class ThoughtMechanics
         NarrationRecord record = Narrations.GetOrCreateValue(cardPlay);
         record.Amount += effectiveAmount;
         record.EffectCount += effectMultiplier;
+
+        if (cardPlay.Card.Owner.Creature.GetPower<BabelOathPower>()
+            is { } babelOath)
+        {
+            await babelOath.OnNarrated(
+                choiceContext,
+                cardPlay.Card,
+                effectMultiplier);
+        }
+
         return effectiveAmount;
     }
 

@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
+using Nymph.Characters;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 
@@ -19,6 +20,24 @@ public sealed class HeartDefenseCollapsePower : ModPowerTemplate
     public override PowerAssetProfile AssetProfile => new(
         IconPath: $"{Entry.ResPath}/images/powers/HeartDefenseCollapsePower32.png",
         BigIconPath: $"{Entry.ResPath}/images/powers/HeartDefenseCollapsePower84.png");
+
+    public override async Task AfterApplied(
+        Creature? applier,
+        CardModel? cardSource)
+    {
+        await CreatureCmd.TriggerAnim(
+            Owner,
+            NymphCharacter.Skill3BeginTrigger,
+            0f);
+    }
+
+    public override async Task AfterRemoved(Creature oldOwner)
+    {
+        await CreatureCmd.TriggerAnim(
+            oldOwner,
+            NymphCharacter.Skill3EndTrigger,
+            0f);
+    }
 
     public override async Task AfterPowerAmountChanged(
         PlayerChoiceContext choiceContext,

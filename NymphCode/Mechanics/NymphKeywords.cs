@@ -34,6 +34,13 @@ public sealed class RecreateKeywordRegistration
 }
 
 [RegisterOwnedCardKeyword(
+    "PermanentRecreate",
+    IncludeInCardHoverTip = true)]
+public sealed class PermanentRecreateKeywordRegistration
+{
+}
+
+[RegisterOwnedCardKeyword(
     "Inspiration",
     IncludeInCardHoverTip = true)]
 public sealed class InspirationKeywordRegistration
@@ -74,6 +81,8 @@ public static class NymphKeywords
     public const string NarrateId = "NYMPH_KEYWORD_NARRATE";
     public const string FullNarrateId = "NYMPH_KEYWORD_FULL_NARRATE";
     public const string RecreateId = "NYMPH_KEYWORD_RECREATE";
+    public const string PermanentRecreateId =
+        "NYMPH_KEYWORD_PERMANENT_RECREATE";
     public const string InspirationId = "NYMPH_KEYWORD_INSPIRATION";
     public const string InspirationCardId = "NYMPH_KEYWORD_INSPIRATION_CARD";
     public const string RecreatePotionId = "NYMPH_KEYWORD_RECREATE_POTION";
@@ -91,6 +100,9 @@ public static class NymphKeywords
 
     public static CardKeyword Recreate =>
         ModKeywordRegistry.GetCardKeyword(RecreateId);
+
+    public static CardKeyword PermanentRecreate =>
+        ModKeywordRegistry.GetCardKeyword(PermanentRecreateId);
 
     public static CardKeyword Inspiration =>
         ModKeywordRegistry.GetCardKeyword(InspirationId);

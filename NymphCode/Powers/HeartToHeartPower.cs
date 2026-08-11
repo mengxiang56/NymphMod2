@@ -18,6 +18,6 @@ public sealed class HeartToHeartPower : ModPowerTemplate
     public override bool AllowNegative => false;
 
     public override PowerAssetProfile AssetProfile => new(
-        IconPath: $"{Entry.ResPath}/images/powers/SmallKindnessPower32.png",
-        BigIconPath: $"{Entry.ResPath}/images/powers/SmallKindnessPower84.png");
+        IconPath: $"{Entry.ResPath}/images/powers/HeartToHeartPower32.png",
+        BigIconPath: $"{Entry.ResPath}/images/powers/HeartToHeartPower84.png");
 }

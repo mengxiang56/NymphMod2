@@ -37,6 +37,15 @@ public sealed partial class NymphSkinSelectBackground : Control
     [Export]
     public Vector2 DifficultyNextArrowOffset { get; set; } = new(110f, 0f);
 
+    [Export]
+    public Vector2 VoiceArrowCenterRatio { get; set; } = new(0.205f, 0.52f);
+
+    [Export]
+    public Vector2 VoicePreviousArrowOffset { get; set; } = new(-165f, 0f);
+
+    [Export]
+    public Vector2 VoiceNextArrowOffset { get; set; } = new(110f, 0f);
+
     private Node _preview = null!;
     private TextureRect _background = null!;
     private Control _skinSelector = null!;
@@ -46,12 +55,19 @@ public sealed partial class NymphSkinSelectBackground : Control
     private Control _difficultyHoverArea = null!;
     private Label _difficultyTitle = null!;
     private Label _difficultyName = null!;
+    private Control _voiceSelector = null!;
+    private Control _voiceHoverArea = null!;
+    private Label _voiceTitle = null!;
+    private Label _voiceName = null!;
     private NCharacterSelectScreen? _characterSelectScreen;
     private NGoldArrowButton? _leftButton;
     private NGoldArrowButton? _rightButton;
     private NGoldArrowButton? _difficultyLeftButton;
     private NGoldArrowButton? _difficultyRightButton;
+    private NGoldArrowButton? _voiceLeftButton;
+    private NGoldArrowButton? _voiceRightButton;
     private bool _difficultyHoverVisible;
+    private bool _voiceHoverVisible;
 
     public override void _Ready()
     {
@@ -65,16 +81,23 @@ public sealed partial class NymphSkinSelectBackground : Control
             "DifficultySelector/HoverArea");
         _difficultyTitle = GetNode<Label>("DifficultySelector/Title");
         _difficultyName = GetNode<Label>("DifficultySelector/DifficultyName");
+        _voiceSelector = GetNode<Control>("VoiceSelector");
+        _voiceHoverArea = GetNode<Control>("VoiceSelector/HoverArea");
+        _voiceTitle = GetNode<Label>("VoiceSelector/Title");
+        _voiceName = GetNode<Label>("VoiceSelector/VoiceName");
         _characterSelectScreen = FindCharacterSelectScreen();
 
         _difficultyHoverArea.MouseEntered += ShowDifficultyHoverTip;
         _difficultyHoverArea.MouseExited += HideDifficultyHoverTip;
+        _voiceHoverArea.MouseEntered += ShowVoiceHoverTip;
+        _voiceHoverArea.MouseExited += HideVoiceHoverTip;
 
         CreateArrowButtons();
         ConnectCharacterSelectButtons();
         Resized += PositionArrowButtons;
         RefreshPreview();
         RefreshDifficulty();
+        RefreshVoice();
 
         if (_characterSelectScreen?.Lobby is not null)
         {
@@ -121,10 +144,14 @@ public sealed partial class NymphSkinSelectBackground : Control
             _rightButton = template.GetNode<NGoldArrowButton>("RightArrow").Duplicate() as NGoldArrowButton;
             _difficultyLeftButton = template.GetNode<NGoldArrowButton>("LeftArrow").Duplicate() as NGoldArrowButton;
             _difficultyRightButton = template.GetNode<NGoldArrowButton>("RightArrow").Duplicate() as NGoldArrowButton;
+            _voiceLeftButton = template.GetNode<NGoldArrowButton>("LeftArrow").Duplicate() as NGoldArrowButton;
+            _voiceRightButton = template.GetNode<NGoldArrowButton>("RightArrow").Duplicate() as NGoldArrowButton;
             if (_leftButton is null
                 || _rightButton is null
                 || _difficultyLeftButton is null
-                || _difficultyRightButton is null)
+                || _difficultyRightButton is null
+                || _voiceLeftButton is null
+                || _voiceRightButton is null)
             {
                 Entry.Logger.Warn("Unable to duplicate character skin arrow buttons.");
                 return;
@@ -134,18 +161,26 @@ public sealed partial class NymphSkinSelectBackground : Control
             _rightButton.Name = "NextSkin";
             _difficultyLeftButton.Name = "PreviousDifficulty";
             _difficultyRightButton.Name = "NextDifficulty";
+            _voiceLeftButton.Name = "PreviousVoice";
+            _voiceRightButton.Name = "NextVoice";
             MakeArrowMaterialUnique(_leftButton);
             MakeArrowMaterialUnique(_rightButton);
             MakeArrowMaterialUnique(_difficultyLeftButton);
             MakeArrowMaterialUnique(_difficultyRightButton);
+            MakeArrowMaterialUnique(_voiceLeftButton);
+            MakeArrowMaterialUnique(_voiceRightButton);
             _leftButton.Scale = Vector2.One * ArrowScale;
             _rightButton.Scale = Vector2.One * ArrowScale;
             _difficultyLeftButton.Scale = Vector2.One * ArrowScale;
             _difficultyRightButton.Scale = Vector2.One * ArrowScale;
+            _voiceLeftButton.Scale = Vector2.One * ArrowScale;
+            _voiceRightButton.Scale = Vector2.One * ArrowScale;
             this.AddChildSafely(_leftButton);
             this.AddChildSafely(_rightButton);
             this.AddChildSafely(_difficultyLeftButton);
             this.AddChildSafely(_difficultyRightButton);
+            this.AddChildSafely(_voiceLeftButton);
+            this.AddChildSafely(_voiceRightButton);
             _leftButton.Connect(
                 NClickableControl.SignalName.Released,
                 Callable.From<NButton>(_ => ChangeSkin(-1)));
@@ -158,6 +193,12 @@ public sealed partial class NymphSkinSelectBackground : Control
             _difficultyRightButton.Connect(
                 NClickableControl.SignalName.Released,
                 Callable.From<NButton>(_ => ChangeDifficulty(1)));
+            _voiceLeftButton.Connect(
+                NClickableControl.SignalName.Released,
+                Callable.From<NButton>(_ => ChangeVoice(-1)));
+            _voiceRightButton.Connect(
+                NClickableControl.SignalName.Released,
+                Callable.From<NButton>(_ => ChangeVoice(1)));
             PositionArrowButtons();
         }
         finally
@@ -180,7 +221,9 @@ public sealed partial class NymphSkinSelectBackground : Control
         if (_leftButton is null
             || _rightButton is null
             || _difficultyLeftButton is null
-            || _difficultyRightButton is null)
+            || _difficultyRightButton is null
+            || _voiceLeftButton is null
+            || _voiceRightButton is null)
         {
             return;
         }
@@ -193,6 +236,9 @@ public sealed partial class NymphSkinSelectBackground : Control
             difficultyCenter + DifficultyPreviousArrowOffset;
         _difficultyRightButton.Position =
             difficultyCenter + DifficultyNextArrowOffset;
+        Vector2 voiceCenter = Size * VoiceArrowCenterRatio;
+        _voiceLeftButton.Position = voiceCenter + VoicePreviousArrowOffset;
+        _voiceRightButton.Position = voiceCenter + VoiceNextArrowOffset;
         _leftButton.FocusNeighborRight = _rightButton.GetPath();
         _rightButton.FocusNeighborLeft = _leftButton.GetPath();
         _leftButton.FocusNeighborBottom = _difficultyLeftButton.GetPath();
@@ -203,6 +249,12 @@ public sealed partial class NymphSkinSelectBackground : Control
             _difficultyRightButton.GetPath();
         _difficultyRightButton.FocusNeighborLeft =
             _difficultyLeftButton.GetPath();
+        _difficultyLeftButton.FocusNeighborBottom = _voiceLeftButton.GetPath();
+        _difficultyRightButton.FocusNeighborBottom = _voiceRightButton.GetPath();
+        _voiceLeftButton.FocusNeighborTop = _difficultyLeftButton.GetPath();
+        _voiceRightButton.FocusNeighborTop = _difficultyRightButton.GetPath();
+        _voiceLeftButton.FocusNeighborRight = _voiceRightButton.GetPath();
+        _voiceRightButton.FocusNeighborLeft = _voiceLeftButton.GetPath();
     }
 
     private void ChangeSkin(int delta)
@@ -219,10 +271,17 @@ public sealed partial class NymphSkinSelectBackground : Control
         RefreshDifficulty();
     }
 
+    private void ChangeVoice(int delta)
+    {
+        NymphVoiceManager.Select(NymphVoiceManager.SelectedIndex + delta);
+        RefreshVoice();
+    }
+
     private void SetSelectorVisible(bool visible)
     {
         _skinSelector.Visible = visible;
         _difficultySelector.Visible = visible;
+        _voiceSelector.Visible = visible;
         _preview.Set("visible", visible);
         if (_leftButton is not null)
         {
@@ -244,9 +303,20 @@ public sealed partial class NymphSkinSelectBackground : Control
             _difficultyRightButton.Visible = visible;
         }
 
+        if (_voiceLeftButton is not null)
+        {
+            _voiceLeftButton.Visible = visible;
+        }
+
+        if (_voiceRightButton is not null)
+        {
+            _voiceRightButton.Visible = visible;
+        }
+
         if (!visible)
         {
             HideDifficultyHoverTip();
+            HideVoiceHoverTip();
         }
     }
 
@@ -292,6 +362,22 @@ public sealed partial class NymphSkinSelectBackground : Control
         }
     }
 
+    private void RefreshVoice()
+    {
+        _voiceTitle.Text = new LocString(
+            "characters",
+            "NYMPH_VOICE_SELECT.title").GetFormattedText();
+        _voiceName.Text = new LocString(
+            "characters",
+            NymphVoiceManager.SelectedNameKey).GetFormattedText();
+
+        if (_voiceHoverVisible)
+        {
+            NHoverTipSet.Remove(_voiceHoverArea);
+            ShowVoiceHoverTip();
+        }
+    }
+
     private void ShowDifficultyHoverTip()
     {
         if (!_difficultySelector.Visible)
@@ -317,6 +403,31 @@ public sealed partial class NymphSkinSelectBackground : Control
     {
         _difficultyHoverVisible = false;
         NHoverTipSet.Remove(_difficultyHoverArea);
+    }
+
+    private void ShowVoiceHoverTip()
+    {
+        if (!_voiceSelector.Visible)
+        {
+            return;
+        }
+
+        _voiceHoverVisible = true;
+        HoverTip hoverTip = new(
+            new LocString("characters", NymphVoiceManager.SelectedNameKey),
+            new LocString(
+                "characters",
+                NymphVoiceManager.SelectedDescriptionKey));
+        NHoverTipSet.CreateAndShow(
+            _voiceHoverArea,
+            hoverTip,
+            HoverTipAlignment.Right);
+    }
+
+    private void HideVoiceHoverTip()
+    {
+        _voiceHoverVisible = false;
+        NHoverTipSet.Remove(_voiceHoverArea);
     }
 
     private NCharacterSelectScreen? FindCharacterSelectScreen()

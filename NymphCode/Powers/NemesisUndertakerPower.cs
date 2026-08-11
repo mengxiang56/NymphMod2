@@ -17,8 +17,8 @@ public sealed class NemesisUndertakerPower : ModPowerTemplate
     public override bool AllowNegative => false;
 
     public override PowerAssetProfile AssetProfile => new(
-        IconPath: $"{Entry.ResPath}/images/powers/ExtraChapterPower32.png",
-        BigIconPath: $"{Entry.ResPath}/images/powers/ExtraChapterPower84.png");
+        IconPath: $"{Entry.ResPath}/images/powers/NemesisUndertakerPower32.png",
+        BigIconPath: $"{Entry.ResPath}/images/powers/NemesisUndertakerPower84.png");
 
     public async Task OnRecreated(PlayerChoiceContext choiceContext, IReadOnlyList<RecreateResult> results)
     {

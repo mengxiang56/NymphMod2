@@ -14,6 +14,10 @@ public sealed class NymphCharacter : ModCharacterTemplate<NymphCardPool, NymphRe
 {
     internal const string CustomAttackSfxToken = "nymph:/sfx/attack";
     internal const string CustomCharacterSelectSfxToken = "nymph:/sfx/character_select";
+    internal const string Skill3BeginTrigger = "NymphSkill3Begin";
+    internal const string Skill3IdleTrigger = "NymphSkill3Idle";
+    internal const string Skill3AttackTrigger = "NymphSkill3Attack";
+    internal const string Skill3EndTrigger = "NymphSkill3End";
 
     public static readonly Color ThemeColor = new(240f / 255f, 50f / 255f, 160f / 255f);
 
@@ -93,24 +97,38 @@ public sealed class NymphCharacter : ModCharacterTemplate<NymphCardPool, NymphRe
     protected override CreatureAnimator? SetupCustomCreatureAnimator(MegaSprite controller)
     {
         AnimState idle = new("Idle", isLooping: true);
+        AnimState start = new("Start");
         AnimState attack = new("Attack");
         AnimState cast = new("Skill_2");
         AnimState hit = new("Idle");
         AnimState dead = new("Die");
         AnimState relaxed = new("Idle", isLooping: true);
+        AnimState skill3Idle = new("Skill_3_Idle", isLooping: true);
+        AnimState skill3Begin = new("Skill_3_Begin");
+        AnimState skill3Attack = new("Skill_3_Attack");
+        AnimState skill3End = new("Skill_3_End");
 
+        start.NextState = idle;
         attack.NextState = idle;
         cast.NextState = idle;
         hit.NextState = idle;
+        skill3Begin.NextState = skill3Idle;
+        skill3Attack.NextState = skill3Idle;
+        skill3End.NextState = idle;
         relaxed.AddBranch("Idle", idle);
 
-        CreatureAnimator animator = new(idle, controller);
+        CreatureAnimator animator = new(start, controller);
+        animator.AddAnyState("Start", start);
         animator.AddAnyState("Idle", idle);
         animator.AddAnyState("Dead", dead);
         animator.AddAnyState("Hit", hit);
         animator.AddAnyState("Attack", attack);
         animator.AddAnyState("Cast", cast);
         animator.AddAnyState("Relaxed", relaxed);
+        animator.AddAnyState(Skill3BeginTrigger, skill3Begin);
+        animator.AddAnyState(Skill3IdleTrigger, skill3Idle);
+        animator.AddAnyState(Skill3AttackTrigger, skill3Attack);
+        animator.AddAnyState(Skill3EndTrigger, skill3End);
         return animator;
     }
 

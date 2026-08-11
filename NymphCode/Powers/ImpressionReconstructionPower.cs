@@ -21,8 +21,10 @@ public sealed class ImpressionReconstructionPower : ModPowerTemplate
     public override bool AllowNegative => false;
 
     public override PowerAssetProfile AssetProfile => new(
-        IconPath: $"{Entry.ResPath}/images/powers/FutureLongingPower32.png",
-        BigIconPath: $"{Entry.ResPath}/images/powers/FutureLongingPower84.png");
+        IconPath:
+            $"{Entry.ResPath}/images/powers/ImpressionReconstructionPower32.png",
+        BigIconPath:
+            $"{Entry.ResPath}/images/powers/ImpressionReconstructionPower84.png");
 
     [SavedProperty]
     public int UsedThisTurn

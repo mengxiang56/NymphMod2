@@ -17,7 +17,7 @@ public sealed class NymphReplaceReality : ModCardTemplate
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
     [
         CardKeyword.Exhaust,
-        NymphKeywords.Recreate
+        NymphKeywords.PermanentRecreate
     ];
 
     public override CardAssetProfile AssetProfile => new(

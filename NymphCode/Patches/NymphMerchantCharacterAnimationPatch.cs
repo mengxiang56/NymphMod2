@@ -5,7 +5,6 @@ using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes.Screens.Shops;
 using MegaCrit.Sts2.Core.Random;
-using Nymph.Characters;
 
 namespace Nymph.Patches;
 
@@ -105,7 +104,6 @@ internal static class NymphMerchantCharacterReadyPatch
             return true;
         }
 
-        NymphSkinManager.ApplyCombatSkinToSprite(spineNode);
         NymphMerchantCharacterAnimation.Play(
             __instance,
             spineNode,

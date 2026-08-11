@@ -11,8 +11,12 @@ const SKIN_PATHS := [
 
 
 func _ready() -> void:
+	initialize_spine.call_deferred()
+
+
+func initialize_spine() -> void:
 	apply_selected_skin()
-	start_animation.call_deferred()
+	await start_animation()
 
 
 func apply_selected_skin() -> void:

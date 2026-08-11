@@ -170,6 +170,13 @@ public sealed class NecrosisPower :
         return target.GetPowerInstances<NecrosisPower>().Sum(power => power.Amount);
     }
 
+    internal static bool IsDisasterOriginTarget(
+        CombatSide applierSide,
+        CombatSide targetSide)
+    {
+        return applierSide != targetSide;
+    }
+
     protected override object InitInternalData()
     {
         return new CardPlayData();
@@ -183,6 +190,7 @@ public sealed class NecrosisPower :
 
         if (applier?.Player is not { } applierPlayer
             || cardSource is null
+            || !IsDisasterOriginTarget(applier.Side, Owner.Side)
             || applierPlayer.Creature.HasPower<DisasterOriginUsedThisTurnPower>()
             || applierPlayer.Relics.All(relic => relic is not NymphDisasterOrigin))
         {

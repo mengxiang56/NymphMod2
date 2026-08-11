@@ -3,8 +3,8 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
-using Nymph.Mechanics;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 
@@ -26,13 +26,21 @@ public sealed class BabelOathPower : ModPowerTemplate
         IconPath: $"{Entry.ResPath}/images/powers/BabelOathPower32.png",
         BigIconPath: $"{Entry.ResPath}/images/powers/BabelOathPower84.png");
 
-    public override async Task AfterCardPlayed(
-        PlayerChoiceContext choiceContext,
-        CardPlay cardPlay)
+    internal static int StrengthGainForNarrations(
+        int amount,
+        int narrationCount)
     {
-        if (cardPlay.Card.Owner != Owner.Player
-            || ThoughtMechanics.NarratedAmount(cardPlay) <= 0
-            || Amount <= 0)
+        return Math.Max(0, amount) * Math.Max(0, narrationCount);
+    }
+
+    internal async Task OnNarrated(
+        PlayerChoiceContext choiceContext,
+        CardModel cardSource,
+        int narrationCount)
+    {
+        int strengthGain =
+            StrengthGainForNarrations(Amount, narrationCount);
+        if (cardSource.Owner != Owner.Player || strengthGain <= 0)
         {
             return;
         }
@@ -41,8 +49,8 @@ public sealed class BabelOathPower : ModPowerTemplate
         await PowerCmd.Apply<StrengthPower>(
             choiceContext,
             Owner,
-            Amount,
+            strengthGain,
             Owner,
-            cardPlay.Card);
+            cardSource);
     }
 }

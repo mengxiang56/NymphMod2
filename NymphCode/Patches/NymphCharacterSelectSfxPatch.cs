@@ -21,6 +21,7 @@ internal static class NymphCharacterSelectSfxPatch
         if (characterModel is NymphCharacter)
         {
             NDebugAudioManager.Instance?.Play(RelicDropMagicalStream, Volume);
+            NymphVoiceManager.PlayCharacterSelect();
         }
     }
 }

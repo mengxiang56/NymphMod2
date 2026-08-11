@@ -88,5 +88,22 @@
   "VAKUU.talk.NYMPH_CHARACTER_NYMPH_CHARACTER.2-0.next": "Continue",
   "VAKUU.talk.NYMPH_CHARACTER_NYMPH_CHARACTER.2-1.ancient": "All I need is one [sine]heart[/sine].",
   "VAKUU.talk.NYMPH_CHARACTER_NYMPH_CHARACTER.2-1.next": "Refuse",
-  "VAKUU.talk.NYMPH_CHARACTER_NYMPH_CHARACTER.2-2.char": "No. I still need this one tomorrow."
+  "VAKUU.talk.NYMPH_CHARACTER_NYMPH_CHARACTER.2-2.char": "No. I still need this one tomorrow.",
+  "THE_ARCHITECT.talk.NYMPH_CHARACTER_NYMPH_CHARACTER.0-0.ancient": "You carry too many voices here. They make you strong, and they make you weary.",
+  "THE_ARCHITECT.talk.NYMPH_CHARACTER_NYMPH_CHARACTER.0-0.next": "Listen",
+  "THE_ARCHITECT.talk.NYMPH_CHARACTER_NYMPH_CHARACTER.0-1.char": "It is a little noisy. But as long as I can still hear them, someone still needs an answer.",
+  "THE_ARCHITECT.talk.NYMPH_CHARACTER_NYMPH_CHARACTER.0-1.next": "Continue",
+  "THE_ARCHITECT.talk.NYMPH_CHARACTER_NYMPH_CHARACTER.0-2.ancient": "Then show me how far you can carry this story.",
+  "THE_ARCHITECT.talk.NYMPH_CHARACTER_NYMPH_CHARACTER.1-0.ancient": "You have returned. What ending did you hear this time?",
+  "THE_ARCHITECT.talk.NYMPH_CHARACTER_NYMPH_CHARACTER.1-0.next": "Answer",
+  "THE_ARCHITECT.talk.NYMPH_CHARACTER_NYMPH_CHARACTER.1-1.char": "I did not hear an ending. I heard that everyone still wants to keep living.",
+  "THE_ARCHITECT.talk.NYMPH_CHARACTER_NYMPH_CHARACTER.1-1.next": "Continue",
+  "THE_ARCHITECT.talk.NYMPH_CHARACTER_NYMPH_CHARACTER.1-2.ancient": "Will wears down, and stories lose their truth.",
+  "THE_ARCHITECT.talk.NYMPH_CHARACTER_NYMPH_CHARACTER.1-2.next": "Respond",
+  "THE_ARCHITECT.talk.NYMPH_CHARACTER_NYMPH_CHARACTER.1-3.char": "Then I will reconstruct it and tell it again.",
+  "THE_ARCHITECT.talk.NYMPH_CHARACTER_NYMPH_CHARACTER.2-0r.ancient": "Still the same answer?",
+  "THE_ARCHITECT.talk.NYMPH_CHARACTER_NYMPH_CHARACTER.2-0r.next": "Answer",
+  "THE_ARCHITECT.talk.NYMPH_CHARACTER_NYMPH_CHARACTER.2-1r.char": "The answer may change. Wanting tomorrow to be better does not.",
+  "THE_ARCHITECT.talk.NYMPH_CHARACTER_NYMPH_CHARACTER.2-1r.next": "Continue",
+  "THE_ARCHITECT.talk.NYMPH_CHARACTER_NYMPH_CHARACTER.2-2r.ancient": "Then prove it to me."
 }

@@ -28,5 +28,12 @@
   "NYMPH_DIFFICULTY_SELECT.collapse": "Collapse",
   "NYMPH_DIFFICULTY_SELECT.standardDescription": "No special debuff.",
   "NYMPH_DIFFICULTY_SELECT.heavyDescription": "While [gold]Confused[/gold], lose an additional [blue]1[/blue] [gold]Strength[/gold].\nWhile [gold]Obstructed[/gold], lose an additional [blue]2[/blue] [gold]Strength[/gold].",
-  "NYMPH_DIFFICULTY_SELECT.collapseDescription": "In addition to [gold]Heavy[/gold] Thought Burden:\nWhile [gold]Clear[/gold], playing cards no longer grants [blue]1[/blue] [gold]Block[/gold].\nWhile [gold]Confused[/gold]/[gold]Obstructed[/gold], playing a card deals [blue]1[/blue] additional damage to you."
+  "NYMPH_DIFFICULTY_SELECT.collapseDescription": "In addition to [gold]Heavy[/gold] Thought Burden:\nWhile [gold]Clear[/gold], playing cards no longer grants [blue]1[/blue] [gold]Block[/gold].\nWhile [gold]Confused[/gold]/[gold]Obstructed[/gold], playing a card deals [blue]1[/blue] additional damage to you.",
+  "NYMPH_VOICE_SELECT.title": "Voice",
+  "NYMPH_VOICE_SELECT.off": "Off",
+  "NYMPH_VOICE_SELECT.chinese": "Chinese",
+  "NYMPH_VOICE_SELECT.japanese": "Japanese",
+  "NYMPH_VOICE_SELECT.offDescription": "Disable Nymph's combat voices.",
+  "NYMPH_VOICE_SELECT.chineseDescription": "Use Chinese combat voices.",
+  "NYMPH_VOICE_SELECT.japaneseDescription": "Use Japanese combat voices."
 }

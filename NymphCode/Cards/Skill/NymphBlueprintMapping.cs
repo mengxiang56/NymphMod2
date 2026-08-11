@@ -23,7 +23,7 @@ public sealed class NymphBlueprintMapping : ModCardTemplate
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new CardsVar(2),
+        new CardsVar(1),
         new DynamicVar("SelectedCards", 1)
     ];
 
@@ -65,8 +65,11 @@ public sealed class NymphBlueprintMapping : ModCardTemplate
             candidates.Count);
         CardSelectorPrefs prefs = new(
             SelectionScreenPrompt,
-            selectionCount,
-            selectionCount);
+            0,
+            selectionCount)
+        {
+            Cancelable = true
+        };
         IEnumerable<CardModel> selected = await CardSelectCmd.FromHand(
             choiceContext,
             Owner,

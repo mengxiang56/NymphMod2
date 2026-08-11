@@ -42,7 +42,11 @@ public sealed class NymphSeeThroughPast : ModCardTemplate
             return;
         }
 
-        foreach (NymphSeeThroughPast card in GetAllInstances(player))
+        HashSet<CardModel> replacements = results
+            .Select(result => result.Replacement)
+            .ToHashSet();
+        foreach (NymphSeeThroughPast card in GetAllInstances(player)
+            .Where(card => !replacements.Contains(card)))
         {
             card.DynamicVars.Damage.BaseValue += added;
             card.DynamicVars.Damage.ResetToBase();

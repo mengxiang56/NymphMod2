@@ -28,8 +28,8 @@ public sealed class ArchAndRescuePower : ModPowerTemplate
     public override bool AllowNegative => false;
 
     public override PowerAssetProfile AssetProfile => new(
-        IconPath: $"{Entry.ResPath}/images/powers/HolyCityEmbracePower32.png",
-        BigIconPath: $"{Entry.ResPath}/images/powers/HolyCityEmbracePower84.png");
+        IconPath: $"{Entry.ResPath}/images/powers/ArchAndRescuePower32.png",
+        BigIconPath: $"{Entry.ResPath}/images/powers/ArchAndRescuePower84.png");
 
     public override bool ShouldTakeExtraTurn(Player player)
     {

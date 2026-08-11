@@ -23,8 +23,8 @@ public sealed class ExtensiveKnowledgePower : ModPowerTemplate
     public override bool AllowNegative => false;
 
     public override PowerAssetProfile AssetProfile => new(
-        IconPath: $"{Entry.ResPath}/images/powers/ExtraChapterPower32.png",
-        BigIconPath: $"{Entry.ResPath}/images/powers/ExtraChapterPower84.png");
+        IconPath: $"{Entry.ResPath}/images/powers/ExtensiveKnowledgePower32.png",
+        BigIconPath: $"{Entry.ResPath}/images/powers/ExtensiveKnowledgePower84.png");
 
     public override async Task AfterCardPlayed(
         PlayerChoiceContext choiceContext,

@@ -7,6 +7,8 @@
   "NYMPH_KEYWORD_FULL_NARRATE.description": "将全部[gold]思绪值[/gold]转化为[gold]格挡[/gold]，有后续效果则将其触发。",
   "NYMPH_KEYWORD_RECREATE.title": "重构（卡牌）",
   "NYMPH_KEYWORD_RECREATE.description": "变化为[gold]本角色[/gold]卡池中的随机牌（升级状态不变）,并加入[gold]手牌[/gold]。",
+  "NYMPH_KEYWORD_PERMANENT_RECREATE.title": "永久重构",
+  "NYMPH_KEYWORD_PERMANENT_RECREATE.description": "将牌组中的对应牌变化为[gold]本角色[/gold]卡池中的随机牌（升级状态不变）。",
   "NYMPH_KEYWORD_RECREATE_POTION.title": "重构（药水）",
   "NYMPH_KEYWORD_RECREATE_POTION.description": "变化为随机药水。",
   "NYMPH_KEYWORD_RECREATE_RELIC.title": "重构（遗物）",
