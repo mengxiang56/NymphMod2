@@ -382,4 +382,6 @@
   "NYMPH_CARD_NYMPH_INSPIRATION_CONSUME.flavor": "[i]“At first, we still farmed. Everyone lived in the support levels, and the sunlight was left to the crops.”[/i]",
   "NYMPH_CARD_NYMPH_INSPIRATION_RECLAIM.flavor": "[i]“Later, Her Highness got the hydroponics working. Only then did we win some space back from the crops.”[/i]",
   "NYMPH_CARD_NYMPH_INSPIRATION_RISE_AND_FALL.flavor": "[i]“I plan to leave the city and find work elsewhere.”[/i]"
+  ,"NYMPH_CARD_NYMPH_NILA_FIRE.title": "Nila Fire",
+  "NYMPH_CARD_NYMPH_NILA_FIRE.description": "Take {SelfDamage} damage.\nLose {StrengthLoss} Strength this turn."
 }

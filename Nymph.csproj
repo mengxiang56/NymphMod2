@@ -3,7 +3,7 @@
         <GameBranch Condition="'$(GameBranch)' == ''">public-beta</GameBranch>
         <NymphRitsuLibVersion>0.5.11</NymphRitsuLibVersion>
         <GameMinVersion Condition="'$(GameBranch)' == 'public'">0.107.1</GameMinVersion>
-        <GameMinVersion Condition="'$(GameBranch)' == 'public-beta'">0.110.1</GameMinVersion>
+        <GameMinVersion Condition="'$(GameBranch)' == 'public-beta'">0.111.0</GameMinVersion>
         <RitsuLibPackageId Condition="'$(GameBranch)' == 'public'">STS2.RitsuLib.Compat.0.107.1</RitsuLibPackageId>
         <RitsuLibPackageId Condition="'$(GameBranch)' == 'public-beta'">STS2.RitsuLib</RitsuLibPackageId>
         <BranchPropsFile>$(MSBuildProjectDirectory)\local.$(GameBranch).props</BranchPropsFile>

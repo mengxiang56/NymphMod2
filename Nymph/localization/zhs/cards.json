@@ -382,4 +382,6 @@
   "NYMPH_CARD_NYMPH_INSPIRATION_CONSUME.flavor": "“一开始还是种地，人都住在支持层，太阳就留给庄稼。”",
   "NYMPH_CARD_NYMPH_INSPIRATION_RECLAIM.flavor": "“后来殿下弄好了水培的东西，我们这才跟庄稼争到地。”",
   "NYMPH_CARD_NYMPH_INSPIRATION_RISE_AND_FALL.flavor": "“我打算出城讨个营生了。”"
+  ,"NYMPH_CARD_NYMPH_NILA_FIRE.title": "尼迦火",
+  "NYMPH_CARD_NYMPH_NILA_FIRE.description": "受到{SelfDamage}点伤害。\n本回合失去{StrengthLoss}点力量。"
 }

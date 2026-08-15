@@ -1,0 +1,18 @@
+{
+  "NYMPH_MONSTER_QUILON.name": "Quilon, Incarnation of the Mahasattva",
+  "NYMPH_MONSTER_QUILON.title": "Quilon, Incarnation of the Mahasattva",
+  "NYMPH_MONSTER_QUILON.AWAKEN.name": "Incarnate",
+  "NYMPH_MONSTER_QUILON.TWIN_STRIKE.name": "Twin Strike",
+  "NYMPH_MONSTER_QUILON.FIVE_PRECEPTS.name": "Five Precepts",
+  "NYMPH_MONSTER_QUILON.RALLY.name": "Rally",
+  "NYMPH_MONSTER_ENVIES.name": "Complex Envy",
+  "NYMPH_MONSTER_ENVIES.title": "Complex Envy",
+  "NYMPH_MONSTER_ENVIES.ENVY_CURSE.name": "Charge",
+  "NYMPH_MONSTER_ENVIES.ENVY_ATTACK.name": "Envious Flame",
+  "NYMPH_MONSTER_FURIES.name": "Unbound Fury",
+  "NYMPH_MONSTER_FURIES.title": "Unbound Fury",
+  "NYMPH_MONSTER_FURIES.FURY_ATTACK.name": "Fury",
+  "NYMPH_MONSTER_CHALICE_OF_REGRET.name": "Chalice of Regret",
+  "NYMPH_MONSTER_CHALICE_OF_REGRET.title": "Chalice of Regret",
+  "NYMPH_MONSTER_CHALICE_OF_REGRET.REGRET_WAIT.name": "Wait"
+}

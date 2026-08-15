@@ -144,4 +144,20 @@
   "NYMPH_POWER_ARCH_AND_RESCUE_POWER.title": "Arch and Rescue",
   "NYMPH_POWER_ARCH_AND_RESCUE_POWER.description": "Take an extra turn and do not lose [gold]Block[/gold]. All enemies have [gold]Intangible[/gold] during that turn.",
   "NYMPH_POWER_ARCH_AND_RESCUE_POWER.smartDescription": "Take an extra turn and do not lose [gold]Block[/gold]. All enemies have [gold]Intangible[/gold] during that turn."
+  ,"NYMPH_POWER_NILA_FIRE_STRENGTH_DOWN_POWER.title": "Nila Fire",
+  "NYMPH_POWER_NILA_FIRE_STRENGTH_DOWN_POWER.description": "Lose [blue]{Amount}[/blue] Strength this turn.",
+  "NYMPH_POWER_TRIKAYA_POWER.title": "Trikaya",
+  "NYMPH_POWER_TRIKAYA_POWER.description": "Can take up to [blue]{Amount}[/blue] more damage this turn. Resets to [blue]100[/blue] at the start of each player turn.",
+  "NYMPH_POWER_BREATH_POWER.title": "Breathing Art",
+  "NYMPH_POWER_BREATH_POWER.description": "At the start of each player turn, add a [gold]Nila Fire[/gold] to each player's hand and discard pile.",
+  "NYMPH_POWER_NILA_FIRE_WARD_POWER.title": "Damage Ward",
+  "NYMPH_POWER_NILA_FIRE_WARD_POWER.description": "Takes 50% less damage for each [gold]Nila Fire[/gold] in players' hands.",
+  "NYMPH_POWER_EXHAUST_FIRE_POWER.title": "Purge Fire",
+  "NYMPH_POWER_EXHAUST_FIRE_POWER.description": "Every three enemy turns, remove all [gold]Nila Fire[/gold] cards from players' hands and gain [blue]{Amount}[/blue] Strength for each.",
+  "NYMPH_POWER_RESIST_POWER.title": "Resistance",
+  "NYMPH_POWER_RESIST_POWER.description": "Receives half as many stacks of debuffs.",
+  "NYMPH_POWER_TRANS_DAMAGE_POWER.title": "Damage Transfer",
+  "NYMPH_POWER_TRANS_DAMAGE_POWER.description": "Transfers 50% of incoming damage to the [gold]Chalice of Regret[/gold].",
+  "NYMPH_POWER_REGRET_POWER.title": "Chalice of Regret",
+  "NYMPH_POWER_REGRET_POWER.description": "Takes a portion of the damage dealt to other enemies."
 }

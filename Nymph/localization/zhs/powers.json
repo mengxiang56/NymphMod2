@@ -145,4 +145,20 @@
   "NYMPH_POWER_ARCH_AND_RESCUE_POWER.title": "拱门与呼救",
   "NYMPH_POWER_ARCH_AND_RESCUE_POWER.description": "本回合结束后，该玩家获得一个额外回合，并保留格挡。该回合内所有敌人获得[gold]无实体[/gold]。",
   "NYMPH_POWER_ARCH_AND_RESCUE_POWER.smartDescription": "本回合结束后，该玩家获得一个额外回合，并保留格挡。该回合内所有敌人获得[gold]无实体[/gold]。"
+  ,"NYMPH_POWER_NILA_FIRE_STRENGTH_DOWN_POWER.title": "尼迦火",
+  "NYMPH_POWER_NILA_FIRE_STRENGTH_DOWN_POWER.description": "本回合失去[blue]{Amount}[/blue]点力量。",
+  "NYMPH_POWER_TRIKAYA_POWER.title": "承三身",
+  "NYMPH_POWER_TRIKAYA_POWER.description": "本回合至多再受到[blue]{Amount}[/blue]点伤害。每个玩家回合开始时重置为[blue]100[/blue]。",
+  "NYMPH_POWER_BREATH_POWER.title": "呼吸法",
+  "NYMPH_POWER_BREATH_POWER.description": "每个玩家回合开始时，向每名玩家的手牌与弃牌堆各加入一张[gold]尼迦火[/gold]。",
+  "NYMPH_POWER_NILA_FIRE_WARD_POWER.title": "伤害减免",
+  "NYMPH_POWER_NILA_FIRE_WARD_POWER.description": "玩家手牌中每有一张[gold]尼迦火[/gold]，受到的伤害降低50%。",
+  "NYMPH_POWER_EXHAUST_FIRE_POWER.title": "清火式",
+  "NYMPH_POWER_EXHAUST_FIRE_POWER.description": "每三个敌方回合，移除玩家手牌中所有[gold]尼迦火[/gold]，每移除一张获得[blue]{Amount}[/blue]点力量。",
+  "NYMPH_POWER_RESIST_POWER.title": "抵抗",
+  "NYMPH_POWER_RESIST_POWER.description": "受到的负面能力层数减半。",
+  "NYMPH_POWER_TRANS_DAMAGE_POWER.title": "伤害转移",
+  "NYMPH_POWER_TRANS_DAMAGE_POWER.description": "受到的50%伤害转移给[gold]愧悔魂灵圣杯[/gold]。",
+  "NYMPH_POWER_REGRET_POWER.title": "愧悔魂灵圣杯",
+  "NYMPH_POWER_REGRET_POWER.description": "承担其他敌人受到的部分伤害。"
 }

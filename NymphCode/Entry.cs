@@ -7,6 +7,7 @@ using Nymph.Mechanics;
 using Nymph.Patches;
 using Nymph.Rewards;
 using Nymph.Characters;
+using Nymph.Settings;
 using STS2RitsuLib.Combat.Rewards;
 using Logger = MegaCrit.Sts2.Core.Logging.Logger;
 
@@ -37,6 +38,9 @@ public partial class Entry
         NymphSkinManager.Initialize();
         NymphDifficultyManager.Initialize();
         NymphVoiceManager.Initialize();
+        int registeredSettingsPages =
+            RitsuLibFramework.RegisterModSettingsReflectionProviderAndTryRegister(typeof(NymphBossSettings));
+        Logger.Info($"Registered {registeredSettingsPages} Nymph settings page(s).");
         NymphCardAnimationMechanics.Initialize();
         ThoughtMechanics.Initialize();
         InspirationMechanics.Initialize();
