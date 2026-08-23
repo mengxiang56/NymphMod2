@@ -1,13 +1,10 @@
 {
-  "title": "NymphModSTS2",
-  "description": "Nymph",
-  "visibility": "private",
-  "changeNote": "",
-  "tags": [],
-  "dependencies": [
-    "3747602295"
+  "tags": [
+    "English",
+    "schinese",
+    "Characters",
+    "Arknights"
   ],
-  "contentDescriptors": [],
   "minBranch": "public-beta",
   "maxBranch": "public-beta"
 }

@@ -15,6 +15,7 @@ using MegaCrit.Sts2.Core.Nodes.Vfx;
 using Nymph.Cards;
 using Nymph.Characters;
 using STS2RitsuLib.CardPiles;
+using STS2RitsuLib.Content;
 
 namespace Nymph.Mechanics;
 
@@ -25,6 +26,7 @@ public static class InspirationMechanics
 
     public const string PileStem = "Inspiration";
     public const string PileId = "NYMPH_CARDPILE_INSPIRATION";
+    public const string CardLibraryFilterId = "Inspiration";
     public const string PileIconPath =
         $"{Entry.ResPath}/images/ui/inspiration_pile.png";
     public const string RewardIconPath =
@@ -35,6 +37,11 @@ public static class InspirationMechanics
 
     public static void Initialize()
     {
+        ModContentRegistry.For(Entry.ModId)
+            .RegisterCardLibraryCompendiumSharedPoolFilter<NymphInspirationCardPool>(
+                CardLibraryFilterId,
+                PileIconPath);
+
         ModCardPileRegistry.For(Entry.ModId).RegisterOwned(
             PileStem,
             new ModCardPileSpec

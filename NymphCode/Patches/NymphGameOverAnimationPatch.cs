@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.Bindings.MegaSpine;
 using MegaCrit.Sts2.Core.Nodes.Combat;
 using MegaCrit.Sts2.Core.Nodes.Screens.GameOverScreen;
 using Nymph.Characters;
+using Nymph.Compatibility;
 
 namespace Nymph.Patches;
 
@@ -27,7 +28,10 @@ internal static class NymphGameOverAnimationPatch
             MegaSprite spine = new(spineNode);
             if (spine.HasAnimation("Die") && !spine.HasAnimation("die"))
             {
-                spine.GetAnimationState().SetAnimation("Die", loop: false);
+                SpineAnimationCompatibility.SetAnimation(
+                    spine.GetAnimationState(),
+                    "Die",
+                    loop: false);
             }
         }
     }

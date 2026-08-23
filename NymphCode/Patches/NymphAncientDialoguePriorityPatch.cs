@@ -20,4 +20,27 @@ internal static class NymphAncientDialoguePriorityPatch
             totalVisits = 1;
         }
     }
+
+    private static void Postfix(
+        AncientDialogueSet __instance,
+        ModelId characterId,
+        ref IEnumerable<AncientDialogue> __result)
+    {
+        if (characterId != ModelDb.Character<NymphCharacter>().Id
+            || !__instance.CharacterDialogues.TryGetValue(
+                characterId.Entry,
+                out IReadOnlyList<AncientDialogue>? nymphDialogues))
+        {
+            return;
+        }
+
+        List<AncientDialogue> resolved = __result.ToList();
+        List<AncientDialogue> characterSpecific = resolved
+            .Where(nymphDialogues.Contains)
+            .ToList();
+        if (characterSpecific.Count > 0)
+        {
+            __result = characterSpecific;
+        }
+    }
 }

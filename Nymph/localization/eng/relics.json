@@ -30,11 +30,11 @@
   "NYMPH_RELIC_NYMPH_SLEEPING_KIN.flavor": "Sleeping kin still breathe deep within your pack, waiting for a new form.",
   "NYMPH_RELIC_NYMPH_HOPE_ERA_GRAFFITI.title": "Graffiti of the Age of Hope",
   "NYMPH_RELIC_NYMPH_HOPE_ERA_GRAFFITI.description": "For the first turn of the next [blue]3[/blue] combats, you and all enemies cannot deal damage.",
-  "NYMPH_RELIC_NYMPH_HOPE_ERA_GRAFFITI.flavor": "For a moment, the beast lowered its fangs before the graffiti.",
+  "NYMPH_RELIC_NYMPH_HOPE_ERA_GRAFFITI.flavor": "I am a Teekaz orphan. My parents died in a Catastrophe, and the neighboring Feline uncle's family took me in and treated me as one of their own. I can say with a clear conscience that I am a descendant of the Ancients.",
   "NYMPH_RELIC_NYMPH_NEMESIS_ERA_HATRED.title": "Hatred of the Age of Nemesis",
-  "NYMPH_RELIC_NYMPH_NEMESIS_ERA_HATRED.description": "At the start of the next [blue]2[/blue] combats, all enemies gain [red]3[/red] Strength. After each combat, gain an additional relic.",
-  "NYMPH_RELIC_NYMPH_NEMESIS_ERA_HATRED.flavor": "Hatred turns every encounter into a new blood feud.",
+  "NYMPH_RELIC_NYMPH_NEMESIS_ERA_HATRED.description": "At the start of the next [blue]2[/blue] combats, all enemies gain [red]3[/red] Strength.\nAt the end of the next [blue]2[/blue] combats, gain an additional relic.",
+  "NYMPH_RELIC_NYMPH_NEMESIS_ERA_HATRED.flavor": "My little sister was bitten to death by a Vampire, my father was taken by Scavengers, and my mother escaped with me. I will never compromise with the Sarkaz. If I must repent, it can wait until they have disappeared completely.",
   "NYMPH_RELIC_NYMPH_BEAUTIFUL_WISH_ERA_REMEMBRANCE.title": "Remembrance of the Age of Beautiful Wishes",
   "NYMPH_RELIC_NYMPH_BEAUTIFUL_WISH_ERA_REMEMBRANCE.description": "Upon pickup, remove the relic you obtained most recently. The next [blue]2[/blue] times you obtain a relic, gain an additional random relic.",
-  "NYMPH_RELIC_NYMPH_BEAUTIFUL_WISH_ERA_REMEMBRANCE.flavor": "The wish was answered, but its remembrance refused to leave."
+  "NYMPH_RELIC_NYMPH_BEAUTIFUL_WISH_ERA_REMEMBRANCE.flavor": "I heard that the Sarkaz could grant any wish, so I devoted myself to uncovering their secrets. Looking back now, that became the beginning of their suffering."
 }

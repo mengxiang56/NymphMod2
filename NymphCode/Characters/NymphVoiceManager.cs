@@ -1,9 +1,9 @@
 using System.Runtime.CompilerServices;
 using Godot;
-using MegaCrit.Sts2.Core.Audio.Debug;
 using MegaCrit.Sts2.Core.Context;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Models;
+using Nymph.Audio;
 using Nymph.Cards;
 using STS2RitsuLib.Cards;
 
@@ -109,7 +109,7 @@ internal static class NymphVoiceManager
             return;
         }
 
-        NDebugAudioManager.Instance?.Play(
+        NymphAudio.Play(
             $"Nymph_Voice_{voice.FileStem}_CharacterSelect.wav",
             VoiceVolume);
     }
@@ -137,7 +137,7 @@ internal static class NymphVoiceManager
         }
 
         int clip = Random.Shared.Next(1, count + 1);
-        NDebugAudioManager.Instance?.Play(
+        NymphAudio.Play(
             $"Nymph_Voice_{voice.FileStem}_{group}_{clip}.wav",
             VoiceVolume);
     }

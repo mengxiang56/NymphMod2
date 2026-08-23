@@ -1,6 +1,6 @@
 using HarmonyLib;
-using MegaCrit.Sts2.Core.Audio.Debug;
 using MegaCrit.Sts2.Core.Commands;
+using Nymph.Audio;
 using Nymph.Characters;
 
 namespace Nymph.Patches;
@@ -12,6 +12,7 @@ namespace Nymph.Patches;
 internal static class NymphCustomSfxPatch
 {
     private const string AttackStreamName = "Nymph_Attack.ogg";
+    private const float AttackVolumeMultiplier = 0.5f;
 
     [HarmonyPrefix]
     private static bool PlayCustomSfx(string sfx, float volume)
@@ -32,7 +33,7 @@ internal static class NymphCustomSfxPatch
             return true;
         }
 
-        NDebugAudioManager.Instance?.Play(streamName, volume);
+        NymphAudio.Play(streamName, volume * AttackVolumeMultiplier);
         return false;
     }
 }

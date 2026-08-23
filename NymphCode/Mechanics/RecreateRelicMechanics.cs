@@ -2,6 +2,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.Models;
+using Nymph.Relics;
 
 namespace Nymph.Mechanics;
 
@@ -27,6 +28,19 @@ public static class RecreateRelicMechanics
         if (selected is null)
         {
             return false;
+        }
+
+        RelicModel? fixedReplacement = selected switch
+        {
+            NymphRelic => ModelDb.Relic<NymphRelic>().ToMutable(),
+            NymphThoughtsCatcher =>
+                ModelDb.Relic<NymphThoughtsCatcher>().ToMutable(),
+            _ => null
+        };
+        if (fixedReplacement is not null)
+        {
+            await RelicCmd.Replace(selected, fixedReplacement);
+            return true;
         }
 
         List<RelicModel> candidates = selected.Pool.AllRelics

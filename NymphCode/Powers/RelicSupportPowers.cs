@@ -1,3 +1,5 @@
+using MegaCrit.Sts2.Core.Combat;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -16,11 +18,12 @@ public sealed class DisasterOriginUsedThisTurnPower : ModPowerTemplate
     public override PowerStackType StackType => PowerStackType.Single;
     protected override bool IsVisibleInternal => false;
 
-    public override Task AfterPlayerTurnStart(
+    public override Task AfterSideTurnEnd(
         PlayerChoiceContext choiceContext,
-        Player player)
+        CombatSide side,
+        IEnumerable<Creature> participants)
     {
-        if (player == Owner.Player)
+        if (participants.Contains(Owner))
         {
             RemoveInternal();
         }

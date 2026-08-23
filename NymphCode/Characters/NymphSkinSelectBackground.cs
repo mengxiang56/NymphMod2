@@ -8,6 +8,7 @@ using MegaCrit.Sts2.Core.Nodes.CommonUi;
 using MegaCrit.Sts2.Core.Nodes.GodotExtensions;
 using MegaCrit.Sts2.Core.Nodes.HoverTips;
 using MegaCrit.Sts2.Core.Nodes.Screens.CharacterSelect;
+using Nymph.Compatibility;
 
 namespace Nymph.Characters;
 
@@ -343,7 +344,10 @@ public sealed partial class NymphSkinSelectBackground : Control
 
         MegaSprite sprite = new(_preview);
         this.RunWhenSpineReady(sprite, animationState =>
-            animationState.SetAnimation("Idle", true));
+            SpineAnimationCompatibility.SetAnimation(
+                animationState,
+                "Idle",
+                loop: true));
     }
 
     private void RefreshDifficulty()

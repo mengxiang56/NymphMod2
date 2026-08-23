@@ -1,6 +1,7 @@
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Nodes.Combat;
 using Nymph.Characters;
+using Nymph.Compatibility;
 
 namespace Nymph.Patches;
 
@@ -16,6 +17,9 @@ internal static class NymphDeathAnimationPatch
             return;
         }
 
-        __instance.SpineAnimation.SetAnimation("Die", loop: false);
+        SpineAnimationCompatibility.SetAnimation(
+            __instance.SpineAnimation.GetAnimationState(),
+            "Die",
+            loop: false);
     }
 }

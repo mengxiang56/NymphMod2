@@ -239,6 +239,8 @@ public static class RecreateMechanics
             original.Owner,
             [result]);
 
+        await NotifyNemesisUndertaker([result]);
+
         await AutoPlayNewBranches([result]);
 
         return result;
@@ -419,10 +421,7 @@ public static class RecreateMechanics
             originals[0].Owner,
             results);
 
-        if (originals[0].Owner.Creature.GetPower<NemesisUndertakerPower>() is { } undertaker)
-        {
-            await undertaker.OnRecreated(AutoPlayChoiceContext, results);
-        }
+        await NotifyNemesisUndertaker(results);
 
         await AutoPlayNewBranches(results);
 
@@ -431,6 +430,24 @@ public static class RecreateMechanics
             results);
 
         return results;
+    }
+
+    private static Task NotifyNemesisUndertaker(
+        IReadOnlyList<RecreateResult> results)
+    {
+        if (results.Count == 0)
+        {
+            return Task.CompletedTask;
+        }
+
+        NemesisUndertakerPower? undertaker = results[0]
+            .Original
+            .Owner
+            .Creature
+            .GetPower<NemesisUndertakerPower>();
+        return undertaker is null
+            ? Task.CompletedTask
+            : undertaker.OnRecreated(AutoPlayChoiceContext, results);
     }
 
     private static async Task AutoPlayNewBranches(
@@ -487,11 +504,13 @@ public static class RecreateMechanics
 
         CardModel replacement =
             original is NymphMasterlessMemories
-                ? original.CombatState!
-                    .CreateCard<NymphBagOfIdeas>(original.Owner)
+                ? original.CardScope.CreateCard(
+                    ModelDb.Card<NymphBagOfIdeas>(),
+                    original.Owner)
                 : original is NymphNarrativeAnchor
-                    ? original.CombatState!
-                        .CreateCard<NymphNarrativeAnchor>(original.Owner)
+                    ? original.CardScope.CreateCard(
+                        ModelDb.Card<NymphNarrativeAnchor>(),
+                        original.Owner)
                 : new CardTransformation(
                     original,
                     nymphCardPool).GetReplacement(

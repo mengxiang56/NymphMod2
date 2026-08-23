@@ -7,13 +7,16 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Nodes;
 using MegaCrit.Sts2.Core.Nodes.Cards;
+using MegaCrit.Sts2.Core.Rewards;
 using MegaCrit.Sts2.Core.Rooms;
+using MegaCrit.Sts2.Core.Runs;
 using MegaCrit.Sts2.Core.ValueProps;
 using Nymph.Characters;
 using Nymph.Mechanics;
 using Nymph.Powers;
 using Nymph.Rewards;
 using STS2RitsuLib.Interop.AutoRegistration;
+using STS2RitsuLib.Keywords;
 using STS2RitsuLib.Scaffolding.Content;
 
 namespace Nymph.Cards;
@@ -37,7 +40,7 @@ public abstract class NymphInspirationCard : ModCardTemplate
     protected NymphInspirationCard(
         CardRarity rarity,
         TargetType targetType = TargetType.Self)
-        : base(0, CardType.Skill, rarity, targetType, false)
+        : base(0, CardType.Skill, rarity, targetType, true)
     {
     }
 
@@ -97,7 +100,7 @@ public abstract class NymphHandCostInspiration : NymphInspirationCard
 [RegisterCard(typeof(NymphInspirationCardPool))]
 public sealed class NymphInspirationMercenary : NymphHandCostInspiration
 {
-    public NymphInspirationMercenary() : base(CardRarity.Common)
+    public NymphInspirationMercenary() : base(CardRarity.Uncommon)
     {
     }
 
@@ -113,7 +116,7 @@ public sealed class NymphInspirationMercenary : NymphHandCostInspiration
 [RegisterCard(typeof(NymphInspirationCardPool))]
 public sealed class NymphInspirationCivilWar : NymphHandCostInspiration
 {
-    public NymphInspirationCivilWar() : base(CardRarity.Uncommon)
+    public NymphInspirationCivilWar() : base(CardRarity.Rare)
     {
     }
 
@@ -123,6 +126,117 @@ public sealed class NymphInspirationCivilWar : NymphHandCostInspiration
     {
         ReduceHandCosts(forCombat: true);
         return Task.CompletedTask;
+    }
+}
+
+[RegisterCard(typeof(NymphInspirationCardPool))]
+public sealed class NymphInspirationEnlightenment : NymphInspirationCard
+{
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+    [
+        new DynamicVar("Create", CreateAmount),
+        new EnergyVar(1),
+        new DynamicVar("Turns", 2)
+    ];
+
+    public NymphInspirationEnlightenment()
+        : base(CardRarity.Uncommon)
+    {
+    }
+
+    protected override async Task ApplyInspiration(
+        PlayerChoiceContext choiceContext,
+        CardPlay cardPlay)
+    {
+        await PlayerCmd.GainEnergy(DynamicVars.Energy.BaseValue, Owner);
+        await PowerCmd.Apply<RadiancePower>(
+            choiceContext,
+            Owner.Creature,
+            DynamicVars["Turns"].IntValue,
+            Owner.Creature,
+            this);
+    }
+}
+
+[RegisterCard(typeof(NymphInspirationCardPool))]
+public sealed class NymphInspirationGathering : NymphInspirationCard
+{
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+    [
+        new DynamicVar("Create", CreateAmount)
+    ];
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        ModKeywordRegistry.CreateHoverTip(NymphKeywords.InspirationId)
+    ];
+
+    public NymphInspirationGathering()
+        : base(CardRarity.Rare)
+    {
+    }
+
+    protected override Task ApplyInspiration(
+        PlayerChoiceContext choiceContext,
+        CardPlay cardPlay)
+    {
+        if (Owner.RunState.CurrentRoom is CombatRoom combatRoom)
+        {
+            combatRoom.AddExtraReward(
+                Owner,
+                new CardReward(
+                    CardCreationOptions.ForRoom(Owner, combatRoom.RoomType),
+                    3,
+                    Owner));
+            combatRoom.AddExtraReward(Owner, new InspirationReward(Owner));
+        }
+
+        return Task.CompletedTask;
+    }
+}
+
+[RegisterCard(typeof(NymphInspirationCardPool))]
+public sealed class NymphInspirationTorment : NymphInspirationCard
+{
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+    [
+        new DynamicVar("Create", CreateAmount),
+        new PowerVar<WeakPower>(1),
+        new PowerVar<VulnerablePower>(1)
+    ];
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<WeakPower>(),
+        HoverTipFactory.FromPower<VulnerablePower>()
+    ];
+
+    public NymphInspirationTorment()
+        : base(CardRarity.Common, TargetType.AllEnemies)
+    {
+    }
+
+    protected override async Task ApplyInspiration(
+        PlayerChoiceContext choiceContext,
+        CardPlay cardPlay)
+    {
+        var enemies = CombatState!
+            .GetOpponentsOf(Owner.Creature)
+            .Where(enemy => !enemy.IsDead)
+            .ToList();
+
+        await PowerCmd.Apply<WeakPower>(
+            choiceContext,
+            enemies,
+            DynamicVars.Weak.IntValue,
+            Owner.Creature,
+            this);
+        await PowerCmd.Apply<VulnerablePower>(
+            choiceContext,
+            enemies.Where(enemy => !enemy.IsDead),
+            DynamicVars.Vulnerable.IntValue,
+            Owner.Creature,
+            this);
     }
 }
 
@@ -197,8 +311,8 @@ public sealed class NymphInspirationMarch
 public sealed class NymphInspirationOathbreak
     : NymphSelfPowerInspiration<ThornsPower>
 {
-    protected override int Amount => 4;
-    public NymphInspirationOathbreak() : base(CardRarity.Uncommon)
+    protected override int Amount => 3;
+    public NymphInspirationOathbreak() : base(CardRarity.Common)
     {
     }
 }
@@ -321,7 +435,7 @@ public sealed class NymphInspirationCatastrophe
 [RegisterCard(typeof(NymphInspirationCardPool))]
 public sealed class NymphInspirationFurnace : NymphGoldInspiration
 {
-    protected override int Gold => 40;
+    protected override int Gold => 50;
     public NymphInspirationFurnace() : base(CardRarity.Rare)
     {
     }
@@ -387,6 +501,11 @@ public sealed class NymphInspirationLost : NymphInspirationCard
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new DynamicVar("Create", CreateAmount)
+    ];
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        ModKeywordRegistry.CreateHoverTip(NymphKeywords.InspirationId)
     ];
 
     public NymphInspirationLost() : base(CardRarity.Common)

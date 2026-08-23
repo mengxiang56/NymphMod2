@@ -5,6 +5,7 @@ using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes.Screens.Shops;
 using MegaCrit.Sts2.Core.Random;
+using Nymph.Compatibility;
 
 namespace Nymph.Patches;
 
@@ -37,7 +38,10 @@ internal static class NymphMerchantCharacterAnimation
         MegaSprite sprite = new(spineNode);
         merchantCharacter.RunWhenSpineReady(sprite, animationState =>
         {
-            animationState.SetAnimation(animation, loop);
+            SpineAnimationCompatibility.SetAnimation(
+                animationState,
+                animation,
+                loop);
             if (!loop)
             {
                 return;

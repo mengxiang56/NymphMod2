@@ -1,4 +1,6 @@
 {
+  "NYMPH_POWER_CURSE_POLLUTION_THIS_TURN_POWER.title": "Curse",
+  "NYMPH_POWER_CURSE_POLLUTION_THIS_TURN_POWER.description": "Tracks cards [gold]Cursed[/gold] this turn.",
   "NYMPH_POWER_THOUGHT_POWER.title": "Thought",
   "NYMPH_POWER_THOUGHT_POWER.description": "Current Thought.",
   "NYMPH_POWER_THOUGHT_BURDEN_STRENGTH_POWER.title": "Thought Burden",
@@ -111,10 +113,10 @@
   "NYMPH_POWER_SMALL_KINDNESS_POWER.title": "Prophetic Verse",
   "NYMPH_POWER_SMALL_KINDNESS_POWER.description": "[gold]Narrate[/gold] triggers [gold]Necrosis[/gold] [blue]{Amount}[/blue] additional times. These additional triggers do not advance [gold]Necrosis[/gold] decay.",
   "NYMPH_POWER_ENDLESS_STRANGE_WORDS_POWER.title": "Endless Strange Words",
-  "NYMPH_POWER_ENDLESS_STRANGE_WORDS_POWER.description": "[gold]Conceive[/gold] retrieves [blue]{Amount}[/blue] [gold]Narrate[/gold] card(s).",
-  "NYMPH_POWER_ENDLESS_STRANGE_WORDS_POWER.descriptionUpgraded": "[gold]Conceive[/gold] retrieves [blue]{Amount}[/blue] [gold]Narrate[/gold] card(s), and vice versa.",
-  "NYMPH_POWER_ENDLESS_STRANGE_WORDS_POWER.smartDescription": "[gold]Conceive[/gold] retrieves [blue]{Amount}[/blue] [gold]Narrate[/gold] card(s).",
-  "NYMPH_POWER_ENDLESS_STRANGE_WORDS_POWER.smartDescriptionUpgraded": "[gold]Conceive[/gold] retrieves [blue]{Amount}[/blue] [gold]Narrate[/gold] card(s), and vice versa.",
+  "NYMPH_POWER_ENDLESS_STRANGE_WORDS_POWER.description": "Whenever you [gold]Conceive[/gold], retrieve [blue]{Amount}[/blue] [gold]Narrate[/gold] card(s).",
+  "NYMPH_POWER_ENDLESS_STRANGE_WORDS_POWER.descriptionUpgraded": "Whenever you [gold]Conceive[/gold], retrieve [blue]{Amount}[/blue] [gold]Narrate[/gold] card(s).\nAnd vice versa.",
+  "NYMPH_POWER_ENDLESS_STRANGE_WORDS_POWER.smartDescription": "Whenever you [gold]Conceive[/gold], retrieve [blue]{Amount}[/blue] [gold]Narrate[/gold] card(s).",
+  "NYMPH_POWER_ENDLESS_STRANGE_WORDS_POWER.smartDescriptionUpgraded": "Whenever you [gold]Conceive[/gold], retrieve [blue]{Amount}[/blue] [gold]Narrate[/gold] card(s).\nAnd vice versa.",
   "NYMPH_POWER_IMAGINED_ENTITY_POWER.title": "Imagined Entity",
   "NYMPH_POWER_IMAGINED_ENTITY_POWER.description": "[gold]Narrate[/gold] deals that much damage to a random enemy [blue]{Amount}[/blue] time(s).",
   "NYMPH_POWER_IMAGINED_ENTITY_POWER.smartDescription": "[gold]Narrate[/gold] deals that much damage to a random enemy [blue]{Amount}[/blue] time(s).",
@@ -142,6 +144,6 @@
   "NYMPH_POWER_HEART_TO_HEART_POWER.description": "Whenever this player plays a card, trigger [gold]Necrosis[/gold]. These triggers do not advance [gold]Necrosis[/gold] decay.",
   "NYMPH_POWER_HEART_TO_HEART_POWER.smartDescription": "Whenever this player plays a card, trigger [gold]Necrosis[/gold]. These triggers do not advance [gold]Necrosis[/gold] decay.",
   "NYMPH_POWER_ARCH_AND_RESCUE_POWER.title": "Arch and Rescue",
-  "NYMPH_POWER_ARCH_AND_RESCUE_POWER.description": "Take an extra turn and do not lose [gold]Block[/gold]. All enemies have [gold]Intangible[/gold] during that turn.",
-  "NYMPH_POWER_ARCH_AND_RESCUE_POWER.smartDescription": "Take an extra turn and do not lose [gold]Block[/gold]. All enemies have [gold]Intangible[/gold] during that turn."
+  "NYMPH_POWER_ARCH_AND_RESCUE_POWER.description": "After this turn ends, this player takes an extra turn and retains [gold]Block[/gold]. All enemies have [gold]Intangible[/gold] during that turn.",
+  "NYMPH_POWER_ARCH_AND_RESCUE_POWER.smartDescription": "After this turn ends, this player takes an extra turn and retains [gold]Block[/gold]. All enemies have [gold]Intangible[/gold] during that turn."
 }

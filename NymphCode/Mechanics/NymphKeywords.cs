@@ -75,6 +75,13 @@ public sealed class ThresholdKeywordRegistration
 {
 }
 
+[RegisterOwnedCardKeyword(
+    "CursePollution",
+    IncludeInCardHoverTip = true)]
+public sealed class CursePollutionKeywordRegistration
+{
+}
+
 public static class NymphKeywords
 {
     public const string ConceiveId = "NYMPH_KEYWORD_CONCEIVE";
@@ -88,6 +95,8 @@ public static class NymphKeywords
     public const string RecreatePotionId = "NYMPH_KEYWORD_RECREATE_POTION";
     public const string RecreateRelicId = "NYMPH_KEYWORD_RECREATE_RELIC";
     public const string ThresholdId = "NYMPH_KEYWORD_THRESHOLD";
+    public const string CursePollutionId =
+        "NYMPH_KEYWORD_CURSE_POLLUTION";
 
     public static CardKeyword Conceive =>
         ModKeywordRegistry.GetCardKeyword(ConceiveId);
@@ -115,6 +124,9 @@ public static class NymphKeywords
 
     public static CardKeyword Threshold =>
         ModKeywordRegistry.GetCardKeyword(ThresholdId);
+
+    public static CardKeyword CursePollution =>
+        ModKeywordRegistry.GetCardKeyword(CursePollutionId);
 
     public static IHoverTip CreateThresholdHoverTip() =>
         ModKeywordRegistry.CreateHoverTip(ThresholdId);

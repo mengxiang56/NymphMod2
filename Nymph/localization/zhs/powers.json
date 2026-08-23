@@ -1,4 +1,6 @@
 {
+  "NYMPH_POWER_CURSE_POLLUTION_THIS_TURN_POWER.title": "咒诅",
+  "NYMPH_POWER_CURSE_POLLUTION_THIS_TURN_POWER.description": "追踪本回合被[gold]咒诅[/gold]的牌。",
   "NYMPH_POWER_THOUGHT_POWER.title": "思绪",
   "NYMPH_POWER_THOUGHT_POWER.description": "当前思绪值。",
   "NYMPH_POWER_THOUGHT_BURDEN_STRENGTH_POWER.title": "思维负担",

@@ -4,8 +4,8 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
-using Nymph.Afflictions;
 using Nymph.Characters;
+using Nymph.Mechanics;
 using Nymph.Powers;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
@@ -26,7 +26,8 @@ public sealed class NymphVoidSign : ModCardTemplate
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        .. HoverTipFactory.FromAffliction<CursePollutionAffliction>(1),
+        HoverTipFactory.FromKeyword(NymphKeywords.CursePollution),
+        HoverTipFactory.FromCard<NymphDreadkaz>(),
         HoverTipFactory.FromPower<NecrosisPower>()
     ];
 
@@ -43,9 +44,21 @@ public sealed class NymphVoidSign : ModCardTemplate
             choiceContext,
             DynamicVars.Cards.IntValue,
             Owner);
-        foreach (CardModel card in drawn)
+        List<CardModel> drawnCards = drawn.ToList();
+        foreach (CardModel card in drawnCards)
         {
-            await CardCmd.Afflict<CursePollutionAffliction>(card, 1);
+            CardCmd.ApplyKeyword(card, NymphKeywords.CursePollution);
+        }
+
+        if (drawnCards.Count > 0)
+        {
+            await PowerCmd.Apply<CursePollutionThisTurnPower>(
+                choiceContext,
+                Owner.Creature,
+                1,
+                Owner.Creature,
+                this,
+                silent: true);
         }
     }
 

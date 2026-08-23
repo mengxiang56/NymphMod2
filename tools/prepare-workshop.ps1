@@ -26,6 +26,15 @@ $env:PATH = "$dotnetRoot;$env:PATH"
 foreach ($currentBranch in $branches) {
     $workspaceDir = Join-Path $artifactRoot $currentBranch
     $contentDir = Join-Path $workspaceDir "content"
+    $workspaceModIdPath = Join-Path $workspaceDir "mod_id.txt"
+    $branchModIdPath = Join-Path $projectRoot "workshop/$currentBranch/mod_id.txt"
+    $preservedModId = if (Test-Path -LiteralPath $workspaceModIdPath) {
+        Get-Content -Raw -LiteralPath $workspaceModIdPath
+    } elseif (Test-Path -LiteralPath $branchModIdPath) {
+        Get-Content -Raw -LiteralPath $branchModIdPath
+    } else {
+        $null
+    }
     $workspaceFullPath = [System.IO.Path]::GetFullPath($workspaceDir)
     $artifactFullPath = [System.IO.Path]::GetFullPath($artifactRoot)
 
@@ -37,6 +46,11 @@ foreach ($currentBranch in $branches) {
         [System.IO.Directory]::Delete("\\?\$workspaceFullPath", $true)
     }
     New-Item -ItemType Directory -Force -Path $contentDir | Out-Null
+    if (-not [string]::IsNullOrWhiteSpace($preservedModId)) {
+        [System.IO.File]::WriteAllText(
+            $workspaceModIdPath,
+            $preservedModId.Trim())
+    }
 
     $runPckExport = if ($SkipPckExport) { "false" } else { "true" }
     $buildArgs = @(
@@ -58,7 +72,7 @@ foreach ($currentBranch in $branches) {
     $workshopTemplate = Join-Path $projectRoot "workshop/$currentBranch/workshop.json"
     Copy-Item -Force -LiteralPath $workshopTemplate -Destination (Join-Path $workspaceDir "workshop.json")
 
-    foreach ($sharedFile in @("mod_id.txt", "image.png")) {
+    foreach ($sharedFile in @("image.png")) {
         $sharedPath = Join-Path $projectRoot "workshop/$sharedFile"
         if (Test-Path -LiteralPath $sharedPath) {
             Copy-Item -Force -LiteralPath $sharedPath -Destination (Join-Path $workspaceDir $sharedFile)
@@ -77,7 +91,7 @@ foreach ($currentBranch in $branches) {
     }
 
     $manifest = Get-Content -Raw -Encoding UTF8 -LiteralPath (Join-Path $contentDir "Nymph.json") | ConvertFrom-Json
-    $expectedMinVersion = if ($currentBranch -eq "public") { "0.107.1" } else { "0.110.1" }
+    $expectedMinVersion = if ($currentBranch -eq "public") { "0.107.1" } else { "0.111.0" }
     if ($manifest.min_game_version -ne $expectedMinVersion) {
         throw "The '$currentBranch' manifest has min_game_version '$($manifest.min_game_version)', expected '$expectedMinVersion'."
     }

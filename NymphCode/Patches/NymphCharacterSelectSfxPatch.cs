@@ -1,7 +1,7 @@
 using HarmonyLib;
-using MegaCrit.Sts2.Core.Audio.Debug;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes.Screens.CharacterSelect;
+using Nymph.Audio;
 using Nymph.Characters;
 
 namespace Nymph.Patches;
@@ -20,7 +20,7 @@ internal static class NymphCharacterSelectSfxPatch
     {
         if (characterModel is NymphCharacter)
         {
-            NDebugAudioManager.Instance?.Play(RelicDropMagicalStream, Volume);
+            NymphAudio.Play(RelicDropMagicalStream, Volume);
             NymphVoiceManager.PlayCharacterSelect();
         }
     }

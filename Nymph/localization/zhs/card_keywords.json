@@ -8,7 +8,7 @@
   "NYMPH_KEYWORD_RECREATE.title": "重构（卡牌）",
   "NYMPH_KEYWORD_RECREATE.description": "变化为[gold]本角色[/gold]卡池中的随机牌（升级状态不变）,并加入[gold]手牌[/gold]。",
   "NYMPH_KEYWORD_PERMANENT_RECREATE.title": "永久重构",
-  "NYMPH_KEYWORD_PERMANENT_RECREATE.description": "将牌组中的对应牌变化为[gold]本角色[/gold]卡池中的随机牌（升级状态不变）。",
+  "NYMPH_KEYWORD_PERMANENT_RECREATE.description": "将[gold]牌组[/gold]中的对应牌变化为[gold]本角色[/gold]卡池中的随机牌（升级状态不变）。",
   "NYMPH_KEYWORD_RECREATE_POTION.title": "重构（药水）",
   "NYMPH_KEYWORD_RECREATE_POTION.description": "变化为随机药水。",
   "NYMPH_KEYWORD_RECREATE_RELIC.title": "重构（遗物）",
@@ -18,5 +18,8 @@
   "NYMPH_KEYWORD_INSPIRATION_CARD.title": "灵感牌",
   "NYMPH_KEYWORD_INSPIRATION_CARD.description": "[gold]一次性[/gold]。打出后会从灵感牌堆移除。",
   "NYMPH_KEYWORD_THRESHOLD.title": "临界点",
-  "NYMPH_KEYWORD_THRESHOLD.description": "思绪值大于等于[gold]临界点[/gold]时，进入[gold]混乱[/gold]状态。\n[gold]阻滞点[/gold]等于[gold]临界点[/gold]的[blue]2[/blue]倍。"
+  "NYMPH_KEYWORD_THRESHOLD.description": "思绪值大于等于[gold]临界点[/gold]时，进入[gold]混乱[/gold]状态。\n[gold]阻滞点[/gold]等于[gold]临界点[/gold]的[blue]2[/blue]倍。",
+  "NYMPH_KEYWORD_CURSE_POLLUTION.title": "咒诅",
+  "NYMPH_KEYWORD_CURSE_POLLUTION.description": "若在本回合打出，向手牌中加入一张[gold]恐卡兹[/gold]。",
+  "NYMPH_KEYWORD_CURSE_POLLUTION.extraCardText": "向手牌中加入一张[gold]恐卡兹[/gold]。"
 }

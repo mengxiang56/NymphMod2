@@ -105,6 +105,7 @@ offset_left = 368.0
 offset_top = -9.0
 offset_right = 1076.0
 offset_bottom = 209.0
+mouse_filter = 2
 
 [node name="Title" type="Label" parent="DifficultySelector"]
 layout_mode = 0
@@ -118,6 +119,7 @@ theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 24
 text = "Thought Burden"
 horizontal_alignment = 1
+mouse_filter = 2
 
 [node name="DifficultyName" type="Label" parent="DifficultySelector"]
 layout_mode = 0
@@ -131,6 +133,7 @@ theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 22
 text = "Standard"
 horizontal_alignment = 1
+mouse_filter = 2
 
 [node name="HoverArea" type="Control" parent="DifficultySelector"]
 anchors_preset = 0
@@ -138,6 +141,7 @@ offset_left = 290.0
 offset_top = 131.0
 offset_right = 421.0
 offset_bottom = 169.0
+mouse_filter = 0
 
 [node name="VoiceSelector" type="Control" parent="."]
 z_index = 3
@@ -146,6 +150,7 @@ offset_left = 368.0
 offset_top = 110.0
 offset_right = 1076.0
 offset_bottom = 328.0
+mouse_filter = 2
 
 [node name="Title" type="Label" parent="VoiceSelector"]
 layout_mode = 0
@@ -159,6 +164,7 @@ theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 24
 text = "Voice"
 horizontal_alignment = 1
+mouse_filter = 2
 
 [node name="VoiceName" type="Label" parent="VoiceSelector"]
 layout_mode = 0
@@ -172,6 +178,7 @@ theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 22
 text = "Off"
 horizontal_alignment = 1
+mouse_filter = 2
 
 [node name="HoverArea" type="Control" parent="VoiceSelector"]
 anchors_preset = 0
@@ -179,6 +186,7 @@ offset_left = 290.0
 offset_top = 131.0
 offset_right = 421.0
 offset_bottom = 169.0
+mouse_filter = 0
 
 [node name="ash1" type="CPUParticles2D" parent="."]
 visible = false

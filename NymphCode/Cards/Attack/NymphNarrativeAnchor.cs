@@ -18,7 +18,8 @@ public sealed class NymphNarrativeAnchor : ModCardTemplate
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
     [
         CardKeyword.Retain,
-        NymphKeywords.Recreate
+        NymphKeywords.Recreate,
+        NymphKeywords.PermanentRecreate
     ];
 
     public override CardAssetProfile AssetProfile => new(

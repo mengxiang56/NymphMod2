@@ -189,7 +189,6 @@ public sealed class NecrosisPower :
         NecrosisDecayIntervalPower.SyncToNecrosis(Owner);
 
         if (applier?.Player is not { } applierPlayer
-            || cardSource is null
             || !IsDisasterOriginTarget(applier.Side, Owner.Side)
             || applierPlayer.Creature.HasPower<DisasterOriginUsedThisTurnPower>()
             || applierPlayer.Relics.All(relic => relic is not NymphDisasterOrigin))
