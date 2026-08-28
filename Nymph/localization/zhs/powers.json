@@ -146,5 +146,17 @@
   "NYMPH_POWER_HEART_TO_HEART_POWER.smartDescription": "该玩家的出牌也会触发[gold]凋亡[/gold]，且不会使[gold]凋亡[/gold]衰减。",
   "NYMPH_POWER_ARCH_AND_RESCUE_POWER.title": "拱门与呼救",
   "NYMPH_POWER_ARCH_AND_RESCUE_POWER.description": "本回合结束后，该玩家获得一个额外回合，并保留格挡。该回合内所有敌人获得[gold]无实体[/gold]。",
-  "NYMPH_POWER_ARCH_AND_RESCUE_POWER.smartDescription": "本回合结束后，该玩家获得一个额外回合，并保留格挡。该回合内所有敌人获得[gold]无实体[/gold]。"
+  "NYMPH_POWER_ARCH_AND_RESCUE_POWER.smartDescription": "本回合结束后，该玩家获得一个额外回合，并保留格挡。该回合内所有敌人获得[gold]无实体[/gold]。",
+  "NYMPH_FREMONT_ORB_HOVER.title": "能量球",
+  "NYMPH_FREMONT_ORB_HOVER.description": "[gold]被动[/gold]：每个使弗莱蒙特受到的所有伤害减少[blue]25%[/blue]。\n[gold]激发[/gold]：立即对使其激发的玩家造成[blue]10[/blue]点伤害。",
+  "NYMPH_POWER_FREMONT_BLOCK_EVOKE_RULE_POWER.title": "激发",
+  "NYMPH_POWER_FREMONT_BLOCK_EVOKE_RULE_POWER.description": "每有玩家在回合内获得[blue]10[/blue]点[gold]格挡[/gold]，立即激发一个[gold]能量球[/gold]。",
+  "NYMPH_POWER_FREMONT_CARD_CHANNEL_RULE_POWER.title": "即兴施展的防身术",
+  "NYMPH_POWER_FREMONT_CARD_CHANNEL_RULE_POWER.description": "每打出[blue]5[/blue]张牌，生成一个[gold]能量球[/gold]。",
+  "NYMPH_POWER_FREMONT_BLACK_COFFIN_RULE_POWER.title": "黑棺放逐",
+  "NYMPH_POWER_FREMONT_BLACK_COFFIN_RULE_POWER.description": "每回合打出的前两张非[gold]放逐的黑棺[/gold]牌会被重构为[gold]放逐的黑棺[/gold]。",
+  "NYMPH_POWER_FREMONT_SECOND_PHASE_RULE_POWER.title": "痴愚惩戒",
+  "NYMPH_POWER_FREMONT_SECOND_PHASE_RULE_POWER.description": "首次到达半血以下时，立即消耗所有[gold]放逐的黑棺[/gold]，每张回复[blue]25[/blue]点生命，然后将所有牌随机分配到抽牌堆和弃牌堆。",
+  "NYMPH_POWER_FREMONT_MECHANICS_POWER.title": "弗莱蒙特",
+  "NYMPH_POWER_FREMONT_MECHANICS_POWER.description": "控制弗莱蒙特的充能球、黑棺与阶段转换。"
 }

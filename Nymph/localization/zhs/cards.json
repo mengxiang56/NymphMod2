@@ -390,5 +390,8 @@
   "NYMPH_CARD_NYMPH_INSPIRATION_DEAD_FIGHT.flavor": "“弄死你，我就有饱饭吃了，很难理解吗？”",
   "NYMPH_CARD_NYMPH_INSPIRATION_CONSUME.flavor": "“一开始还是种地，人都住在支持层，太阳就留给庄稼。”",
   "NYMPH_CARD_NYMPH_INSPIRATION_RECLAIM.flavor": "“后来殿下弄好了水培的东西，我们这才跟庄稼争到地。”",
-  "NYMPH_CARD_NYMPH_INSPIRATION_RISE_AND_FALL.flavor": "“我打算出城讨个营生了。”"
+  "NYMPH_CARD_NYMPH_INSPIRATION_RISE_AND_FALL.flavor": "“我打算出城讨个营生了。”",
+  "NYMPH_CARD_NYMPH_EXILED_BLACK_COFFIN.title": "放逐的黑棺",
+  "NYMPH_CARD_NYMPH_EXILED_BLACK_COFFIN.description": "打出后将[gold]{OriginalCardName}[/gold]返回[gold]手牌[/gold]。\n不能被[gold]重构[/gold]。",
+  "NYMPH_CARD_NYMPH_EXILED_BLACK_COFFIN.smartDescription": "打出后将[gold]{OriginalCardName}[/gold]返回[gold]手牌[/gold]。\n不能被[gold]重构[/gold]。"
 }

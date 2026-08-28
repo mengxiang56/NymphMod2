@@ -145,5 +145,17 @@
   "NYMPH_POWER_HEART_TO_HEART_POWER.smartDescription": "Whenever this player plays a card, trigger [gold]Necrosis[/gold]. These triggers do not advance [gold]Necrosis[/gold] decay.",
   "NYMPH_POWER_ARCH_AND_RESCUE_POWER.title": "Arch and Rescue",
   "NYMPH_POWER_ARCH_AND_RESCUE_POWER.description": "After this turn ends, this player takes an extra turn and retains [gold]Block[/gold]. All enemies have [gold]Intangible[/gold] during that turn.",
-  "NYMPH_POWER_ARCH_AND_RESCUE_POWER.smartDescription": "After this turn ends, this player takes an extra turn and retains [gold]Block[/gold]. All enemies have [gold]Intangible[/gold] during that turn."
+  "NYMPH_POWER_ARCH_AND_RESCUE_POWER.smartDescription": "After this turn ends, this player takes an extra turn and retains [gold]Block[/gold]. All enemies have [gold]Intangible[/gold] during that turn.",
+  "NYMPH_FREMONT_ORB_HOVER.title": "Orb",
+  "NYMPH_FREMONT_ORB_HOVER.description": "[gold]Passive[/gold]: Each Orb reduces all damage Fremont takes by [blue]25%[/blue].\n[gold]Evoke[/gold]: Immediately deal [blue]10[/blue] damage to the player who evoked it, unaffected by [gold]Vulnerable[/gold].",
+  "NYMPH_POWER_FREMONT_BLOCK_EVOKE_RULE_POWER.title": "Evoke",
+  "NYMPH_POWER_FREMONT_BLOCK_EVOKE_RULE_POWER.description": "Whenever a player gains [blue]10[/blue] [gold]Block[/gold] during a turn, immediately evoke an [gold]Orb[/gold].",
+  "NYMPH_POWER_FREMONT_CARD_CHANNEL_RULE_POWER.title": "Replication",
+  "NYMPH_POWER_FREMONT_CARD_CHANNEL_RULE_POWER.description": "Whenever players play [blue]5[/blue] cards, Fremont generates an [gold]Orb[/gold].",
+  "NYMPH_POWER_FREMONT_BLACK_COFFIN_RULE_POWER.title": "Black Coffin Exile",
+  "NYMPH_POWER_FREMONT_BLACK_COFFIN_RULE_POWER.description": "The first two non-[gold]Exiled Black Coffin[/gold] cards played each turn are Recreated into [gold]Exiled Black Coffins[/gold].",
+  "NYMPH_POWER_FREMONT_SECOND_PHASE_RULE_POWER.title": "Coffin Reordering",
+  "NYMPH_POWER_FREMONT_SECOND_PHASE_RULE_POWER.description": "The first time Fremont falls below half HP, immediately Exhaust all [gold]Exiled Black Coffins[/gold], heal [blue]25[/blue] HP for each, then randomly distribute all cards between the draw and discard piles.",
+  "NYMPH_POWER_FREMONT_MECHANICS_POWER.title": "Fremont",
+  "NYMPH_POWER_FREMONT_MECHANICS_POWER.description": "Controls Fremont's Orbs, Black Coffins, and phase transition."
 }

@@ -2,6 +2,7 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using Nymph.Mechanics;
+using Nymph.Powers;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 
@@ -74,7 +75,8 @@ public sealed class NymphTransformationEnchantment
         CardPlay? cardPlay)
     {
         if (cardPlay?.Card != Card
-            || Card is ISelfRecreatingOnPlayCard)
+            || Card is ISelfRecreatingOnPlayCard
+            || FremontMechanicsPower.IsMarkedForCoffin(Card))
         {
             return;
         }

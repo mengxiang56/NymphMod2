@@ -3,6 +3,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using Nymph.Characters;
 using Nymph.Mechanics;
+using Nymph.Powers;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 
@@ -56,6 +57,11 @@ public sealed class NymphUntoldMatter : ModCardTemplate, ISelfRecreatingOnPlayCa
             Owner,
             DynamicVars["Create"].IntValue,
             this);
+        if (FremontMechanicsPower.IsMarkedForCoffin(this))
+        {
+            return;
+        }
+
         await RecreateMechanics.CreateReplacementInHand(
             this,
             card => card.CanonicalKeywords.Contains(
