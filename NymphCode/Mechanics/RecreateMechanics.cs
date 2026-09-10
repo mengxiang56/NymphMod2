@@ -9,7 +9,6 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes.Cards;
 using MegaCrit.Sts2.Core.Nodes.CommonUi;
 using Nymph.Cards;
-using Nymph.Characters;
 using Nymph.Powers;
 using Nymph.Relics;
 
@@ -485,8 +484,8 @@ public static class RecreateMechanics
         int energyCost = original.EnergyCost.CostsX
             ? 0
             : original.EnergyCost.GetWithModifiers(CostModifiers.All);
-        IEnumerable<CardModel> nymphCardPool =
-            ModelDb.CardPool<NymphCardPool>().GetUnlockedCards(
+        IEnumerable<CardModel> characterCardPool =
+            original.Owner.Character.CardPool.GetUnlockedCards(
                 original.Owner.UnlockState,
                 original.Owner.RunState.CardMultiplayerConstraint)
             .Where(card =>
@@ -499,7 +498,7 @@ public static class RecreateMechanics
                 && card.CanBeGeneratedInCombat);
         if (replacementFilter is not null)
         {
-            nymphCardPool = nymphCardPool.Where(replacementFilter);
+            characterCardPool = characterCardPool.Where(replacementFilter);
         }
 
         CardModel replacement =
@@ -513,7 +512,7 @@ public static class RecreateMechanics
                         original.Owner)
                 : new CardTransformation(
                     original,
-                    nymphCardPool).GetReplacement(
+                    characterCardPool).GetReplacement(
                     original.Owner.PlayerRng.Transformations)!;
 
         int targetUpgradeLevel = original is NymphNarrativeAnchor

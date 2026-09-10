@@ -142,8 +142,8 @@
   "NYMPH_POWER_EXTENSIVE_KNOWLEDGE_POWER.description": "在[gold]清晰[/gold]下出牌时，额外获得[gold]格挡[/gold]。",
   "NYMPH_POWER_EXTENSIVE_KNOWLEDGE_POWER.smartDescription": "在[gold]清晰[/gold]下出牌时，额外获得[blue]{Amount}[/blue]点[gold]格挡[/gold]。",
   "NYMPH_POWER_HEART_TO_HEART_POWER.title": "心连心",
-  "NYMPH_POWER_HEART_TO_HEART_POWER.description": "该玩家的出牌也会触发[gold]凋亡[/gold]，且不会使[gold]凋亡[/gold]衰减。",
-  "NYMPH_POWER_HEART_TO_HEART_POWER.smartDescription": "该玩家的出牌也会触发[gold]凋亡[/gold]，且不会使[gold]凋亡[/gold]衰减。",
+  "NYMPH_POWER_HEART_TO_HEART_POWER.description": "该玩家出牌时，也会触发施加者给予敌人的[gold]凋亡[/gold]，且不会使[gold]凋亡[/gold]衰减。",
+  "NYMPH_POWER_HEART_TO_HEART_POWER.smartDescription": "该玩家出牌时，也会触发[gold]{ApplierName}[/gold]给予敌人的[gold]凋亡[/gold]，且不会使[gold]凋亡[/gold]衰减。",
   "NYMPH_POWER_ARCH_AND_RESCUE_POWER.title": "拱门与呼救",
   "NYMPH_POWER_ARCH_AND_RESCUE_POWER.description": "本回合结束后，该玩家获得一个额外回合，并保留格挡。该回合内所有敌人获得[gold]无实体[/gold]。",
   "NYMPH_POWER_ARCH_AND_RESCUE_POWER.smartDescription": "本回合结束后，该玩家获得一个额外回合，并保留格挡。该回合内所有敌人获得[gold]无实体[/gold]。"

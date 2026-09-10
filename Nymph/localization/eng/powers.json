@@ -141,8 +141,8 @@
   "NYMPH_POWER_EXTENSIVE_KNOWLEDGE_POWER.description": "While [gold]Clear[/gold], gain additional [gold]Block[/gold] whenever you play a card.",
   "NYMPH_POWER_EXTENSIVE_KNOWLEDGE_POWER.smartDescription": "While [gold]Clear[/gold], gain [blue]{Amount}[/blue] additional [gold]Block[/gold] whenever you play a card.",
   "NYMPH_POWER_HEART_TO_HEART_POWER.title": "Heart to Heart",
-  "NYMPH_POWER_HEART_TO_HEART_POWER.description": "Whenever this player plays a card, trigger [gold]Necrosis[/gold]. These triggers do not advance [gold]Necrosis[/gold] decay.",
-  "NYMPH_POWER_HEART_TO_HEART_POWER.smartDescription": "Whenever this player plays a card, trigger [gold]Necrosis[/gold]. These triggers do not advance [gold]Necrosis[/gold] decay.",
+  "NYMPH_POWER_HEART_TO_HEART_POWER.description": "Whenever this player plays a card, trigger [gold]Necrosis[/gold] applied to enemies by this Power's applier. These triggers do not advance its decay.",
+  "NYMPH_POWER_HEART_TO_HEART_POWER.smartDescription": "Whenever this player plays a card, trigger [gold]Necrosis[/gold] applied to enemies by [gold]{ApplierName}[/gold]. These triggers do not advance its decay.",
   "NYMPH_POWER_ARCH_AND_RESCUE_POWER.title": "Arch and Rescue",
   "NYMPH_POWER_ARCH_AND_RESCUE_POWER.description": "After this turn ends, this player takes an extra turn and retains [gold]Block[/gold]. All enemies have [gold]Intangible[/gold] during that turn.",
   "NYMPH_POWER_ARCH_AND_RESCUE_POWER.smartDescription": "After this turn ends, this player takes an extra turn and retains [gold]Block[/gold]. All enemies have [gold]Intangible[/gold] during that turn."

@@ -21,7 +21,8 @@
 ## 准备工坊上传目录
 
 ```powershell
-.\prepare-workshop.cmd
+.\prepare-workshop.cmd -Branch public-beta
+.\prepare-workshop.cmd -Branch public
 ```
 
 完成后会生成：
