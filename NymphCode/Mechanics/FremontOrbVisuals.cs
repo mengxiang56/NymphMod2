@@ -6,6 +6,7 @@ using MegaCrit.Sts2.Core.Models.Orbs;
 using MegaCrit.Sts2.Core.Nodes.GodotExtensions;
 using MegaCrit.Sts2.Core.Nodes.Orbs;
 using MegaCrit.Sts2.Core.Nodes.Rooms;
+using Nymph.Powers;
 
 namespace Nymph.Mechanics;
 
@@ -15,6 +16,7 @@ internal static class FremontOrbVisuals
     private const int SlotCount = 3;
     private const float LayoutAngle = 125f;
     private const float LayoutRadius = 225f;
+    private const float MiddleSlotLift = 80f;
 
     internal static void Sync(
         Creature owner,
@@ -50,32 +52,108 @@ internal static class FremontOrbVisuals
             }
 
             current.Position = GetSlotPosition(i);
-            current._labelContainer.Visible = false;
+            UpdateValueLabels(current, isEvoking: false);
         }
     }
 
     internal static void EvokeOne(Creature owner, int remainingCount)
     {
         Control? container = GetOrCreateContainer(owner);
-        NOrb? firstFilled = container?.GetChildren()
-            .OfType<NOrb>()
-            .Where(slot => slot.Model is not null)
-            .OrderBy(GetSlotIndex)
-            .FirstOrDefault();
-
-        if (firstFilled is not null)
+        if (container is null)
         {
-            firstFilled.UpdateVisuals(isEvoking: true);
-            ModelDb.Orb<LightningOrb>().PlayEvokeSfx();
-            container!.RemoveChildSafely(firstFilled);
-            firstFilled.QueueFreeSafely();
+            return;
         }
 
-        Sync(owner, remainingCount, animateNewOrbs: false);
+        List<NOrb> slots = container.GetChildren()
+            .OfType<NOrb>()
+            .OrderBy(GetSlotIndex)
+            .Where(slot => GetSlotIndex(slot) < SlotCount)
+            .ToList();
+        NOrb? firstFilled = slots.FirstOrDefault(slot => slot.Model is not null);
+
+        if (firstFilled is null)
+        {
+            Sync(owner, remainingCount, animateNewOrbs: false);
+            return;
+        }
+
+        firstFilled.Name = $"FremontOrbEvoking{firstFilled.GetInstanceId()}";
+        firstFilled.UpdateVisuals(isEvoking: true);
+        UpdateValueLabels(firstFilled, isEvoking: true);
+        ModelDb.Orb<LightningOrb>().PlayEvokeSfx();
+
+        // Remove the evoked orb from the logical slot container immediately.
+        // Keeping it there during the fade allowed later slot synchronization to
+        // observe the stale visual and made the orb appear not to disappear.
+        Control? vfxContainer = NCombatRoom.Instance?.CombatVfxContainer;
+        if (vfxContainer is not null)
+        {
+            firstFilled.Reparent(vfxContainer, keepGlobalTransform: true);
+        }
+
+        firstFilled.MouseFilter = Control.MouseFilterEnum.Ignore;
+        firstFilled.FocusMode = Control.FocusModeEnum.None;
+        Tween fadeTween = firstFilled.CreateTween();
+        fadeTween.TweenProperty(firstFilled, "modulate:a", 0f, 0.25f);
+        fadeTween.Chain().TweenCallback(
+            Callable.From(() =>
+            {
+                if (GodotObject.IsInstanceValid(firstFilled))
+                {
+                    firstFilled.Visible = false;
+                    firstFilled.QueueFreeSafely();
+                }
+            }));
+
+        List<NOrb> remainingSlots = slots
+            .Where(slot => slot != firstFilled)
+            .ToList();
+        for (int i = 0; i < remainingSlots.Count; i++)
+        {
+            remainingSlots[i].Name = GetSlotName(i);
+            UpdateValueLabels(remainingSlots[i], isEvoking: false);
+        }
+
+        NOrb emptySlot = NOrb.Create(isLocal: true);
+        emptySlot.Name = GetSlotName(SlotCount - 1);
+        container.AddChildSafely(emptySlot);
+        emptySlot.Position = Vector2.Zero;
+        UpdateValueLabels(emptySlot, isEvoking: false);
+        remainingSlots.Add(emptySlot);
+
+        Tween layoutTween = container.CreateTween().SetParallel();
+        for (int i = 0; i < remainingSlots.Count; i++)
+        {
+            layoutTween.TweenProperty(
+                    remainingSlots[i],
+                    "position",
+                    GetSlotPosition(i),
+                    0.45f)
+                .SetEase(Tween.EaseType.InOut)
+                .SetTrans(Tween.TransitionType.Sine);
+        }
     }
 
     internal static bool IsFremontOrb(NOrb orb) =>
         orb.GetParent()?.Name == ContainerName;
+
+    internal static void UpdateValueLabels(NOrb orb, bool isEvoking)
+    {
+        if (!IsFremontOrb(orb) || !orb.IsNodeReady())
+        {
+            return;
+        }
+
+        bool filled = orb.Model is not null;
+        orb._labelContainer.Visible = filled;
+        orb._passiveLabel.Visible = false;
+        orb._evokeLabel.Visible = filled;
+        if (filled)
+        {
+            orb._evokeLabel.SetTextAutoSize(
+                FremontMechanicsPower.OrbEvokeDamage.ToString());
+        }
+    }
 
     private static Control? GetOrCreateContainer(Creature owner)
     {
@@ -95,7 +173,6 @@ internal static class FremontOrbVisuals
         {
             Name = ContainerName,
             Position = creatureNode.Visuals.OrbPosition.Position,
-            ZIndex = 20,
             MouseFilter = Control.MouseFilterEnum.Ignore
         };
         creatureNode.AddChildSafely(container);
@@ -110,18 +187,21 @@ internal static class FremontOrbVisuals
         bool filled,
         bool animate)
     {
+        if (oldSlot is not null)
+        {
+            // Free the slot name before adding its replacement. Godot otherwise
+            // uniquifies the new node's name, so later sync/evoke calls cannot
+            // find the filled slot by index.
+            container.RemoveChildSafely(oldSlot);
+            oldSlot.QueueFreeSafely();
+        }
+
         NOrb newSlot = NOrb.Create(
             isLocal: true,
             filled ? CreateLightningModel(owner) : null);
         newSlot.Name = GetSlotName(index);
         container.AddChildSafely(newSlot);
         newSlot.Position = GetSlotPosition(index);
-
-        if (oldSlot is not null)
-        {
-            container.RemoveChildSafely(oldSlot);
-            oldSlot.QueueFreeSafely();
-        }
 
         if (animate && filled)
         {
@@ -145,9 +225,12 @@ internal static class FremontOrbVisuals
     {
         float angle = index * LayoutAngle / (SlotCount - 1);
         float radians = float.DegreesToRadians(-25f - angle);
-        return new Vector2(
+        Vector2 position = new Vector2(
             -Mathf.Cos(radians),
             Mathf.Sin(radians)) * LayoutRadius;
+        return index == SlotCount / 2
+            ? position + Vector2.Up * MiddleSlotLift
+            : position;
     }
 
     private static int GetSlotIndex(NOrb slot)

@@ -392,6 +392,8 @@
   "NYMPH_CARD_NYMPH_INSPIRATION_RECLAIM.flavor": "[i]“Later, Her Highness got the hydroponics working. Only then did we win some space back from the crops.”[/i]",
   "NYMPH_CARD_NYMPH_INSPIRATION_RISE_AND_FALL.flavor": "[i]“I plan to leave the city and find work elsewhere.”[/i]",
   "NYMPH_CARD_NYMPH_EXILED_BLACK_COFFIN.title": "Exiled Black Coffin",
-  "NYMPH_CARD_NYMPH_EXILED_BLACK_COFFIN.description": "When played, return [gold]{OriginalCardName}[/gold] to your [gold]Hand[/gold].\nCannot be [gold]Recreated[/gold].",
-  "NYMPH_CARD_NYMPH_EXILED_BLACK_COFFIN.smartDescription": "When played, return [gold]{OriginalCardName}[/gold] to your [gold]Hand[/gold].\nCannot be [gold]Recreated[/gold]."
+  "NYMPH_CARD_NYMPH_EXILED_BLACK_COFFIN.description": "When played, transform back into [gold]{OriginalCardName}[/gold] and put it into your discard pile.\nCannot be [gold]Recreated[/gold].",
+  "NYMPH_CARD_NYMPH_EXILED_BLACK_COFFIN.smartDescription": "When played, transform back into [gold]{OriginalCardName}[/gold] and put it into your discard pile.\nCannot be [gold]Recreated[/gold].",
+  "NYMPH_CARD_NYMPH_FREMONT_EVOKE.title": "Evoke",
+  "NYMPH_CARD_NYMPH_FREMONT_EVOKE.description": "Evoke all of Fremont's [gold]Orbs[/gold]."
 }

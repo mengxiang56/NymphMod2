@@ -28,7 +28,7 @@ internal static class FremontOrbHoverPatch
                 hoverTip,
                 HoverTip.GetHoverTipAlignment(__instance._bounds))
             ?.SetFollowOwner();
-        __instance._labelContainer.Visible = false;
+        FremontOrbVisuals.UpdateValueLabels(__instance, isEvoking: false);
         return false;
     }
 
@@ -36,21 +36,15 @@ internal static class FremontOrbHoverPatch
     [HarmonyPatch("OnUnfocus")]
     private static void OnUnfocusPostfix(NOrb __instance)
     {
-        HideBaseValues(__instance);
+        FremontOrbVisuals.UpdateValueLabels(__instance, isEvoking: false);
     }
 
     [HarmonyPostfix]
     [HarmonyPatch(nameof(NOrb.UpdateVisuals))]
-    private static void UpdateVisualsPostfix(NOrb __instance)
+    private static void UpdateVisualsPostfix(
+        NOrb __instance,
+        bool isEvoking)
     {
-        HideBaseValues(__instance);
-    }
-
-    private static void HideBaseValues(NOrb orb)
-    {
-        if (FremontOrbVisuals.IsFremontOrb(orb))
-        {
-            orb._labelContainer.Visible = false;
-        }
+        FremontOrbVisuals.UpdateValueLabels(__instance, isEvoking);
     }
 }

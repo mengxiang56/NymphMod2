@@ -1,6 +1,7 @@
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
+using Nymph.Cards;
 using Nymph.Mechanics;
 using Nymph.Powers;
 using STS2RitsuLib.Interop.AutoRegistration;
@@ -16,6 +17,11 @@ public sealed class NymphTransformationEnchantment
 
     public override bool CanEnchant(CardModel card)
     {
+        if (card is NymphExiledBlackCoffin)
+        {
+            return false;
+        }
+
         if (!CanEnchantCardType(card.Type))
         {
             return false;

@@ -4,7 +4,9 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
+using MegaCrit.Sts2.Core.Nodes.CommonUi;
 using MegaCrit.Sts2.Core.Saves.Runs;
+using Nymph.Patches;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 
@@ -21,8 +23,7 @@ public sealed class NymphExiledBlackCoffin : ModCardTemplate
 
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
     [
-        CardKeyword.Retain,
-        CardKeyword.Exhaust
+        CardKeyword.Retain
     ];
 
     public override CardAssetProfile AssetProfile => new(
@@ -82,7 +83,22 @@ public sealed class NymphExiledBlackCoffin : ModCardTemplate
                 MatchesSnapshot(card.ToSerializable(), deckSnapshot));
         }
 
-        await CardPileCmd.Add(restored, PileType.Hand);
+        FremontBlackCoffinPatch.BeginInternalTransform(this);
+        try
+        {
+            CardPileAddResult? result = await CardCmd.Transform(
+                this,
+                restored,
+                CardPreviewStyle.None);
+            if (result?.cardAdded is { } transformed)
+            {
+                await CardPileCmd.Add(transformed, PileType.Discard);
+            }
+        }
+        finally
+        {
+            FremontBlackCoffinPatch.EndInternalTransform(this);
+        }
     }
 
     private static bool MatchesSnapshot(

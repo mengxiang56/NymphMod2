@@ -81,7 +81,6 @@ public sealed class Fremont : ModMonsterTemplate
             Creature,
             null,
             silent: true);
-        await ApplyRulePower<FremontBlockEvokeRulePower>();
         await ApplyRulePower<FremontCardChannelRulePower>();
         await ApplyRulePower<FremontBlackCoffinRulePower>();
         await ApplyRulePower<FremontSecondPhaseRulePower>();
@@ -107,6 +106,8 @@ public sealed class Fremont : ModMonsterTemplate
         _cleanseState = new MoveState(
             CleanseMove,
             Cleanse,
+            new CardDebuffIntent(),
+            new HealIntent(),
             new BuffIntent());
         _phaseTwoAttackOneState = new MoveState(
             PhaseTwoAttackOneMove,
@@ -143,7 +144,7 @@ public sealed class Fremont : ModMonsterTemplate
     {
         if (_cleanseState is not null)
         {
-            SetMoveImmediate(_cleanseState);
+            SetMoveImmediate(_cleanseState, forceTransition: true);
         }
     }
 
@@ -213,6 +214,11 @@ public sealed class Fremont : ModMonsterTemplate
     private async Task Cleanse(IReadOnlyList<Creature> targets)
     {
         await CreatureCmd.TriggerAnim(Creature, "Cast", 0.5f);
+        if (Creature.GetPower<FremontMechanicsPower>() is { } mechanics)
+        {
+            await mechanics.ConsumeBlackCoffinsAndHeal();
+        }
+
         foreach (PowerModel debuff in Creature.Powers
             .Where(power => power.TypeForCurrentAmount == PowerType.Debuff)
             .ToList())
