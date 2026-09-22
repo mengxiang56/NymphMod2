@@ -1,5 +1,11 @@
 {
   "NYMPH_ENCOUNTER_FREMONT_BOSS.title": "弗莱蒙特",
   "NYMPH_ENCOUNTER_FREMONT_BOSS.loss": "弗莱蒙特将你的思绪封入了黑棺。",
-  "NYMPH_ENCOUNTER_FREMONT_BOSS.customRewardDescription": "领取奖励"
+  "NYMPH_ENCOUNTER_FREMONT_BOSS.customRewardDescription": "领取奖励",
+  "NYMPH_ENCOUNTER_THERESIS_THERESA_BOSS.title": "特雷西斯与特蕾西娅",
+  "NYMPH_ENCOUNTER_THERESIS_THERESA_BOSS.loss": "黑冠的意志令你的思绪归于沉寂。",
+  "NYMPH_ENCOUNTER_THERESIS_THERESA_BOSS.customRewardDescription": "领取奖励",
+  "NYMPH_ENCOUNTER_BODRAKASTI_BOSS.title": "博卓卡斯替",
+  "NYMPH_ENCOUNTER_BODRAKASTI_BOSS.loss": "圣城的铳声终结了你的旅途。",
+  "NYMPH_ENCOUNTER_BODRAKASTI_BOSS.customRewardDescription": "领取奖励"
 }

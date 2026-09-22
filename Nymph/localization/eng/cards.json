@@ -395,5 +395,20 @@
   "NYMPH_CARD_NYMPH_EXILED_BLACK_COFFIN.description": "When played, transform back into [gold]{OriginalCardName}[/gold] and put it into your discard pile.\nCannot be [gold]Recreated[/gold].",
   "NYMPH_CARD_NYMPH_EXILED_BLACK_COFFIN.smartDescription": "When played, transform back into [gold]{OriginalCardName}[/gold] and put it into your discard pile.\nCannot be [gold]Recreated[/gold].",
   "NYMPH_CARD_NYMPH_FREMONT_EVOKE.title": "Evoke",
-  "NYMPH_CARD_NYMPH_FREMONT_EVOKE.description": "Evoke all of Fremont's [gold]Orbs[/gold]."
+  "NYMPH_CARD_NYMPH_FREMONT_EVOKE.description": "Evoke all of Fremont's [gold]Orbs[/gold].",
+  "NYMPH_CARD_NYMPH_GUARD.title": "Guard",
+  "NYMPH_CARD_NYMPH_GUARD.description": "Take [blue]20[/blue] damage.\nNegate Theresa's [gold]Will Shock[/gold] this turn.",
+  "NYMPH_CARD_NYMPH_GUARD.smartDescription": "Take [blue]20[/blue] damage.\nNegate Theresa's [gold]Will Shock[/gold] this turn.",
+  "NYMPH_CARD_NYMPH_BODRAKASTI_RITUAL.title": "Rite",
+  "NYMPH_CARD_NYMPH_BODRAKASTI_RITUAL.description": "Choose to [gold]Retreat[/gold] or [gold]Advance[/gold].\nReturns to your hand after being played. Each play increases its cost by [blue]1[/blue] this turn.",
+  "NYMPH_CARD_NYMPH_BODRAKASTI_RITUAL.smartDescription": "Choose to [gold]Retreat[/gold] or [gold]Advance[/gold].\nReturns to your hand after being played. Each play increases its cost by [blue]1[/blue] this turn.",
+  "NYMPH_CARD_NYMPH_BODRAKASTI_RETREAT.title": "Retreat",
+  "NYMPH_CARD_NYMPH_BODRAKASTI_RETREAT.description": "Move one range farther from [gold]Bodrakasti[/gold].",
+  "NYMPH_CARD_NYMPH_BODRAKASTI_ADVANCE.title": "Advance",
+  "NYMPH_CARD_NYMPH_BODRAKASTI_ADVANCE.description": "Move one range closer to [gold]Bodrakasti[/gold].",
+  "NYMPH_CARD_NYMPH_HOLY_CITY_SHIELD.title": "Sanctum Bulwark",
+  "NYMPH_CARD_NYMPH_HOLY_CITY_SHIELD.description": "Gain [blue]10[/blue] [gold]Holy City Embrace[/gold].\nReturns to your hand after being played.",
+  "NYMPH_CARD_NYMPH_SANCTIFIER_AUTOMATON.title": "Sanctifier Automaton",
+  "NYMPH_CARD_NYMPH_SANCTIFIER_AUTOMATON.description": "When this card enters your Discard Pile, take [blue]{Damage}[/blue] damage.",
+  "NYMPH_CARD_NYMPH_SANCTIFIER_AUTOMATON.smartDescription": "When this card enters your Discard Pile, take [blue]{Damage}[/blue] damage."
 }

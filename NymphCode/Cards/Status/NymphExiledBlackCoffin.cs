@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
+using MegaCrit.Sts2.Core.Nodes.Cards;
 using MegaCrit.Sts2.Core.Nodes.CommonUi;
 using MegaCrit.Sts2.Core.Saves.Runs;
 using Nymph.Patches;
@@ -86,12 +87,18 @@ public sealed class NymphExiledBlackCoffin : ModCardTemplate
         FremontBlackCoffinPatch.BeginInternalTransform(this);
         try
         {
+            NCard? playedCardNode = NCard.FindOnTable(this);
             CardPileAddResult? result = await CardCmd.Transform(
                 this,
                 restored,
                 CardPreviewStyle.None);
             if (result?.cardAdded is { } transformed)
             {
+                if (playedCardNode is not null)
+                {
+                    playedCardNode.Model = transformed;
+                }
+
                 await CardPileCmd.Add(transformed, PileType.Discard);
             }
         }

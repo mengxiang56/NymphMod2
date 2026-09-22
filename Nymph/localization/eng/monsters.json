@@ -1,4 +1,12 @@
 {
   "NYMPH_MONSTER_FREMONT.name": "Fremont",
-  "NYMPH_MONSTER_FREMONT.title": "Fremont"
+  "NYMPH_MONSTER_FREMONT.title": "Fremont",
+  "NYMPH_MONSTER_NYMPH_THERESIS.name": "Theresis",
+  "NYMPH_MONSTER_NYMPH_THERESIS.title": "Lord of the Black Crown",
+  "NYMPH_MONSTER_NYMPH_THERESA.name": "Theresa",
+  "NYMPH_MONSTER_NYMPH_THERESA.title": "Sage of the Black Crown",
+  "NYMPH_MONSTER_NYMPH_SOVEREIGN_SHADOW.name": "Sovereign's Remnant",
+  "NYMPH_MONSTER_NYMPH_SOVEREIGN_SHADOW.title": "Sovereign's Remnant",
+  "NYMPH_MONSTER_BODRAKASTI.name": "Bodrakasti, Sanctifier Gun-Knight",
+  "NYMPH_MONSTER_BODRAKASTI.title": "Bodrakasti, Sanctifier Gun-Knight"
 }

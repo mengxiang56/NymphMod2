@@ -9,8 +9,8 @@ using STS2RitsuLib.Scaffolding.Content;
 
 namespace Nymph.Encounters;
 
-[RegisterActEncounter(typeof(Hive))]
-public sealed class FremontBoss : ModEncounterTemplate
+[RegisterActEncounter(typeof(Overgrowth))]
+public sealed class BodrakastiBoss : ModEncounterTemplate
 {
     private const string RunHistoryIconPath =
         "res://Nymph/images/characters/Nymph_character_icon.png";
@@ -23,15 +23,14 @@ public sealed class FremontBoss : ModEncounterTemplate
         ModelDb.Encounter<QueenBoss>().BossNodePath;
     public override IEnumerable<string>? CustomMapNodeAssetPaths =>
         [ModelDb.Encounter<QueenBoss>().BossNodePath];
-    public override string? CustomRunHistoryIconPath =>
-        RunHistoryIconPath;
+    public override string? CustomRunHistoryIconPath => RunHistoryIconPath;
     public override string? CustomRunHistoryIconOutlinePath =>
         RunHistoryOutlinePath;
 
     public override IEnumerable<MonsterModel> AllPossibleMonsters =>
-        [ModelDb.Monster<Fremont>()];
+        [ModelDb.Monster<Bodrakasti>()];
 
     protected override IReadOnlyList<(MonsterModel, string?)>
         GenerateMonsters() =>
-        [(ModelDb.Monster<Fremont>().ToMutable(), null)];
+        [(ModelDb.Monster<Bodrakasti>().ToMutable(), null)];
 }
