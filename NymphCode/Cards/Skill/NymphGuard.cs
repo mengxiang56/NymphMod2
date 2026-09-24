@@ -24,8 +24,7 @@ public sealed class NymphGuard : ModCardTemplate
     ];
 
     public override CardAssetProfile AssetProfile => new(
-        PortraitPath:
-            $"{Entry.ResPath}/images/cards/NymphConversationBetweenDjall.png");
+        PortraitPath: $"{Entry.ResPath}/images/cards/NymphGuard.png");
 
     public NymphGuard()
         : base(1, CardType.Skill, CardRarity.Token, TargetType.Self, false)

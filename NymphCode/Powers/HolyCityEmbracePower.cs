@@ -1,11 +1,7 @@
 using MegaCrit.Sts2.Core.Commands;
-using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.ValueProps;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 
@@ -23,27 +19,6 @@ public sealed class HolyCityEmbracePower : ModPowerTemplate
             $"{Entry.ResPath}/images/powers/HolyCityEmbracePower32.png",
         BigIconPath:
             $"{Entry.ResPath}/images/powers/HolyCityEmbracePower84.png");
-
-    public override decimal ModifyDamageAdditive(
-        Creature? target,
-        decimal amount,
-        ValueProp props,
-        Creature? dealer,
-        CardModel? cardSource
-#if !STS2_PUBLIC
-        ,
-        CardPlay? cardPlay)
-#else
-        )
-#endif
-    {
-        if (target != Owner || amount <= 0)
-        {
-            return 0;
-        }
-
-        return -Math.Min(amount, Amount);
-    }
 
     public override async Task AfterPlayerTurnStart(
         PlayerChoiceContext choiceContext,

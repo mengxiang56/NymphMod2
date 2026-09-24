@@ -57,10 +57,16 @@ public sealed class Fremont : ModMonsterTemplate
         AnimState cast = new("Charge");
         AnimState hit = new("Idle");
         AnimState dead = new("C2_Revive_Die");
+        AnimState secondPhaseSkillBegin = new("C2_Skill_Begin");
+        AnimState secondPhaseSkillLoop = new(
+            "C2_Skill_Loop", isLooping: true);
+        AnimState secondPhaseSkillEnd = new("C2_Skill_End");
 
         attack.NextState = idle;
         cast.NextState = idle;
         hit.NextState = idle;
+        secondPhaseSkillBegin.NextState = secondPhaseSkillLoop;
+        secondPhaseSkillEnd.NextState = idle;
 
         CreatureAnimator animator = new(idle, controller);
         animator.AddAnyState("Idle", idle);
@@ -68,6 +74,8 @@ public sealed class Fremont : ModMonsterTemplate
         animator.AddAnyState("Cast", cast);
         animator.AddAnyState("Hit", hit);
         animator.AddAnyState("Dead", dead);
+        animator.AddAnyState("SecondPhaseSkillBegin", secondPhaseSkillBegin);
+        animator.AddAnyState("SecondPhaseSkillEnd", secondPhaseSkillEnd);
         return animator;
     }
 
@@ -148,6 +156,28 @@ public sealed class Fremont : ModMonsterTemplate
         }
     }
 
+    internal async Task PlaySecondPhaseSkill()
+    {
+        await CreatureCmd.TriggerAnim(Creature, "SecondPhaseSkillBegin", 0f);
+        await WaitForAnimation("C2_Skill_Begin");
+        await Cmd.Wait(1f, ignoreCombatEnd: true);
+        await CreatureCmd.TriggerAnim(Creature, "SecondPhaseSkillEnd", 0f);
+        await WaitForAnimation("C2_Skill_End");
+    }
+
+    private async Task WaitForAnimation(string animationName)
+    {
+        using MegaTrackEntry? track = Creature.GetCreatureNode()
+            ?.SpineAnimation.GetCurrentTrack();
+        if (track?.GetAnimationName() == animationName)
+        {
+            await Cmd.Wait(
+                Math.Max(0f, track.GetAnimationEnd() - track.GetTrackTime())
+                    + 0.05f,
+                ignoreCombatEnd: true);
+        }
+    }
+
     private async Task Attack(
         IReadOnlyList<Creature> targets,
         int damage,
@@ -197,6 +227,16 @@ public sealed class Fremont : ModMonsterTemplate
             3,
             Creature,
             null);
+        await PowerCmd.Apply<FocusPower>(
+            choiceContext,
+            Creature,
+            2,
+            Creature,
+            null);
+        Nymph.Mechanics.FremontOrbVisuals.Sync(
+            Creature,
+            Creature.GetPower<FremontMechanicsPower>()?.OrbCount ?? 0,
+            animateNewOrbs: false);
         await PowerCmd.Apply<VulnerablePower>(
             choiceContext,
             targets,

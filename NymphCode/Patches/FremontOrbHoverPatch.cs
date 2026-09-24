@@ -20,9 +20,12 @@ internal static class FremontOrbHoverPatch
             return true;
         }
 
+        LocString description = new(
+            "powers", "NYMPH_FREMONT_ORB_HOVER.description");
+        description.Add("EvokeDamage", FremontOrbVisuals.GetEvokeDamage(__instance));
         HoverTip hoverTip = new(
             new LocString("powers", "NYMPH_FREMONT_ORB_HOVER.title"),
-            new LocString("powers", "NYMPH_FREMONT_ORB_HOVER.description"));
+            description);
         NHoverTipSet.CreateAndShow(
                 __instance._bounds,
                 hoverTip,

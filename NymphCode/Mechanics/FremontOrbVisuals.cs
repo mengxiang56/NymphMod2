@@ -3,6 +3,7 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Orbs;
+using MegaCrit.Sts2.Core.Nodes.Combat;
 using MegaCrit.Sts2.Core.Nodes.GodotExtensions;
 using MegaCrit.Sts2.Core.Nodes.Orbs;
 using MegaCrit.Sts2.Core.Nodes.Rooms;
@@ -14,8 +15,9 @@ internal static class FremontOrbVisuals
 {
     internal const string ContainerName = "FremontOrbContainer";
     private const int SlotCount = 3;
+    private const float OrbScale = 1.15f;
     private const float LayoutAngle = 125f;
-    private const float LayoutRadius = 225f;
+    private const float LayoutRadius = 245f;
     private const float MiddleSlotLift = 80f;
 
     internal static void Sync(
@@ -117,6 +119,7 @@ internal static class FremontOrbVisuals
         NOrb emptySlot = NOrb.Create(isLocal: true);
         emptySlot.Name = GetSlotName(SlotCount - 1);
         container.AddChildSafely(emptySlot);
+        emptySlot.Scale = Vector2.One * OrbScale;
         emptySlot.Position = Vector2.Zero;
         UpdateValueLabels(emptySlot, isEvoking: false);
         remainingSlots.Add(emptySlot);
@@ -151,9 +154,14 @@ internal static class FremontOrbVisuals
         if (filled)
         {
             orb._evokeLabel.SetTextAutoSize(
-                FremontMechanicsPower.OrbEvokeDamage.ToString());
+                GetEvokeDamage(orb).ToString());
         }
     }
+
+    internal static int GetEvokeDamage(NOrb orb) =>
+        orb.GetParent()?.GetParent() is NCreature creatureNode
+            ? FremontMechanicsPower.GetOrbEvokeDamage(creatureNode.Entity)
+            : FremontMechanicsPower.OrbEvokeDamage;
 
     private static Control? GetOrCreateContainer(Creature owner)
     {
@@ -201,6 +209,7 @@ internal static class FremontOrbVisuals
             filled ? CreateLightningModel(owner) : null);
         newSlot.Name = GetSlotName(index);
         container.AddChildSafely(newSlot);
+        newSlot.Scale = Vector2.One * OrbScale;
         newSlot.Position = GetSlotPosition(index);
 
         if (animate && filled)

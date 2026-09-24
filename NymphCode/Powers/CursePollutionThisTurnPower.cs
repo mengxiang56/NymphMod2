@@ -32,6 +32,7 @@ public sealed class CursePollutionThisTurnPower : ModPowerTemplate
         }
 
         CardCmd.RemoveKeyword(card, NymphKeywords.CursePollution);
+        CardCmd.RemoveKeyword(card, NymphKeywords.VoidSignExpiry);
         CardModel dreadkaz = card.CombatState!.CreateCard<NymphDreadkaz>(
             card.Owner);
         await CardPileCmd.AddGeneratedCardToCombat(
@@ -40,7 +41,7 @@ public sealed class CursePollutionThisTurnPower : ModPowerTemplate
             card.Owner);
     }
 
-    public override async Task AfterSideTurnEnd(
+    public override Task AfterSideTurnEnd(
         PlayerChoiceContext choiceContext,
         CombatSide side,
         IEnumerable<Creature> participants)
@@ -48,17 +49,18 @@ public sealed class CursePollutionThisTurnPower : ModPowerTemplate
         Player? player = Owner.Player;
         if (!participants.Contains(Owner) || player is null)
         {
-            return;
+            return Task.CompletedTask;
         }
 
         foreach (CardModel card in player.PlayerCombatState!.AllCards
                      .Where(card => card.Keywords.Contains(
-                         NymphKeywords.CursePollution))
+                         NymphKeywords.VoidSignExpiry))
                      .ToList())
         {
             CardCmd.RemoveKeyword(card, NymphKeywords.CursePollution);
+            CardCmd.RemoveKeyword(card, NymphKeywords.VoidSignExpiry);
         }
 
-        await PowerCmd.Remove(this);
+        return Task.CompletedTask;
     }
 }

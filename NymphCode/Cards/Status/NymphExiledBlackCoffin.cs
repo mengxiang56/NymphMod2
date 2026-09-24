@@ -4,9 +4,9 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
-using MegaCrit.Sts2.Core.Nodes.Cards;
 using MegaCrit.Sts2.Core.Nodes.CommonUi;
 using MegaCrit.Sts2.Core.Saves.Runs;
+using Nymph.Mechanics;
 using Nymph.Patches;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
@@ -24,11 +24,13 @@ public sealed class NymphExiledBlackCoffin : ModCardTemplate
 
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
     [
-        CardKeyword.Retain
+        CardKeyword.Unplayable,
+        NymphKeywords.Recreate
     ];
 
     public override CardAssetProfile AssetProfile => new(
-        PortraitPath: $"{Entry.ResPath}/images/cards/NymphDreadkaz.png");
+        PortraitPath:
+            $"{Entry.ResPath}/images/cards/NymphExiledBlackCoffin.png");
 
     [SavedProperty]
     public SerializableCard? OriginalCard
@@ -53,7 +55,7 @@ public sealed class NymphExiledBlackCoffin : ModCardTemplate
     }
 
     public NymphExiledBlackCoffin()
-        : base(1, CardType.Status, CardRarity.Status, TargetType.Self, false)
+        : base(-1, CardType.Status, CardRarity.Status, TargetType.None, false)
     {
     }
 
@@ -66,11 +68,11 @@ public sealed class NymphExiledBlackCoffin : ModCardTemplate
                 : CardModel.FromSerializable(OriginalCard).Title);
     }
 
-    protected override async Task OnPlay(
-        PlayerChoiceContext choiceContext,
-        CardPlay cardPlay)
+    internal async Task RestoreOriginal()
     {
-        if (OriginalCard is null || CardScope is null)
+        if (OriginalCard is null
+            || CardScope is null
+            || Pile?.Type != PileType.Hand)
         {
             return;
         }
@@ -87,26 +89,20 @@ public sealed class NymphExiledBlackCoffin : ModCardTemplate
         FremontBlackCoffinPatch.BeginInternalTransform(this);
         try
         {
-            NCard? playedCardNode = NCard.FindOnTable(this);
-            CardPileAddResult? result = await CardCmd.Transform(
+            await CardCmd.Transform(
                 this,
                 restored,
                 CardPreviewStyle.None);
-            if (result?.cardAdded is { } transformed)
-            {
-                if (playedCardNode is not null)
-                {
-                    playedCardNode.Model = transformed;
-                }
-
-                await CardPileCmd.Add(transformed, PileType.Discard);
-            }
         }
         finally
         {
             FremontBlackCoffinPatch.EndInternalTransform(this);
         }
     }
+
+    protected override Task OnPlay(
+        PlayerChoiceContext choiceContext,
+        CardPlay cardPlay) => Task.CompletedTask;
 
     private static bool MatchesSnapshot(
         SerializableCard candidate,

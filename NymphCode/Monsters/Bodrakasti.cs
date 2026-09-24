@@ -1,8 +1,8 @@
 using MegaCrit.Sts2.Core.Animation;
 using MegaCrit.Sts2.Core.Audio;
 using MegaCrit.Sts2.Core.Bindings.MegaSpine;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
-using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
@@ -11,7 +11,7 @@ using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.MonsterMoves.Intents;
 using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
 using MegaCrit.Sts2.Core.Nodes.Combat;
-using Nymph.Cards;
+using Nymph.Encounters;
 using Nymph.Powers;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
@@ -47,18 +47,30 @@ public sealed class Bodrakasti : ModMonsterTemplate
         AnimState phaseOneDead = new("C1_Die");
         AnimState revive = new("C1_Die_End");
         AnimState phaseTwoIdle = new("C2_Idle", isLooping: true);
-        AnimState phaseTwoMulti = new("C2_Attack");
+        AnimState phaseTwoMultiBegin = new("C2_Skill_2_Begin");
+        AnimState phaseTwoMultiLoop = new(
+            "C2_Skill_2_Loop",
+            isLooping: true);
+        AnimState phaseTwoMultiEnd = new("C2_Skill_2_End");
         AnimState phaseTwoHeavy = new("C2_Attack_2");
         AnimState phaseTwoSkill = new("C2_Skill_1");
+        AnimState phaseTwoReviveSkillBegin = new("C2_Skill_3_Begin");
+        AnimState phaseTwoReviveSkillLoop = new(
+            "C2_Skill_3_Loop",
+            isLooping: true);
+        AnimState phaseTwoReviveSkillEnd = new("C2_Skill_3_End");
         AnimState phaseTwoHit = new("C2_Idle");
         AnimState dead = new("C2_Die");
         attack.NextState = idle;
         cast.NextState = idle;
         hit.NextState = idle;
         revive.NextState = phaseTwoIdle;
-        phaseTwoMulti.NextState = phaseTwoIdle;
+        phaseTwoMultiBegin.NextState = phaseTwoMultiLoop;
+        phaseTwoMultiEnd.NextState = phaseTwoIdle;
         phaseTwoHeavy.NextState = phaseTwoIdle;
         phaseTwoSkill.NextState = phaseTwoIdle;
+        phaseTwoReviveSkillBegin.NextState = phaseTwoReviveSkillLoop;
+        phaseTwoReviveSkillEnd.NextState = phaseTwoIdle;
         phaseTwoHit.NextState = phaseTwoIdle;
 
         CreatureAnimator animator = new(idle, controller);
@@ -78,9 +90,16 @@ public sealed class Bodrakasti : ModMonsterTemplate
         animator.AddAnyState("PhaseOneDie", phaseOneDie);
         animator.AddAnyState("Revive", revive);
         animator.AddAnyState("PhaseTwoIdle", phaseTwoIdle);
-        animator.AddAnyState("PhaseTwoMulti", phaseTwoMulti);
+        animator.AddAnyState("PhaseTwoMultiBegin", phaseTwoMultiBegin);
+        animator.AddAnyState("PhaseTwoMultiEnd", phaseTwoMultiEnd);
         animator.AddAnyState("PhaseTwoHeavy", phaseTwoHeavy);
         animator.AddAnyState("PhaseTwoSkill", phaseTwoSkill);
+        animator.AddAnyState(
+            "PhaseTwoReviveSkillBegin",
+            phaseTwoReviveSkillBegin);
+        animator.AddAnyState(
+            "PhaseTwoReviveSkillEnd",
+            phaseTwoReviveSkillEnd);
         animator.AddAnyState(
             "Dead",
             phaseOneDead,
@@ -99,9 +118,19 @@ public sealed class Bodrakasti : ModMonsterTemplate
         await base.AfterAddedToRoom();
         ThrowingPlayerChoiceContext context = new();
         await ApplyRulePower<BodrakastiHolyCarePower>(context);
-        await ApplyRulePower<BodrakastiCounselPower>(context);
-        await ApplyRulePower<BodrakastiGuidancePower>(context);
         await ApplyRulePower<BodrakastiPhasePower>(context);
+        await PowerCmd.Apply<BodrakastiHolyCityEmbracePower>(
+            context,
+            Creature,
+            5,
+            Creature,
+            null);
+        await PowerCmd.Apply<StrengthPower>(
+            context,
+            Creature,
+            10,
+            Creature,
+            null);
 
         foreach (var player in CombatState.Players)
         {
@@ -117,6 +146,8 @@ public sealed class Bodrakasti : ModMonsterTemplate
                     silent: true);
             }
         }
+
+        BodrakastiBoss.AlignAutomatonSlots(CombatState);
     }
 
     protected override MonsterMoveStateMachine GenerateMoveStateMachine()
@@ -124,12 +155,20 @@ public sealed class Bodrakasti : ModMonsterTemplate
         MoveState ceremony = new(
             "CEREMONY",
             Ceremony,
-            new StatusIntent(1),
-            new BuffIntent());
-        MoveState attack = new(
-            "ATTACK",
+            new BuffIntent(),
+            new SummonIntent());
+        MoveState firstAttack = new(
+            "FIRST_ATTACK",
             Attack,
             new SingleAttackIntent(40));
+        MoveState secondAttack = new(
+            "SECOND_ATTACK",
+            Attack,
+            new SingleAttackIntent(40));
+        MoveState summon = new(
+            "SUMMON_AUTOMATONS",
+            SummonMove,
+            new SummonIntent());
         _phaseTwoMultiAttack = new MoveState(
             "PHASE_TWO_MULTI_ATTACK",
             PhaseTwoMultiAttack,
@@ -150,9 +189,11 @@ public sealed class Bodrakasti : ModMonsterTemplate
             "PHASE_TWO_REINFORCE",
             PhaseTwoReinforce,
             new BuffIntent(),
-            new StatusIntent(2));
-        ceremony.FollowUpState = attack;
-        attack.FollowUpState = attack;
+            new SummonIntent());
+        ceremony.FollowUpState = firstAttack;
+        firstAttack.FollowUpState = secondAttack;
+        secondAttack.FollowUpState = summon;
+        summon.FollowUpState = firstAttack;
         _phaseTwoMultiAttack.FollowUpState = phaseTwoHeavyAttack;
         phaseTwoHeavyAttack.FollowUpState = phaseTwoReinforce;
         phaseTwoReinforce.FollowUpState = _phaseTwoMultiAttack;
@@ -160,7 +201,9 @@ public sealed class Bodrakasti : ModMonsterTemplate
         return new MonsterMoveStateMachine(
         [
             ceremony,
-            attack,
+            firstAttack,
+            secondAttack,
+            summon,
             _reviveState,
             _phaseTwoMultiAttack,
             phaseTwoHeavyAttack,
@@ -183,6 +226,14 @@ public sealed class Bodrakasti : ModMonsterTemplate
         if (Creature.GetPower<BodrakastiPhasePower>() is { } phase)
         {
             await phase.ReviveForSecondPhase();
+            await CreatureCmd.TriggerAnim(
+                Creature,
+                "PhaseTwoReviveSkillBegin",
+                0.8f);
+            await CreatureCmd.TriggerAnim(
+                Creature,
+                "PhaseTwoReviveSkillEnd",
+                0f);
         }
     }
 
@@ -190,34 +241,51 @@ public sealed class Bodrakasti : ModMonsterTemplate
     {
         await CreatureCmd.TriggerAnim(Creature, "Cast", 0.5f);
         ThrowingPlayerChoiceContext context = new();
-        await PowerCmd.Apply<BodrakastiHolyCityEmbracePower>(
-            context,
-            Creature,
-            5,
-            Creature,
-            null);
+        await ApplyRulePower<BodrakastiGuidancePower>(context);
+        await ApplyRulePower<BodrakastiCounselPower>(context);
         await PowerCmd.Apply<RitualPower>(
             context,
             Creature,
             10,
             Creature,
             null);
+        await SummonAutomatons();
+    }
 
-        foreach (var player in CombatState.Players.Where(
-            player => !player.Creature.IsDead))
+    private async Task SummonMove(IReadOnlyList<Creature> targets)
+    {
+        await CreatureCmd.TriggerAnim(Creature, "Cast", 0.5f);
+        await SummonAutomatons();
+    }
+
+    private async Task SummonAutomatons()
+    {
+        BodrakastiBoss.AlignAutomatonSlots(CombatState);
+        HashSet<int> playerDistances = CombatState.Players
+            .Where(player => !player.Creature.IsDead)
+            .Select(player => player.Creature
+                .GetPower<BodrakastiDistancePower>()?.Amount ?? 2)
+            .ToHashSet();
+
+        for (int distance = 1; distance <= 3; distance++)
         {
-            if (PileType.Hand.GetPile(player).Cards.Count
-                >= CardPile.MaxCardsInHand)
+            if (playerDistances.Contains(distance)
+                || CombatState.Enemies.Any(enemy => !enemy.IsDead
+                    && enemy.Monster is SanctifierAutomaton automaton
+                    && automaton.Distance == distance))
             {
                 continue;
             }
 
-            NymphBodrakastiRitual ritual =
-                CombatState.CreateCard<NymphBodrakastiRitual>(player);
-            await CardPileCmd.AddGeneratedCardToCombat(
-                ritual,
-                PileType.Hand,
-                player);
+            SanctifierAutomaton automaton =
+                (SanctifierAutomaton)ModelDb.Monster<SanctifierAutomaton>()
+                    .ToMutable();
+            automaton.Distance = distance;
+            await CreatureCmd.Add(
+                automaton,
+                CombatState,
+                CombatSide.Enemy,
+                BodrakastiBoss.GetAutomatonSlot(distance));
         }
     }
 
@@ -229,14 +297,21 @@ public sealed class Bodrakasti : ModMonsterTemplate
             .WithHitFx("vfx/vfx_attack_blunt")
             .Execute(null);
 
-    private Task PhaseTwoMultiAttack(IReadOnlyList<Creature> targets) =>
-        DamageCmd.Attack(10)
+    private async Task PhaseTwoMultiAttack(
+        IReadOnlyList<Creature> targets)
+    {
+        await DamageCmd.Attack(10)
             .WithHitCount(5)
             .FromMonster(this)
-            .WithAttackerAnim("PhaseTwoMulti", 0.6f)
+            .WithAttackerAnim("PhaseTwoMultiBegin", 0.6f)
             .OnlyPlayAnimOnce()
             .WithHitFx("vfx/vfx_attack_blunt")
             .Execute(null);
+        await CreatureCmd.TriggerAnim(
+            Creature,
+            "PhaseTwoMultiEnd",
+            0f);
+    }
 
     private Task PhaseTwoHeavyAttack(IReadOnlyList<Creature> targets) =>
         DamageCmd.Attack(40)
@@ -255,25 +330,7 @@ public sealed class Bodrakasti : ModMonsterTemplate
             5,
             Creature,
             null);
-
-        foreach (var player in CombatState.Players.Where(
-            player => !player.Creature.IsDead))
-        {
-            for (int i = 0; i < 2; i++)
-            {
-                PileType destination =
-                    PileType.Hand.GetPile(player).Cards.Count
-                        < CardPile.MaxCardsInHand
-                        ? PileType.Hand
-                        : PileType.Discard;
-                NymphSanctifierAutomaton automaton =
-                    CombatState.CreateCard<NymphSanctifierAutomaton>(player);
-                await CardPileCmd.AddGeneratedCardToCombat(
-                    automaton,
-                    destination,
-                    player);
-            }
-        }
+        await SummonAutomatons();
     }
 
     private Task ApplyRulePower<T>(ThrowingPlayerChoiceContext context)

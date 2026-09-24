@@ -20,6 +20,8 @@
   "NYMPH_KEYWORD_THRESHOLD.title": "临界点",
   "NYMPH_KEYWORD_THRESHOLD.description": "思绪值大于等于[gold]临界点[/gold]时，进入[gold]混乱[/gold]状态。\n[gold]阻滞点[/gold]等于[gold]临界点[/gold]的[blue]2[/blue]倍。",
   "NYMPH_KEYWORD_CURSE_POLLUTION.title": "咒诅",
-  "NYMPH_KEYWORD_CURSE_POLLUTION.description": "若在本回合打出，向手牌中加入一张[gold]恐卡兹[/gold]。",
-  "NYMPH_KEYWORD_CURSE_POLLUTION.extraCardText": "向手牌中加入一张[gold]恐卡兹[/gold]。"
+  "NYMPH_KEYWORD_CURSE_POLLUTION.description": "打出后，向手牌中加入一张[gold]恐卡兹[/gold]。",
+  "NYMPH_KEYWORD_CURSE_POLLUTION.extraCardText": "打出后，向手牌中加入一张[gold]恐卡兹[/gold]。",
+  "NYMPH_KEYWORD_VOID_SIGN_EXPIRY.title": "期限标记",
+  "NYMPH_KEYWORD_VOID_SIGN_EXPIRY.description": ""
 }

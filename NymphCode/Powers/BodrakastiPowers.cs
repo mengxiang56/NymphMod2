@@ -3,6 +3,7 @@ using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
@@ -13,6 +14,7 @@ using MegaCrit.Sts2.Core.Nodes.Rooms;
 using MegaCrit.Sts2.Core.Saves.Runs;
 using MegaCrit.Sts2.Core.ValueProps;
 using Nymph.Cards;
+using Nymph.Encounters;
 using Nymph.Monsters;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
@@ -22,8 +24,9 @@ namespace Nymph.Powers;
 [RegisterPower]
 public sealed class BodrakastiDistancePower : ModPowerTemplate
 {
-    private const float DistanceStep = 180f;
+    internal const float DistanceStep = 240f;
     private float _middlePositionX;
+    private bool _openingRitualGranted;
 
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
@@ -33,6 +36,43 @@ public sealed class BodrakastiDistancePower : ModPowerTemplate
     public override PowerAssetProfile AssetProfile => new(
         IconPath: $"{Entry.ResPath}/images/powers/HeartToHeartPower32.png",
         BigIconPath: $"{Entry.ResPath}/images/powers/HeartToHeartPower84.png");
+
+    [SavedProperty]
+    public bool OpeningRitualGranted
+    {
+        get => _openingRitualGranted;
+        set
+        {
+            AssertMutable();
+            _openingRitualGranted = value;
+        }
+    }
+
+    public override async Task BeforeHandDraw(
+        Player player,
+        PlayerChoiceContext choiceContext,
+        ICombatState combatState)
+    {
+        if (player != Owner.Player || OpeningRitualGranted)
+        {
+            return;
+        }
+
+        OpeningRitualGranted = true;
+        if (Owner.IsDead
+            || PileType.Hand.GetPile(player).Cards.Count
+                >= CardPile.MaxCardsInHand)
+        {
+            return;
+        }
+
+        NymphBodrakastiRitual ritual =
+            CombatState.CreateCard<NymphBodrakastiRitual>(player);
+        await CardPileCmd.AddGeneratedCardToCombat(
+            ritual,
+            PileType.Hand,
+            player);
+    }
 
     public override Task AfterApplied(Creature? applier, CardModel? cardSource)
     {
@@ -57,6 +97,7 @@ public sealed class BodrakastiDistancePower : ModPowerTemplate
         if (power == this)
         {
             await UpdateCreaturePositions();
+            BodrakastiBoss.UpdateAutomatonFacings(CombatState);
         }
     }
 
@@ -179,8 +220,9 @@ public sealed class BodrakastiHolyCarePower : ModPowerTemplate
 [RegisterPower]
 public sealed class BodrakastiCounselPower : ModPowerTemplate
 {
-    private bool _pendingDouble;
-    private bool _activeDouble;
+    private int _pendingBlock;
+    private int _activeStrength;
+    private bool _skipNextPlayerTurn = true;
 
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.None;
@@ -190,83 +232,97 @@ public sealed class BodrakastiCounselPower : ModPowerTemplate
         BigIconPath: $"{Entry.ResPath}/images/powers/FearPower84.png");
 
     [SavedProperty]
-    public bool PendingDouble
+    public bool SkipNextPlayerTurn
     {
-        get => _pendingDouble;
+        get => _skipNextPlayerTurn;
         set
         {
             AssertMutable();
-            _pendingDouble = value;
+            _skipNextPlayerTurn = value;
         }
     }
 
     [SavedProperty]
-    public bool ActiveDouble
+    public int PendingBlock
     {
-        get => _activeDouble;
+        get => _pendingBlock;
         set
         {
             AssertMutable();
-            _activeDouble = value;
+            _pendingBlock = value;
         }
     }
 
-    public override decimal ModifyDamageMultiplicative(
-        Creature? target,
-        decimal amount,
-        ValueProp props,
-        Creature? dealer,
-        CardModel? cardSource
-#if !STS2_PUBLIC
-        ,
-        CardPlay? cardPlay
-#endif
-        ) => dealer == Owner && ActiveDouble ? 2m : 1m;
-
-    public override Task AfterDamageGiven(
-        PlayerChoiceContext choiceContext,
-        Creature? dealer,
-        DamageResult result,
-        ValueProp props,
-        Creature target,
-        CardModel? cardSource)
+    [SavedProperty]
+    public int ActiveStrength
     {
-        if (dealer == Owner
-            && result.TotalDamage > 0
-            && result.WasFullyBlocked)
+        get => _activeStrength;
+        set
         {
-            PendingDouble = true;
-            Flash();
+            AssertMutable();
+            _activeStrength = value;
         }
-
-        return Task.CompletedTask;
     }
 
-    public override Task AfterSideTurnStart(
+    public override async Task AfterSideTurnStart(
         CombatSide side,
         IReadOnlyList<Creature> participants,
         ICombatState combatState)
     {
-        if (participants.Contains(Owner))
+        if (side != CombatSide.Player)
         {
-            ActiveDouble = PendingDouble;
-            PendingDouble = false;
+            return;
         }
 
-        return Task.CompletedTask;
+        if (SkipNextPlayerTurn)
+        {
+            SkipNextPlayerTurn = false;
+            PendingBlock = 0;
+            return;
+        }
+
+        if (PendingBlock <= 0)
+        {
+            return;
+        }
+
+        int gained = PendingBlock;
+        PendingBlock = 0;
+        ActiveStrength = gained;
+        Flash();
+        await PowerCmd.Apply<StrengthPower>(
+            new ThrowingPlayerChoiceContext(),
+            Owner,
+            gained,
+            Owner,
+            null);
     }
 
-    public override Task AfterSideTurnEnd(
+    public override async Task AfterSideTurnEnd(
         PlayerChoiceContext choiceContext,
         CombatSide side,
         IEnumerable<Creature> participants)
     {
-        if (participants.Contains(Owner))
+        if (side != CombatSide.Enemy || !participants.Contains(Owner))
         {
-            ActiveDouble = false;
+            return;
         }
 
-        return Task.CompletedTask;
+        PendingBlock = Owner.CombatState?.PlayerCreatures
+            .Where(player => !player.IsDead)
+            .Sum(player => player.Block) ?? 0;
+        if (ActiveStrength > 0)
+        {
+            int expired = ActiveStrength;
+            ActiveStrength = 0;
+            await PowerCmd.Apply<StrengthPower>(
+                choiceContext,
+                Owner,
+                -expired,
+                Owner,
+                null,
+                silent: true);
+        }
     }
 }
 
@@ -453,9 +509,11 @@ public sealed class BodrakastiPhasePower : ModPowerTemplate
         WaitingToRevive = false;
         await CreatureCmd.SetMaxHp(Owner, Owner.MaxHp);
         await CreatureCmd.Heal(Owner, Owner.MaxHp);
+        if (Owner.GetPower<BodrakastiCounselPower>() is { } counsel)
+        {
+            await PowerCmd.Remove(counsel);
+        }
         await PowerCmd.Apply<BodrakastiHolyCarePower>(
-            context, Owner, 1, Owner, null, silent: true);
-        await PowerCmd.Apply<BodrakastiCounselPower>(
             context, Owner, 1, Owner, null, silent: true);
         if (PreservedEmbrace > 0)
         {

@@ -47,10 +47,15 @@ public sealed class NymphVoidSign : ModCardTemplate
         List<CardModel> drawnCards = drawn.ToList();
         foreach (CardModel card in drawnCards)
         {
-            CardCmd.ApplyKeyword(card, NymphKeywords.CursePollution);
+            if (!card.Keywords.Contains(NymphKeywords.CursePollution))
+            {
+                CardCmd.ApplyKeyword(card, NymphKeywords.CursePollution);
+                CardCmd.ApplyKeyword(card, NymphKeywords.VoidSignExpiry);
+            }
         }
 
-        if (drawnCards.Count > 0)
+        if (drawnCards.Any(card => card.Keywords.Contains(
+                NymphKeywords.VoidSignExpiry)))
         {
             await PowerCmd.Apply<CursePollutionThisTurnPower>(
                 choiceContext,

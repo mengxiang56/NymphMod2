@@ -118,8 +118,8 @@
   "NYMPH_CARD_NYMPH_BOUNDLESS_IMAGINATION.description": "[gold]Narrate[/gold] {Narrate}: Gain {energyPrefix:energyIcons(1)}.\nRepeat {Times:diff()} times.",
   "NYMPH_CARD_NYMPH_BOUNDLESS_IMAGINATION.smartDescription": "[gold]Narrate[/gold] {Narrate}: Gain {energyPrefix:energyIcons(1)}.\nRepeat {Times:diff()} times.",
   "NYMPH_CARD_NYMPH_VOID_SIGN.title": "Void Sign",
-  "NYMPH_CARD_NYMPH_VOID_SIGN.description": "Draw {Cards:diff()} cards. Afflict them with [gold]Pollution: Curse[/gold].",
-  "NYMPH_CARD_NYMPH_VOID_SIGN.smartDescription": "Draw {Cards:diff()} cards. Afflict them with [gold]Pollution: Curse[/gold].",
+  "NYMPH_CARD_NYMPH_VOID_SIGN.description": "Draw {Cards:diff()} cards. They gain [gold]Curse[/gold] this turn.",
+  "NYMPH_CARD_NYMPH_VOID_SIGN.smartDescription": "Draw {Cards:diff()} cards. They gain [gold]Curse[/gold] this turn.",
   "NYMPH_CARD_NYMPH_DEAD_SOUL.title": "Sting to Ingot",
   "NYMPH_CARD_NYMPH_DEAD_SOUL.description": "Choose another player.\nClear your [gold]Thought[/gold]. They gain that much [gold]Gold[/gold] (max {Gold:diff()}).",
   "NYMPH_CARD_NYMPH_DEAD_SOUL.smartDescription": "Choose another player.\nClear your [gold]Thought[/gold]. They gain that much [gold]Gold[/gold] (max {Gold:diff()}).",
@@ -392,8 +392,8 @@
   "NYMPH_CARD_NYMPH_INSPIRATION_RECLAIM.flavor": "[i]“Later, Her Highness got the hydroponics working. Only then did we win some space back from the crops.”[/i]",
   "NYMPH_CARD_NYMPH_INSPIRATION_RISE_AND_FALL.flavor": "[i]“I plan to leave the city and find work elsewhere.”[/i]",
   "NYMPH_CARD_NYMPH_EXILED_BLACK_COFFIN.title": "Exiled Black Coffin",
-  "NYMPH_CARD_NYMPH_EXILED_BLACK_COFFIN.description": "When played, transform back into [gold]{OriginalCardName}[/gold] and put it into your discard pile.\nCannot be [gold]Recreated[/gold].",
-  "NYMPH_CARD_NYMPH_EXILED_BLACK_COFFIN.smartDescription": "When played, transform back into [gold]{OriginalCardName}[/gold] and put it into your discard pile.\nCannot be [gold]Recreated[/gold].",
+  "NYMPH_CARD_NYMPH_EXILED_BLACK_COFFIN.description": "Unplayable. Cannot be [gold]Recreated[/gold].\nWhen a card immediately to its left or right is played, transform this into [gold]{OriginalCardName}[/gold].",
+  "NYMPH_CARD_NYMPH_EXILED_BLACK_COFFIN.smartDescription": "Unplayable. Cannot be [gold]Recreated[/gold].\nWhen a card immediately to its left or right is played, transform this into [gold]{OriginalCardName}[/gold].",
   "NYMPH_CARD_NYMPH_FREMONT_EVOKE.title": "Evoke",
   "NYMPH_CARD_NYMPH_FREMONT_EVOKE.description": "Evoke all of Fremont's [gold]Orbs[/gold].",
   "NYMPH_CARD_NYMPH_GUARD.title": "Guard",
@@ -407,8 +407,5 @@
   "NYMPH_CARD_NYMPH_BODRAKASTI_ADVANCE.title": "Advance",
   "NYMPH_CARD_NYMPH_BODRAKASTI_ADVANCE.description": "Move one range closer to [gold]Bodrakasti[/gold].",
   "NYMPH_CARD_NYMPH_HOLY_CITY_SHIELD.title": "Sanctum Bulwark",
-  "NYMPH_CARD_NYMPH_HOLY_CITY_SHIELD.description": "Gain [blue]10[/blue] [gold]Holy City Embrace[/gold].\nReturns to your hand after being played.",
-  "NYMPH_CARD_NYMPH_SANCTIFIER_AUTOMATON.title": "Sanctifier Automaton",
-  "NYMPH_CARD_NYMPH_SANCTIFIER_AUTOMATON.description": "When this card enters your Discard Pile, take [blue]{Damage}[/blue] damage.",
-  "NYMPH_CARD_NYMPH_SANCTIFIER_AUTOMATON.smartDescription": "When this card enters your Discard Pile, take [blue]{Damage}[/blue] damage."
+  "NYMPH_CARD_NYMPH_HOLY_CITY_SHIELD.description": "Reduce all damage taken by [blue]10[/blue] this turn.\nReturns to your hand after being played. [gold]Exhausts[/gold] after {RemainingPlays} more plays."
 }

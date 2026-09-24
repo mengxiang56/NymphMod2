@@ -51,6 +51,19 @@ public sealed class FremontBlackCoffinRulePower : FremontRulePower
 [RegisterPower]
 public sealed class FremontSecondPhaseRulePower : FremontRulePower
 {
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+    [
+        new DynamicVar("HalfHp", 0)
+    ];
+
+    public override Task AfterApplied(
+        MegaCrit.Sts2.Core.Entities.Creatures.Creature? applier,
+        MegaCrit.Sts2.Core.Models.CardModel? cardSource)
+    {
+        DynamicVars["HalfHp"].BaseValue = Owner.MaxHp / 2;
+        return Task.CompletedTask;
+    }
+
     public override PowerAssetProfile AssetProfile => new(
         IconPath: $"{Entry.ResPath}/images/powers/LookForFuturePower32.png",
         BigIconPath: $"{Entry.ResPath}/images/powers/LookForFuturePower84.png");

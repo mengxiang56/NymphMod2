@@ -5,6 +5,8 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.Nodes.CommonUi;
 using MegaCrit.Sts2.Core.Nodes.Vfx;
 using MegaCrit.Sts2.Core.Saves.Runs;
 using MegaCrit.Sts2.Core.ValueProps;
@@ -162,7 +164,7 @@ public sealed class FremontMechanicsPower : ModPowerTemplate
             return (pileType, position);
         }
 
-        return (PileType.None, CardPilePosition.Bottom);
+        return (PileType.Discard, CardPilePosition.Bottom);
     }
 #else
     public override CardLocation ModifyCardPlayResultLocation(
@@ -178,7 +180,7 @@ public sealed class FremontMechanicsPower : ModPowerTemplate
 
         return new CardLocation(
             card.Owner,
-            PileType.None,
+            PileType.Discard,
             CardPilePosition.Bottom);
     }
 #endif
@@ -190,12 +192,6 @@ public sealed class FremontMechanicsPower : ModPowerTemplate
         if (!cardPlay.IsLastInSeries)
         {
             return;
-        }
-
-        RuntimeData data = GetInternalData<RuntimeData>();
-        if (data.PendingCoffins.Remove(cardPlay.Card))
-        {
-            await CreateCoffin(cardPlay.Card);
         }
 
         int progress = CardsTowardOrb + 1;
@@ -289,11 +285,23 @@ public sealed class FremontMechanicsPower : ModPowerTemplate
         return true;
     }
 
-    private async Task CreateCoffin(CardModel original)
+    internal static async Task TransformMarkedCard(CardModel original)
     {
         ICombatState? combatState = original.CombatState
             ?? original.Owner.Creature.CombatState;
         if (combatState is null || CombatManager.Instance.IsEnding)
+        {
+            return;
+        }
+
+        FremontMechanicsPower? mechanics = combatState.Enemies
+            .Select(enemy => enemy.GetPower<FremontMechanicsPower>())
+            .FirstOrDefault(power => power is not null);
+        if (mechanics is null
+            || !mechanics.GetInternalData<RuntimeData>()
+                .PendingCoffins.Remove(original)
+            || original.Pile?.Type != PileType.Discard
+            || CombatManager.Instance.IsEnding)
         {
             return;
         }
@@ -304,10 +312,18 @@ public sealed class FremontMechanicsPower : ModPowerTemplate
         coffin.OriginalDeckVersions = original.DeckVersion is null
             ? []
             : [original.DeckVersion.ToSerializable()];
-        await CardPileCmd.AddGeneratedCardToCombat(
-            coffin,
-            PileType.Hand,
-            original.Owner);
+        if (original.IsTransformable)
+        {
+            await CardCmd.Transform(original, coffin, CardPreviewStyle.None);
+        }
+        else
+        {
+            await CardPileCmd.RemoveFromCombat(original, skipVisuals: true);
+            await CardPileCmd.AddGeneratedCardToCombat(
+                coffin,
+                PileType.Discard,
+                original.Owner);
+        }
     }
 
     private async Task GenerateOrb(Creature evokeTarget)
@@ -334,10 +350,14 @@ public sealed class FremontMechanicsPower : ModPowerTemplate
         await CreatureCmd.Damage(
             ChoiceContext,
             target,
-            OrbEvokeDamage,
+            GetOrbEvokeDamage(Owner),
             DamageProps.nonCardUnpowered,
             Owner);
     }
+
+    internal static int GetOrbEvokeDamage(Creature owner) =>
+        Math.Max(0, OrbEvokeDamage
+            + (owner.GetPower<FocusPower>()?.Amount ?? 0));
 
     internal async Task EvokeAllOrbs(Creature target)
     {
@@ -363,6 +383,7 @@ public sealed class FremontMechanicsPower : ModPowerTemplate
             if (Owner.Monster is Fremont fremont)
             {
                 fremont.EnterSecondPhase();
+                await fremont.PlaySecondPhaseSkill();
             }
 
             foreach (var player in Owner.CombatState!.Players)

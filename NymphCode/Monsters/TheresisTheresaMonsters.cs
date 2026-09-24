@@ -3,6 +3,7 @@ using MegaCrit.Sts2.Core.Animation;
 using MegaCrit.Sts2.Core.Audio;
 using MegaCrit.Sts2.Core.Bindings.MegaSpine;
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Helpers;
@@ -15,6 +16,7 @@ using MegaCrit.Sts2.Core.Nodes.Combat;
 using MegaCrit.Sts2.Core.Nodes.Rooms;
 using MegaCrit.Sts2.Core.ValueProps;
 using Nymph.Cards;
+using Nymph.Mechanics;
 using Nymph.Powers;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
@@ -305,7 +307,7 @@ public sealed class NymphTheresa : ModMonsterTemplate
             "WILL_SHOCK",
             Shock,
             new SingleAttackIntent(10),
-            new StatusIntent(4));
+            new DebuffIntent());
         _negatedShock = new MoveState(
             "WILL_SHOCK_NEGATED",
             _ => Task.CompletedTask);
@@ -354,7 +356,7 @@ public sealed class NymphTheresa : ModMonsterTemplate
             _willShock.Intents =
             [
                 new SingleAttackIntent(damage),
-                new StatusIntent(4)
+                new DebuffIntent()
             ];
         }
     }
@@ -379,23 +381,42 @@ public sealed class NymphTheresa : ModMonsterTemplate
             .WithHitFx("vfx/vfx_attack_blunt")
             .Execute(null);
 
-        List<Creature> players = CombatState.Players
-            .Where(player => !player.Creature.IsDead)
-            .Select(player => player.Creature)
-            .ToList();
-        await CardPileCmd.AddToCombatAndPreview<NymphDreadkaz>(
-            players,
-            MegaCrit.Sts2.Core.Entities.Cards.PileType.Draw,
-            2,
-            null,
-            MegaCrit.Sts2.Core.Entities.Cards.CardPilePosition.Random);
-        await CardPileCmd.AddToCombatAndPreview<NymphDreadkaz>(
-            players,
-            MegaCrit.Sts2.Core.Entities.Cards.PileType.Discard,
-            2,
-            null);
+        foreach (var player in CombatState.Players.Where(
+            player => !player.Creature.IsDead))
+        {
+            bool cursed = CurseRandomCards(player, PileType.Draw);
+            cursed |= CurseRandomCards(player, PileType.Discard);
+            if (cursed)
+            {
+                await PowerCmd.Apply<CursePollutionThisTurnPower>(
+                    new ThrowingPlayerChoiceContext(),
+                    player.Creature,
+                    1,
+                    Creature,
+                    null,
+                    silent: true);
+            }
+        }
 
         power?.AfterShock();
+    }
+
+    private static bool CurseRandomCards(
+        MegaCrit.Sts2.Core.Entities.Players.Player player,
+        PileType pileType)
+    {
+        List<CardModel> candidates = pileType.GetPile(player).Cards
+            .Where(card => !card.Keywords.Contains(
+                NymphKeywords.CursePollution))
+            .ToList();
+        player.RunState.Rng.Shuffle.Shuffle(candidates);
+        List<CardModel> selected = candidates.Take(2).ToList();
+        foreach (CardModel card in selected)
+        {
+            CardCmd.ApplyKeyword(card, NymphKeywords.CursePollution);
+        }
+
+        return selected.Count > 0;
     }
 
     private void SetUntargetableVisuals()

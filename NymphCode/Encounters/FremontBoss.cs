@@ -9,7 +9,7 @@ using STS2RitsuLib.Scaffolding.Content;
 
 namespace Nymph.Encounters;
 
-[RegisterActEncounter(typeof(Hive))]
+[RegisterActEncounter(typeof(Glory))]
 public sealed class FremontBoss : ModEncounterTemplate
 {
     private const string RunHistoryIconPath =
@@ -18,7 +18,7 @@ public sealed class FremontBoss : ModEncounterTemplate
         "res://Nymph/images/characters/Nymph_character_icon_outline.png";
 
     public override RoomType RoomType => RoomType.Boss;
-    public override string CustomBgm => "event:/music/act3_boss_queen";
+    public override string CustomBgm => "nymph:/music/fremont";
     public override string? CustomBossNodePath =>
         ModelDb.Encounter<QueenBoss>().BossNodePath;
     public override IEnumerable<string>? CustomMapNodeAssetPaths =>

@@ -10,6 +10,7 @@ using STS2RitsuLib.Scaffolding.Content;
 
 namespace Nymph.Encounters;
 
+[RegisterActEncounter(typeof(Glory))]
 [RegisterActEncounter(typeof(Overgrowth))]
 public sealed class TheresisTheresaBoss : ModEncounterTemplate
 {
@@ -27,7 +28,7 @@ public sealed class TheresisTheresaBoss : ModEncounterTemplate
     internal const string PhaseTwoSageSlot = "phase_two_sage";
 
     public override RoomType RoomType => RoomType.Boss;
-    public override string CustomBgm => "event:/music/act3_boss_queen";
+    public override string CustomBgm => "nymph:/music/theresis_theresa";
     public override string? CustomBossNodePath =>
         ModelDb.Encounter<QueenBoss>().BossNodePath;
     public override IEnumerable<string>? CustomMapNodeAssetPaths =>
