@@ -14,7 +14,6 @@ using STS2RitsuLib.Scaffolding.Content;
 namespace Nymph.Encounters;
 
 [RegisterActEncounter(typeof(Glory))]
-[RegisterActEncounter(typeof(Underdocks))]
 public sealed class BodrakastiBoss : ModEncounterTemplate
 {
     private const string BossSlot = "bodrakasti";

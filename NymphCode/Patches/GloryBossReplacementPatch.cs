@@ -37,32 +37,4 @@ internal static class GloryBossDiscoveryOrderPatch
 {
     private static bool Prefix(ActModel __instance) =>
         __instance is not Glory;
-
-    private static void Postfix(ActModel __instance)
-    {
-        ActOneTestBossPatch.SetTestBoss(__instance);
-    }
-}
-
-[HarmonyPatch(typeof(ActModel), nameof(ActModel.GenerateRooms))]
-internal static class ActOneTestBossPatch
-{
-    private static void Postfix(ActModel __instance)
-    {
-        SetTestBoss(__instance);
-    }
-
-    internal static void SetTestBoss(ActModel act)
-    {
-        if (act is Overgrowth)
-        {
-            act.SetBossEncounter(
-                ModelDb.Encounter<TheresisTheresaBoss>());
-        }
-        else if (act is Underdocks)
-        {
-            act.SetBossEncounter(
-                ModelDb.Encounter<BodrakastiBoss>());
-        }
-    }
 }

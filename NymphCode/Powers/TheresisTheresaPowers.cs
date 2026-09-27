@@ -7,6 +7,7 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Helpers;
+using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes.Combat;
@@ -198,14 +199,8 @@ public sealed class TheresisTwinPower : ModPowerTemplate
 
             TeleportCreatureToSlot(
                 Owner,
-                TheresisTheresaBoss.ShadowSlot2);
+                TheresisTheresaBoss.LordSlot4);
             MirrorCreatureVisuals(Owner);
-            if (theresa is not null)
-            {
-                await FadeTeleportAndFadeIn(
-                    theresa,
-                    TheresisTheresaBoss.PhaseTwoSageSlot);
-            }
 
             await CreatureCmd.TriggerAnim(Owner, "PhaseTwoSkill", 0f);
             if (theresa is not null)
@@ -214,6 +209,13 @@ public sealed class TheresisTwinPower : ModPowerTemplate
                     theresa,
                     "PhaseTwoSkillBeginLoop",
                     0f);
+            }
+
+            foreach (PowerModel power in Owner.Powers
+                .Where(power => power is not TheresisTwinbornPower)
+                .ToList())
+            {
+                await PowerCmd.Remove(power);
             }
         }
         finally
@@ -518,6 +520,31 @@ public sealed class TheresisTwinbornPower : ModPowerTemplate
             DynamicVars["Reduction"].BaseValue = _reduction;
         }
     }
+
+    public override decimal ModifyDamageMultiplicative(
+        Creature? target,
+        decimal amount,
+        ValueProp props,
+        Creature? dealer,
+        CardModel? cardSource
+#if !STS2_PUBLIC
+        ,
+        CardPlay? cardPlay
+#endif
+        ) => target == Owner ? 1m - Reduction / 100m : 1m;
+
+    public override Task AfterSideTurnEnd(
+        PlayerChoiceContext choiceContext,
+        CombatSide side,
+        IEnumerable<Creature> participants)
+    {
+        if (side == CombatSide.Enemy && Reduction > 0)
+        {
+            Reduction -= 25;
+        }
+
+        return Task.CompletedTask;
+    }
 }
 
 [RegisterPower]
@@ -531,6 +558,17 @@ public sealed class TheresaWillShockPower : ModPowerTemplate
     public override PowerStackType StackType => PowerStackType.Single;
     public override bool ShouldPlayVfx => false;
     public override bool OwnerIsSecondaryEnemy => true;
+
+    public override LocString Description => new(
+        "powers",
+        !IsCanonical && SecondPhase
+            ? "NYMPH_POWER_THERESA_WILL_SHOCK_POWER.descriptionSecondPhase"
+            : "NYMPH_POWER_THERESA_WILL_SHOCK_POWER.description");
+
+    protected override string SmartDescriptionLocKey =>
+        !IsCanonical && SecondPhase
+            ? "NYMPH_POWER_THERESA_WILL_SHOCK_POWER.smartDescriptionSecondPhase"
+            : "NYMPH_POWER_THERESA_WILL_SHOCK_POWER.smartDescription";
 
     public override PowerAssetProfile AssetProfile => new(
         IconPath: $"{Entry.ResPath}/images/powers/DreadkazEchoPower32.png",

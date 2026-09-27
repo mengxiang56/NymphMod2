@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 using Nymph.Monsters;
 using STS2RitsuLib.Interop.AutoRegistration;
@@ -46,9 +47,15 @@ public sealed class SanctifierAutomatonSelfDestructPower : ModPowerTemplate
         await CreatureCmd.Damage(
             choiceContext,
             power.Owner,
-            15,
+            10,
             ValueProp.Unpowered | ValueProp.Move,
             Owner);
+        await PowerCmd.Apply<VulnerablePower>(
+            choiceContext,
+            power.Owner,
+            1,
+            Owner,
+            null);
         await CreatureCmd.Kill(Owner, force: true);
     }
 }

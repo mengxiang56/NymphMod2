@@ -10,6 +10,7 @@ using MegaCrit.Sts2.Core.Nodes.CommonUi;
 using MegaCrit.Sts2.Core.Nodes.Vfx;
 using MegaCrit.Sts2.Core.Saves.Runs;
 using MegaCrit.Sts2.Core.ValueProps;
+using System.Text.Json;
 using Nymph.Cards;
 using Nymph.Mechanics;
 using Nymph.Monsters;
@@ -21,7 +22,7 @@ namespace Nymph.Powers;
 [RegisterPower]
 public sealed class FremontMechanicsPower : ModPowerTemplate
 {
-    internal const int OrbEvokeDamage = 10;
+    internal const int OrbEvokeDamage = 6;
 
     private sealed class RuntimeData
     {
@@ -32,7 +33,6 @@ public sealed class FremontMechanicsPower : ModPowerTemplate
     private static readonly BlockingPlayerChoiceContext ChoiceContext = new();
 
     private int _cardsTowardOrb;
-    private int _coffinsCreatedThisTurn;
     private int _orbCount;
     private bool _secondPhase;
 
@@ -48,18 +48,7 @@ public sealed class FremontMechanicsPower : ModPowerTemplate
         set
         {
             AssertMutable();
-            _cardsTowardOrb = Math.Clamp(value, 0, 4);
-        }
-    }
-
-    [SavedProperty]
-    public int CoffinsCreatedThisTurn
-    {
-        get => _coffinsCreatedThisTurn;
-        set
-        {
-            AssertMutable();
-            _coffinsCreatedThisTurn = Math.Clamp(value, 0, 2);
+            _cardsTowardOrb = Math.Clamp(value, 0, 3);
         }
     }
 
@@ -87,17 +76,12 @@ public sealed class FremontMechanicsPower : ModPowerTemplate
 
     protected override object InitInternalData() => new RuntimeData();
 
-    public override async Task AfterApplied(
+    public override Task AfterApplied(
         Creature? applier,
         CardModel? cardSource)
     {
-        if (OrbCount == 0)
-        {
-            OrbCount = 1;
-        }
-
-        FremontOrbVisuals.Sync(Owner, OrbCount, animateNewOrbs: true);
-        await Task.CompletedTask;
+        FremontOrbVisuals.Sync(Owner, OrbCount, animateNewOrbs: false);
+        return Task.CompletedTask;
     }
 
     public override decimal ModifyDamageMultiplicative(
@@ -117,36 +101,34 @@ public sealed class FremontMechanicsPower : ModPowerTemplate
             : 1m;
     }
 
-    public override async Task AfterSideTurnStart(
+    public override Task AfterSideTurnStart(
         CombatSide side,
         IReadOnlyList<Creature> participants,
         ICombatState combatState)
     {
         if (side == CombatSide.Player)
         {
-            CoffinsCreatedThisTurn = 0;
-            RuntimeData data = GetInternalData<RuntimeData>();
-            data.PendingCoffins.Clear();
+            GetInternalData<RuntimeData>().PendingCoffins.Clear();
+        }
 
-            foreach (Creature participant in participants.Where(
-                creature => creature.IsPlayer
-                    && creature.Side != Owner.Side
-                    && creature.Player is not null))
-            {
-                var player = participant.Player!;
-                if (PileType.Hand.GetPile(player).Cards.Count
-                    >= CardPile.MaxCardsInHand)
-                {
-                    continue;
-                }
+        return Task.CompletedTask;
+    }
 
-                NymphFremontEvoke evoke = participant.CombatState!
-                    .CreateCard<NymphFremontEvoke>(player);
-                await CardPileCmd.AddGeneratedCardToCombat(
-                    evoke,
-                    PileType.Hand,
-                    player);
-            }
+    public override async Task AfterSideTurnEnd(
+        PlayerChoiceContext choiceContext,
+        CombatSide side,
+        IEnumerable<Creature> participants)
+    {
+        if (side != CombatSide.Player || Owner.IsDead || OrbCount == 0)
+        {
+            return;
+        }
+
+        Creature? target = participants.FirstOrDefault(creature =>
+            creature.IsPlayer && !creature.IsDead && creature.Side != Owner.Side);
+        if (target is not null)
+        {
+            await EvokeAllOrbs(target);
         }
     }
 
@@ -195,7 +177,7 @@ public sealed class FremontMechanicsPower : ModPowerTemplate
         }
 
         int progress = CardsTowardOrb + 1;
-        if (progress >= 5)
+        if (progress >= 4)
         {
             CardsTowardOrb = 0;
             await GenerateOrb(cardPlay.Card.Owner.Creature);
@@ -209,7 +191,7 @@ public sealed class FremontMechanicsPower : ModPowerTemplate
             Owner.GetPower<FremontCardChannelRulePower>();
         if (channelRule is not null)
         {
-            channelRule.CardsRemaining = 5 - CardsTowardOrb;
+            channelRule.CardsRemaining = 4 - CardsTowardOrb;
         }
     }
 
@@ -260,28 +242,17 @@ public sealed class FremontMechanicsPower : ModPowerTemplate
     private bool TryMarkForCoffin(CardModel card)
     {
         if (card.Owner.Creature.Side == Owner.Side
-            || CoffinsCreatedThisTurn >= 2)
-        {
-            return false;
-        }
-
-        bool belongsToCharacterPool = card.Owner.Character.CardPool
-            .GetUnlockedCards(
-                card.Owner.UnlockState,
-                card.Owner.RunState.CardMultiplayerConstraint)
-            .Any(poolCard => poolCard.GetType() == card.GetType());
-        if (!belongsToCharacterPool)
+            || card.Type == CardType.Power
+            || card.Keywords.Contains(CardKeyword.Exhaust)
+            || card is ISelfRecreatingOnPlayCard
+            || card.Enchantment is Nymph.Enchantments.NymphTransformationEnchantment
+            || card is NymphInspirationCard)
         {
             return false;
         }
 
         RuntimeData data = GetInternalData<RuntimeData>();
-        if (!data.PendingCoffins.Add(card))
-        {
-            return true;
-        }
-
-        CoffinsCreatedThisTurn++;
+        data.PendingCoffins.Add(card);
         return true;
     }
 
@@ -309,6 +280,10 @@ public sealed class FremontMechanicsPower : ModPowerTemplate
         NymphExiledBlackCoffin coffin =
             combatState.CreateCard<NymphExiledBlackCoffin>(original.Owner);
         coffin.OriginalCard = original.ToSerializable();
+        coffin.OriginalDynamicVars = JsonSerializer.Serialize(
+            original.DynamicVars.ToDictionary(
+                entry => entry.Key,
+                entry => entry.Value.BaseValue));
         coffin.OriginalDeckVersions = original.DeckVersion is null
             ? []
             : [original.DeckVersion.ToSerializable()];
@@ -383,17 +358,24 @@ public sealed class FremontMechanicsPower : ModPowerTemplate
             if (Owner.Monster is Fremont fremont)
             {
                 fremont.EnterSecondPhase();
-                await fremont.PlaySecondPhaseSkill();
+                await fremont.PlaySecondPhaseSkill(RedistributeAllCards);
             }
-
-            foreach (var player in Owner.CombatState!.Players)
+            else
             {
-                await RedistributeCards(player);
+                await RedistributeAllCards();
             }
         }
         finally
         {
             data.ResolvingSecondPhase = false;
+        }
+    }
+
+    private async Task RedistributeAllCards()
+    {
+        foreach (var player in Owner.CombatState!.Players)
+        {
+            await RedistributeCards(player);
         }
     }
 
@@ -416,7 +398,7 @@ public sealed class FremontMechanicsPower : ModPowerTemplate
                     ChoiceContext,
                     coffin,
                     causedByEthereal: false);
-                await CreatureCmd.Heal(Owner, 25);
+                await CreatureCmd.Heal(Owner, 10);
             }
         }
     }

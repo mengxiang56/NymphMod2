@@ -1,5 +1,6 @@
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.Localization;
+using MegaCrit.Sts2.Core.Saves.Runs;
 using Nymph.Characters;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
@@ -30,7 +31,7 @@ public sealed class ThoughtBurdenStrengthPower : ModPowerTemplate
 public sealed class LucidPower : ThoughtStatePower
 {
     public override LocString Description =>
-        Difficulty == NymphDifficulty.Collapse
+        Difficulty is NymphDifficulty.Heavy or NymphDifficulty.Collapse
             ? DifficultyDescription("NYMPH_POWER_LUCID_POWER.collapseDescription")
             : base.Description;
 
@@ -42,6 +43,19 @@ public sealed class LucidPower : ThoughtStatePower
 [RegisterPower]
 public sealed class FracturedPower : ThoughtStatePower
 {
+    private int _collapseCardsPlayed;
+
+    [SavedProperty]
+    public int CollapseCardsPlayed
+    {
+        get => _collapseCardsPlayed;
+        set
+        {
+            AssertMutable();
+            _collapseCardsPlayed = value;
+        }
+    }
+
     public override LocString Description => Difficulty switch
     {
         NymphDifficulty.Heavy => DifficultyDescription(

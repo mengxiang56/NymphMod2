@@ -11,7 +11,6 @@ using STS2RitsuLib.Scaffolding.Content;
 namespace Nymph.Encounters;
 
 [RegisterActEncounter(typeof(Glory))]
-[RegisterActEncounter(typeof(Overgrowth))]
 public sealed class TheresisTheresaBoss : ModEncounterTemplate
 {
     private const string RunHistoryIconPath =

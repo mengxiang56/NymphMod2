@@ -3,6 +3,7 @@ using MegaCrit.Sts2.Core.Animation;
 using MegaCrit.Sts2.Core.Audio;
 using MegaCrit.Sts2.Core.Bindings.MegaSpine;
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Context;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -33,8 +34,8 @@ public sealed class NymphTheresis : ModMonsterTemplate
     private MoveState? _phaseTwoIdle;
     private bool _showingSlashIntent;
 
-    public override int MinInitialHp => 200;
-    public override int MaxInitialHp => 200;
+    public override int MinInitialHp => 300;
+    public override int MaxInitialHp => 300;
     public override DamageSfxType TakeDamageSfxType => DamageSfxType.Armor;
 
     public override IEnumerable<string> AssetPaths => [VisualsScenePath];
@@ -82,6 +83,7 @@ public sealed class NymphTheresis : ModMonsterTemplate
             "Hit",
             hit,
             () => !_showingSlashIntent
+                && Creature.GetPower<TheresisTwinbornPower>() is null
                 && Creature.GetPower<TheresisTwinPower>()?.SecondPhase
                     != true);
         animator.AddAnyState("Dead", dead);
@@ -152,7 +154,9 @@ public sealed class NymphTheresis : ModMonsterTemplate
     {
         await DamageCmd.Attack(18)
             .FromMonster(this)
-            .WithAttackerAnim("SlashEnd", 0.45f)
+            .WithAttackerAnim("SlashEnd", 0f)
+            // TriggerAnim caps fast-mode waits at 0.25s; keep the hit timing explicit.
+            .AfterAttackerAnim(() => Cmd.Wait(1.8f))
             .OnlyPlayAnimOnce()
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(null);
@@ -163,10 +167,31 @@ public sealed class NymphTheresis : ModMonsterTemplate
     {
         await DamageCmd.Attack(25)
             .FromMonster(this)
-            .WithAttackerAnim("Attack", 0.55f)
+            .WithAttackerAnim("Attack", 0f)
+            .AfterAttackerAnim(() => Cmd.Wait(1.3f))
             .OnlyPlayAnimOnce()
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(null);
+
+        float attackTimeRemaining = 0f;
+        using (MegaTrackEntry? track = Creature.GetCreatureNode()
+            ?.SpineAnimation.GetCurrentTrack())
+        {
+            if (track?.GetAnimationName() == "C1_Attack")
+            {
+                attackTimeRemaining = Math.Max(
+                    0f, track.GetTrackComplete() - track.GetTrackTime());
+            }
+        }
+        if (attackTimeRemaining > 0f)
+        {
+            await Cmd.Wait(attackTimeRemaining + 0.05f, ignoreCombatEnd: true);
+        }
+
+        await CreatureCmd.TriggerAnim(Creature, "Cast", 0f);
+        float castDuration = Creature.GetCreatureNode()
+            ?.GetCurrentAnimationTimeRemaining() ?? 0.6f;
+        await Cmd.Wait(Math.Max(0f, castDuration), ignoreCombatEnd: true);
 
         foreach (var player in CombatState.Players
             .Where(player => !player.Creature.IsDead))
@@ -307,7 +332,8 @@ public sealed class NymphTheresa : ModMonsterTemplate
             "WILL_SHOCK",
             Shock,
             new SingleAttackIntent(10),
-            new DebuffIntent());
+            new StatusIntent(4),
+            new BuffIntent());
         _negatedShock = new MoveState(
             "WILL_SHOCK_NEGATED",
             _ => Task.CompletedTask);
@@ -356,7 +382,8 @@ public sealed class NymphTheresa : ModMonsterTemplate
             _willShock.Intents =
             [
                 new SingleAttackIntent(damage),
-                new DebuffIntent()
+                new StatusIntent(4),
+                new BuffIntent()
             ];
         }
     }
@@ -376,7 +403,7 @@ public sealed class NymphTheresa : ModMonsterTemplate
             .FromMonster(this)
             .WithAttackerAnim(
                 power?.SecondPhase == true ? "PhaseTwoSkillEnd" : "Cast",
-                0.55f)
+                1.0f)
             .OnlyPlayAnimOnce()
             .WithHitFx("vfx/vfx_attack_blunt")
             .Execute(null);
@@ -384,39 +411,28 @@ public sealed class NymphTheresa : ModMonsterTemplate
         foreach (var player in CombatState.Players.Where(
             player => !player.Creature.IsDead))
         {
-            bool cursed = CurseRandomCards(player, PileType.Draw);
-            cursed |= CurseRandomCards(player, PileType.Discard);
-            if (cursed)
+            CardPileAddResult[] addedCards = new CardPileAddResult[4];
+            for (int index = 0; index < 2; index++)
             {
-                await PowerCmd.Apply<CursePollutionThisTurnPower>(
-                    new ThrowingPlayerChoiceContext(),
-                    player.Creature,
-                    1,
-                    Creature,
+                addedCards[index] = await CardPileCmd.AddGeneratedCardToCombat(
+                    CombatState.CreateCard<NymphDreadkaz>(player),
+                    PileType.Draw,
                     null,
-                    silent: true);
+                    CardPilePosition.Random);
+                addedCards[index + 2] = await CardPileCmd.AddGeneratedCardToCombat(
+                    CombatState.CreateCard<NymphDreadkaz>(player),
+                    PileType.Discard,
+                    null);
+            }
+
+            if (LocalContext.IsMe(player))
+            {
+                CardCmd.PreviewCardPileAdd(addedCards);
+                await Cmd.Wait(1f);
             }
         }
 
         power?.AfterShock();
-    }
-
-    private static bool CurseRandomCards(
-        MegaCrit.Sts2.Core.Entities.Players.Player player,
-        PileType pileType)
-    {
-        List<CardModel> candidates = pileType.GetPile(player).Cards
-            .Where(card => !card.Keywords.Contains(
-                NymphKeywords.CursePollution))
-            .ToList();
-        player.RunState.Rng.Shuffle.Shuffle(candidates);
-        List<CardModel> selected = candidates.Take(2).ToList();
-        foreach (CardModel card in selected)
-        {
-            CardCmd.ApplyKeyword(card, NymphKeywords.CursePollution);
-        }
-
-        return selected.Count > 0;
     }
 
     private void SetUntargetableVisuals()
@@ -565,7 +581,8 @@ public sealed class NymphSovereignShadow : ModMonsterTemplate
     {
         await DamageCmd.Attack(18)
             .FromMonster(this)
-            .WithAttackerAnim("SlashEnd", 0.45f)
+            .WithAttackerAnim("SlashEnd", 0f)
+            .AfterAttackerAnim(() => Cmd.Wait(1.8f))
             .OnlyPlayAnimOnce()
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(null);

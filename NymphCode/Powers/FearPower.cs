@@ -14,9 +14,9 @@ namespace Nymph.Powers;
 public sealed class FearPower : ModPowerTemplate
 {
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
-    [
-        HoverTipFactory.FromPower<NecrosisPower>()
-    ];
+        Owner?.IsPlayer == true
+            ? [HoverTipFactory.FromPower<NecrosisPower>()]
+            : [];
 
     public override PowerType Type => PowerType.Debuff;
     public override PowerStackType StackType => PowerStackType.Counter;

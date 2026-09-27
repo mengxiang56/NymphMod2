@@ -119,18 +119,14 @@ public sealed class Bodrakasti : ModMonsterTemplate
         ThrowingPlayerChoiceContext context = new();
         await ApplyRulePower<BodrakastiHolyCarePower>(context);
         await ApplyRulePower<BodrakastiPhasePower>(context);
-        await PowerCmd.Apply<BodrakastiHolyCityEmbracePower>(
+        await ApplyRulePower<BodrakastiGuidancePower>(context);
+        ArtifactPower? artifact = await PowerCmd.Apply<ArtifactPower>(
             context,
             Creature,
-            5,
+            2,
             Creature,
             null);
-        await PowerCmd.Apply<StrengthPower>(
-            context,
-            Creature,
-            10,
-            Creature,
-            null);
+        artifact?.SetAmount(2, silent: true);
 
         foreach (var player in CombatState.Players)
         {
@@ -160,14 +156,11 @@ public sealed class Bodrakasti : ModMonsterTemplate
         MoveState firstAttack = new(
             "FIRST_ATTACK",
             Attack,
-            new SingleAttackIntent(40));
+            new SingleAttackIntent(60));
         MoveState secondAttack = new(
             "SECOND_ATTACK",
-            Attack,
-            new SingleAttackIntent(40));
-        MoveState summon = new(
-            "SUMMON_AUTOMATONS",
-            SummonMove,
+            AttackAndSummon,
+            new SingleAttackIntent(40),
             new SummonIntent());
         _phaseTwoMultiAttack = new MoveState(
             "PHASE_TWO_MULTI_ATTACK",
@@ -184,30 +177,23 @@ public sealed class Bodrakasti : ModMonsterTemplate
         MoveState phaseTwoHeavyAttack = new(
             "PHASE_TWO_HEAVY_ATTACK",
             PhaseTwoHeavyAttack,
-            new SingleAttackIntent(40));
-        MoveState phaseTwoReinforce = new(
-            "PHASE_TWO_REINFORCE",
-            PhaseTwoReinforce,
-            new BuffIntent(),
-            new SummonIntent());
+            new SingleAttackIntent(30),
+            new StatusIntent(1),
+            new BuffIntent());
         ceremony.FollowUpState = firstAttack;
         firstAttack.FollowUpState = secondAttack;
-        secondAttack.FollowUpState = summon;
-        summon.FollowUpState = firstAttack;
+        secondAttack.FollowUpState = firstAttack;
         _phaseTwoMultiAttack.FollowUpState = phaseTwoHeavyAttack;
-        phaseTwoHeavyAttack.FollowUpState = phaseTwoReinforce;
-        phaseTwoReinforce.FollowUpState = _phaseTwoMultiAttack;
+        phaseTwoHeavyAttack.FollowUpState = _phaseTwoMultiAttack;
         _reviveState.FollowUpState = _phaseTwoMultiAttack;
         return new MonsterMoveStateMachine(
         [
             ceremony,
             firstAttack,
             secondAttack,
-            summon,
             _reviveState,
             _phaseTwoMultiAttack,
-            phaseTwoHeavyAttack,
-            phaseTwoReinforce
+            phaseTwoHeavyAttack
         ], ceremony);
     }
 
@@ -241,8 +227,6 @@ public sealed class Bodrakasti : ModMonsterTemplate
     {
         await CreatureCmd.TriggerAnim(Creature, "Cast", 0.5f);
         ThrowingPlayerChoiceContext context = new();
-        await ApplyRulePower<BodrakastiGuidancePower>(context);
-        await ApplyRulePower<BodrakastiCounselPower>(context);
         await PowerCmd.Apply<RitualPower>(
             context,
             Creature,
@@ -252,8 +236,16 @@ public sealed class Bodrakasti : ModMonsterTemplate
         await SummonAutomatons();
     }
 
-    private async Task SummonMove(IReadOnlyList<Creature> targets)
+    private async Task AttackAndSummon(IReadOnlyList<Creature> targets)
     {
+        await DamageCmd.Attack(40)
+            .FromMonster(this)
+            .WithAttackerAnim("Attack", 0f)
+            .AfterAttackerAnim(() => Cmd.Wait(1.0f))
+            .OnlyPlayAnimOnce()
+            .WithHitFx("vfx/vfx_attack_blunt")
+            .Execute(null);
+        await WaitForAnimation("C1_Attack");
         await CreatureCmd.TriggerAnim(Creature, "Cast", 0.5f);
         await SummonAutomatons();
     }
@@ -290,9 +282,10 @@ public sealed class Bodrakasti : ModMonsterTemplate
     }
 
     private Task Attack(IReadOnlyList<Creature> targets) =>
-        DamageCmd.Attack(40)
+        DamageCmd.Attack(60)
             .FromMonster(this)
-            .WithAttackerAnim("Attack", 0.6f)
+            .WithAttackerAnim("Attack", 0f)
+            .AfterAttackerAnim(() => Cmd.Wait(1.0f))
             .OnlyPlayAnimOnce()
             .WithHitFx("vfx/vfx_attack_blunt")
             .Execute(null);
@@ -303,7 +296,8 @@ public sealed class Bodrakasti : ModMonsterTemplate
         await DamageCmd.Attack(10)
             .WithHitCount(5)
             .FromMonster(this)
-            .WithAttackerAnim("PhaseTwoMultiBegin", 0.6f)
+            .WithAttackerAnim("PhaseTwoMultiBegin", 0f)
+            .AfterAttackerAnim(() => Cmd.Wait(1.0f))
             .OnlyPlayAnimOnce()
             .WithHitFx("vfx/vfx_attack_blunt")
             .Execute(null);
@@ -313,24 +307,51 @@ public sealed class Bodrakasti : ModMonsterTemplate
             0f);
     }
 
-    private Task PhaseTwoHeavyAttack(IReadOnlyList<Creature> targets) =>
-        DamageCmd.Attack(40)
+    private async Task PhaseTwoHeavyAttack(IReadOnlyList<Creature> targets)
+    {
+        await DamageCmd.Attack(30)
             .FromMonster(this)
-            .WithAttackerAnim("PhaseTwoHeavy", 0.6f)
+            .WithAttackerAnim("PhaseTwoHeavy", 0f)
+            .AfterAttackerAnim(() => Cmd.Wait(1.0f))
             .OnlyPlayAnimOnce()
             .WithHitFx("vfx/vfx_attack_blunt")
             .Execute(null);
 
-    private async Task PhaseTwoReinforce(IReadOnlyList<Creature> targets)
-    {
-        await CreatureCmd.TriggerAnim(Creature, "PhaseTwoSkill", 0.5f);
+        await WaitForAnimation("C2_Attack_2");
+        await CreatureCmd.TriggerAnim(Creature, "PhaseTwoReviveSkillBegin", 0f);
+        await WaitForAnimation("C2_Skill_3_Begin");
+        await WaitForAnimation("C2_Skill_3_Loop");
+        await CreatureCmd.TriggerAnim(Creature, "PhaseTwoReviveSkillEnd", 0f);
+        await WaitForAnimation("C2_Skill_3_End");
+        if (Creature.GetPower<BodrakastiPhasePower>() is { } phase)
+        {
+            await phase.GiveHolyCityShields();
+        }
         await PowerCmd.Apply<StrengthPower>(
             new ThrowingPlayerChoiceContext(),
             Creature,
             5,
             Creature,
             null);
-        await SummonAutomatons();
+    }
+
+    private async Task WaitForAnimation(string animationName)
+    {
+        float remaining = 0f;
+        using (MegaTrackEntry? track = Creature.GetCreatureNode()
+            ?.SpineAnimation.GetCurrentTrack())
+        {
+            if (track?.GetAnimationName() == animationName)
+            {
+                remaining = Math.Max(
+                    0f, track.GetTrackComplete() - track.GetTrackTime());
+            }
+        }
+
+        if (remaining > 0f)
+        {
+            await Cmd.Wait(remaining + 0.05f, ignoreCombatEnd: true);
+        }
     }
 
     private Task ApplyRulePower<T>(ThrowingPlayerChoiceContext context)

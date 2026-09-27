@@ -481,10 +481,9 @@ public static class ThoughtMechanics
         }
 
         ThoughtState state = GetState(player);
-        await SyncDifficultyStrengthPenalty(
+        await RemoveLegacyDifficultyStrengthPenalty(
             choiceContext,
-            player,
-            state);
+            player);
 
         bool hasDesiredPower = state switch
         {
@@ -546,62 +545,25 @@ public static class ThoughtMechanics
         }
     }
 
-    private static async Task SyncDifficultyStrengthPenalty(
+    private static async Task RemoveLegacyDifficultyStrengthPenalty(
         PlayerChoiceContext choiceContext,
-        Player player,
-        ThoughtState state)
+        Player player)
     {
-        NymphDifficulty difficulty = NymphDifficultyManager.GetFor(player);
-        int desiredPenalty = difficulty is
-            NymphDifficulty.Heavy or NymphDifficulty.Collapse
-            ? state switch
-            {
-                ThoughtState.Confused => 1,
-                ThoughtState.Obstructed => 2,
-                _ => 0
-            }
-            : 0;
         ThoughtBurdenStrengthPower? tracker =
             player.Creature.GetPower<ThoughtBurdenStrengthPower>();
-        int currentPenalty = tracker?.Amount ?? 0;
-        int penaltyChange = desiredPenalty - currentPenalty;
-        if (penaltyChange == 0)
+        if (tracker is null)
         {
             return;
         }
 
+        int restoredStrength = tracker.Amount;
+        await PowerCmd.Remove(tracker);
         await PowerCmd.Apply<StrengthPower>(
             choiceContext,
             player.Creature,
-            -penaltyChange,
+            restoredStrength,
             player.Creature,
             null);
-
-        if (desiredPenalty == 0)
-        {
-            await PowerCmd.Remove<ThoughtBurdenStrengthPower>(
-                player.Creature);
-        }
-        else if (tracker is null)
-        {
-            await PowerCmd.Apply<ThoughtBurdenStrengthPower>(
-                choiceContext,
-                player.Creature,
-                desiredPenalty,
-                player.Creature,
-                null,
-                silent: true);
-        }
-        else
-        {
-            await PowerCmd.ModifyAmount(
-                choiceContext,
-                tracker,
-                penaltyChange,
-                player.Creature,
-                null,
-                silent: true);
-        }
     }
 
     public static IHoverTip CreateHoverTip()
@@ -689,6 +651,7 @@ public static class ThoughtMechanics
     private sealed class CardPlayThoughtStateRecord
     {
         public ThoughtState State { get; set; }
+        public bool TakesCollapseDamage { get; set; }
     }
 
     private sealed class PreviousCardRecord
@@ -706,8 +669,19 @@ public static class ThoughtMechanics
             Player player = context.CardPlay.Card.Owner;
             if (player.Character is NymphCharacter)
             {
-                CardPlayThoughtStates.GetOrCreateValue(
-                    context.CardPlay).State = GetState(player);
+                CardPlayThoughtStateRecord record =
+                    CardPlayThoughtStates.GetOrCreateValue(context.CardPlay);
+                record.State = GetState(player);
+                record.TakesCollapseDamage = false;
+                if (record.State == ThoughtState.Confused
+                    && NymphDifficultyManager.GetFor(player) == NymphDifficulty.Collapse
+                    && player.Creature.GetPower<FracturedPower>() is { } confused
+                    && confused.CollapseCardsPlayed < 2)
+                {
+                    // Reserve the trigger before card effects can change Thought state.
+                    confused.CollapseCardsPlayed++;
+                    record.TakesCollapseDamage = true;
+                }
             }
 
             return Task.FromResult(false);
@@ -724,14 +698,15 @@ public static class ThoughtMechanics
             ThoughtState state = GetState(player, context.CardPlay);
             NymphDifficulty difficulty = NymphDifficultyManager.GetFor(player);
             int damage = state == ThoughtState.Obstructed ? 1 : 0;
-            if (difficulty == NymphDifficulty.Collapse &&
-                state is ThoughtState.Confused or ThoughtState.Obstructed)
+            if (CardPlayThoughtStates.TryGetValue(
+                    context.CardPlay, out CardPlayThoughtStateRecord? thoughtRecord)
+                && thoughtRecord.TakesCollapseDamage)
             {
                 damage++;
             }
 
             if (state == ThoughtState.Clear &&
-                difficulty != NymphDifficulty.Collapse)
+                difficulty == NymphDifficulty.Standard)
             {
                 player.Creature.GetPower<LucidPower>()?.Flash();
                 await CreatureCmd.GainBlock(

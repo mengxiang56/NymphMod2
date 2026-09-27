@@ -33,6 +33,7 @@ public sealed class Fremont : ModMonsterTemplate
     private const string PhaseTwoAttackTwoMove = "PHASE_TWO_ATTACK_TWO_MOVE";
 
     private MoveState? _cleanseState;
+    private MoveState? _debuffState;
     private MoveState? _phaseTwoAttackOneState;
 
     protected override string AttackSfx =>
@@ -105,7 +106,7 @@ public sealed class Fremont : ModMonsterTemplate
             targets => AttackAndBlock(targets),
             new MultiAttackIntent(6, 3),
             new DefendIntent());
-        MoveState debuff = new(
+        _debuffState = new MoveState(
             DebuffMove,
             BuffAndDebuff,
             new BuffIntent(),
@@ -130,18 +131,18 @@ public sealed class Fremont : ModMonsterTemplate
             new DebuffIntent());
 
         attackOne.FollowUpState = attackTwo;
-        attackTwo.FollowUpState = debuff;
-        debuff.FollowUpState = attackOne;
+        attackTwo.FollowUpState = _debuffState;
+        _debuffState.FollowUpState = attackOne;
 
         _cleanseState.FollowUpState = _phaseTwoAttackOneState;
         _phaseTwoAttackOneState.FollowUpState = phaseTwoAttackTwo;
-        phaseTwoAttackTwo.FollowUpState = debuff;
+        phaseTwoAttackTwo.FollowUpState = _debuffState;
 
         return new MonsterMoveStateMachine(
         [
             attackOne,
             attackTwo,
-            debuff,
+            _debuffState,
             _cleanseState,
             _phaseTwoAttackOneState,
             phaseTwoAttackTwo
@@ -150,17 +151,19 @@ public sealed class Fremont : ModMonsterTemplate
 
     internal void EnterSecondPhase()
     {
-        if (_cleanseState is not null)
+        if (_cleanseState is not null && _debuffState is not null)
         {
+            _debuffState.FollowUpState = _phaseTwoAttackOneState;
             SetMoveImmediate(_cleanseState, forceTransition: true);
         }
     }
 
-    internal async Task PlaySecondPhaseSkill()
+    internal async Task PlaySecondPhaseSkill(Func<Task> duringLoop)
     {
         await CreatureCmd.TriggerAnim(Creature, "SecondPhaseSkillBegin", 0f);
         await WaitForAnimation("C2_Skill_Begin");
         await Cmd.Wait(1f, ignoreCombatEnd: true);
+        await duringLoop();
         await CreatureCmd.TriggerAnim(Creature, "SecondPhaseSkillEnd", 0f);
         await WaitForAnimation("C2_Skill_End");
     }
@@ -267,13 +270,18 @@ public sealed class Fremont : ModMonsterTemplate
         }
     }
 
-    private Task ApplyNecrosis(IReadOnlyList<Creature> targets) =>
-        PowerCmd.Apply<NecrosisPower>(
-            new ThrowingPlayerChoiceContext(),
-            targets,
-            2,
-            Creature,
-            null);
+    private async Task ApplyNecrosis(IReadOnlyList<Creature> targets)
+    {
+        foreach (Creature target in targets)
+        {
+            await PowerCmd.Apply<NecrosisPower>(
+                new ThrowingPlayerChoiceContext(),
+                target,
+                2,
+                target,
+                null);
+        }
+    }
 
     private Task ApplyRulePower<T>() where T : PowerModel =>
         PowerCmd.Apply<T>(

@@ -5,6 +5,7 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
 using MegaCrit.Sts2.Core.ValueProps;
 using Nymph.Characters;
+using Nymph.Monsters;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 
@@ -65,6 +66,14 @@ public sealed class NymphHeartfeltUnderstanding : ModCardTemplate
             cardPlay.Target.PrepareForNextTurn(
                 CombatState!.PlayerCreatures,
                 rollNewMove: false);
+
+            if (monster is NymphTheresis theresis)
+            {
+                bool isSlash = theresis.NextMove.Id ==
+                    NymphTheresis.SlashMoveId;
+                await theresis.SetSlashPresentation(isSlash);
+                await theresis.SyncShadowIntents(isSlash);
+            }
         }
     }
 

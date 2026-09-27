@@ -6,6 +6,7 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Nodes.CommonUi;
 using MegaCrit.Sts2.Core.Saves.Runs;
+using System.Text.Json;
 using Nymph.Mechanics;
 using Nymph.Patches;
 using STS2RitsuLib.Interop.AutoRegistration;
@@ -18,6 +19,7 @@ public sealed class NymphExiledBlackCoffin : ModCardTemplate
 {
     private SerializableCard? _originalCard;
     private List<SerializableCard> _originalDeckVersions = [];
+    private string _originalDynamicVars = "{}";
 
     public override int MaxUpgradeLevel => 0;
     public override bool CanBeGeneratedInCombat => false;
@@ -54,6 +56,17 @@ public sealed class NymphExiledBlackCoffin : ModCardTemplate
         }
     }
 
+    [SavedProperty]
+    public string OriginalDynamicVars
+    {
+        get => _originalDynamicVars;
+        set
+        {
+            AssertMutable();
+            _originalDynamicVars = value;
+        }
+    }
+
     public NymphExiledBlackCoffin()
         : base(-1, CardType.Status, CardRarity.Status, TargetType.None, false)
     {
@@ -78,6 +91,16 @@ public sealed class NymphExiledBlackCoffin : ModCardTemplate
         }
 
         CardModel restored = CardModel.FromSerializable(OriginalCard);
+        foreach (var (name, value) in
+            JsonSerializer.Deserialize<Dictionary<string, decimal>>(
+                OriginalDynamicVars) ?? [])
+        {
+            if (restored.DynamicVars.TryGetValue(name, out var variable))
+            {
+                variable.BaseValue = value;
+                variable.ResetToBase();
+            }
+        }
         CardScope.AddCard(restored, Owner);
         SerializableCard? deckSnapshot = OriginalDeckVersions.FirstOrDefault();
         if (deckSnapshot is not null)

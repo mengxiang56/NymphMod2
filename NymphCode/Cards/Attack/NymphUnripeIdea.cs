@@ -5,7 +5,6 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
 using Nymph.Characters;
 using Nymph.Mechanics;
-using Nymph.Powers;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 
@@ -56,11 +55,6 @@ public sealed class NymphUnripeIdea : ModCardTemplate, ISelfRecreatingOnPlayCard
             .FromCard(this, cardPlay)
             .Targeting(cardPlay.Target!)
             .Execute(choiceContext);
-
-        if (FremontMechanicsPower.IsMarkedForCoffin(this))
-        {
-            return;
-        }
 
         await RecreateMechanics.CreateReplacementInHand(this);
     }

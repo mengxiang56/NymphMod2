@@ -30,7 +30,7 @@ public sealed class FreeNarratePower : ModPowerTemplate
         modifiedCost = originalCost;
         if (Amount <= 0
             || card.Owner != Owner.Player
-            || !card.Keywords.Contains(NymphKeywords.Narrate))
+            || !CanNarrate(card))
         {
             return false;
         }
@@ -45,7 +45,7 @@ public sealed class FreeNarratePower : ModPowerTemplate
     {
         if (Amount <= 0
             || cardPlay.Card.Owner != Owner.Player
-            || !cardPlay.Card.Keywords.Contains(NymphKeywords.Narrate))
+            || !CanNarrate(cardPlay.Card))
         {
             return;
         }
@@ -53,4 +53,8 @@ public sealed class FreeNarratePower : ModPowerTemplate
         Flash();
         await PowerCmd.Decrement(this);
     }
+
+    private static bool CanNarrate(CardModel card) =>
+        card.Keywords.Contains(NymphKeywords.Narrate)
+        || card.Keywords.Contains(NymphKeywords.FullNarrate);
 }

@@ -400,12 +400,12 @@
   "NYMPH_CARD_NYMPH_GUARD.description": "受到20点伤害。\n无效化[gold]特蕾西娅[/gold]本回合意图。",
   "NYMPH_CARD_NYMPH_GUARD.smartDescription": "受到20点伤害。\n无效化[gold]特蕾西娅[/gold]本回合意图。",
   "NYMPH_CARD_NYMPH_BODRAKASTI_RITUAL.title": "仪礼",
-  "NYMPH_CARD_NYMPH_BODRAKASTI_RITUAL.description": "选择[gold]后退[/gold]或[gold]前进[/gold]。\n打出后返回手牌，且本回合耗能加1。",
-  "NYMPH_CARD_NYMPH_BODRAKASTI_RITUAL.smartDescription": "选择[gold]后退[/gold]或[gold]前进[/gold]。\n打出后返回手牌，且本回合耗能加1。",
+  "NYMPH_CARD_NYMPH_BODRAKASTI_RITUAL.description": "选择[gold]后退[/gold]或[gold]前进[/gold]。\n打出后返回手牌，且本回合耗能加1。\n不能被[gold]重构[/gold]。",
+  "NYMPH_CARD_NYMPH_BODRAKASTI_RITUAL.smartDescription": "选择[gold]后退[/gold]或[gold]前进[/gold]。\n打出后返回手牌，且本回合耗能加1。\n不能被[gold]重构[/gold]。",
   "NYMPH_CARD_NYMPH_BODRAKASTI_RETREAT.title": "后退",
   "NYMPH_CARD_NYMPH_BODRAKASTI_RETREAT.description": "远离[gold]博卓卡斯替[/gold]。",
   "NYMPH_CARD_NYMPH_BODRAKASTI_ADVANCE.title": "前进",
   "NYMPH_CARD_NYMPH_BODRAKASTI_ADVANCE.description": "靠近[gold]博卓卡斯替[/gold]。",
   "NYMPH_CARD_NYMPH_HOLY_CITY_SHIELD.title": "圣城坚盾",
-  "NYMPH_CARD_NYMPH_HOLY_CITY_SHIELD.description": "本回合受到的所有伤害减少10点。\n打出后返回手牌，再打出{RemainingPlays}次后[gold]消耗[/gold]。"
+  "NYMPH_CARD_NYMPH_HOLY_CITY_SHIELD.description": "本回合受到的所有伤害减少10点。"
 }

@@ -25,6 +25,7 @@ namespace Nymph.Powers;
 public sealed class BodrakastiDistancePower : ModPowerTemplate
 {
     internal const float DistanceStep = 240f;
+    internal const float PlayerForwardOffset = 120f;
     private float _middlePositionX;
     private bool _openingRitualGranted;
 
@@ -79,12 +80,10 @@ public sealed class BodrakastiDistancePower : ModPowerTemplate
         NCreature? node = NCombatRoom.Instance?.GetCreatureNode(Owner);
         if (node is not null)
         {
-            _middlePositionX = node.GlobalPosition.X;
+            _middlePositionX = node.GlobalPosition.X + PlayerForwardOffset;
         }
 
-        return Amount == 2
-            ? Task.CompletedTask
-            : UpdateCreaturePositions();
+        return UpdateCreaturePositions();
     }
 
     public override async Task AfterPowerAmountChanged(
@@ -133,7 +132,7 @@ public sealed class BodrakastiDistancePower : ModPowerTemplate
 
         if (_middlePositionX == 0f)
         {
-            _middlePositionX = ownerNode.GlobalPosition.X;
+            _middlePositionX = ownerNode.GlobalPosition.X + PlayerForwardOffset;
         }
 
         float ownerTargetX = _middlePositionX
@@ -191,6 +190,37 @@ public sealed class BodrakastiHolyCarePower : ModPowerTemplate
         IconPath: $"{Entry.ResPath}/images/powers/HolyCityEmbracePower32.png",
         BigIconPath: $"{Entry.ResPath}/images/powers/HolyCityEmbracePower84.png");
 
+    public override decimal ModifyDamageAdditive(
+        Creature? target,
+        decimal amount,
+        ValueProp props,
+        Creature? dealer,
+        CardModel? cardSource
+#if !STS2_PUBLIC
+        ,
+        CardPlay? cardPlay
+#endif
+        )
+    {
+        if (dealer != Owner || target?.Player is null)
+        {
+            return 0m;
+        }
+
+        decimal strengthBeforeGuidance = 0m;
+        if (props.IsPoweredAttack())
+        {
+            strengthBeforeGuidance =
+                (Owner.GetPower<StrengthPower>()?.Amount ?? 0)
+                + (Owner.GetPower<BodrakastiGuidanceStrengthLossPower>()
+                    ?.Amount ?? 0);
+        }
+
+        decimal middleDamage = amount + Math.Max(0m, strengthBeforeGuidance);
+        return middleDamage
+            * (BodrakastiDistancePower.GetMultiplier(target) - 1m);
+    }
+
     public override decimal ModifyDamageMultiplicative(
         Creature? target,
         decimal amount,
@@ -205,12 +235,7 @@ public sealed class BodrakastiHolyCarePower : ModPowerTemplate
     {
         if (target == Owner && dealer?.Player is not null)
         {
-            return BodrakastiDistancePower.GetMultiplier(dealer);
-        }
-
-        if (dealer == Owner && target?.Player is not null)
-        {
-            return BodrakastiDistancePower.GetMultiplier(target);
+            return BodrakastiDistancePower.GetMultiplier(dealer) * 0.5m;
         }
 
         return 1m;
@@ -220,10 +245,6 @@ public sealed class BodrakastiHolyCarePower : ModPowerTemplate
 [RegisterPower]
 public sealed class BodrakastiCounselPower : ModPowerTemplate
 {
-    private int _pendingBlock;
-    private int _activeStrength;
-    private bool _skipNextPlayerTurn = true;
-
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.None;
 
@@ -231,98 +252,23 @@ public sealed class BodrakastiCounselPower : ModPowerTemplate
         IconPath: $"{Entry.ResPath}/images/powers/FearPower32.png",
         BigIconPath: $"{Entry.ResPath}/images/powers/FearPower84.png");
 
-    [SavedProperty]
-    public bool SkipNextPlayerTurn
-    {
-        get => _skipNextPlayerTurn;
-        set
-        {
-            AssertMutable();
-            _skipNextPlayerTurn = value;
-        }
-    }
-
-    [SavedProperty]
-    public int PendingBlock
-    {
-        get => _pendingBlock;
-        set
-        {
-            AssertMutable();
-            _pendingBlock = value;
-        }
-    }
-
-    [SavedProperty]
-    public int ActiveStrength
-    {
-        get => _activeStrength;
-        set
-        {
-            AssertMutable();
-            _activeStrength = value;
-        }
-    }
-
-    public override async Task AfterSideTurnStart(
-        CombatSide side,
-        IReadOnlyList<Creature> participants,
-        ICombatState combatState)
-    {
-        if (side != CombatSide.Player)
-        {
-            return;
-        }
-
-        if (SkipNextPlayerTurn)
-        {
-            SkipNextPlayerTurn = false;
-            PendingBlock = 0;
-            return;
-        }
-
-        if (PendingBlock <= 0)
-        {
-            return;
-        }
-
-        int gained = PendingBlock;
-        PendingBlock = 0;
-        ActiveStrength = gained;
-        Flash();
-        await PowerCmd.Apply<StrengthPower>(
-            new ThrowingPlayerChoiceContext(),
-            Owner,
-            gained,
-            Owner,
-            null);
-    }
-
-    public override async Task AfterSideTurnEnd(
+    public override Task AfterCardPlayed(
         PlayerChoiceContext choiceContext,
-        CombatSide side,
-        IEnumerable<Creature> participants)
+        CardPlay cardPlay)
     {
-        if (side != CombatSide.Enemy || !participants.Contains(Owner))
+        CardModel card = cardPlay.Card;
+        if (Owner.IsDead
+            || Owner.GetPower<BodrakastiPhasePower>()?.SecondPhase != true
+            || card.Owner.Creature.Side == Owner.Side
+            || (card.Pool != card.Owner.Character.CardPool
+                && !ModelDb.AllCharacterCardPools.Contains(card.Pool)))
         {
-            return;
+            return Task.CompletedTask;
         }
 
-        PendingBlock = Owner.CombatState?.PlayerCreatures
-            .Where(player => !player.IsDead)
-            .Sum(player => player.Block) ?? 0;
-        if (ActiveStrength > 0)
-        {
-            int expired = ActiveStrength;
-            ActiveStrength = 0;
-            await PowerCmd.Apply<StrengthPower>(
-                choiceContext,
-                Owner,
-                -expired,
-                Owner,
-                null,
-                silent: true);
-        }
+        Flash();
+        card.EnergyCost.AddThisCombat(1);
+        return Task.CompletedTask;
     }
 }
 
@@ -421,6 +367,7 @@ public sealed class BodrakastiPhasePower : ModPowerTemplate
         }
     }
 
+    // Legacy save data only; phase two no longer inherits Strength.
     [SavedProperty]
     public int PreservedStrength
     {
@@ -432,6 +379,7 @@ public sealed class BodrakastiPhasePower : ModPowerTemplate
         }
     }
 
+    // Keep the old saved field so runs started before this change can load.
     [SavedProperty]
     public int PreservedEmbrace
     {
@@ -441,25 +389,6 @@ public sealed class BodrakastiPhasePower : ModPowerTemplate
             AssertMutable();
             _preservedEmbrace = value;
         }
-    }
-
-    public override Task BeforeDeath(Creature creature)
-    {
-        if (creature == Owner && !SecondPhase)
-        {
-            int temporaryLoss = Owner
-                .GetPower<BodrakastiGuidanceStrengthLossPower>()
-                ?.Amount ?? 0;
-            PreservedStrength = Math.Max(
-                0,
-                (Owner.GetPower<StrengthPower>()?.Amount ?? 0)
-                    + temporaryLoss);
-            PreservedEmbrace = Owner
-                .GetPower<BodrakastiHolyCityEmbracePower>()
-                ?.Amount ?? 0;
-        }
-
-        return Task.CompletedTask;
     }
 
     public override async Task AfterDeath(
@@ -509,39 +438,37 @@ public sealed class BodrakastiPhasePower : ModPowerTemplate
         WaitingToRevive = false;
         await CreatureCmd.SetMaxHp(Owner, Owner.MaxHp);
         await CreatureCmd.Heal(Owner, Owner.MaxHp);
+        if (Owner.GetPower<ArtifactPower>() is { } oldArtifact)
+        {
+            await PowerCmd.Remove(oldArtifact);
+        }
+
+        ArtifactPower? artifact = await PowerCmd.Apply<ArtifactPower>(
+            context,
+            Owner,
+            2,
+            Owner,
+            null);
+        artifact?.SetAmount(2, silent: true);
         if (Owner.GetPower<BodrakastiCounselPower>() is { } counsel)
         {
             await PowerCmd.Remove(counsel);
         }
+        await PowerCmd.Apply<BodrakastiCounselPower>(
+            context, Owner, 1, Owner, null, silent: true);
         await PowerCmd.Apply<BodrakastiHolyCarePower>(
             context, Owner, 1, Owner, null, silent: true);
-        if (PreservedEmbrace > 0)
+        PreservedStrength = 0;
+        if (Owner.GetPower<StrengthPower>() is { } strength)
         {
-            await PowerCmd.Apply<BodrakastiHolyCityEmbracePower>(
-                context,
-                Owner,
-                PreservedEmbrace,
-                Owner,
-                null,
-                silent: true);
-        }
-
-        if (PreservedStrength > 0)
-        {
-            await PowerCmd.Apply<StrengthPower>(
-                context,
-                Owner,
-                PreservedStrength,
-                Owner,
-                null,
-                silent: true);
+            await PowerCmd.Remove(strength);
         }
 
         await GiveHolyCityShields();
         SecondPhase = true;
     }
 
-    private async Task GiveHolyCityShields()
+    internal async Task GiveHolyCityShields()
     {
         if (Owner.CombatState is not { } combatState)
         {

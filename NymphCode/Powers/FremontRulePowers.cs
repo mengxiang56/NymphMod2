@@ -16,11 +16,11 @@ public abstract class FremontRulePower : ModPowerTemplate
 [RegisterPower]
 public sealed class FremontCardChannelRulePower : FremontRulePower
 {
-    private int _cardsRemaining = 5;
+    private int _cardsRemaining = 4;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DynamicVar("CardsRemaining", 5)
+        new DynamicVar("CardsRemaining", 4)
     ];
 
     [SavedProperty]
@@ -30,7 +30,7 @@ public sealed class FremontCardChannelRulePower : FremontRulePower
         set
         {
             AssertMutable();
-            _cardsRemaining = Math.Clamp(value, 1, 5);
+            _cardsRemaining = Math.Clamp(value, 1, 4);
             DynamicVars["CardsRemaining"].BaseValue = _cardsRemaining;
         }
     }

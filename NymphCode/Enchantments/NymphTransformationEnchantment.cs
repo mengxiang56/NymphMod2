@@ -3,7 +3,6 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using Nymph.Cards;
 using Nymph.Mechanics;
-using Nymph.Powers;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 
@@ -17,7 +16,7 @@ public sealed class NymphTransformationEnchantment
 
     public override bool CanEnchant(CardModel card)
     {
-        if (card is NymphExiledBlackCoffin)
+        if (card is NymphExiledBlackCoffin or NymphBodrakastiRitual)
         {
             return false;
         }
@@ -81,8 +80,7 @@ public sealed class NymphTransformationEnchantment
         CardPlay? cardPlay)
     {
         if (cardPlay?.Card != Card
-            || Card is ISelfRecreatingOnPlayCard
-            || FremontMechanicsPower.IsMarkedForCoffin(Card))
+            || Card is ISelfRecreatingOnPlayCard)
         {
             return;
         }
