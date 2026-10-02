@@ -1,0 +1,95 @@
+{
+  "generator": "built-in image_gen",
+  "style": "Simple original-game-inspired power symbols; transparent background; minimal flat-color shapes.",
+  "icons": [
+    {
+      "key": "FremontCardChannelRulePower",
+      "title": "即兴施展的防身术",
+      "source": "C:\\Users\\hp\\.codex\\generated_images\\019f98a2-5458-7f41-99b9-85dac8830a82\\exec-03e6f736-3e6c-4900-b64f-abdf1fc0ed59.png",
+      "small": "Nymph/images/powers/FremontCardChannelRulePower32.png",
+      "large": "Nymph/images/powers/FremontCardChannelRulePower84.png",
+      "prompt": "Use case: stylized-concept. Create ONE new Slay the Spire 2 status/power icon, not a card illustration. Reference images are style references ONLY, do not alter them or copy their subject. Subject: improvised defensive sorcery — a small mint-teal shield formed by two overlapping ivory playing cards, with ONE tiny angular golden lightning mark in the center. Flat painted original-game UI pictogram: simple bold silhouette, 3-4 solid colors total, at most one hard-edged shadow plane per object, slightly irregular geometric shapes. Strong readable silhouette at 32 pixels. Single centered symbol filling about 85 percent of square canvas, generous clear transparent edges. No text, numbers, letters, border, tile, frame, disc, background, glow, texture, fine detail, gradients, 3D, bevels, metallic shine, realistic rendering. Genuine transparent background. The provided sword and gear demonstrate the required flat minimal shape language."
+    },
+    {
+      "key": "FremontBlackCoffinRulePower",
+      "title": "黑棺放逐",
+      "source": "C:\\Users\\hp\\.codex\\generated_images\\019f98a2-5458-7f41-99b9-85dac8830a82\\exec-d7ea73ab-04fa-49ae-afe4-503f08c37efd.png",
+      "small": "Nymph/images/powers/FremontBlackCoffinRulePower32.png",
+      "large": "Nymph/images/powers/FremontBlackCoffinRulePower84.png",
+      "prompt": "Use case: stylized-concept. Create ONE small status-effect icon for Slay the Spire 2, not a full illustration. The reference sword and gear are ONLY visual-style references. Match their very simple flat silhouette and broad geometric colored shapes. ABSOLUTELY SOLID FLAT COLORS ONLY: no gradients, textures, lighting, bloom, blur, soft shadows, or 3D. At most 4 base colors and one darker flat shadow shape. Chunky uncluttered silhouette, minimal interior detail, instantly legible at 32x32. Single isolated centered symbol covering 80-85% of square canvas. Real clean transparent background with crisp antialiased edges. No text, no lettering, no numbers, no tile, no background plate, no frame, no decorative sparkles.\nSubject for '黑棺放逐': A single tall angular closed black coffin, tilted very slightly, with one broad violet band wrapped around its middle and a single pale gray keyhole-shaped seal. Simple solid charcoal, violet and pale gray shapes."
+    },
+    {
+      "key": "FremontSecondPhaseRulePower",
+      "title": "痴愚惩戒",
+      "source": "C:\\Users\\hp\\.codex\\generated_images\\019f98a2-5458-7f41-99b9-85dac8830a82\\exec-9b848553-5ed6-4e2e-a735-5baf26a97b70.png",
+      "small": "Nymph/images/powers/FremontSecondPhaseRulePower32.png",
+      "large": "Nymph/images/powers/FremontSecondPhaseRulePower84.png",
+      "prompt": "Use case: stylized-concept. Create ONE small status-effect icon for Slay the Spire 2, not a full illustration. The reference sword and gear are ONLY visual-style references. Match their very simple flat silhouette and broad geometric colored shapes. ABSOLUTELY SOLID FLAT COLORS ONLY: no gradients, textures, lighting, bloom, blur, soft shadows, or 3D. At most 4 base colors and one darker flat shadow shape. Chunky uncluttered silhouette, minimal interior detail, instantly legible at 32x32. Single isolated centered symbol covering 80-85% of square canvas. Real clean transparent background with crisp antialiased edges. No text, no lettering, no numbers, no tile, no background plate, no frame, no decorative sparkles.\nSubject for '痴愚惩戒': Three small ivory playing cards scattering sideways beneath a single stern violet eye. The simple eye and three blank cards form one compact glyph; no lettering or card suits. Flat violet, ivory and muted pink."
+    },
+    {
+      "key": "TheresisSovereignAfterimagePower",
+      "title": "尊主残影",
+      "repairPrompt": "Edit only this newly generated crown icon. Preserve the exact two-crown silhouette, sizes and arrangement. Repair the front crown: remove the dark blurry spot / partially transparent hole in its central face. Make every colored part of both crowns COMPLETELY OPAQUE with clean flat solid fills: front crown light iron-gray, just one solid darker gray angular facet and base band; back crown solid lavender. No gradient, no haze, no dim spots, no texture, no transparency within the colored shapes. Only the space outside the crown silhouettes must be fully transparent. Minimal flat 2D Slay the Spire status icon, no text, no border, no 3D. Do not add details.",
+      "source": "C:\\Users\\hp\\.codex\\generated_images\\019f98a2-5458-7f41-99b9-85dac8830a82\\exec-4f869b39-61c1-4626-8523-2c9a584b0941.png",
+      "small": "Nymph/images/powers/TheresisSovereignAfterimagePower32.png",
+      "large": "Nymph/images/powers/TheresisSovereignAfterimagePower84.png",
+      "prompt": "Use case: stylized-concept. Create ONE small status-effect icon for Slay the Spire 2, not a full illustration. The reference sword and gear are ONLY visual-style references. Match their very simple flat silhouette and broad geometric colored shapes. ABSOLUTELY SOLID FLAT COLORS ONLY: no gradients, textures, lighting, bloom, blur, soft shadows, or 3D. At most 4 base colors and one darker flat shadow shape. Chunky uncluttered silhouette, minimal interior detail, instantly legible at 32x32. Single isolated centered symbol covering 80-85% of square canvas. Real clean transparent background with crisp antialiased edges. No text, no lettering, no numbers, no tile, no background plate, no frame, no decorative sparkles.\nSubject for '尊主残影': A large angular iron-gray crown silhouette with ONE offset violet ghost-crown silhouette behind it, suggesting a sovereign's afterimage. Only two crowns and three solid colors, no jewels or tiny details.\nUse a true FLAT stencil pictogram composition, avoid dimensional perspective and smooth gradients."
+    },
+    {
+      "key": "TheresisTwinPower",
+      "title": "双子",
+      "source": "C:\\Users\\hp\\.codex\\generated_images\\019f98a2-5458-7f41-99b9-85dac8830a82\\exec-32956452-af5c-49d4-8d2c-5cb7ce62bce5.png",
+      "small": "Nymph/images/powers/TheresisTwinPower32.png",
+      "large": "Nymph/images/powers/TheresisTwinPower84.png",
+      "prompt": "Use case: stylized-concept. Create ONE small status-effect icon for Slay the Spire 2, not a full illustration. The reference sword and gear are ONLY visual-style references. Match their very simple flat silhouette and broad geometric colored shapes. ABSOLUTELY SOLID FLAT COLORS ONLY: no gradients, textures, lighting, bloom, blur, soft shadows, or 3D. At most 4 base colors and one darker flat shadow shape. Chunky uncluttered silhouette, minimal interior detail, instantly legible at 32x32. Single isolated centered symbol covering 80-85% of square canvas. Real clean transparent background with crisp antialiased edges. No text, no lettering, no numbers, no tile, no background plate, no frame, no decorative sparkles.\nSubject for '双子': Two mirrored simple swords facing upward side by side, linked at the hilts by ONE broad red ribbon. Steel-gray blades with ONE darker angular facet, red ribbon. No intricate handles.\nUse a true FLAT stencil pictogram composition, avoid dimensional perspective and smooth gradients."
+    },
+    {
+      "key": "TheresisTwinbornPower",
+      "title": "双生",
+      "source": "C:\\Users\\hp\\.codex\\generated_images\\019f98a2-5458-7f41-99b9-85dac8830a82\\exec-36a818c7-2432-4de4-be6b-6a3f8fe229a3.png",
+      "small": "Nymph/images/powers/TheresisTwinbornPower32.png",
+      "large": "Nymph/images/powers/TheresisTwinbornPower84.png",
+      "prompt": "Use case: stylized-concept. Create ONE small status-effect icon for Slay the Spire 2, not a full illustration. The reference sword and gear are ONLY visual-style references. Match their very simple flat silhouette and broad geometric colored shapes. ABSOLUTELY SOLID FLAT COLORS ONLY: no gradients, textures, lighting, bloom, blur, soft shadows, or 3D. At most 4 base colors and one darker flat shadow shape. Chunky uncluttered silhouette, minimal interior detail, instantly legible at 32x32. Single isolated centered symbol covering 80-85% of square canvas. Real clean transparent background with crisp antialiased edges. No text, no lettering, no numbers, no tile, no background plate, no frame, no decorative sparkles.\nSubject for '双生': Two matching stylized joined shields touching at the middle, one muted rose-red and one pale ivory with violet shadow. ONE connecting band at center. Broad geometric shapes, no hearts, no heraldic patterns.\nUse a true FLAT stencil pictogram composition, avoid dimensional perspective and smooth gradients."
+    },
+    {
+      "key": "TheresaWillShockPower",
+      "title": "意志震荡",
+      "source": "C:\\Users\\hp\\.codex\\generated_images\\019f98a2-5458-7f41-99b9-85dac8830a82\\exec-63e7f32c-95f4-41e8-b7db-a7af09d95788.png",
+      "small": "Nymph/images/powers/TheresaWillShockPower32.png",
+      "large": "Nymph/images/powers/TheresaWillShockPower84.png",
+      "prompt": "Use case: stylized-concept. Create ONE small status-effect icon for Slay the Spire 2, not a full illustration. The reference sword and gear are ONLY visual-style references. Match their very simple flat silhouette and broad geometric colored shapes. ABSOLUTELY SOLID FLAT COLORS ONLY: no gradients, textures, lighting, bloom, blur, soft shadows, or 3D. At most 4 base colors and one darker flat shadow shape. Chunky uncluttered silhouette, minimal interior detail, instantly legible at 32x32. Single isolated centered symbol covering 80-85% of square canvas. Real clean transparent background with crisp antialiased edges. No text, no lettering, no numbers, no tile, no background plate, no frame, no decorative sparkles.\nSubject for '意志震荡': A simple pale violet head silhouette in profile, with two short angular magenta zigzag shock marks extending outward from the forehead. Just one head and two zigzags, no facial detail.\nUse a true FLAT stencil pictogram composition, avoid dimensional perspective and smooth gradients."
+    },
+    {
+      "key": "BodrakastiHolyCarePower",
+      "title": "圣城照护",
+      "source": "C:\\Users\\hp\\.codex\\generated_images\\019f98a2-5458-7f41-99b9-85dac8830a82\\exec-262e34db-44a7-4e05-bdd2-37831e6f18e5.png",
+      "small": "Nymph/images/powers/BodrakastiHolyCarePower32.png",
+      "large": "Nymph/images/powers/BodrakastiHolyCarePower84.png",
+      "prompt": "Use case: stylized-concept. Create ONE small status-effect icon for Slay the Spire 2, not a full illustration. The reference sword and gear are ONLY visual-style references. Match their very simple flat silhouette and broad geometric colored shapes. ABSOLUTELY SOLID FLAT COLORS ONLY: no gradients, textures, lighting, bloom, blur, soft shadows, or 3D. At most 4 base colors and one darker flat shadow shape. Chunky uncluttered silhouette, minimal interior detail, instantly legible at 32x32. Single isolated centered symbol covering 80-85% of square canvas. Real clean transparent background with crisp antialiased edges. No text, no lettering, no numbers, no tile, no background plate, no frame, no decorative sparkles.\nSubject for '圣城照护': A single broad gray shield protecting an ivory city-gate silhouette, with one small golden cross-like four-point star above the gate. Gate is ONE chunky arch and TWO simple towers. Flat gray, ivory and ochre, no masonry detail.\nUse a true FLAT stencil pictogram composition, avoid dimensional perspective and smooth gradients."
+    },
+    {
+      "key": "BodrakastiCounselPower",
+      "title": "劝谕",
+      "source": "C:\\Users\\hp\\.codex\\generated_images\\019f98a2-5458-7f41-99b9-85dac8830a82\\exec-7b9e8d23-be56-4392-8071-f7c31e930027.png",
+      "small": "Nymph/images/powers/BodrakastiCounselPower32.png",
+      "large": "Nymph/images/powers/BodrakastiCounselPower84.png",
+      "prompt": "Use case: stylized-concept. Create ONE small status-effect icon for Slay the Spire 2, not a full illustration. The reference sword and gear are ONLY visual-style references. Match their very simple flat silhouette and broad geometric colored shapes. ABSOLUTELY SOLID FLAT COLORS ONLY: no gradients, textures, lighting, bloom, blur, soft shadows, or 3D. At most 4 base colors and one darker flat shadow shape. Chunky uncluttered silhouette, minimal interior detail, instantly legible at 32x32. Single isolated centered symbol covering 80-85% of square canvas. Real clean transparent background with crisp antialiased edges. No text, no lettering, no numbers, no tile, no background plate, no frame, no decorative sparkles.\nSubject for '劝谕': A stern dark red speaking mouth silhouette above one broad downward ochre arrow aimed at a single small ivory card. Three large simple forms only, no facial features, no lettering.\nUse a true FLAT stencil pictogram composition, avoid dimensional perspective and smooth gradients."
+    },
+    {
+      "key": "BodrakastiGuidancePower",
+      "title": "导引",
+      "source": "C:\\Users\\hp\\.codex\\generated_images\\019f98a2-5458-7f41-99b9-85dac8830a82\\exec-cecb5605-2d8d-4bc7-b8ae-d99bdae89527.png",
+      "small": "Nymph/images/powers/BodrakastiGuidancePower32.png",
+      "large": "Nymph/images/powers/BodrakastiGuidancePower84.png",
+      "prompt": "Use case: stylized-concept. Create ONE small status-effect icon for Slay the Spire 2, not a full illustration. The reference sword and gear are ONLY visual-style references. Match their very simple flat silhouette and broad geometric colored shapes. ABSOLUTELY SOLID FLAT COLORS ONLY: no gradients, textures, lighting, bloom, blur, soft shadows, or 3D. At most 4 base colors and one darker flat shadow shape. Chunky uncluttered silhouette, minimal interior detail, instantly legible at 32x32. Single isolated centered symbol covering 80-85% of square canvas. Real clean transparent background with crisp antialiased edges. No text, no lettering, no numbers, no tile, no background plate, no frame, no decorative sparkles.\nSubject for '导引': One simple steel-gray spearhead with a broad burgundy curved downward arrow wrapped around it, symbolizing wounded strength being guided down. Exactly spearhead plus arrow, no hearts, keys, gears or fine decoration.\nUse a true FLAT stencil pictogram composition, avoid dimensional perspective and smooth gradients."
+    },
+    {
+      "key": "SanctifierAutomatonSelfDestructPower",
+      "title": "自爆",
+      "source": "C:\\Users\\hp\\.codex\\generated_images\\019f98a2-5458-7f41-99b9-85dac8830a82\\exec-caa30e75-23fc-484b-9827-ecf80e93c993.png",
+      "small": "Nymph/images/powers/SanctifierAutomatonSelfDestructPower32.png",
+      "large": "Nymph/images/powers/SanctifierAutomatonSelfDestructPower84.png",
+      "prompt": "Use case: stylized-concept. Create ONE small status-effect icon for Slay the Spire 2, not a full illustration. The reference sword and gear are ONLY visual-style references. Match their very simple flat silhouette and broad geometric colored shapes. ABSOLUTELY SOLID FLAT COLORS ONLY: no gradients, textures, lighting, bloom, blur, soft shadows, or 3D. At most 4 base colors and one darker flat shadow shape. Chunky uncluttered silhouette, minimal interior detail, instantly legible at 32x32. Single isolated centered symbol covering 80-85% of square canvas. Real clean transparent background with crisp antialiased edges. No text, no lettering, no numbers, no tile, no background plate, no frame, no decorative sparkles.\nSubject for '自爆': A single small dark iron mechanical core breaking into a large coral-red four-point angular explosion. Solid jagged red explosion behind simple dark-gray core, a small ochre center. No smoke, gears, bolts or tiny fragments.\nUse a true FLAT stencil pictogram composition, avoid dimensional perspective and smooth gradients."
+    }
+  ]
+}

@@ -32,8 +32,8 @@ public sealed class TheresisSovereignAfterimagePower : ModPowerTemplate
         Owner?.GetPower<TheresisTwinPower>()?.SecondPhase != true;
 
     public override PowerAssetProfile AssetProfile => new(
-        IconPath: $"{Entry.ResPath}/images/powers/HeartToHeartPower32.png",
-        BigIconPath: $"{Entry.ResPath}/images/powers/HeartToHeartPower84.png");
+        IconPath: $"{Entry.ResPath}/images/powers/TheresisSovereignAfterimagePower32.png",
+        BigIconPath: $"{Entry.ResPath}/images/powers/TheresisSovereignAfterimagePower84.png");
 }
 
 [RegisterPower]
@@ -54,8 +54,8 @@ public sealed class TheresisTwinPower : ModPowerTemplate
     internal bool IsTransitioning => _transitioning;
 
     public override PowerAssetProfile AssetProfile => new(
-        IconPath: $"{Entry.ResPath}/images/powers/HeartToHeartPower32.png",
-        BigIconPath: $"{Entry.ResPath}/images/powers/HeartToHeartPower84.png");
+        IconPath: $"{Entry.ResPath}/images/powers/TheresisTwinPower32.png",
+        BigIconPath: $"{Entry.ResPath}/images/powers/TheresisTwinPower84.png");
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
@@ -501,8 +501,8 @@ public sealed class TheresisTwinbornPower : ModPowerTemplate
     public override bool ShouldPlayVfx => false;
 
     public override PowerAssetProfile AssetProfile => new(
-        IconPath: $"{Entry.ResPath}/images/powers/HeartToHeartPower32.png",
-        BigIconPath: $"{Entry.ResPath}/images/powers/HeartToHeartPower84.png");
+        IconPath: $"{Entry.ResPath}/images/powers/TheresisTwinbornPower32.png",
+        BigIconPath: $"{Entry.ResPath}/images/powers/TheresisTwinbornPower84.png");
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
@@ -571,8 +571,8 @@ public sealed class TheresaWillShockPower : ModPowerTemplate
             : "NYMPH_POWER_THERESA_WILL_SHOCK_POWER.smartDescription";
 
     public override PowerAssetProfile AssetProfile => new(
-        IconPath: $"{Entry.ResPath}/images/powers/DreadkazEchoPower32.png",
-        BigIconPath: $"{Entry.ResPath}/images/powers/DreadkazEchoPower84.png");
+        IconPath: $"{Entry.ResPath}/images/powers/TheresaWillShockPower32.png",
+        BigIconPath: $"{Entry.ResPath}/images/powers/TheresaWillShockPower84.png");
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [

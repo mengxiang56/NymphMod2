@@ -187,8 +187,8 @@ public sealed class BodrakastiHolyCarePower : ModPowerTemplate
     public override PowerStackType StackType => PowerStackType.None;
 
     public override PowerAssetProfile AssetProfile => new(
-        IconPath: $"{Entry.ResPath}/images/powers/HolyCityEmbracePower32.png",
-        BigIconPath: $"{Entry.ResPath}/images/powers/HolyCityEmbracePower84.png");
+        IconPath: $"{Entry.ResPath}/images/powers/BodrakastiHolyCarePower32.png",
+        BigIconPath: $"{Entry.ResPath}/images/powers/BodrakastiHolyCarePower84.png");
 
     public override decimal ModifyDamageAdditive(
         Creature? target,
@@ -249,8 +249,8 @@ public sealed class BodrakastiCounselPower : ModPowerTemplate
     public override PowerStackType StackType => PowerStackType.None;
 
     public override PowerAssetProfile AssetProfile => new(
-        IconPath: $"{Entry.ResPath}/images/powers/FearPower32.png",
-        BigIconPath: $"{Entry.ResPath}/images/powers/FearPower84.png");
+        IconPath: $"{Entry.ResPath}/images/powers/BodrakastiCounselPower32.png",
+        BigIconPath: $"{Entry.ResPath}/images/powers/BodrakastiCounselPower84.png");
 
     public override Task AfterCardPlayed(
         PlayerChoiceContext choiceContext,
@@ -299,8 +299,8 @@ public sealed class BodrakastiGuidancePower : ModPowerTemplate
     public override PowerStackType StackType => PowerStackType.None;
 
     public override PowerAssetProfile AssetProfile => new(
-        IconPath: $"{Entry.ResPath}/images/powers/KeyToHeartPower32.png",
-        BigIconPath: $"{Entry.ResPath}/images/powers/KeyToHeartPower84.png");
+        IconPath: $"{Entry.ResPath}/images/powers/BodrakastiGuidancePower32.png",
+        BigIconPath: $"{Entry.ResPath}/images/powers/BodrakastiGuidancePower84.png");
 
     public override async Task AfterDamageReceived(
         PlayerChoiceContext choiceContext,
@@ -496,8 +496,8 @@ public sealed class BodrakastiGuidanceStrengthLossPower : ModPowerTemplate
     public override bool AllowNegative => false;
 
     public override PowerAssetProfile AssetProfile => new(
-        IconPath: $"{Entry.ResPath}/images/powers/KeyToHeartPower32.png",
-        BigIconPath: $"{Entry.ResPath}/images/powers/KeyToHeartPower84.png");
+        IconPath: $"{Entry.ResPath}/images/powers/BodrakastiGuidancePower32.png",
+        BigIconPath: $"{Entry.ResPath}/images/powers/BodrakastiGuidancePower84.png");
 
     public override async Task BeforeApplied(
         Creature target,

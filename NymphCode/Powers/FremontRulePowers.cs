@@ -36,16 +36,16 @@ public sealed class FremontCardChannelRulePower : FremontRulePower
     }
 
     public override PowerAssetProfile AssetProfile => new(
-        IconPath: $"{Entry.ResPath}/images/powers/CreateHistoryPower32.png",
-        BigIconPath: $"{Entry.ResPath}/images/powers/CreateHistoryPower84.png");
+        IconPath: $"{Entry.ResPath}/images/powers/FremontCardChannelRulePower32.png",
+        BigIconPath: $"{Entry.ResPath}/images/powers/FremontCardChannelRulePower84.png");
 }
 
 [RegisterPower]
 public sealed class FremontBlackCoffinRulePower : FremontRulePower
 {
     public override PowerAssetProfile AssetProfile => new(
-        IconPath: $"{Entry.ResPath}/images/powers/DreadkazEchoPower32.png",
-        BigIconPath: $"{Entry.ResPath}/images/powers/DreadkazEchoPower84.png");
+        IconPath: $"{Entry.ResPath}/images/powers/FremontBlackCoffinRulePower32.png",
+        BigIconPath: $"{Entry.ResPath}/images/powers/FremontBlackCoffinRulePower84.png");
 }
 
 [RegisterPower]
@@ -65,6 +65,6 @@ public sealed class FremontSecondPhaseRulePower : FremontRulePower
     }
 
     public override PowerAssetProfile AssetProfile => new(
-        IconPath: $"{Entry.ResPath}/images/powers/LookForFuturePower32.png",
-        BigIconPath: $"{Entry.ResPath}/images/powers/LookForFuturePower84.png");
+        IconPath: $"{Entry.ResPath}/images/powers/FremontSecondPhaseRulePower32.png",
+        BigIconPath: $"{Entry.ResPath}/images/powers/FremontSecondPhaseRulePower84.png");
 }
