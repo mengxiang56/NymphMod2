@@ -1,0 +1,19 @@
+{
+  "generator": "built-in image_gen",
+  "editTarget": "Nymph/images/backgrounds/FremontBattle.png",
+  "source": "tmp/imagegen/boss-backgrounds/Fremont-gray-source.png",
+  "originalGeneratedImage": "C:/Users/hp/.codex/generated_images/019f98a2-5458-7f41-99b9-85dac8830a82/exec-336ad169-d417-475a-adf0-6fa2f9206962.png",
+  "image": "Nymph/images/backgrounds/FremontBattle.png",
+  "imageSize": [
+    2880,
+    1350
+  ],
+  "sceneBounds": [
+    -1493.3334,
+    -800,
+    1493.3334,
+    600
+  ],
+  "sceneOffsetY": -100,
+  "prompt": "Use case: lighting-weather. Edit target: supplied Fremont combat background, panoramic 32:15. Change ONLY the overall palette and light to be visibly more somber, GRAYER AND DARKER. Preserve the exact eye-level camera, composition, architectural silhouettes, floor seams, parapet positions, geometry and matte hand-painted angular illustration style. Lower overall brightness moderately (roughly 15-20 percent), strongly desaturate violet sky to cloudy charcoal-gray with only a faint purple undertone. Reduce peach light in the clouds; make stone neutral ash-gray, distant structures muted smoke-gray. Keep existing teal and rust-red accents but subdued and desaturated. Cyan vertical strips should be muted, not glowing brightly. Retain sufficient separation between floor, parapet and distant city so small game character sprites remain readable. The floor must still clearly be visible, not near-black. Maintain simplified painted two/three-tone shading, no photo-realism, no new details, no mist overlay that blurs edges, no vignette, no gradient overlay. Do not move objects, alter perspective or crop. No characters, text, UI, logos or watermark. Full bleed opaque."
+}

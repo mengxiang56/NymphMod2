@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://NymphCode/Encounters/BossCombatBackground.cs" id="1_script"]
+
+[node name="BossCombatBackground" type="Control"]
+offset_left = -23.0
+offset_right = -23.0
+mouse_filter = 2
+script = ExtResource("1_script")
+
+[node name="Layer_00" type="Control" parent="."]
+mouse_filter = 2

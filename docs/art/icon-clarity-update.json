@@ -1,0 +1,124 @@
+{
+  "method": "Built-in image_gen for redesigned history icons; direct full-resolution source downsampling for combat power icons",
+  "powerIcons": [
+    {
+      "key": "FremontCardChannelRulePower",
+      "source": "tmp/imagegen/boss-power-icons/FremontCardChannelRulePower.png",
+      "previous": "Nymph/images/powers/FremontCardChannelRulePower32.png",
+      "combat": "Nymph/images/powers/FremontCardChannelRulePower64.png",
+      "large": "Nymph/images/powers/FremontCardChannelRulePower84.png",
+      "displaySize": 46
+    },
+    {
+      "key": "FremontBlackCoffinRulePower",
+      "source": "tmp/imagegen/boss-power-icons/FremontBlackCoffinRulePower.png",
+      "previous": "Nymph/images/powers/FremontBlackCoffinRulePower32.png",
+      "combat": "Nymph/images/powers/FremontBlackCoffinRulePower64.png",
+      "large": "Nymph/images/powers/FremontBlackCoffinRulePower84.png",
+      "displaySize": 46
+    },
+    {
+      "key": "FremontSecondPhaseRulePower",
+      "source": "tmp/imagegen/boss-power-icons/FremontSecondPhaseRulePower.png",
+      "previous": "Nymph/images/powers/FremontSecondPhaseRulePower32.png",
+      "combat": "Nymph/images/powers/FremontSecondPhaseRulePower64.png",
+      "large": "Nymph/images/powers/FremontSecondPhaseRulePower84.png",
+      "displaySize": 46
+    },
+    {
+      "key": "TheresisSovereignAfterimagePower",
+      "source": "tmp/imagegen/boss-power-icons/TheresisSovereignAfterimagePower.png",
+      "previous": "Nymph/images/powers/TheresisSovereignAfterimagePower32.png",
+      "combat": "Nymph/images/powers/TheresisSovereignAfterimagePower64.png",
+      "large": "Nymph/images/powers/TheresisSovereignAfterimagePower84.png",
+      "displaySize": 46
+    },
+    {
+      "key": "TheresisTwinPower",
+      "source": "tmp/imagegen/boss-power-icons/TheresisTwinPower.png",
+      "previous": "Nymph/images/powers/TheresisTwinPower32.png",
+      "combat": "Nymph/images/powers/TheresisTwinPower64.png",
+      "large": "Nymph/images/powers/TheresisTwinPower84.png",
+      "displaySize": 46
+    },
+    {
+      "key": "TheresisTwinbornPower",
+      "source": "tmp/imagegen/boss-power-icons/TheresisTwinbornPower.png",
+      "previous": "Nymph/images/powers/TheresisTwinbornPower32.png",
+      "combat": "Nymph/images/powers/TheresisTwinbornPower64.png",
+      "large": "Nymph/images/powers/TheresisTwinbornPower84.png",
+      "displaySize": 46
+    },
+    {
+      "key": "TheresaWillShockPower",
+      "source": "tmp/imagegen/boss-power-icons/TheresaWillShockPower.png",
+      "previous": "Nymph/images/powers/TheresaWillShockPower32.png",
+      "combat": "Nymph/images/powers/TheresaWillShockPower64.png",
+      "large": "Nymph/images/powers/TheresaWillShockPower84.png",
+      "displaySize": 46
+    },
+    {
+      "key": "BodrakastiHolyCarePower",
+      "source": "tmp/imagegen/boss-power-icons/BodrakastiHolyCarePower.png",
+      "previous": "Nymph/images/powers/BodrakastiHolyCarePower32.png",
+      "combat": "Nymph/images/powers/BodrakastiHolyCarePower64.png",
+      "large": "Nymph/images/powers/BodrakastiHolyCarePower84.png",
+      "displaySize": 46
+    },
+    {
+      "key": "BodrakastiCounselPower",
+      "source": "tmp/imagegen/boss-power-icons/BodrakastiCounselPower.png",
+      "previous": "Nymph/images/powers/BodrakastiCounselPower32.png",
+      "combat": "Nymph/images/powers/BodrakastiCounselPower64.png",
+      "large": "Nymph/images/powers/BodrakastiCounselPower84.png",
+      "displaySize": 46
+    },
+    {
+      "key": "BodrakastiGuidancePower",
+      "source": "tmp/imagegen/boss-power-icons/BodrakastiGuidancePower.png",
+      "previous": "Nymph/images/powers/BodrakastiGuidancePower32.png",
+      "combat": "Nymph/images/powers/BodrakastiGuidancePower64.png",
+      "large": "Nymph/images/powers/BodrakastiGuidancePower84.png",
+      "displaySize": 46
+    },
+    {
+      "key": "SanctifierAutomatonSelfDestructPower",
+      "source": "tmp/imagegen/boss-power-icons/SanctifierAutomatonSelfDestructPower.png",
+      "previous": "Nymph/images/powers/SanctifierAutomatonSelfDestructPower32.png",
+      "combat": "Nymph/images/powers/SanctifierAutomatonSelfDestructPower64.png",
+      "large": "Nymph/images/powers/SanctifierAutomatonSelfDestructPower84.png",
+      "displaySize": 46
+    }
+  ],
+  "historyIcons": [
+    {
+      "boss": "Fremont",
+      "source": "C:\\Users\\hp\\.codex\\generated_images\\019f98a2-5458-7f41-99b9-85dac8830a82\\exec-a9661c2b-0c05-4b44-a21a-1a1cf0a1dfec.png",
+      "archivedSource": "tmp/imagegen/boss-history-icons-v2/FremontBoss.png",
+      "asset": "Nymph/images/ui/run_history/FremontBoss_v2.png",
+      "outline": "Nymph/images/ui/run_history/FremontBoss_v2_outline.png",
+      "prompt": "Edit/redesign image 1 into a MUCH SIMPLER Slay the Spire 2 run-history boss pictogram. Images 2 and 3 are original game style references ONLY. Preserve Fremont's identity: swept-back white hair, pointed ears, a long pointed goatee and navy/plum collar. CRITICAL: this is a tiny 85-pixel icon, NOT a detailed portrait. Use no more than 12 large flat filled shapes and SIX flat colors. Hair is ONE pale gray mass with ONE broad white crest highlight, not individual locks. Face is ONE solid ivory angular shape with NO cheek/forehead/nose shading or wrinkles; eyebrows are TWO thick dark dashes, eyes are TWO tiny solid amber dashes. Goatee is ONE chunky ivory triangle, no beard strands. Collar is TWO broad dark navy wedges and ONE plum rim. Give every important separation strong high contrast. No gradients, no textures, no blur, no thin lines, no elaborate highlights, no soft edge glow, no anime eyes, no 3D. Only a very thin antialias at outer silhouette, all interior colored shapes fully opaque. Head and collar only, centered, fills about 85% of square canvas. Transparent background, no frame, no text. SIMPLIFY dramatically compared with image 1; match the coarse sparse shapes of official icons 2 and 3."
+    },
+    {
+      "boss": "TheresisTheresa",
+      "source": "C:\\Users\\hp\\.codex\\generated_images\\019f98a2-5458-7f41-99b9-85dac8830a82\\exec-3ff2b9b2-0d97-45fa-a301-d1f0133fb7a1.png",
+      "archivedSource": "tmp/imagegen/boss-history-icons-v2/TheresisTheresaBoss.png",
+      "asset": "Nymph/images/ui/run_history/TheresisTheresaBoss_v2.png",
+      "outline": "Nymph/images/ui/run_history/TheresisTheresaBoss_v2_outline.png",
+      "prompt": "Edit/redesign image 1 into a dramatically SIMPLIFIED Slay the Spire 2 run-history boss pictogram of Theresis and Theresa. Images 2 and 3 are official game STYLE references only. Preserve TWO recognizable horned heads side by side, but remove nearly all portrait detail. Tiny final 85x85 UI icon. At most SIX flat colors, all interiors fully opaque. Each head uses ONE ivory face shape, ONE pale gray/pink hair silhouette, ONE broad contrasting hair patch, TWO thick charcoal horn spikes, TWO tiny red eye dashes. NO nose shading, no cheeks, no lips, no eyelashes, no individual thin hair strands. Left head Theresis has a chunky SHORT hair silhouette and a simple charcoal armor collar with one red triangle. Right head Theresa has a chunky LONG hair silhouette and a simple ivory collar. Separate their heads with a broad dark gap so both faces read at small size. Do not add a third head. Hair in at most 3 thick pointed tufts per head. Black horns stay bold, not spindly. Front view gently turned outward, compact unified bust, about 85% of square canvas. No gradients, textures, fine lines, glow, blur, 3D, decorative highlights, frames, discs or lettering. Transparent background. Make this as spare and emblem-like as the supplied native boss icons, not anime character fanart."
+    },
+    {
+      "boss": "Bodrakasti",
+      "source": "C:\\Users\\hp\\.codex\\generated_images\\019f98a2-5458-7f41-99b9-85dac8830a82\\exec-f66f4276-53de-4ee8-a4c6-3f8596fa49ef.png",
+      "archivedSource": "tmp/imagegen/boss-history-icons-v2/BodrakastiBoss.png",
+      "asset": "Nymph/images/ui/run_history/BodrakastiBoss_v2.png",
+      "outline": "Nymph/images/ui/run_history/BodrakastiBoss_v2_outline.png",
+      "prompt": "Edit/redesign image 1 into a MUCH SIMPLER official-style Slay the Spire 2 run-history boss icon. Images 2 and 3 are original game STYLE references. Retain Patriot/Bodrakasti's unmistakable deer-skull armored helmet, two branching antlers, halo, red eye slit and red scarf, but use no more than TWELVE big flat filled shapes and SIX opaque solid colors. Final display is tiny 85x85, readability is more important than portrait fidelity. The ivory skull helmet is ONE broad angular shape with ONE gray side plane; NO many small armor panel seams or bevel highlights. Eye socket is ONE large charcoal wedge with ONE bold dark red eye slash. Long pointed snout is chunky, not needle-thin. Antlers are two thick taupe forks with only two branches per antler and no interior shading. Halo is ONE simple thick ivory oval ring, no 3D bevel or shadows. Neck is ONE charcoal mass, NOT a segmented hose. Scarf is ONE dark red angular wedge, no folds or extra white stripe. No shoulder plates or extra objects. Strong silhouette and high-contrast broad separations, like the official icons. NO gradients, texture, blurred edges, glows, fine lines, small decorative facets, lighting effects or 3D. Inside shapes completely opaque, thin antialias only at outside contour. Centered three-quarter head facing right with all antlers and halo inside safe margins, fills about 85% of square canvas. Genuine transparent background, no frame, no disc, no lettering."
+    }
+  ],
+  "notes": [
+    "Previously used icons preserved; non-generated original mod icons unchanged.",
+    "Combat icon textures now match the vanilla 64px resolution; display size is unchanged.",
+    "History icons retain the native 85px canvas but have substantially fewer internal details."
+  ]
+}

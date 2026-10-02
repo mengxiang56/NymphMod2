@@ -1,0 +1,38 @@
+{
+  "method": "Built-in image_gen",
+  "portraitSize": [
+    1000,
+    760
+  ],
+  "styleReferences": [
+    "Original Slay the Spire 2: Dash",
+    "Original Slay the Spire 2: Footwork",
+    "Original Slay the Spire 2: Dodge and Roll"
+  ],
+  "cards": [
+    {
+      "card": "NymphBodrakastiRitual",
+      "name": "仪礼",
+      "source": "C:\\Users\\hp\\.codex\\generated_images\\019f98a2-5458-7f41-99b9-85dac8830a82\\exec-aecf2442-ec09-494e-9f4a-d8683532b4ba.png",
+      "archivedSource": "tmp/imagegen/bodrakasti-card-art/NymphBodrakastiRitual.png",
+      "asset": "Nymph/images/cards/NymphBodrakastiRitual.png",
+      "prompt": "Use case: stylized-concept. Asset: standalone landscape card portrait for a Slay the Spire 2 mod; target aspect ratio 250:190 (approximately 4:3). Full-bleed illustration only, NOT a complete card, no border, no UI, no letters or numbers. The attached original Slay the Spire 2 card portraits are STYLE references only: match their bold angular silhouettes, visibly hand-cut irregular contour shapes, flat opaque color planes, limited 2-3 tone shading, strong shape contrast, chunky fantasy proportions, economical background. Absolutely no photorealism, no anime rendering, no smooth airbrush gradients, no 3D, no fine intricate ornament. Large simple subject readable at 250x190. Leave modest safe margins for central crop. Create the card illustration 'Ritual' (仪礼), a military duel's opening salute, not a magic spell. Close view of two opposing weapons meeting diagonally at center: from lower left a small black-gloved hand with white sleeve and muted red cuff raises a short antique brass staff with a simple heart-shaped finial; from upper right a massive dark armored gauntlet holds a long black war spear with a red cloth ribbon. Weapons cross in a restrained ceremonial salute, with a small ivory glint where they meet, no damage or explosion. A broad stone paving circle underneath and a muted burgundy banner-shaped shadow behind suggest the ritual arena. Palette brass gold, ivory, charcoal, burgundy, muted turquoise ground. Keep the staff and spear distinct, the gauntlets anatomy clear. Simple dramatic flat shapes like the supplied official game illustrations."
+    },
+    {
+      "card": "NymphBodrakastiAdvance",
+      "name": "前进",
+      "source": "C:\\Users\\hp\\.codex\\generated_images\\019f98a2-5458-7f41-99b9-85dac8830a82\\exec-f9f799aa-8068-429b-9218-0690c664533c.png",
+      "archivedSource": "tmp/imagegen/bodrakasti-card-art/NymphBodrakastiAdvance.png",
+      "asset": "Nymph/images/cards/NymphBodrakastiAdvance.png",
+      "prompt": "Use case: stylized-concept. Asset: standalone landscape card portrait for a Slay the Spire 2 mod; target aspect ratio 250:190 (approximately 4:3). Full-bleed illustration only, NOT a complete card, no border, no UI, no letters or numbers. The attached original Slay the Spire 2 card portraits are STYLE references only: match their bold angular silhouettes, visibly hand-cut irregular contour shapes, flat opaque color planes, limited 2-3 tone shading, strong shape contrast, chunky fantasy proportions, economical background. Absolutely no photorealism, no anime rendering, no smooth airbrush gradients, no 3D, no fine intricate ornament. Large simple subject readable at 250x190. Leave modest safe margins for central crop. Create the card illustration 'Advance' (前进), deliberately closing distance to a formidable spear wielder. Dynamic low-angle closeup of a small adventurer's two charcoal ankle boots and ivory skirt hem with muted red trim. One boot lands forcefully farther forward toward the UPPER RIGHT, the trailing heel lifts in the LOWER LEFT; chipped stone and three thick ivory angular motion strokes emphasize a decisive forward step. A much larger dark armored opponent's shin and planted black spear with a crimson ribbon are partially visible in upper right background, indicating what the adventurer approaches; no visible faces, no full bodies. Background is a few large fractured warm gray stone slabs, muted rust-red behind the opponent and restrained yellow-gold accents around the landing foot. Keep both feet anatomically sensible, avoid medieval heavy plate boots on the small adventurer. Strong simple diagonal composition, action moving lower left to upper right. Original game style reference images are style only, do not copy the depicted character's costume."
+    },
+    {
+      "card": "NymphBodrakastiRetreat",
+      "name": "后退",
+      "source": "C:\\Users\\hp\\.codex\\generated_images\\019f98a2-5458-7f41-99b9-85dac8830a82\\exec-31666ecf-e450-45dd-ac33-99c6da2f94f3.png",
+      "archivedSource": "tmp/imagegen/bodrakasti-card-art/NymphBodrakastiRetreat.png",
+      "asset": "Nymph/images/cards/NymphBodrakastiRetreat.png",
+      "prompt": "Use case: stylized-concept. Asset: standalone landscape card portrait for a Slay the Spire 2 mod; target aspect ratio 250:190 (approximately 4:3). Full-bleed illustration only, NOT a complete card, no border, no UI, no letters or numbers. The attached original Slay the Spire 2 card portraits are STYLE references only: match their bold angular silhouettes, visibly hand-cut irregular contour shapes, flat opaque color planes, limited 2-3 tone shading, strong shape contrast, chunky fantasy proportions, economical background. Absolutely no photorealism, no anime rendering, no smooth airbrush gradients, no 3D, no fine intricate ornament. Large simple subject readable at 250x190. Leave modest safe margins for central crop. Create a NEW matching companion card illustration 'Retreat' (后退), deliberately pulling away from a formidable spear wielder. Images 1 and 2 are original game STYLE references; image 3 is the matching 'Advance' companion, use it only to maintain the same small adventurer's charcoal ankle boots, ivory skirt hem with muted red trim, giant dark armored opponent, and angular painted style. NEW composition showing the reverse movement: side view of the small adventurer's lower legs, one boot stepping backward strongly toward LOWER LEFT while still pointing toward the enemy at RIGHT, the other boot skimming the ground and leaving a clear zigzag ivory skid streak from right to left. The skirt pulls to the left. An enormous spear blade enters from UPPER RIGHT but stops well short of the withdrawing boots, leaving a clearly visible large gap; a piece of the enemy's dark armored leg stays far away in the right background. Broad cool teal stone slabs emphasize opened distance, cool blue-gray backdrop, pale ivory movement marks, tiny muted red ribbon on spear. Feet are moving away from the spear, not running toward it. Bold flat opaque color shapes and clear diagonal motion, no extra legs, no full bodies, no lettering, no arrow icon."
+    }
+  ]
+}

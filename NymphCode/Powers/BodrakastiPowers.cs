@@ -187,7 +187,7 @@ public sealed class BodrakastiHolyCarePower : ModPowerTemplate
     public override PowerStackType StackType => PowerStackType.None;
 
     public override PowerAssetProfile AssetProfile => new(
-        IconPath: $"{Entry.ResPath}/images/powers/BodrakastiHolyCarePower32.png",
+        IconPath: $"{Entry.ResPath}/images/powers/BodrakastiHolyCarePower64.png",
         BigIconPath: $"{Entry.ResPath}/images/powers/BodrakastiHolyCarePower84.png");
 
     public override decimal ModifyDamageAdditive(
@@ -249,7 +249,7 @@ public sealed class BodrakastiCounselPower : ModPowerTemplate
     public override PowerStackType StackType => PowerStackType.None;
 
     public override PowerAssetProfile AssetProfile => new(
-        IconPath: $"{Entry.ResPath}/images/powers/BodrakastiCounselPower32.png",
+        IconPath: $"{Entry.ResPath}/images/powers/BodrakastiCounselPower64.png",
         BigIconPath: $"{Entry.ResPath}/images/powers/BodrakastiCounselPower84.png");
 
     public override Task AfterCardPlayed(
@@ -299,7 +299,7 @@ public sealed class BodrakastiGuidancePower : ModPowerTemplate
     public override PowerStackType StackType => PowerStackType.None;
 
     public override PowerAssetProfile AssetProfile => new(
-        IconPath: $"{Entry.ResPath}/images/powers/BodrakastiGuidancePower32.png",
+        IconPath: $"{Entry.ResPath}/images/powers/BodrakastiGuidancePower64.png",
         BigIconPath: $"{Entry.ResPath}/images/powers/BodrakastiGuidancePower84.png");
 
     public override async Task AfterDamageReceived(
@@ -496,7 +496,7 @@ public sealed class BodrakastiGuidanceStrengthLossPower : ModPowerTemplate
     public override bool AllowNegative => false;
 
     public override PowerAssetProfile AssetProfile => new(
-        IconPath: $"{Entry.ResPath}/images/powers/BodrakastiGuidancePower32.png",
+        IconPath: $"{Entry.ResPath}/images/powers/BodrakastiGuidancePower64.png",
         BigIconPath: $"{Entry.ResPath}/images/powers/BodrakastiGuidancePower84.png");
 
     public override async Task BeforeApplied(

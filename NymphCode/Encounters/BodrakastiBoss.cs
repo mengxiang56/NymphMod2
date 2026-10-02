@@ -5,6 +5,7 @@ using MegaCrit.Sts2.Core.Models.Acts;
 using MegaCrit.Sts2.Core.Models.Encounters;
 using MegaCrit.Sts2.Core.Models.Monsters;
 using MegaCrit.Sts2.Core.Rooms;
+using MegaCrit.Sts2.Core.Random;
 using MegaCrit.Sts2.Core.Nodes.Rooms;
 using Nymph.Monsters;
 using Nymph.Powers;
@@ -16,21 +17,32 @@ namespace Nymph.Encounters;
 [RegisterActEncounter(typeof(Glory))]
 public sealed class BodrakastiBoss : ModEncounterTemplate
 {
+    private const string MapNodePath = "res://Nymph/images/map/BodrakastiBoss";
     private const string BossSlot = "bodrakasti";
     private const string FarSlot = "automaton_far";
     private const string MiddleSlot = "automaton_middle";
     private const string NearSlot = "automaton_near";
     private const string RunHistoryIconPath =
-        "res://Nymph/images/characters/Nymph_character_icon.png";
+        "res://Nymph/images/ui/run_history/BodrakastiBoss_v2.png";
     private const string RunHistoryOutlinePath =
-        "res://Nymph/images/characters/Nymph_character_icon_outline.png";
+        "res://Nymph/images/ui/run_history/BodrakastiBoss_v2_outline.png";
 
     public override RoomType RoomType => RoomType.Boss;
+    protected override bool UseProgrammaticCombatBackground => true;
+
+    protected override BackgroundAssets? BuildProgrammaticCombatBackground(ActModel parentAct, Rng rng) =>
+        CombatBackgroundAssetsFactory.Create(
+            "res://Nymph/scenes/backgrounds/boss_combat_background.tscn",
+            ["res://Nymph/scenes/backgrounds/bodrakasti_bg_00_a.tscn"]);
+
     public override string CustomBgm => "nymph:/music/bodrakasti";
-    public override string? CustomBossNodePath =>
-        ModelDb.Encounter<QueenBoss>().BossNodePath;
+    // The native PNG fallback uses a prefix, not an existing Spine resource.
+#pragma warning disable RITSU013
+    public override string BossNodePath =>
+        MapNodePath;
+#pragma warning restore RITSU013
     public override IEnumerable<string>? CustomMapNodeAssetPaths =>
-        [ModelDb.Encounter<QueenBoss>().BossNodePath];
+        [MapNodePath + ".png", MapNodePath + "_outline.png"];
     public override string? CustomRunHistoryIconPath => RunHistoryIconPath;
     public override string? CustomRunHistoryIconOutlinePath =>
         RunHistoryOutlinePath;

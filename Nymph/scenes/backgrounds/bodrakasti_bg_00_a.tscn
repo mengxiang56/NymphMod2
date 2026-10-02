@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Texture2D" path="res://Nymph/images/backgrounds/BodrakastiBattle.png" id="1_image"]
+
+[node name="BattleBackdrop" type="TextureRect"]
+offset_left = -1440.0
+offset_top = -675.0
+offset_right = 1440.0
+offset_bottom = 675.0
+mouse_filter = 2
+texture = ExtResource("1_image")
+expand_mode = 1

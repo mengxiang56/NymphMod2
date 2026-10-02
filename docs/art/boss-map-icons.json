@@ -1,0 +1,39 @@
+{
+  "generator": "built-in image_gen",
+  "nativeStyleReference": "tmp/boss-map-art/queen-map-reference.png",
+  "canvas": [
+    748,
+    700
+  ],
+  "displayBounds": [
+    374,
+    350
+  ],
+  "integration": "Native EncounterModel.BossNodePath PNG fallback; white alpha ink and filled backing, colored by NBossMapPoint per act/state. No custom map patches.",
+  "assets": [
+    {
+      "boss": "FremontBoss",
+      "prompt": "Use case: stylized-concept. Asset type: Slay the Spire 2 boss MAP NODE glyph, not a colored portrait. Input image 1 is the exact native map node STYLE reference; image 2 is Fremont's character IDENTITY reference only. Create ONE standalone Fremont head-and-shoulders emblem with genuinely transparent background. Match the native map's coarse hand-inked woodcut style: flat pure black silhouette, angular thick contour strokes, large transparent negative-space facial cuts, simplified shapes, slightly irregular drawn edges, absolutely no gradients, shading, texture noise or tiny details. Fremont is a stern elderly pointed-eared mage with swept-back short white hair, sharp eyebrows, a long pointed goatee and a tall folded coat collar. NO hat, NO horns, NO antlers. Emphasize swept-back hair, pointed ears and long tapered beard in the outline. Frontal or slight three-quarter symmetrical compact bust, width slightly greater than height, centered filling about 88% canvas with generous clear margins. Only the character emblem, no frame, circle, banner, text, background, drop shadow or glow. All ink must be black, all negative spaces transparent, no white painted areas. Thick and crisp strokes readable on a parchment map. Render high resolution.",
+      "originalGeneratedImage": "C:\\Users\\hp\\.codex\\generated_images\\019f98a2-5458-7f41-99b9-85dac8830a82\\exec-118899c3-5133-4dca-9322-d9e950ec106c.png",
+      "source": "tmp/imagegen/boss-map-icons/FremontBoss-source.png",
+      "image": "Nymph/images/map/FremontBoss.png",
+      "outline": "Nymph/images/map/FremontBoss_outline.png"
+    },
+    {
+      "boss": "TheresisTheresaBoss",
+      "prompt": "Use case: stylized-concept. Asset type: Slay the Spire 2 boss MAP NODE glyph, not a colored portrait. Input image 1 is exact native map node STYLE reference; images 2 and 3 are Theresis and Theresa character IDENTITY references only. Create ONE standalone compact double-monarch emblem with genuinely transparent background. Match native coarse hand-inked woodcut style: flat pure black silhouette and thick angular black contour strokes, LARGE TRANSPARENT negative-space cuts in faces/hair, simplified graphic shapes, slightly irregular hand-drawn edges. Show TWO DISTINCT heads side by side as one icon, slight outward-facing three-quarter profiles: left Theresis with SHORT tousled white hair, stern eyes, TWO tall tapering black horns with gold tips represented only through outline, thick armored collar; right Theresa with LONG flowing pale hair, gentle but solemn face, TWO tall slender dark horns, small dress collar. Horns and faces unmistakably distinct, never combine into a single face. Small shoulders only, no full bodies, no extra people. Balanced roughly square compact composition occupying 88% of canvas and generous clear margins. All ink BLACK, all negative-space cutouts genuinely transparent, no white fill or other colors. No frame, circular medallion, text, banner, gradients, tonal shading, texture noise, fine hatching, background, drop shadow or glow. Thick crisp graphic shapes readable on a parchment game map.",
+      "originalGeneratedImage": "C:\\Users\\hp\\.codex\\generated_images\\019f98a2-5458-7f41-99b9-85dac8830a82\\exec-aac17e42-93ec-44e0-af8b-5418424fb690.png",
+      "source": "tmp/imagegen/boss-map-icons/TheresisTheresaBoss-source.png",
+      "image": "Nymph/images/map/TheresisTheresaBoss.png",
+      "outline": "Nymph/images/map/TheresisTheresaBoss_outline.png"
+    },
+    {
+      "boss": "BodrakastiBoss",
+      "prompt": "Use case: stylized-concept. Asset type: Slay the Spire 2 boss MAP NODE glyph, not a colored portrait. Input image 1 is the exact native map node STYLE reference; image 2 is Patriot/Bodrakasti IDENTITY reference only. Create ONE standalone Patriot head-and-shoulders emblem with genuinely transparent background. Match the native map's coarse hand-inked woodcut style: flat pure black silhouette, angular heavy contour strokes, broad transparent negative-space cuts, highly simplified shapes, slightly irregular drawn edges, no gradients, no shading or texture noise. Subject: imposing angular deer-skull armored mask with a long downward-pointing snout, TWO broad branching deer antlers growing upward and outward, two narrow eye slits, a scarf collar and minimal armored shoulder edges. Small thin elliptical halo above the skull as in reference. The skull must look like an armored angular deer skull, NOT a human face or generic demon. Antlers branching naturally, not smooth bull horns. Compact centered near-frontal bust, width slightly greater than height, occupying 86% canvas with clear margins. Focus entirely on skull mask and antlers; no weapon, shield, full body, background objects or scenery. All ink black and all negative spaces truly transparent, no white painted fill. No frame, circle, text, decorative flourishes, hatching, soft edges, glow or drop shadow. Strong readable crisp silhouette on a parchment game map.",
+      "originalGeneratedImage": "C:\\Users\\hp\\.codex\\generated_images\\019f98a2-5458-7f41-99b9-85dac8830a82\\exec-b74b5473-9b51-4a4e-a76f-d20c14786d48.png",
+      "source": "tmp/imagegen/boss-map-icons/BodrakastiBoss-source.png",
+      "image": "Nymph/images/map/BodrakastiBoss.png",
+      "outline": "Nymph/images/map/BodrakastiBoss_outline.png"
+    }
+  ]
+}

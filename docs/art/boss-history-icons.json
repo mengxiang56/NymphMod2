@@ -1,0 +1,40 @@
+{
+  "method": "Built-in image_gen",
+  "size": [
+    85,
+    85
+  ],
+  "styleReferences": [
+    "Original Queen boss run-history icon",
+    "Original The Kin boss run-history icon"
+  ],
+  "icons": [
+    {
+      "boss": "Fremont",
+      "name": "弗莱蒙特",
+      "source": "C:\\Users\\hp\\.codex\\generated_images\\019f98a2-5458-7f41-99b9-85dac8830a82\\exec-c5f306af-4128-4a37-b6c1-4d358c85c782.png",
+      "asset": "Nymph/images/ui/run_history/FremontBoss.png",
+      "outline": "Nymph/images/ui/run_history/FremontBoss_outline.png",
+      "archivedSource": "tmp/imagegen/boss-history-icons/FremontBoss.png",
+      "prompt": "Use case: stylized-concept. Asset type: Slay the Spire 2 run-history boss icon. Generate ONE icon on a genuinely TRANSPARENT background, square canvas, no plate, no border, no frame, no UI, no writing. It will be used at only 85x85 pixels. Input image 1 is the actual boss model and is an IDENTITY reference, not a style reference: retain its distinctive head silhouette but do NOT reproduce anime/chibi rendering or full body. Input images 2 and 3 are official run-history icons and are STYLE references: emulate their spare hand-painted flat opaque shapes, tiny irregular contour edges, limited muted palette, 2-tone shading at most, chunky readable head/bust silhouette. Very few broad shapes, no fine lines, no texture, no smooth gradients, no glossy rendering, no elaborate ornament. Centered and occupying approximately 85 percent of canvas with a small clear safety margin. Subject: Fremont, elderly male wizard, recognizable from the identity reference by swept-back silver-white hair rising in one broad crest, long pointed ears, narrow pointed silver goatee, a stern angular face with tiny amber eyes, and a raised dark navy collar with muted plum-purple lining. Front three-quarter head and collar ONLY. Broad white hair mass, ivory angular face, two dark brow marks, one simple pointed goatee, and one navy/plum collar shape, about six flat colors total. No hat, no horns, no crown, no orb, no staff, no hands. Head is the main visual signal. A dignified elderly face, not a generic skull or animal."
+    },
+    {
+      "boss": "TheresisTheresa",
+      "name": "双王",
+      "source": "C:\\Users\\hp\\.codex\\generated_images\\019f98a2-5458-7f41-99b9-85dac8830a82\\exec-ce066c58-7204-450b-a7ef-b0557b998e8b.png",
+      "asset": "Nymph/images/ui/run_history/TheresisTheresaBoss.png",
+      "outline": "Nymph/images/ui/run_history/TheresisTheresaBoss_outline.png",
+      "archivedSource": "tmp/imagegen/boss-history-icons/TheresisTheresaBoss.png",
+      "prompt": "Use case: stylized-concept. Asset type: Slay the Spire 2 run-history boss icon for the twin Sarkaz rulers Theresis and Theresa. Generate ONE compact combined icon on a genuinely transparent background, square canvas, no frame, no backing disc, no UI, no writing. Intended size ONLY 85x85 pixels, aggressively simplify. Input images 1 and 2 are IDENTITY references of Theresis and Theresa; input images 3 and 4 are official run-history icons, STYLE references only. Use the official icons' broad irregular painted flat opaque shapes, limited 2-tone shading, chunky simple contours, no texture or gradients. Subject: two horned heads SIDE BY SIDE as a single joined bust, each big enough to read, gently turned outward. LEFT Theresis: tousled short pale gray-pink hair, two thick upright dark horns, stern angular face with tiny red eyes, charcoal armored collar with one muted red accent. RIGHT Theresa: long pale silver-pink hair, two upright dark tapered horns, softer pale face with tiny red eyes, ivory collar. Keep the dark-versus-light collar contrast, horns and different hairstyles as the identity signal. Minimal faces: tiny dark/red eye marks and a small mouth only; no detailed anime eyes, no eyelashes, no jewelry, no crown, no weapons, no chest details. No halo. Muted ivory, dusty pink, charcoal, warm gray, small dark red accents. Combined heads fill 85 percent of canvas width, moderate clear margins. Compact near-symmetrical arrangement, not two separate images or tiles. Flat game pictogram, not an anime illustration."
+    },
+    {
+      "boss": "Bodrakasti",
+      "name": "爱国者",
+      "source": "C:\\Users\\hp\\.codex\\generated_images\\019f98a2-5458-7f41-99b9-85dac8830a82\\exec-41e53241-c483-46a1-8f1c-1201716426b1.png",
+      "asset": "Nymph/images/ui/run_history/BodrakastiBoss.png",
+      "outline": "Nymph/images/ui/run_history/BodrakastiBoss_outline.png",
+      "archivedSource": "tmp/imagegen/boss-history-icons/BodrakastiBoss.png",
+      "prompt": "Use case: stylized-concept. Asset type: Slay the Spire 2 run-history boss icon. Generate ONE icon on a genuinely TRANSPARENT background, square canvas, no plate, no border, no frame, no UI, no writing. It will be used at only 85x85 pixels. Input image 1 is the actual boss model and is an IDENTITY reference, not a style reference: retain its distinctive head silhouette but do NOT reproduce anime/chibi rendering or full body. Input images 2 and 3 are official run-history icons and are STYLE references: emulate their spare hand-painted flat opaque shapes, tiny irregular contour edges, limited muted palette, 2-tone shading at most, chunky readable head/bust silhouette. Very few broad shapes, no fine lines, no texture, no smooth gradients, no glossy rendering, no elaborate ornament. Centered and occupying approximately 85 percent of canvas with a small clear safety margin. Subject: Bodrakasti / Patriot from the supplied actual model: ONLY the head, short neck, and scarf, with his distinctive white angular deer-skull armored helmet, two large branching antlers, a small thin pale-gold halo floating over the skull, one narrow glowing red eye slit in a black socket, dark segmented jaw/neck, and a small dark red scarf wedge at the bottom. Three-quarter view facing RIGHT. The long pointed angular metal snout and two simple forked antlers are the principal silhouette. Antlers each have just two broad branches, not many tiny twigs. Chunky helmet planes of ivory and warm gray with dark charcoal gaps, limited shading and no scratch texture. Keep the halo detached and readable but thick enough to survive reduction. No shield, no guns, no spear, no shoulder armor, no hands, no full body, no crown. At most six muted flat colors plus the tiny red eye. Keep all antlers and halo inside canvas with margins. This is an armored skull helmet, not a living deer face."
+    }
+  ]
+}

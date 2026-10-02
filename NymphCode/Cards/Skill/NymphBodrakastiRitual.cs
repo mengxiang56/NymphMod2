@@ -21,7 +21,7 @@ public sealed class NymphBodrakastiRitual : ModCardTemplate
     ];
 
     public override CardAssetProfile AssetProfile => new(
-        PortraitPath: $"{Entry.ResPath}/images/cards/NymphUnwrittenDeed.png");
+        PortraitPath: $"{Entry.ResPath}/images/cards/NymphBodrakastiRitual.png");
 
     public NymphBodrakastiRitual()
         : base(0, CardType.Skill, CardRarity.Token, TargetType.Self, false)
@@ -85,7 +85,7 @@ public sealed class NymphBodrakastiRetreat : ModCardTemplate
     public override int MaxUpgradeLevel => 0;
     public override bool CanBeGeneratedInCombat => false;
     public override CardAssetProfile AssetProfile => new(
-        PortraitPath: $"{Entry.ResPath}/images/cards/NymphDefend.png");
+        PortraitPath: $"{Entry.ResPath}/images/cards/NymphBodrakastiRetreat.png");
 
     public NymphBodrakastiRetreat()
         : base(-1, CardType.Skill, CardRarity.Token, TargetType.Self, false)
@@ -107,7 +107,7 @@ public sealed class NymphBodrakastiAdvance : ModCardTemplate
     public override int MaxUpgradeLevel => 0;
     public override bool CanBeGeneratedInCombat => false;
     public override CardAssetProfile AssetProfile => new(
-        PortraitPath: $"{Entry.ResPath}/images/cards/NymphStrike.png");
+        PortraitPath: $"{Entry.ResPath}/images/cards/NymphBodrakastiAdvance.png");
 
     public NymphBodrakastiAdvance()
         : base(-1, CardType.Skill, CardRarity.Token, TargetType.Self, false)

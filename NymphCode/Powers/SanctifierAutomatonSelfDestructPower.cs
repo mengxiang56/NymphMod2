@@ -22,7 +22,7 @@ public sealed class SanctifierAutomatonSelfDestructPower : ModPowerTemplate
     public override bool ShouldPlayVfx => false;
 
     public override PowerAssetProfile AssetProfile => new(
-        IconPath: $"{Entry.ResPath}/images/powers/SanctifierAutomatonSelfDestructPower32.png",
+        IconPath: $"{Entry.ResPath}/images/powers/SanctifierAutomatonSelfDestructPower64.png",
         BigIconPath: $"{Entry.ResPath}/images/powers/SanctifierAutomatonSelfDestructPower84.png");
 
     public override async Task AfterPowerAmountChanged(

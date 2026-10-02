@@ -1,0 +1,13 @@
+{
+  "generator": "built-in image_gen",
+  "editTarget": "Nymph/images/backgrounds/FremontBattle.png",
+  "source": "tmp/imagegen/boss-backgrounds/Fremont-eye-level-source.png",
+  "originalGeneratedImage": "C:/Users/hp/.codex/generated_images/019f98a2-5458-7f41-99b9-85dac8830a82/exec-290f533e-4736-48d4-9189-88cac2b64964.png",
+  "image": "Nymph/images/backgrounds/FremontBattle.png",
+  "imageSize": [
+    2880,
+    1350
+  ],
+  "sceneOffsetY": -60,
+  "prompt": "Use case: precise-object-edit. Edit the supplied FremontBattle arena background. Change ONLY camera perspective and the resulting architectural proportions to make the scene MUCH MORE LEVEL AND SIDE-ON, like a 2D Slay the Spire combat backdrop, rather than looking down across a broad plaza. Lower the virtual camera to combatants' eye level; zero downward camera tilt, straight upright verticals, nearly orthographic horizontal staging. The distant horizon/vanishing point should sit near 60% of image height; the base of the rear parapet sits near 60%, so the floor occupies only the bottom 40% and is compressed in depth with broad almost horizontal paving seams. The floor should NOT look like a top-down tiled board: strongly foreshorten the visible stone top surfaces, show less of the upper faces of parapets and rubble. Keep a level continuous unobstructed standing area at about 65% image height spanning both left and right. Show the front faces of parapet panels more than their tops. Preserve the same ruined suspended industrial city, crooked distant towers, teal oxidized slabs, rusty crimson inset parapet panels, cyan vertical architectural strips, violet-gray sky, exact matte angular hand-painted Slay the Spire-like style, strong irregular contours and limited stone tones. Preserve a panoramic 32:15 landscape composition and safe peripheral crop margins, clear central 70% for player at left and boss at right. Keep structures behind the battle line. No characters, enemies, weapons, orb effects, text, UI, tile highlights, grids, colored exit cubes, logo, watermark. This is not a new scene and not a color/style change: the one requested change is a noticeably more eye-level front-facing perspective."
+}
