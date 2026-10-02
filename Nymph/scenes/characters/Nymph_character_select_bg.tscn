@@ -188,6 +188,28 @@ offset_right = 421.0
 offset_bottom = 169.0
 mouse_filter = 0
 
+[node name="BossSelector" type="Control" parent="."]
+z_index = 3
+layout_mode = 0
+offset_left = 594.0
+offset_top = 326.0
+offset_right = 854.0
+offset_bottom = 368.0
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="BossSelector"]
+layout_mode = 0
+offset_left = 44.0
+offset_right = 264.0
+offset_bottom = 42.0
+theme_override_colors/font_color = Color(0.95, 0.84, 0.48, 1)
+theme_override_colors/font_outline_color = Color(0.08, 0.04, 0.02, 0.9)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 22
+text = "Custom Act 3 Bosses"
+vertical_alignment = 1
+mouse_filter = 2
+
 [node name="ash1" type="CPUParticles2D" parent="."]
 visible = false
 position = Vector2(1832, -17)

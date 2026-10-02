@@ -35,5 +35,7 @@
   "NYMPH_VOICE_SELECT.japanese": "Japanese",
   "NYMPH_VOICE_SELECT.offDescription": "Disable Nymph's combat voices.",
   "NYMPH_VOICE_SELECT.chineseDescription": "Use Chinese combat voices.",
-  "NYMPH_VOICE_SELECT.japaneseDescription": "Use Japanese combat voices."
+  "NYMPH_VOICE_SELECT.japaneseDescription": "Use Japanese combat voices.",
+  "NYMPH_BOSS_SELECT.title": "Custom Act 3 Bosses",
+  "NYMPH_BOSS_SELECT.description": "Replace the Act 3 boss with Fremont, the Twin Kings, or the Patriot.\nIn multiplayer, this applies to the whole party if any Nymph player enables it."
 }

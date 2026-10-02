@@ -15,7 +15,9 @@ internal static class GloryBossPoolPatch
 {
     internal static bool ShouldReplaceBosses(ActModel act) =>
         act is Glory &&
-        RunManager.Instance.State?.Players.Any(player => player.Character is NymphCharacter) == true;
+        RunManager.Instance.State?.Players.Any(player =>
+            player.Character is NymphCharacter &&
+            NymphBossSelectionManager.GetFor(player)) == true;
 
     private static void Postfix(
         ActModel __instance,

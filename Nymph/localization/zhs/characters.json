@@ -35,5 +35,7 @@
   "NYMPH_VOICE_SELECT.japanese": "日文",
   "NYMPH_VOICE_SELECT.offDescription": "关闭战斗语音。",
   "NYMPH_VOICE_SELECT.chineseDescription": "使用中文战斗语音。",
-  "NYMPH_VOICE_SELECT.japaneseDescription": "使用日文战斗语音。"
+  "NYMPH_VOICE_SELECT.japaneseDescription": "使用日文战斗语音。",
+  "NYMPH_BOSS_SELECT.title": "替换三层 Boss",
+  "NYMPH_BOSS_SELECT.description": "第三层首领替换为弗莱蒙特、双王或爱国者。\n多人游戏中，任意妮芙玩家启用此选项即对全队生效。"
 }

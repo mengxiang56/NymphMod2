@@ -36,6 +36,7 @@ public partial class Entry
 
         NymphSkinManager.Initialize();
         NymphDifficultyManager.Initialize();
+        NymphBossSelectionManager.Initialize();
         NymphVoiceManager.Initialize();
         NymphCardAnimationMechanics.Initialize();
         ThoughtMechanics.Initialize();

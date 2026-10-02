@@ -7,6 +7,7 @@ using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Nodes.CommonUi;
 using MegaCrit.Sts2.Core.Nodes.GodotExtensions;
 using MegaCrit.Sts2.Core.Nodes.HoverTips;
+using MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary;
 using MegaCrit.Sts2.Core.Nodes.Screens.CharacterSelect;
 using Nymph.Compatibility;
 
@@ -60,6 +61,8 @@ public sealed partial class NymphSkinSelectBackground : Control
     private Control _voiceHoverArea = null!;
     private Label _voiceTitle = null!;
     private Label _voiceName = null!;
+    private Control _bossSelector = null!;
+    private NLibraryStatTickbox? _bossTickbox;
     private NCharacterSelectScreen? _characterSelectScreen;
     private NGoldArrowButton? _leftButton;
     private NGoldArrowButton? _rightButton;
@@ -86,6 +89,7 @@ public sealed partial class NymphSkinSelectBackground : Control
         _voiceHoverArea = GetNode<Control>("VoiceSelector/HoverArea");
         _voiceTitle = GetNode<Label>("VoiceSelector/Title");
         _voiceName = GetNode<Label>("VoiceSelector/VoiceName");
+        _bossSelector = GetNode<Control>("BossSelector");
         _characterSelectScreen = FindCharacterSelectScreen();
 
         _difficultyHoverArea.MouseEntered += ShowDifficultyHoverTip;
@@ -93,6 +97,7 @@ public sealed partial class NymphSkinSelectBackground : Control
         _voiceHoverArea.MouseEntered += ShowVoiceHoverTip;
         _voiceHoverArea.MouseExited += HideVoiceHoverTip;
 
+        CreateBossTickbox();
         CreateArrowButtons();
         ConnectCharacterSelectButtons();
         Resized += PositionArrowButtons;
@@ -103,7 +108,37 @@ public sealed partial class NymphSkinSelectBackground : Control
         if (_characterSelectScreen?.Lobby is not null)
         {
             NymphDifficultyManager.SyncLobby(_characterSelectScreen.Lobby);
+            NymphBossSelectionManager.SyncLobby(_characterSelectScreen.Lobby);
         }
+    }
+
+    private void CreateBossTickbox()
+    {
+        PackedScene? scene = ResourceLoader.Load<PackedScene>(
+            SceneHelper.GetScenePath("screens/card_library/card_library_tickbox"));
+        _bossTickbox = scene?.Instantiate<NLibraryStatTickbox>();
+        if (_bossTickbox is null)
+        {
+            Entry.Logger.Warn("Unable to load character boss selection tickbox.");
+            return;
+        }
+
+        _bossTickbox.Name = "BossTickbox";
+        _bossTickbox.FocusNeighborTop = new NodePath();
+        _bossSelector.AddChildSafely(_bossTickbox);
+        _bossTickbox.SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
+        _bossTickbox.SetLabel(new LocString(
+            "characters", "NYMPH_BOSS_SELECT.title").GetFormattedText());
+        _bossTickbox.IsTicked = NymphBossSelectionManager.Selected;
+        _bossSelector.GetNode<Label>("Title").Hide();
+        _bossTickbox.Connect(
+            NTickbox.SignalName.Toggled,
+            Callable.From<NTickbox>(tickbox => NymphBossSelectionManager.Select(
+                tickbox.IsTicked, _characterSelectScreen?.Lobby)));
+        _bossTickbox.MouseEntered += ShowBossHoverTip;
+        _bossTickbox.MouseExited += HideBossHoverTip;
+        _bossTickbox.FocusEntered += ShowBossHoverTip;
+        _bossTickbox.FocusExited += HideBossHoverTip;
     }
 
     private void ConnectCharacterSelectButtons()
@@ -256,6 +291,12 @@ public sealed partial class NymphSkinSelectBackground : Control
         _voiceRightButton.FocusNeighborTop = _difficultyRightButton.GetPath();
         _voiceLeftButton.FocusNeighborRight = _voiceRightButton.GetPath();
         _voiceRightButton.FocusNeighborLeft = _voiceLeftButton.GetPath();
+        if (_bossTickbox is not null)
+        {
+            _voiceLeftButton.FocusNeighborBottom = _bossTickbox.GetPath();
+            _voiceRightButton.FocusNeighborBottom = _bossTickbox.GetPath();
+            _bossTickbox.FocusNeighborTop = _voiceLeftButton.GetPath();
+        }
     }
 
     private void ChangeSkin(int delta)
@@ -283,6 +324,7 @@ public sealed partial class NymphSkinSelectBackground : Control
         _skinSelector.Visible = visible;
         _difficultySelector.Visible = visible;
         _voiceSelector.Visible = visible;
+        _bossSelector.Visible = visible;
         _preview.Set("visible", visible);
         if (_leftButton is not null)
         {
@@ -318,6 +360,7 @@ public sealed partial class NymphSkinSelectBackground : Control
         {
             HideDifficultyHoverTip();
             HideVoiceHoverTip();
+            HideBossHoverTip();
         }
     }
 
@@ -433,6 +476,23 @@ public sealed partial class NymphSkinSelectBackground : Control
         _voiceHoverVisible = false;
         NHoverTipSet.Remove(_voiceHoverArea);
     }
+
+    private void ShowBossHoverTip()
+    {
+        if (!_bossSelector.IsVisibleInTree())
+        {
+            return;
+        }
+
+        NHoverTipSet.CreateAndShow(
+            _bossSelector,
+            new HoverTip(
+                new LocString("characters", "NYMPH_BOSS_SELECT.title"),
+                new LocString("characters", "NYMPH_BOSS_SELECT.description")),
+            HoverTipAlignment.Right);
+    }
+
+    private void HideBossHoverTip() => NHoverTipSet.Remove(_bossSelector);
 
     private NCharacterSelectScreen? FindCharacterSelectScreen()
     {
