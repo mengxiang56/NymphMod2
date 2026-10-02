@@ -252,7 +252,8 @@ public static class RecreateMechanics
         int minCount,
         int maxCount,
         Func<CardModel, bool> replacementFilter,
-        bool applyAdaptability = true)
+        bool applyAdaptability = true,
+        AbstractModel? selectionSource = null)
     {
         CardSelectorPrefs prefs = CreateSelectorPrefs(minCount, maxCount);
 
@@ -261,7 +262,7 @@ public static class RecreateMechanics
             source.Owner,
             prefs,
             card => card.IsTransformable,
-            source)).ToList();
+            selectionSource ?? source)).ToList();
 
         return await RecreateAfterHandSelection(
             selected,

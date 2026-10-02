@@ -49,13 +49,22 @@ public sealed class MentalConstructionPower : ModPowerTemplate
 
         UsedThisTurn = true;
         Flash();
-        await RecreateMechanics.SelectFromHandIntoPool(
-            choiceContext,
-            source,
-            0,
-            Amount,
-            card => card.CanonicalKeywords.Contains(
-                NymphKeywords.Narrate));
+        try
+        {
+            await RecreateMechanics.SelectFromHandIntoPool(
+                choiceContext,
+                source,
+                0,
+                Amount,
+                card => card.CanonicalKeywords.Contains(
+                    NymphKeywords.Narrate),
+                selectionSource: this);
+        }
+        finally
+        {
+            // Finish this selection before the triggering card can open another one.
+            InvokeExecutionFinished();
+        }
     }
 
     public override Task AfterPlayerTurnStart(
